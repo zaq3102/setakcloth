@@ -3,6 +3,7 @@ package com.ssafy.setak.db.entity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,6 +30,6 @@ public class CeoUser {
     @JoinColumn(name = "ceo_wallet_id")
     private CeoWallet ceoWallet;
 
-    @OneToMany(mappedBy = "ceo_user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    @OneToMany(mappedBy = "ceoUser", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Laundry> laundries = new ArrayList<>();
 }
