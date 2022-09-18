@@ -29,6 +29,6 @@ public class CeoUser {
     @JoinColumn(name = "ceo_wallet_id")
     private CeoWallet ceoWallet;
 
-//    @OneToMany(mappedBy = "ceo_user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-//    private List<Laundry> laundries = new ArrayList<>();
+    @OneToMany(mappedBy = "ceo_user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
+    private List<Laundry> laundries = new ArrayList<>();
 }
