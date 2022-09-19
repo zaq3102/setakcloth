@@ -5,6 +5,7 @@
 
 FROM adoptopenjdk:8-jdk-hotspot AS builder 
 # 베이스 이미지 + 이미지 별칭
+WORKDIR /var/jenkins_home/workspace/setakcloth/backend
 COPY gradlew . 
 # gradlew 복사
 COPY gradle gradle 
