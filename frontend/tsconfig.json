@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "outDir": "/dist",
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es6",
+    "lib": ["es2015", "es2017", "dom", "dom.iterable"],
+    "removeComments": true,
+    "jsx": "react",
+    "allowJs": false,
+    "baseUrl": "./",
+    "paths": {
+      "components/*": ["src/components/*"]
+    },
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  }
+}
