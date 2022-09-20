@@ -2,8 +2,10 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
+import com.ssafy.setak.api.response.LaundryGetRes;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
+import com.ssafy.setak.db.entity.Laundry;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -38,7 +40,23 @@ public class LaundryController {
     //TODO: 세탁소 전체 조회 - 거리순
     //TODO: 세탁소 전체 조회 - 리뷰많은 순 (특정거리 이내)
     //TODO: 세탁소 전체 조회 - 별점 순 (특정거리 이내)
-    //TODO: 세탁소 상세 조회
+
+    @GetMapping("/{laundry_id}")
+    @ApiOperation(value = "세탁소 상세 조회", notes = "세탁소 상세 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 조회 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
+    })
+    public ResponseEntity<?> getLaundry(@PathVariable("laundry_id") Long laundryId){
+        Laundry laundry = laundryService.selectLaundry(laundryId);
+        if(laundry != null){
+            return ResponseEntity.status(200).body(LaundryGetRes.of(200, "Success", laundry));
+        } else {
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
+        }
+    }
+
 
     @PostMapping("/{laundry_id}/update")
     @ApiOperation(value = "세탁소 수정", notes = "세탁소 수정")
