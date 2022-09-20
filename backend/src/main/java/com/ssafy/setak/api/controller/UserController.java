@@ -2,6 +2,7 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
+import com.ssafy.setak.api.request.UserUpdateReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
@@ -92,5 +93,27 @@ public class UserController {
         return ResponseEntity.status(200).body(
                 UserGetRes.of(200, "Success", user)
         );
+    }
+
+    @PostMapping("/update")
+    @ApiOperation(value = "고객 회원 정보 수정", notes = "고객 회원 정보를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "회원 정보 수정 성공"),
+            @ApiResponse(code = 409, message = "중복된 닉네임"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends UserPostRes> updateUser(@RequestBody UserUpdateReq userInfo) {
+
+//        Long userId = jwtService.getUserId();
+        Long userId = 1l;
+        User user = userService.getUserByUserId(userId);
+
+        if (userService.existsBynickName(userInfo.getNickName())) {
+            return ResponseEntity.status(409).body(UserPostRes.of(409, "Conflict", user.getId()));
+        }
+
+        userService.updateUser(user, userInfo);
+
+        return ResponseEntity.status(200).body(UserPostRes.of(201, "Success", user.getId()));
     }
 }
