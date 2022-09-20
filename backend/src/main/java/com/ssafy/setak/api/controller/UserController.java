@@ -44,7 +44,7 @@ public class UserController {
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
-                    UserPostRes.of(500, "회원 가입 실패", -1l)
+                    UserPostRes.of(500, "고객 일반 회원 가입 실패", -1l)
             );
         }
     }
@@ -56,14 +56,21 @@ public class UserController {
             @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends KakaoEmailRes> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
-        String kakaoEmail = kakaoService.getKakaoEmail(code);
-        return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+        try {
+            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+        }catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    KakaoEmailRes.of(500, "고객 카카오 이메일 조회 실패", null)
+            );
+        }
+
     }
 
     @PostMapping("/signup/kakao")
     @ApiOperation(value = "고객 카카오 회원 가입", notes = "고객 카카오 회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "Success"),
+            @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 500, message = "고객 카카오 회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
@@ -86,13 +93,19 @@ public class UserController {
             @ApiResponse(code = 500, message = "고객 회원 정보 조회 실패")
     })
     public ResponseEntity<? extends UserGetRes> getUser() {
-//        Long userId = jwtService.getUserId();
-        Long userId = 1l;
-        User user = userService.getUserByUserId(userId);
+        try{
+            //        Long userId = jwtService.getUserId();
+            Long userId = 1l;
+            User user = userService.getUserByUserId(userId);
 
-        return ResponseEntity.status(200).body(
-                UserGetRes.of(200, "Success", user)
-        );
+            return ResponseEntity.status(200).body(
+                    UserGetRes.of(200, "Success", user)
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserGetRes.of(500, "고객 회원 정보 조회 실패", null)
+            );
+        }
     }
 
     @PostMapping("/update")
@@ -103,16 +116,21 @@ public class UserController {
             @ApiResponse(code = 500, message = "고객 회원 정보 수정 실패")
     })
     public ResponseEntity<? extends UserPostRes> updateUser(@RequestBody UserUpdateReq userInfo) {
+        try {
+            //        Long userId = jwtService.getUserId();
+            Long userId = 1l;
+            User user = userService.getUserByUserId(userId);
 
-//        Long userId = jwtService.getUserId();
-        Long userId = 1l;
-        User user = userService.getUserByUserId(userId);
+            if (userService.existsBynickName(userInfo.getNickName())) {
+                return ResponseEntity.status(409).body(UserPostRes.of(409, "중복된 닉네임", user.getId()));
+            }
 
-        if (userService.existsBynickName(userInfo.getNickName())) {
-            return ResponseEntity.status(409).body(UserPostRes.of(409, "중복된 닉네임", user.getId()));
+            userService.updateUser(user, userInfo);
+            return ResponseEntity.status(200).body(UserPostRes.of(200, "Success", user.getId()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)
+            );
         }
-
-        userService.updateUser(user, userInfo);
-        return ResponseEntity.status(200).body(UserPostRes.of(200, "Success", user.getId()));
     }
 }
