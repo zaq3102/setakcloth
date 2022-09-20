@@ -28,10 +28,10 @@ public class UserController {
     private KakaoService kakaoService;
 
     @PostMapping("/signup")
-    @ApiOperation(value = "회원 가입", notes = "회원가입")
+    @ApiOperation(value = "회원 가입", notes = "회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "회원가입실패")
+            @ApiResponse(code = 200, message = "회원 가입 성공"),
+            @ApiResponse(code = 500, message = "회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserCreateReq userInfo) {
         try {
