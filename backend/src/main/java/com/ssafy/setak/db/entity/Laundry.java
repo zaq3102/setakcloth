@@ -34,8 +34,8 @@ public class Laundry {
     private String contact;
     private boolean isPickup;
     private boolean isDeliver;
-    private float minCost;
-    private float deliveryCost;
+    private long minCost;
+    private long deliveryCost;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ceo_user_id")
