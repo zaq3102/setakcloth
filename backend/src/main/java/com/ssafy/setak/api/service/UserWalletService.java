@@ -1,6 +1,4 @@
 package com.ssafy.setak.api.service;
-import com.ssafy.setak.api.request.UserRegistReq;
-import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
 import com.ssafy.setak.db.repository.UserWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
