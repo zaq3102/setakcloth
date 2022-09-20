@@ -39,7 +39,7 @@ public class UserController {
     public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserRegisterReq userInfo) {
         try {
             User user = userService.createUser(userInfo);
-            return ResponseEntity.status(200).body(
+            return ResponseEntity.status(201).body(
                     UserPostRes.of(201, "Created", user.getId())
             );
         } catch (Exception e) {
@@ -76,7 +76,7 @@ public class UserController {
     public ResponseEntity<? extends UserPostRes> registerKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
         try {
             User user = userService.createKakaoUser(userInfo);
-            return ResponseEntity.status(200).body(
+            return ResponseEntity.status(201).body(
                     UserPostRes.of(201, "Created", user.getId())
             );
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class UserController {
     @PostMapping("/update")
     @ApiOperation(value = "고객 회원 정보 수정", notes = "고객 회원 정보를 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 409, message = "중복된 닉네임"),
             @ApiResponse(code = 500, message = "고객 회원 정보 수정 실패")
     })
@@ -126,7 +126,7 @@ public class UserController {
             }
 
             userService.updateUser(user, userInfo);
-            return ResponseEntity.status(200).body(UserPostRes.of(200, "Success", user.getId()));
+            return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)
