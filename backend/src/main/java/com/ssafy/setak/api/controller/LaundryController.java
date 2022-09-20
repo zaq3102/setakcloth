@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import sun.jvm.hotspot.code.ScopeDesc;
 
 @Api(value = "Laundry API", tags = {"Laundry"})
 @RestController
@@ -40,10 +41,11 @@ public class LaundryController {
     //TODO: 세탁소 상세 조회
 
     @PostMapping("/{laundry_id}/update")
-    @ApiOperation(value = "세탁소 등록", notes = "세탁소 등록")
+    @ApiOperation(value = "세탁소 수정", notes = "세탁소 수정")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "세탁소 수정 실패")
+            @ApiResponse(code = 500, message = "세탁소 수정 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
     })
     public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo){
         if(laundryService.updateLaundry(laundryId, laundryInfo))
