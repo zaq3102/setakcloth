@@ -1,4 +1,4 @@
-import { Box, Button, Grid, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 
@@ -15,7 +15,7 @@ const Login: React.FC = () => {
           name="id"
           autoFocus
         />
-        <br/>
+        <br />
         <TextField
           margin="normal"
           required
@@ -24,12 +24,9 @@ const Login: React.FC = () => {
           name="password"
           type="password"
         />
-        <br/>
-        <Button
-          variant="contained">
-          로그인
-        </Button>
-        <br/>
+        <br />
+        <Button variant="contained">로그인</Button>
+        <br />
         <Link to="#">비밀번호 찾기</Link>
         <br />
         <br />
