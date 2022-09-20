@@ -2,6 +2,7 @@ package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
+import com.ssafy.setak.api.request.UserUpdateAddressReq;
 import com.ssafy.setak.api.request.UserUpdateReq;
 import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
@@ -58,6 +59,14 @@ public class UserService {
     public void updateUser(User user, UserUpdateReq userInfo) {
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setNickName(userInfo.getNickName());
+        userRepository.save(user);
+    }
+
+    public void updateUserAddress(User user, UserUpdateAddressReq userInfo) {
+        user.setAddr(userInfo.getAddr());
+        user.setAddrDetail(userInfo.getAddrDetail());
+        user.setAddrLat(userInfo.getAddrLat());
+        user.setAddrLng(userInfo.getAddrLng());
         userRepository.save(user);
     }
 }
