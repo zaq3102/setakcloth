@@ -60,7 +60,7 @@ public class UserController {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
             return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     KakaoEmailRes.of(500, "고객 카카오 이메일 조회 실패", null)
             );
@@ -94,7 +94,7 @@ public class UserController {
             @ApiResponse(code = 500, message = "고객 회원 정보 조회 실패")
     })
     public ResponseEntity<? extends UserGetRes> getUser() {
-        try{
+        try {
             //        Long userId = jwtService.getUserId();
             Long userId = 1l;
             User user = userService.getUserByUserId(userId);
