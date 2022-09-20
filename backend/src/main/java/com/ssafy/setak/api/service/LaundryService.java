@@ -45,7 +45,7 @@ public class LaundryService {
     @Transactional
     public boolean updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
-        System.out.println(laundry.getLaundryName());
+
         if(laundry != null){
             laundry.setRegNum(laundryInfo.getRegNum());
             laundry.setLaundryName(laundryInfo.getLaundryName());
