@@ -48,7 +48,7 @@ public class LaundryController {
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
     public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo){
-        if(laundryService.updateLaundry(laundryId, laundryInfo))
+        if(laundryService.updateLaundry(laundryId, laundryInfo) != null)
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         else
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
