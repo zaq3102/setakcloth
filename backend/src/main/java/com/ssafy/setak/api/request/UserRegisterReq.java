@@ -11,10 +11,10 @@ import lombok.Setter;
 @ApiModel("UserRegisterRequest")
 public class UserRegisterReq {
 
-    @ApiModelProperty(name = "지갑주소", example = "1234223x23a231")
+    @ApiModelProperty(name = "유저 지갑주소", example = "1234223x23a231")
     private String walletAddr;
-    @ApiModelProperty(name = "이메일", example = "dbwowo@naver.com")
+    @ApiModelProperty(name = "유저 이메일", example = "dbwowo@naver.com")
     private String email;
-    @ApiModelProperty(name = "비밀번호", example = "yoojaeyeol1234!")
+    @ApiModelProperty(name = "유저 비밀번호", example = "yoojaeyeol1234!")
     private String pwd;
 }
