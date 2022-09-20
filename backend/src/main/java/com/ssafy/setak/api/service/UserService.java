@@ -28,6 +28,8 @@ public class UserService {
         UserWallet userWallet =  userWalletService.createWallet(user.getAddr());
         user.setUserWallet(userWallet);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
+        user.setSocial(false);
+        user.setWithdrawn(false);
         userRepository.save(user);
         System.out.println(user.getId()+"테스트입니다");
         return (user);
