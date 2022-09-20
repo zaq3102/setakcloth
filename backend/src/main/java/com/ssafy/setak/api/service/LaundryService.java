@@ -43,7 +43,7 @@ public class LaundryService {
     }
 
     @Transactional
-    public boolean updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
+    public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
         if(laundry != null){
@@ -60,9 +60,9 @@ public class LaundryService {
             laundry.setMinCost(laundryInfo.getMinCost());
             laundry.setDeliveryCost(laundryInfo.getDeliveryCost());
             laundry.setPickup(laundryInfo.isPickup());
-            return true;
+            return laundry;
         }
 
-        return false;
+        return null;
     }
 }
