@@ -1,6 +1,6 @@
 package com.ssafy.setak.api.service;
 
-import com.ssafy.setak.api.request.UserCreateReq;
+import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
 import com.ssafy.setak.db.repository.UserRepository;
@@ -21,7 +21,7 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public User createUser(UserCreateReq userInfo) throws IOException{
+    public User createUser(UserRegisterReq userInfo) throws IOException{
 
         User user = new User();
         user.setEmail(userInfo.getEmail());

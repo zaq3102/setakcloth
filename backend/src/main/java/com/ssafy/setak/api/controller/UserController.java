@@ -1,6 +1,6 @@
 package com.ssafy.setak.api.controller;
 
-import com.ssafy.setak.api.request.UserCreateReq;
+import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserPostRes;
 import com.ssafy.setak.api.service.KakaoService;
@@ -33,7 +33,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "회원 가입 성공"),
             @ApiResponse(code = 500, message = "회원 가입 실패")
     })
-    public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserCreateReq userInfo) {
+    public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserRegisterReq userInfo) {
         try {
             User user = userService.createUser(userInfo);
             return ResponseEntity.status(200).body(
