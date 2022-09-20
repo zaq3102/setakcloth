@@ -2,7 +2,7 @@ import '@mui/material/styles/createPalette';
 
 declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions {
-    color0?: PaletteColorOptions;
+    color?: PaletteColorOptions;
     color1?: PaletteColorOptions;
     color2?: PaletteColorOptions;
     color3?: PaletteColorOptions;
@@ -22,6 +22,17 @@ declare module '@mui/material/styles/createPalette' {
 
 declare module '@mui/material' {
   interface ButtonPropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+  }
+}
+
+declare module '@mui/material' {
+  interface ChipPropsColorOverrides {
     color0;
     color1;
     color2;
