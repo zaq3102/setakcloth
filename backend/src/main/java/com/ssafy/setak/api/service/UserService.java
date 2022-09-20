@@ -1,6 +1,6 @@
 package com.ssafy.setak.api.service;
 
-import com.ssafy.setak.api.request.UserRegistReq;
+import com.ssafy.setak.api.request.UserCreateReq;
 import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
 import com.ssafy.setak.db.repository.UserRepository;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
-import java.time.LocalDate;
 
 @Service
 public class UserService {
@@ -22,7 +21,7 @@ public class UserService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public User createUser(UserRegistReq userInfo) throws IOException{
+    public User createUser(UserCreateReq userInfo) throws IOException{
 
         User user = new User();
         user.setEmail(userInfo.getEmail());

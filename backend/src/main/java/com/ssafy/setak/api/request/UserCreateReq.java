@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("UserRegistRequest")
-public class UserRegistReq {
+public class UserCreateReq {
 
     @ApiModelProperty(name = "지갑주소", example = "1234223x23a231")
     private  String walletAddr;

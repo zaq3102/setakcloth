@@ -1,11 +1,10 @@
 package com.ssafy.setak.api.controller;
 
-import com.ssafy.setak.api.request.UserRegistReq;
+import com.ssafy.setak.api.request.UserCreateReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserPostRes;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
-import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +12,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +33,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "회원가입실패")
     })
-    public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserRegistReq userInfo) {
+    public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserCreateReq userInfo) {
         try {
             User user = userService.createUser(userInfo);
             return ResponseEntity.status(200).body(
