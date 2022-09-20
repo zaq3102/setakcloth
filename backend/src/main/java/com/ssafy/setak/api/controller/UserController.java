@@ -2,6 +2,7 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
+import com.ssafy.setak.api.request.UserUpdateAddressReq;
 import com.ssafy.setak.api.request.UserUpdateReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
@@ -130,6 +131,27 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)
+            );
+        }
+    }
+
+    @PostMapping("/update/address")
+    @ApiOperation(value = "고객 주소 정보 등록/수정", notes = "고객 주소 정보를 등록 및 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 500, message = "고객 주소 정보 등록/수정 실패")
+    })
+    public ResponseEntity<? extends UserPostRes> updateUserAddress(@RequestBody UserUpdateAddressReq userInfo) {
+        try {
+            //        Long userId = jwtService.getUserId();
+            Long userId = 1l;
+            User user = userService.getUserByUserId(userId);
+
+            userService.updateUserAddress(user, userInfo);
+            return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "고객 주소 정보 등록/수정 실패", -1l)
             );
         }
     }
