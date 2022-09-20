@@ -20,7 +20,7 @@ public class LaundryItem {
     private Long id;
 
     private String name;
-    private int price;
+    private long price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laundry_id")
