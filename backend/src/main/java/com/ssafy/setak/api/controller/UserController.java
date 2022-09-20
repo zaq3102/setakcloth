@@ -155,4 +155,19 @@ public class UserController {
             );
         }
     }
+
+    @PostMapping("/delete")
+    @ApiOperation(value = "고객 회원 탈퇴", notes = "고객 회원 탈퇴")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 500, message = "고객 회원 탈퇴 실패")
+    })
+    public ResponseEntity<? extends UserPostRes> deleteUser() {
+        //        Long userId = jwtService.getUserId();
+        Long userId = 1l;
+        User user = userService.getUserByUserId(userId);
+
+        userService.deleteUser(user);
+        return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+    }
 }
