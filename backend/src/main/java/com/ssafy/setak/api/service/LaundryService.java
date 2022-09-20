@@ -42,6 +42,17 @@ public class LaundryService {
                         .build());
     }
 
+
+    public Laundry selectLaundry(Long laundryId){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+
+        if(laundry != null){
+            return laundry;
+        }
+
+        return null;
+    }
+
     @Transactional
     public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
