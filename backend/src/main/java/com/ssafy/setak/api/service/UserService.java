@@ -2,6 +2,7 @@ package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
+import com.ssafy.setak.api.request.UserUpdateReq;
 import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
 import com.ssafy.setak.db.repository.UserRepository;
@@ -23,7 +24,6 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
-
         User user = new User();
         user.setEmail(userInfo.getEmail());
         UserWallet userWallet = userWalletService.createWallet(user.getAddr());
@@ -36,7 +36,6 @@ public class UserService {
     }
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
-
         User user = new User();
         user.setEmail(userInfo.getEmail());
         UserWallet userWallet = userWalletService.createWallet(user.getAddr());
@@ -50,5 +49,15 @@ public class UserService {
     public User getUserByUserId(Long userId){
         User user = userRepository.findById(userId).get();
         return user;
+    }
+
+    public boolean existsBynickName(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
+
+    public void updateUser(User user, UserUpdateReq userInfo) {
+        user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
+        user.setNickName(userInfo.getNickName());
+        userRepository.save(user);
     }
 }
