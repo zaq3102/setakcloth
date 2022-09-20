@@ -1,16 +1,23 @@
+$color0: #ff003e;
+$color1: #1e3e5c;
+$color2: #3066be;
+$color3: #60afff;
+$color4: #bfd7ea;
+$color5: #e0ebf5;
+
 .App {
   text-align: center;
 }
 
 .Navigation {
-  background-color: #bccaf7;
+  background-color: $color4;
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   font-size: calc(8px + 2vmin);
-  color: #192294;
+  color: $color1;
 }
 
 .logo {

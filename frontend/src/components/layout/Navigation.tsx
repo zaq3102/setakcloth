@@ -1,12 +1,13 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const Navigation: React.FC = () => {
   return (
     <div className="Navigation">
-      <div>
+      <Link to="/">
         <img className="logo" src="../assets/logo.png" alt="" />
-        &nbsp; 세탁 CLOTH
-      </div>
+        세탁 CLOTH
+      </Link>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { Checkbox, FormControl, Input, InputLabel } from '@mui/material';
+import { Button, Checkbox, TextField } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,8 @@ const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
+  const [walletpassword, setWalletPassword] = useState('');
+  const [walletpasswordCheck, setWalletPasswordCheck] = useState('');
   const [tosCheck, setTosCheck] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -25,6 +27,14 @@ const Signup: React.FC = () => {
 
   const passwordCheckChange = (event) => {
     setPasswordCheck(event.target.value.trim());
+  };
+
+  const walletpasswordChange = (event) => {
+    setWalletPassword(event.target.value.trim());
+  };
+
+  const walletpasswordCheckChange = (event) => {
+    setWalletPasswordCheck(event.target.value.trim());
   };
 
   const onClickTOS = () => {
@@ -52,34 +62,69 @@ const Signup: React.FC = () => {
               사업자 회원가입
             </button>
           </div>
-          <FormControl sx={{ width: 315 }}>
-            <InputLabel htmlFor="email">이메일</InputLabel>
-            <Input value={email} onChange={emailChange} />
-          </FormControl>
+          <TextField
+            margin="normal"
+            required
+            id="email"
+            label="이메일"
+            name="email"
+            onChange={emailChange}
+            autoFocus
+          />
           <br />
-          <FormControl sx={{ width: 315 }}>
-            <InputLabel htmlFor="password">비밀번호</InputLabel>
-            <Input type="password" value={password} onChange={passwordChange} />
-          </FormControl>
+          <TextField
+            margin="normal"
+            required
+            id="password"
+            label="비밀번호"
+            name="password"
+            onChange={passwordChange}
+          />
           <br />
-          <FormControl sx={{ width: 315 }}>
-            <InputLabel htmlFor="passwordcheck">비밀번호 확인</InputLabel>
-            <Input
-              type="password"
-              value={passwordCheck}
-              onChange={passwordCheckChange}
-            />
-          </FormControl>
+          <TextField
+            margin="normal"
+            required
+            id="passwordcheck"
+            label="비밀번호 확인"
+            name="passwordcheck"
+            onChange={passwordCheckChange}
+          />
           <br />
           <Checkbox onClick={onClickTOS} />
           <Link to="../TOS">세탁클로쓰의 이용약관</Link>에 동의합니다.
+          <br />
           <Link to="/">취소</Link>
           <button type="button" onClick={onClickChange}>
             다음
           </button>
         </div>
       ) : (
-        <div>두 번째 페이지</div>
+        <div>
+          <h3>지갑 생성하기</h3>
+          <TextField
+            margin="normal"
+            required
+            id="walletpassword"
+            label="지갑 비밀번호"
+            name="walletpassword"
+            onChange={walletpasswordChange}
+          />
+          <br />
+          <TextField
+            margin="normal"
+            required
+            id="walletpasswordCheck"
+            label="지갑 비밀번호 확인"
+            name="walletpasswordCheck"
+            onChange={walletpasswordCheckChange}
+          />
+          <div>⭐️비밀번호 잃어버리면 안된다는 내용.⭐️</div>
+          <br />
+          <Link to="/">취소</Link>
+          <Button variant="contained" color="color2">
+            가입하기
+          </Button>
+        </div>
       )}
     </div>
   );
