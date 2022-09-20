@@ -30,10 +30,10 @@ public class UserController {
     private KakaoService kakaoService;
 
     @PostMapping("/signup")
-    @ApiOperation(value = "회원 가입", notes = "회원 가입")
+    @ApiOperation(value = "고객 일반 회원 가입", notes = "고객 일반 회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "회원 가입 성공"),
-            @ApiResponse(code = 500, message = "회원 가입 실패")
+            @ApiResponse(code = 200, message = "고객 일반 회원 가입 성공"),
+            @ApiResponse(code = 500, message = "고객 일반 회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserRegisterReq userInfo) {
         try {
@@ -49,10 +49,10 @@ public class UserController {
     }
 
     @GetMapping("/kakao/email")
-    @ApiOperation(value = "카카오 이메일 조회", notes = "카카오 이메일을 가져온다.")
+    @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "카카오 이메일 조회 성공"),
-            @ApiResponse(code = 500, message = "카카오 이메일 조회 실패")
+            @ApiResponse(code = 200, message = "고객 카카오 이메일 조회 성공"),
+            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends KakaoEmailRes> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         String kakaoEmail = kakaoService.getKakaoEmail(code);
@@ -60,20 +60,20 @@ public class UserController {
     }
 
     @PostMapping("/signup/kakao")
-    @ApiOperation(value = "카카오 회원 가입", notes = "카카오 회원 가입")
+    @ApiOperation(value = "고객 카카오 회원 가입", notes = "고객 카카오 회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "카카오 회원 가입 성공"),
-            @ApiResponse(code = 500, message = "카카오 회원 가입 실패")
+            @ApiResponse(code = 200, message = "고객 카카오 회원 가입 성공"),
+            @ApiResponse(code = 500, message = "고객 카카오 회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
         try {
             User user = userService.createKakaoUser(userInfo);
             return ResponseEntity.status(200).body(
-                    UserPostRes.of(200, "카카오 회원 가입 성공", user.getId())
+                    UserPostRes.of(200, "고객 카카오 회원 가입 성공", user.getId())
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
-                    UserPostRes.of(500, "카카오 회원 가입 실패", -1l)
+                    UserPostRes.of(500, "고객 카카오 회원 가입 실패", -1l)
             );
         }
     }
