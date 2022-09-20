@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
+import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.db.entity.CeoUser;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.User;
@@ -26,9 +27,8 @@ public class LaundryService {
 
     @Transactional
     public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo){
-        //CeoUser ceoUser = ceoUserRepository.findById(cdoUserId).orElseThrow(NullPointerException::new) -> null이라면 함수 파라미터로 생성한 예외를 발생시킨다
         CeoUser ceoUser = ceoUserRepository.findById(ceoUserId).orElseThrow(NullPointerException::new);
-        //Laundry laundry = new Laundry(laundryInfo.getLaundryName(), laundryInfo.getCeoName(), LocalDate.now(), laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLat());
+
         laundryRepository.save(Laundry.builder()
                         .regNum(laundryInfo.getRegNum())
                         .laundryName(laundryInfo.getLaundryName())
@@ -40,5 +40,29 @@ public class LaundryService {
                         .addrLng(laundryInfo.getAddrLng())
                         .ceoUser(ceoUser)
                         .build());
+    }
+
+    @Transactional
+    public boolean updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+        System.out.println(laundry.getLaundryName());
+        if(laundry != null){
+            laundry.setRegNum(laundryInfo.getRegNum());
+            laundry.setLaundryName(laundryInfo.getLaundryName());
+            laundry.setCeoName(laundryInfo.getCeoName());
+            laundry.setAddr(laundryInfo.getAddr());
+            laundry.setAddrDetail(laundryInfo.getAddrDetail());
+            laundry.setAddrLat(laundryInfo.getAddrLat());
+            laundry.setAddrLng(laundryInfo.getAddrLng());
+            laundry.setDescription(laundryInfo.getDescription());
+            laundry.setContact(laundryInfo.getContact());
+            laundry.setDeliver(laundryInfo.isDeliver());
+            laundry.setMinCost(laundryInfo.getMinCost());
+            laundry.setDeliveryCost(laundryInfo.getDeliveryCost());
+            laundry.setPickup(laundryInfo.isPickup());
+            return true;
+        }
+
+        return false;
     }
 }
