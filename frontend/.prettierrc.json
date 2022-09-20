@@ -7,8 +7,7 @@
   "quoteProps": "consistent",
   "trailingComma": "none",
   "bracketSpacing": true,
-	"bracketSameLine": true,
-	"jsxBracketSameLine": true,
-  "arrowParens": "always",
-  "endOfLine": "lf"
+  "bracketSameLine": true,
+  "jsxBracketSameLine": true,
+  "arrowParens": "always"
 }
