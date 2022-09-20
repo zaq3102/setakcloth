@@ -69,4 +69,9 @@ public class UserService {
         user.setAddrLng(userInfo.getAddrLng());
         userRepository.save(user);
     }
+
+    public void deleteUser(User user) {
+        user.setWithdrawn(true);
+        userRepository.save(user);
+    }
 }
