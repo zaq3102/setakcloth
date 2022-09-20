@@ -23,6 +23,9 @@ public class UserRes {
     @ApiModelProperty(name = "유저 주소", example = "추후 수정 필요")
     String addr;
 
+    @ApiModelProperty(name = "유저 상세 주소", example = "추후 수정 필요2")
+    String addrDetail;
+
     @ApiModelProperty(name = "유저 주소의 위도", example = "37.241541")
     float addrLat;
 
@@ -38,6 +41,7 @@ public class UserRes {
         res.setEmail(user.getEmail());
         res.setNickName(user.getNickName());
         res.setAddr(user.getAddr());
+        res.setAddrDetail(user.getAddrDetail());
         res.setAddrLat(user.getAddrLat());
         res.setAddrLng(user.getAddrLng());
         res.setSocial(user.isSocial());
