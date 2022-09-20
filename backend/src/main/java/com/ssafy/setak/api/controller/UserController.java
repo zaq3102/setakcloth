@@ -1,5 +1,6 @@
 package com.ssafy.setak.api.controller;
 
+import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserPostRes;
@@ -37,11 +38,11 @@ public class UserController {
         try {
             User user = userService.createUser(userInfo);
             return ResponseEntity.status(200).body(
-                    UserPostRes.of(200, "Success", user.getId())
+                    UserPostRes.of(200, "회원 가입 성공", user.getId())
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
-                    UserPostRes.of(500, "맞지않습니다.", -1l)
+                    UserPostRes.of(500, "회원 가입 실패", -1l)
             );
         }
     }
@@ -50,10 +51,29 @@ public class UserController {
     @ApiOperation(value = "카카오 이메일 조회", notes = "카카오 이메일을 가져온다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "카카오 이메일 조회 성공"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 500, message = "카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends KakaoEmailRes> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         String kakaoEmail = kakaoService.getKakaoEmail(code);
         return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+    }
+
+    @PostMapping("/signup/kakao")
+    @ApiOperation(value = "카카오 회원 가입", notes = "카카오 회원 가입")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "카카오 회원 가입 성공"),
+            @ApiResponse(code = 500, message = "카카오 회원 가입 실패")
+    })
+    public ResponseEntity<? extends UserPostRes> registerKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
+        try {
+            User user = userService.createKakaoUser(userInfo);
+            return ResponseEntity.status(200).body(
+                    UserPostRes.of(200, "카카오 회원 가입 성공", user.getId())
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "카카오 회원 가입 실패", -1l)
+            );
+        }
     }
 }
