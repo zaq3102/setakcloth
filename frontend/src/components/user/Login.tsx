@@ -1,5 +1,6 @@
-import { Box, Button, Grid, Link, TextField } from '@mui/material';
+import { Box, Button, Grid, TextField } from '@mui/material';
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
   return (
@@ -9,35 +10,30 @@ const Login: React.FC = () => {
         <TextField
           margin="normal"
           required
-          fullWidth
           id="id"
           label="아이디를 입력하세요."
           name="id"
-          autoComplete="id"
           autoFocus
         />
+        <br/>
         <TextField
           margin="normal"
           required
-          fullWidth
-          name="password"
-          label="비밀번호를 입력하세요."
-          type="password"
           id="password"
-          autoComplete="current-password"
+          label="비밀번호를 입력하세요."
+          name="password"
+          type="password"
         />
+        <br/>
         <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          sx={{ mt: 3, mb: 2 }}>
+          variant="contained">
           로그인
         </Button>
-
-        <Link href="#">비밀번호 찾기</Link>
+        <br/>
+        <Link to="#">비밀번호 찾기</Link>
         <br />
         <br />
-        <Link href="#">회원가입하기</Link>
+        <Link to="../signup">회원가입하기</Link>
       </Box>
     </div>
   );

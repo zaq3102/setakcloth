@@ -7,7 +7,8 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: path.join(__dirname, '/dist'), // 빌드 위치
-    filename: 'main.js' // 웹팩 빌드 후 최종적으로 만들어질 파일
+    filename: 'main.js', // 웹팩 빌드 후 최종적으로 만들어질 파일
+    publicPath: '/'
   },
   // 번들링 될 파일 확장자 등록
   resolve: {
