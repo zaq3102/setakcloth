@@ -3,6 +3,7 @@ package com.ssafy.setak.api.controller;
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.api.response.KakaoEmailRes;
+import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
@@ -75,5 +76,21 @@ public class UserController {
                     UserPostRes.of(500, "카카오 회원 가입 실패", -1l)
             );
         }
+    }
+
+    @GetMapping
+    @ApiOperation(value = "고객 회원 정보 조회", notes = "고객 회원 정보 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "고객 회원 정보 조회 성공"),
+            @ApiResponse(code = 500, message = "고객 회원 정보 조회 실패")
+    })
+    public ResponseEntity<? extends UserGetRes> getUser() {
+//        Long userId = jwtService.getUserId();
+        Long userId = 1l;
+        User user = userService.getUserByUserId(userId);
+
+        return ResponseEntity.status(200).body(
+                UserGetRes.of(200, "Success", user)
+        );
     }
 }
