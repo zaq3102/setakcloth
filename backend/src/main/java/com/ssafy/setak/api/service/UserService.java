@@ -1,5 +1,6 @@
 package com.ssafy.setak.api.service;
 
+import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.entity.UserWallet;
@@ -16,25 +17,33 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private  UserWalletService userWalletService;
+    private UserWalletService userWalletService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    public User createUser(UserRegisterReq userInfo) throws IOException{
+    public User createUser(UserRegisterReq userInfo) throws IOException {
 
         User user = new User();
         user.setEmail(userInfo.getEmail());
-        UserWallet userWallet =  userWalletService.createWallet(user.getAddr());
+        UserWallet userWallet = userWalletService.createWallet(user.getAddr());
         user.setUserWallet(userWallet);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setSocial(false);
         user.setWithdrawn(false);
         userRepository.save(user);
-        System.out.println(user.getId()+"테스트입니다");
-        return (user);
+        return user;
+    }
 
+    public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
 
-
+        User user = new User();
+        user.setEmail(userInfo.getEmail());
+        UserWallet userWallet = userWalletService.createWallet(user.getAddr());
+        user.setUserWallet(userWallet);
+        user.setSocial(true);
+        user.setWithdrawn(false);
+        userRepository.save(user);
+        return user;
     }
 }
