@@ -33,14 +33,14 @@ public class UserController {
     @PostMapping("/signup")
     @ApiOperation(value = "고객 일반 회원 가입", notes = "고객 일반 회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "고객 일반 회원 가입 성공"),
+            @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 500, message = "고객 일반 회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerUser(@RequestBody UserRegisterReq userInfo) {
         try {
             User user = userService.createUser(userInfo);
             return ResponseEntity.status(200).body(
-                    UserPostRes.of(200, "회원 가입 성공", user.getId())
+                    UserPostRes.of(201, "Created", user.getId())
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/kakao/email")
     @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "고객 카카오 이메일 조회 성공"),
+            @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends KakaoEmailRes> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
@@ -63,14 +63,14 @@ public class UserController {
     @PostMapping("/signup/kakao")
     @ApiOperation(value = "고객 카카오 회원 가입", notes = "고객 카카오 회원 가입")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "고객 카카오 회원 가입 성공"),
+            @ApiResponse(code = 201, message = "Success"),
             @ApiResponse(code = 500, message = "고객 카카오 회원 가입 실패")
     })
     public ResponseEntity<? extends UserPostRes> registerKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
         try {
             User user = userService.createKakaoUser(userInfo);
             return ResponseEntity.status(200).body(
-                    UserPostRes.of(200, "고객 카카오 회원 가입 성공", user.getId())
+                    UserPostRes.of(201, "Created", user.getId())
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
@@ -82,7 +82,7 @@ public class UserController {
     @GetMapping
     @ApiOperation(value = "고객 회원 정보 조회", notes = "고객 회원 정보 조회")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "고객 회원 정보 조회 성공"),
+            @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "고객 회원 정보 조회 실패")
     })
     public ResponseEntity<? extends UserGetRes> getUser() {
@@ -98,9 +98,9 @@ public class UserController {
     @PostMapping("/update")
     @ApiOperation(value = "고객 회원 정보 수정", notes = "고객 회원 정보를 수정한다.")
     @ApiResponses({
-            @ApiResponse(code = 201, message = "회원 정보 수정 성공"),
+            @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 409, message = "중복된 닉네임"),
-            @ApiResponse(code = 500, message = "서버 오류")
+            @ApiResponse(code = 500, message = "고객 회원 정보 수정 실패")
     })
     public ResponseEntity<? extends UserPostRes> updateUser(@RequestBody UserUpdateReq userInfo) {
 
@@ -109,11 +109,10 @@ public class UserController {
         User user = userService.getUserByUserId(userId);
 
         if (userService.existsBynickName(userInfo.getNickName())) {
-            return ResponseEntity.status(409).body(UserPostRes.of(409, "Conflict", user.getId()));
+            return ResponseEntity.status(409).body(UserPostRes.of(409, "중복된 닉네임", user.getId()));
         }
 
         userService.updateUser(user, userInfo);
-
-        return ResponseEntity.status(200).body(UserPostRes.of(201, "Success", user.getId()));
+        return ResponseEntity.status(200).body(UserPostRes.of(200, "Success", user.getId()));
     }
 }
