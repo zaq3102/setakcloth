@@ -1,18 +1,17 @@
 package com.ssafy.setak.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Laundry {
@@ -22,6 +21,7 @@ public class Laundry {
     @Column(name = "laundry_id")
     private Long id;
 
+    private String regNum;
     private String laundryName;
     private String ceoName;
     private LocalDate regDate;
@@ -49,5 +49,4 @@ public class Laundry {
 
     @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Review> reviews = new ArrayList<>();
-
 }
