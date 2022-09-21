@@ -10,14 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+
 @Service
 public class CeoUserWalletService {
 
 
-
     @Autowired
     private CeoWalletRepository ceoUserWalletRepository;
-    public CeoWallet createWallet(String walletAddr ) throws IOException {
+
+    public CeoWallet createWallet(String walletAddr) throws IOException {
 
         CeoWallet ceoWallet = new CeoWallet();
         ceoWallet.setWalletAddr(walletAddr);

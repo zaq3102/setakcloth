@@ -1,4 +1,5 @@
 package com.ssafy.setak.api.service;
+
 import com.ssafy.setak.api.request.CeoUserUpdateReq;
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
@@ -26,7 +27,7 @@ public class CeoUserService {
     @Autowired
     private CeoUserWalletService ceoUserWalletService;
 
-    public  CeoUser getCeoUserByUserId(Long userId) {
+    public CeoUser getCeoUserByUserId(Long userId) {
         CeoUser ceoUser = ceoUserRepository.findById(userId).get();
         return ceoUser;
     }
@@ -45,7 +46,7 @@ public class CeoUserService {
 
     }
 
-    public CeoUser createKakaoCeoUser(KakaoUserRegisterReq userInfo) throws IOException{
+    public CeoUser createKakaoCeoUser(KakaoUserRegisterReq userInfo) throws IOException {
         CeoUser ceoUser = new CeoUser();
         ceoUser.setEmail(userInfo.getEmail());
         CeoWallet ceoWallet = ceoUserWalletService.createWallet(userInfo.getWalletAddr());

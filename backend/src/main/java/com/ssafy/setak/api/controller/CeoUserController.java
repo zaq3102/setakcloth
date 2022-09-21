@@ -61,9 +61,9 @@ public class CeoUserController {
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            if(ceoUserService.existsByEmail(kakaoEmail)){
+            if (ceoUserService.existsByEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
-            }else{
+            } else {
                 return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
             }
         } catch (Exception e) {
@@ -107,7 +107,7 @@ public class CeoUserController {
             CeoUser ceoUser = ceoUserService.getCeoUserByUserId(userId);
 
             return ResponseEntity.status(200).body(
-                    CeoUserGetRes.of(200, "Success",ceoUser)
+                    CeoUserGetRes.of(200, "Success", ceoUser)
             );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
@@ -152,7 +152,7 @@ public class CeoUserController {
             return ResponseEntity.status(201).body(CeoUserPostRes.of(201, "Created", ceoUser.getId()));
 
 
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(CeoUserPostRes.of(500, "CEO 회원 탈퇴 실패", -1l));
 
         }
@@ -170,10 +170,10 @@ public class CeoUserController {
         try {
             if (!ceoUserService.existsByEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-            }else{
+            } else {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "이미 존재 하는 아이디입니다."));
         }
     }
