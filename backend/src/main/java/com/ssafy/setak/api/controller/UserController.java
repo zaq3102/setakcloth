@@ -52,8 +52,8 @@ public class UserController {
     @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패"),
             @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
+            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
