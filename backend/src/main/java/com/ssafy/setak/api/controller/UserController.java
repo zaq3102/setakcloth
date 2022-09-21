@@ -1,14 +1,12 @@
 package com.ssafy.setak.api.controller;
 
-import com.ssafy.setak.api.request.KakaoUserRegisterReq;
-import com.ssafy.setak.api.request.UserRegisterReq;
-import com.ssafy.setak.api.request.UserUpdateAddressReq;
-import com.ssafy.setak.api.request.UserUpdateReq;
+import com.ssafy.setak.api.request.*;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
+import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -169,5 +167,26 @@ public class UserController {
 
         userService.deleteUser(user);
         return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+    }
+
+
+    @GetMapping("/signup/check")
+    @ApiOperation(value = "아이디 중복 검사", notes = "아이디 중복 검사")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
+            @ApiResponse(code = 500, message = "아이디 중복 검사 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> duplicateCheck(@RequestParam String email) {
+        //        Long userId = jwtService.getUserId();-
+        try {
+            if (!userService.existsByEmail(email)) {
+                return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+            }else{
+                return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
+            }
+        }catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "이미 존재 하는 아이디입니다."));
+        }
     }
 }
