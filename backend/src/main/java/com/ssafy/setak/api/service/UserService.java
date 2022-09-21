@@ -74,4 +74,7 @@ public class UserService {
         user.setWithdrawn(true);
         userRepository.save(user);
     }
+    public boolean existsByEmail(String email) throws IOException {
+        return userRepository.existsByEmail(email);
+    }
 }
