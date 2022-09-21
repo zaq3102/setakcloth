@@ -168,11 +168,19 @@ public class UserController {
     })
     public ResponseEntity<? extends UserPostRes> deleteUser() {
         //        Long userId = jwtService.getUserId();
+        try{
         Long userId = 1l;
         User user = userService.getUserByUserId(userId);
 
         userService.deleteUser(user);
         return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+        }catch (Exception e){
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "고객 회원 탈퇴 실패", -1l)
+            );
+        }
+
+
     }
 
 
