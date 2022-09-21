@@ -74,4 +74,9 @@ public class UserService {
         user.setWithdrawn(true);
         userRepository.save(user);
     }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).get();
+        return user;
+    }
 }
