@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 @ApiModel("UserLoginPostRequest")
 public class UserLoginPostReq {
-    @ApiModelProperty(name="유저 이메일", example="dbwowo@naver.com")
+    @ApiModelProperty(name = "유저 이메일", example = "dbwowo@naver.com")
     String email;
-    @ApiModelProperty(name="유저 비밀번호", example="dbwowo")
+    @ApiModelProperty(name = "유저 비밀번호", example = "dbwowo")
     String pwd;
 }

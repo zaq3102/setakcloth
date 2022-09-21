@@ -130,7 +130,7 @@ public class AuthController {
                 accessToken = bearer.split(" ")[1];
             }
             Cookie[] cookies = request.getCookies();
-            if(cookies != null) {
+            if (cookies != null) {
                 for (Cookie c : cookies) {
                     if ("accessToken".equals(c.getName())) {
                         accessToken = c.getValue();

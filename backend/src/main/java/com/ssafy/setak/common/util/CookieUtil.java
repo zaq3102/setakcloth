@@ -17,7 +17,7 @@ public class CookieUtil {
 
     public Cookie addAccessCookie(String accessToken) {
         Cookie accessCookie = new Cookie("accessToken", accessToken);
-        accessCookie.setMaxAge((int)System.currentTimeMillis() * 1800 * 1000);
+        accessCookie.setMaxAge((int) System.currentTimeMillis() * 1800 * 1000);
         accessCookie.setSecure(true);
         accessCookie.setHttpOnly(true);
         accessCookie.setPath("/");
