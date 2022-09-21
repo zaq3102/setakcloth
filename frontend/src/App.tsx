@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from './components/Home';
 import Main from './components/Main';
 import Customer from './routes/Customer';
+import Ceo from './routes/Ceo';
 import User from './routes/User';
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="/user/*" element={<User />} />
         <Route path="/*" element={<Customer />} />
+        <Route path="/ceo/*" element={<Ceo />} />
       </Route>
     </Routes>
   );
