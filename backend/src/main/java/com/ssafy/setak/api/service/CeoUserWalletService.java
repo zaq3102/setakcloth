@@ -26,6 +26,5 @@ public class CeoUserWalletService {
 
         return ceoWallet;
 
-
     }
 }
