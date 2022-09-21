@@ -52,12 +52,18 @@ public class UserController {
     @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
+            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패"),
+            @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
     })
-    public ResponseEntity<? extends KakaoEmailRes> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
+    public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+            if(userService.existsByEmail(kakaoEmail)){
+                return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
+
+            }else{
+                return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     KakaoEmailRes.of(500, "고객 카카오 이메일 조회 실패", null)
