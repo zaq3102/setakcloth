@@ -2,7 +2,7 @@ import { Button, Checkbox, TextField } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../../styles/user.scss';
+import '../../styles/User.scss';
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
