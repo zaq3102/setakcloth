@@ -68,6 +68,7 @@ const Signup: React.FC = () => {
             id="email"
             label="이메일"
             name="email"
+            value={email}
             onChange={emailChange}
             autoFocus
           />
@@ -78,6 +79,7 @@ const Signup: React.FC = () => {
             id="password"
             label="비밀번호"
             name="password"
+            value={password}
             onChange={passwordChange}
           />
           <br />
@@ -87,6 +89,7 @@ const Signup: React.FC = () => {
             id="passwordcheck"
             label="비밀번호 확인"
             name="passwordcheck"
+            value={passwordCheck}
             onChange={passwordCheckChange}
           />
           <br />
@@ -107,6 +110,7 @@ const Signup: React.FC = () => {
             id="walletpassword"
             label="지갑 비밀번호"
             name="walletpassword"
+            value={walletpassword}
             onChange={walletpasswordChange}
           />
           <br />
@@ -116,6 +120,7 @@ const Signup: React.FC = () => {
             id="walletpasswordCheck"
             label="지갑 비밀번호 확인"
             name="walletpasswordCheck"
+            value={walletpasswordCheck}
             onChange={walletpasswordCheckChange}
           />
           <div>⭐️비밀번호 잃어버리면 안된다는 내용.⭐️</div>
