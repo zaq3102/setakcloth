@@ -2,7 +2,7 @@ import '@mui/material/styles/createPalette';
 
 declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions {
-    color?: PaletteColorOptions;
+    color0?: PaletteColorOptions;
     color1?: PaletteColorOptions;
     color2?: PaletteColorOptions;
     color3?: PaletteColorOptions;
@@ -33,6 +33,28 @@ declare module '@mui/material' {
 
 declare module '@mui/material' {
   interface ChipPropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+  }
+}
+
+declare module '@mui/material' {
+  interface PaperPropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+  }
+}
+
+declare module '@mui/material' {
+  interface PaginationPropsColorOverrides {
     color0;
     color1;
     color2;
