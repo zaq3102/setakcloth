@@ -14,9 +14,9 @@ const CeoHome: React.FC = () => {
   return (
     <div className="laundry-modes">
       {modes.map((label) => (
-        <div>
+        <div className="laundry-mode">
           <Chip label={label} color="color2" variant="outlined" />
-          <ListItem key={label}>
+          <ListItem key={label} className="order-item">
             <ListItemButton onClick={() => onClickItem('S1234')}>
               <ListItemText id={label} primary={laundry1} />
             </ListItemButton>
