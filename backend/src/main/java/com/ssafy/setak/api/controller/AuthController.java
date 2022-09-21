@@ -1,6 +1,6 @@
 package com.ssafy.setak.api.controller;
 
-import com.ssafy.setak.api.request.UserLoginPostReq;
+import com.ssafy.setak.api.request.LoginPostReq;
 import com.ssafy.setak.api.response.AuthRes;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
@@ -80,7 +80,7 @@ public class AuthController {
             @ApiResponse(code = 404, message = "존재하지 않는 계정입니다."),
             @ApiResponse(code = 500, message = "고객 일반 로그인 실패")
     })
-    public ResponseEntity<AuthRes> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) UserLoginPostReq loginInfo, HttpServletResponse response) {
+    public ResponseEntity<AuthRes> login(@RequestBody @ApiParam(value = "로그인 정보", required = true) LoginPostReq loginInfo, HttpServletResponse response) {
         try {
             String email = loginInfo.getEmail();
             String pwd = loginInfo.getPwd();
