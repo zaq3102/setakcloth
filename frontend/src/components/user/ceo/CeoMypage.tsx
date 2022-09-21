@@ -4,20 +4,33 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControlLabel,
   List,
   ListItem,
   ListItemText,
   Pagination,
+  Radio,
+  RadioGroup,
   TextField
 } from '@mui/material';
+import RadioGroupContext from '@mui/material/RadioGroup/RadioGroupContext';
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const CeoMypage: React.FC = () => {
-  const laundryName = '싸피 세탁소';
+  const TemplaundryName = '싸피 세탁소';
   const [clean, setClean] = useState<number>(12340000000000);
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [openModal1, setOpenModal1] = useState<boolean>(false);
+  const [openModal2, setOpenModal2] = useState<boolean>(false);
+  const [laundryNum, setLaundryNum] = useState('');
+  const [ceoName, setCeoName] = useState<string>('');
+  const [openDate, setOpenDate] = useState('');
+  const [laundryName, setLaundryName] = useState<string>('');
+  const [laundryAddr, setLaundryAddr] = useState<string>('');
+  const [laundryDeliver, setLaundryDeliver] = useState<string>('true');
+  const [itemName, setItemName] = useState<string>('');
+  const [itemPrice, setItemPrice] = useState<number>(0);
 
   const reviewList = [
     '리뷰 1입니다~~~~~',
@@ -64,12 +77,20 @@ const CeoMypage: React.FC = () => {
     setPage(value);
   };
 
-  const handleOpenModal = () => {
-    setOpenModal(true);
+  const handleOpenModal = (modalType) => {
+    if (modalType === 1) {
+      setOpenModal1(true);
+    } else if (modalType === 2) {
+      setOpenModal2(true);
+    }
   };
 
-  const handleClose = () => {
-    setOpenModal(false);
+  const handleClose = (modalType) => {
+    if (modalType === 1) {
+      setOpenModal1(false);
+    } else if (modalType === 2) {
+      setOpenModal2(false);
+    }
   };
 
   const itemAdd = () => {};
@@ -80,18 +101,107 @@ const CeoMypage: React.FC = () => {
     // 등록 과정
   };
 
+  const handleRegistLaundry = () => {};
+
+  const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setLaundryDeliver(event.target.value);
+  };
+
   return (
     <div className="my-page">
       <div className="my-info">
         <div className="my-info-title">사업자 정보</div>
         <div className="my-info-content">
-          <div>{laundryName}님, 오늘도 화이팅!</div>
+          <div>{TemplaundryName}님, 오늘도 화이팅!</div>
           <br />
           <div>세탁소 정보 보여줄까 말까</div>
           <br />
           <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
         </div>
-        <Dialog open={openModal} onClose={handleClose}>
+        <Dialog open={openModal1} onClose={() => handleClose(1)}>
+          <div className="item-modal">
+            <DialogTitle>세탁소 등록하기</DialogTitle>
+            <DialogContent>
+              <div className="regist-laundry">
+                <TextField
+                  sx={{ mt: 1 }}
+                  required
+                  label="사업자 등록번호"
+                  name="laundry-num"
+                  fullWidth
+                  value={laundryNum}
+                  onChange={(event) => setLaundryNum(event.target.value.trim())}
+                />
+                <TextField
+                  sx={{ mt: 2, mb: 1 }}
+                  required
+                  label="대표자 성명"
+                  name="ceo-name"
+                  fullWidth
+                  value={ceoName}
+                  onChange={(event) => setCeoName(event.target.value.trim())}
+                />
+                <TextField
+                  sx={{ mt: 2, mb: 1 }}
+                  required
+                  label="개업일자"
+                  name="open-date"
+                  type="date"
+                  fullWidth
+                  value={openDate}
+                  onChange={(event) => setOpenDate(event.target.value)}
+                />
+                <TextField
+                  sx={{ mt: 2, mb: 1 }}
+                  required
+                  label="상호명"
+                  name="laundry-name"
+                  fullWidth
+                  value={laundryName}
+                  onChange={(event) =>
+                    setLaundryName(event.target.value.trim())
+                  }
+                />
+                <TextField
+                  sx={{ mt: 2, mb: 2 }}
+                  required
+                  label="주소"
+                  name="laundry-addr"
+                  fullWidth
+                  value={laundryAddr}
+                  onChange={(event) =>
+                    setLaundryAddr(event.target.value.trim())
+                  }
+                />
+                <div>배달 가능 여부</div>
+                <RadioGroup value={laundryDeliver} onChange={handleDeliver}>
+                  <FormControlLabel
+                    value="true"
+                    control={<Radio />}
+                    label="배달 가능"
+                  />
+                  <FormControlLabel
+                    value="false"
+                    control={<Radio />}
+                    label="배달 불가 (손님이 직접 수거)"
+                  />
+                </RadioGroup>
+              </div>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => handleClose(1)} color="color2">
+                취소
+              </Button>
+              <Button
+                onClick={handleRegistLaundry}
+                variant="contained"
+                color="color2">
+                등록하기
+              </Button>
+            </DialogActions>
+          </div>
+        </Dialog>
+        <Dialog open={openModal2} onClose={() => handleClose(2)}>
           <div className="item-modal">
             <DialogTitle>세탁 품목 변경하기</DialogTitle>
             <DialogContent>
@@ -115,17 +225,21 @@ const CeoMypage: React.FC = () => {
                 <TextField
                   sx={{ mt: 2 }}
                   required
-                  label="품목명을 입력하세요."
+                  label="품목명"
                   name="item-id"
                   fullWidth
+                  value={itemName}
+                  onChange={(event) => setItemName(event.target.value.trim())}
                 />
                 <TextField
                   sx={{ mt: 2, mb: 1 }}
                   required
-                  label="품목의 가격을 입력하세요. (단위 : 원)"
+                  label="가격 (단위 : 원)"
                   name="item-price"
                   type="number"
                   fullWidth
+                  value={itemPrice}
+                  onChange={(event) => setItemPrice(event.target.value.trim())}
                 />
                 <button
                   type="button"
@@ -136,7 +250,7 @@ const CeoMypage: React.FC = () => {
               </div>
             </DialogContent>
             <DialogActions>
-              <Button onClick={handleClose} color="color2">
+              <Button onClick={() => handleClose(2)} color="color2">
                 취소
               </Button>
               <Button
@@ -148,14 +262,17 @@ const CeoMypage: React.FC = () => {
             </DialogActions>
           </div>
         </Dialog>
-        <button type="button" className="my-page-btn" onClick={handleOpenModal}>
+        <button
+          type="button"
+          className="my-page-btn"
+          onClick={() => handleOpenModal(1)}>
           세탁소 등록하기 (이미 등록했으면 버튼 안 뜰 것임)
         </button>
         <Button
           variant="contained"
           color="color2"
           className="my-page-btn"
-          onClick={handleOpenModal}>
+          onClick={() => handleOpenModal(2)}>
           세탁 품목 변경하기 (세탁소 등록 안 했으면 버튼 안 뜰 것임)
         </Button>
       </div>
