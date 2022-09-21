@@ -1,7 +1,10 @@
 package com.ssafy.setak.common.util;
 
+import org.springframework.stereotype.Component;
+
 import javax.servlet.http.Cookie;
 
+@Component
 public class CookieUtil {
     public Cookie addRefreshCookie(String refreshToken) {
         Cookie cookie = new Cookie("refreshToken", refreshToken);

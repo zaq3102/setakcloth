@@ -6,19 +6,20 @@ import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
 import com.ssafy.setak.common.util.CookieUtil;
 import com.ssafy.setak.db.entity.User;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
+@Api(value = "인증 API", tags = {"Auth"})
+@RestController
+@RequestMapping("/auth")
 public class AuthController {
     @Autowired
     private KakaoService kakaoService;
@@ -63,4 +64,5 @@ public class AuthController {
             return ResponseEntity.status(500).body(AuthRes.of(500, "카카오 로그인 실패", null, false, 0L));
         }
     }
+
 }
