@@ -90,3 +90,112 @@ $color5: #e0ebf5;
   width: 1000px;
   align-self: center;
 }
+
+// CeoMypage.tsx
+.my-page {
+  display: flex;
+  justify-content: center;
+}
+
+.my-info {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 20px;
+  margin: 10px;
+  height: 600px;
+  width: 650px;
+  border: 1px solid $color2;
+  border-radius: 20px;
+}
+
+.my-info-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.my-info-content {
+  flex-grow: 1;
+}
+
+.my-page-btn {
+  justify-self: flex-end;
+  align-self: center;
+}
+
+.item-modal {
+  width: 500px;
+}
+
+.item-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.item-del-btn {
+  margin-right: 10px;
+  border: 0;
+  background-color: $color5;
+  cursor: pointer;
+}
+
+.add-new-item {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.add-new-item-btn {
+  align-self: flex-start;
+}
+
+.my-review-list {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  margin: 10px;
+  height: 600px;
+  width: 650px;
+  border: 1px solid $color2;
+  border-radius: 20px;
+}
+
+.my-review-list-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.my-review-list-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.my-review {
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
+  background-color: $color5;
+  border-radius: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px;
+  height: 75px;
+}
+
+.pagination {
+  align-self: center;
+}
+
+.no-pagination {
+  display: none;
+}

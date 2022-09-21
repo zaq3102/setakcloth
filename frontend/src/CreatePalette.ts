@@ -52,3 +52,14 @@ declare module '@mui/material' {
     color5;
   }
 }
+
+declare module '@mui/material' {
+  interface PaginationPropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+  }
+}
