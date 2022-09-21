@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -112,5 +113,46 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(AuthRes.of(500, "고객 일반 로그인 실패", null, false, -1l));
         }
+    }
+
+    @GetMapping("/logout")
+    @ApiOperation(value = "고객 로그아웃", notes = "고객 로그아웃을 한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "고객 로그아웃 실패")
+    })
+    public ResponseEntity<? extends AuthRes> logout(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String accessToken = null;
+            String refreshToken = null;
+            String bearer = request.getHeader("Authorization");
+            if (bearer != null && !"".equals(bearer)) {
+                accessToken = bearer.split(" ")[1];
+            }
+            Cookie[] cookies = request.getCookies();
+            if(cookies != null) {
+                for (Cookie c : cookies) {
+                    if ("accessToken".equals(c.getName())) {
+                        accessToken = c.getValue();
+                    } else if ("refreshToken".equals(c.getName())) {
+                        refreshToken = c.getValue();
+                    }
+                }
+
+                Cookie accessCookie = new Cookie("accessToken", null);
+                accessCookie.setMaxAge(0);
+                accessCookie.setPath("/");
+                response.addCookie(accessCookie);
+
+                Cookie refreshCookie = new Cookie("refreshToken", null);
+                refreshCookie.setMaxAge(0);
+                refreshCookie.setPath("/");
+                response.addCookie(refreshCookie);
+            }
+            return ResponseEntity.status(200).body(AuthRes.of(200, "Success", null, true, -1l));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(AuthRes.of(500, "고객 로그아웃 실패", null, false, -1l));
+        }
+
     }
 }
