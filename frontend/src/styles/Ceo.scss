@@ -1,4 +1,92 @@
+$color0: #ff003e;
+$color1: #1e3e5c;
+$color2: #3066be;
+$color3: #60afff;
+$color4: #bfd7ea;
+$color5: #e0ebf5;
+
+// CeoHome.tsx
 .laundry-modes {
   display: flex;
   justify-content: center;
+}
+
+.laundry-mode {
+  // display: flex;
+  // flex-direction: column;
+  margin: 10px;
+}
+
+.order-item {
+  margin: 5px;
+  // border: 1px solid $color3;
+  // border-radius: 20px;
+}
+
+// CeoOrderDetail.tsx
+.order {
+  display: flex;
+  flex-direction: column;
+}
+
+.order-detail {
+  display: flex;
+  justify-content: center;
+}
+
+.photo-upload {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  padding: 20px;
+  margin: 10px;
+  height: 400px;
+  width: 400px;
+  border: 1px solid $color3;
+  border-radius: 20px;
+}
+
+.scrollmenu {
+  margin-bottom: 15px;
+  height: 350px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.photo {
+  margin-right: 10px;
+}
+
+.btn-list {
+  display: flex;
+  justify-content: center;
+}
+
+.order-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  padding: 20px;
+  margin: 10px;
+  width: 600px;
+  border: 1px solid $color2;
+  border-radius: 20px;
+}
+
+.order-info-title {
+  font-size: 30px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.order-info-detail {
+  margin-top: 15px;
+  font-size: 20px;
+}
+
+.order-mode {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  width: 1000px;
+  align-self: center;
 }
