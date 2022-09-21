@@ -73,4 +73,9 @@ public class CeoUserService {
         ceoUser.setWithdrawn(true);
         ceoUserRepository.save(ceoUser);
     }
+
+    public CeoUser getCeoUserByEmail(String email) {
+        CeoUser ceoUser = ceoUserRepository.findByEmail(email).get();
+        return ceoUser;
+    }
 }

@@ -52,16 +52,16 @@ public class UserController {
     @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패"),
             @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
+            @ApiResponse(code = 500, message = "고객 카카오 이메일 조회 실패")
     })
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            if(userService.existsByEmail(kakaoEmail)){
+            if (userService.existsByEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
 
-            }else{
+            } else {
                 return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
             }
         } catch (Exception e) {
@@ -69,7 +69,6 @@ public class UserController {
                     KakaoEmailRes.of(500, "고객 카카오 이메일 조회 실패", null)
             );
         }
-
     }
 
     @PostMapping("/signup/kakao")
@@ -168,13 +167,13 @@ public class UserController {
     })
     public ResponseEntity<? extends UserPostRes> deleteUser() {
         //        Long userId = jwtService.getUserId();
-        try{
-        Long userId = 1l;
-        User user = userService.getUserByUserId(userId);
+        try {
+            Long userId = 1l;
+            User user = userService.getUserByUserId(userId);
 
-        userService.deleteUser(user);
-        return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
-        }catch (Exception e){
+            userService.deleteUser(user);
+            return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 회원 탈퇴 실패", -1l)
             );
@@ -196,10 +195,10 @@ public class UserController {
         try {
             if (!userService.existsByEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-            }else{
+            } else {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "이미 존재 하는 아이디입니다."));
         }
     }
