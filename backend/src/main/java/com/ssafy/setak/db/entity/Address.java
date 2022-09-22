@@ -13,9 +13,10 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Address {
+
     private String addr;
     private String addrDetail;
-    private float addrLat;
-    private float addrLng;
+    private Float addrLat;
+    private Float addrLng;
 }
 
