@@ -8,10 +8,28 @@ import {
 } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../../styles/Customer.scss';
 
 const CtmLaundryDetail: React.FC = () => {
+  // useEffect(() => {
+  //   const container = document.getElementById('map');
+  //   const options = {
+  //     center: new kakao.maps.LatLng(37.365264512305174, 127.10676860117488),
+  //     level: 3
+  //   };
+
+  //   const map = new kakao.maps.Map(container, options);
+  //   const markerPosition = new kakao.maps.LatLng(
+  //     37.365264512305174,
+  //     127.10676860117488
+  //   );
+  //   const marker = new kakao.maps.Marker({
+  //     position: markerPosition
+  //   });
+  //   marker.setMap(map);
+  // }, []);
+
   const itemData = [
     {
       img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
