@@ -50,7 +50,7 @@ const CtmHome: React.FC = () => {
     }
   };
   return (
-    <div className="customerhome">
+    <div className="ctm-home">
       고객용 홈페이지입니다.
       <br />
       {myaddress}
@@ -93,7 +93,7 @@ const CtmHome: React.FC = () => {
       </Dialog>
       <br /> <br />
       {/* 세탁소 리스트 */}
-      <div className="laundry-list">
+      <div className="ctm-laundry-list">
         <Grid container spacing={2}>
           <Grid item xs={6}>
             즐겨찾기

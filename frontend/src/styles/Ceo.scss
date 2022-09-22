@@ -6,35 +6,35 @@ $color4: #bfd7ea;
 $color5: #e0ebf5;
 
 // CeoHome.tsx
-.laundry-modes {
+.ceo-laundry-modes {
   display: flex;
   justify-content: center;
 }
 
-.laundry-mode {
+.ceo-laundry-mode {
   // display: flex;
   // flex-direction: column;
   margin: 10px;
 }
 
-.order-item {
+.ceo-order-item {
   margin: 5px;
   // border: 1px solid $color3;
   // border-radius: 20px;
 }
 
 // CeoOrderDetail.tsx
-.order {
+.ceo-order {
   display: flex;
   flex-direction: column;
 }
 
-.order-detail {
+.ceo-order-detail {
   display: flex;
   justify-content: center;
 }
 
-.photo-upload {
+.ceo-photo-upload {
   display: flex;
   flex-direction: column;
   justify-content: end;
@@ -46,23 +46,23 @@ $color5: #e0ebf5;
   border-radius: 20px;
 }
 
-.scrollmenu {
+.ceo-scrollmenu {
   margin-bottom: 15px;
   height: 350px;
   overflow: auto;
   white-space: nowrap;
 }
 
-.photo {
+.ceo-photo {
   margin-right: 10px;
 }
 
-.btn-list {
+.ceo-btn-list {
   display: flex;
   justify-content: center;
 }
 
-.order-info {
+.ceo-order-info {
   display: flex;
   flex-direction: column;
   justify-content: start;
@@ -73,18 +73,18 @@ $color5: #e0ebf5;
   border-radius: 20px;
 }
 
-.order-info-title {
+.ceo-order-info-title {
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.order-info-detail {
+.ceo-order-info-detail {
   margin-top: 15px;
   font-size: 20px;
 }
 
-.order-mode {
+.ceo-order-mode {
   margin-top: 50px;
   margin-bottom: 50px;
   width: 1000px;
@@ -92,95 +92,95 @@ $color5: #e0ebf5;
 }
 
 // CeoMypage.tsx
-.my-page {
+.ceo-my-page {
   display: flex;
   justify-content: center;
 }
 
-.my-info {
+.ceo-my-info {
   display: flex;
   flex-direction: column;
   align-items: stretch;
   padding: 20px;
   margin: 10px;
-  height: 600px;
+  height: 500px;
   width: 650px;
   border: 1px solid $color2;
   border-radius: 20px;
 }
 
-.my-info-title {
+.ceo-my-info-title {
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.my-info-content {
+.ceo-my-info-content {
   flex-grow: 1;
 }
 
-.my-page-btn {
+.ceo-my-page-btn {
   justify-self: flex-end;
   align-self: center;
 }
 
-.item-modal {
+.ceo-item-modal {
   width: 500px;
 }
 
-.item-list {
+.ceo-item-list {
   display: flex;
   flex-direction: column;
 }
 
-.item {
+.ceo-item {
   display: flex;
   justify-content: space-between;
   margin-bottom: 5px;
 }
 
-.item-del-btn {
+.ceo-item-del-btn {
   margin-right: 10px;
   border: 0;
   background-color: $color5;
   cursor: pointer;
 }
 
-.add-new-item {
+.ceo-add-new-item {
   display: flex;
   flex-direction: column;
   margin-top: 30px;
 }
 
-.add-new-item-btn {
+.ceo-add-new-item-btn {
   align-self: flex-start;
 }
 
-.my-review-list {
+.ceo-my-review-list {
   display: flex;
   flex-direction: column;
   padding: 20px;
   margin: 10px;
-  height: 600px;
-  width: 650px;
+  height: 500px;
+  width: 600px;
   border: 1px solid $color2;
   border-radius: 20px;
 }
 
-.my-review-list-title {
+.ceo-my-review-list-title {
   font-size: 30px;
   font-weight: 600;
   margin-bottom: 10px;
 }
 
-.my-review-list-content {
+.ceo-my-review-list-content {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex: 1;
 }
 
-.my-review {
+.ceo-my-review {
   // white-space: nowrap;
   // overflow: hidden;
   // text-overflow: ellipsis;
@@ -189,13 +189,13 @@ $color5: #e0ebf5;
   margin-top: 10px;
   margin-bottom: 10px;
   padding: 10px;
-  height: 75px;
+  height: 100%;
 }
 
-.pagination {
+.ceo-pagination {
   align-self: center;
 }
 
-.no-pagination {
+.ceo-no-pagination {
   display: none;
 }

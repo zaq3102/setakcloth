@@ -5,8 +5,8 @@ const Header: React.FC = () => {
   return (
     <div className="Header">
       <div>
-        <Link to="/user/login">login</Link>
-        <Link to="/user/signup">signup</Link>
+        <Link to="/login">login</Link>
+        <Link to="/signup">signup</Link>
       </div>
     </div>
   );
