@@ -29,7 +29,7 @@ const CeoOrderDetail: React.FC = () => {
       const photo = document.createElement('img');
       photo.src = URL.createObjectURL(imgList[i]);
       photo.height = 280;
-      photo.className = 'photo';
+      photo.className = 'ceo-photo';
       ImageShow.current.appendChild(photo);
     }
   };
@@ -52,10 +52,12 @@ const CeoOrderDetail: React.FC = () => {
   };
 
   return (
-    <div className="order">
-      <div className="order-detail">
-        <div className="photo-upload">
-          <div className="scrollmenu" ref={ImageShow}>
+    <div className="ceo-order">
+      <div className="ceo-order-detail">
+        <div className="ceo-photo-upload">
+          <div className="ceo-scrollmenu" ref={ImageShow}>
+            <img className="logo" src="../assets/logo.png" alt="" />
+            <img className="logo" src="../assets/logo.png" alt="" />
             <img className="logo" src="../assets/logo.png" alt="" />
             <img className="logo" src="../assets/logo.png" alt="" />
             <img className="logo" src="../assets/logo.png" alt="" />
@@ -72,7 +74,7 @@ const CeoOrderDetail: React.FC = () => {
             ref={ImageInput}
             multiple
           />
-          <div className="btn-list">
+          <div className="ceo-btn-list">
             <Button
               variant="contained"
               color="color1"
@@ -84,22 +86,26 @@ const CeoOrderDetail: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="order-info">
-          <div className="order-info-title">주문 상세 정보</div>
-          <div className="order-info-detail">주문자 : {orderInfo.orderId}</div>
-          <div className="order-info-detail">
+        <div className="ceo-order-info">
+          <div className="ceo-order-info-title">주문 상세 정보</div>
+          <div className="ceo-order-info-detail">
+            주문자 : {orderInfo.orderId}
+          </div>
+          <div className="ceo-order-info-detail">
             주문번호 : {orderInfo.orderNum}
           </div>
-          <div className="order-info-detail">
+          <div className="ceo-order-info-detail">
             배송여부 : {orderInfo.orderDeliver}
           </div>
-          <div className="order-info-detail">주소 : {orderInfo.orderAddr}</div>
-          <div className="order-info-detail">
+          <div className="ceo-order-info-detail">
+            주소 : {orderInfo.orderAddr}
+          </div>
+          <div className="ceo-order-info-detail">
             특이사항 : {orderInfo.orderReq}
           </div>
         </div>
       </div>
-      <div className="order-mode">
+      <div className="ceo-order-mode">
         <Stepper activeStep={currentMode}>
           {modes.map((mode) => (
             <Step key={mode}>
@@ -108,7 +114,7 @@ const CeoOrderDetail: React.FC = () => {
           ))}
         </Stepper>
       </div>
-      <div className="btn-list">
+      <div className="ceo-btn-list">
         <Button variant="contained" color="color2" onClick={handleSave}>
           저장
         </Button>

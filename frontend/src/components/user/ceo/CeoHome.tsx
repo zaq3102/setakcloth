@@ -12,11 +12,11 @@ const CeoHome: React.FC = () => {
   };
 
   return (
-    <div className="laundry-modes">
+    <div className="ceo-laundry-modes">
       {modes.map((label) => (
-        <div className="laundry-mode">
+        <div className="ceo-laundry-mode">
           <Chip label={label} color="color2" variant="outlined" />
-          <ListItem key={label} className="order-item">
+          <ListItem key={label} className="ceo-order-item">
             <ListItemButton onClick={() => onClickItem('S1234')}>
               <ListItemText id={label} primary={laundry1} />
             </ListItemButton>
