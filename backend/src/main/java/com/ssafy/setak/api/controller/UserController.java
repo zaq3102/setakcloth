@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.*;
+import com.ssafy.setak.api.response.CeoUserPostRes;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
@@ -48,6 +49,25 @@ public class UserController {
         }
     }
 
+    @PostMapping("/ceo/signup")
+    @ApiOperation(value = "CEO 일반 회원 가입", notes = "CEO 일반 회원 가입")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 500, message = "CEO 일반 회원 가입 실패")
+    })
+    public ResponseEntity<? extends UserPostRes> registerCeoUser(@RequestBody UserRegisterReq userInfo) {
+        try {
+            User user = userService.createCeoUser(userInfo);
+            return ResponseEntity.status(201).body(
+                    UserPostRes.of(201, "Created", user.getId())
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "CEO 일반 회원 가입 실패", -1l)
+            );
+        }
+    }
+
     @GetMapping("/kakao/email")
     @ApiOperation(value = "고객 카카오 이메일 조회", notes = "고객 카카오 이메일을 조회한다")
     @ApiResponses({
@@ -58,7 +78,7 @@ public class UserController {
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            if (userService.existsByEmail(kakaoEmail)) {
+            if (userService.existsByUserEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
 
             } else {
@@ -69,6 +89,29 @@ public class UserController {
                     KakaoEmailRes.of(500, "고객 카카오 이메일 조회 실패", null)
             );
         }
+    }
+
+    @GetMapping("/ceo/kakao/email")
+    @ApiOperation(value = "CEO 카카오 이메일 조회", notes = "CEO 카카오 이메일을 조회한다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
+            @ApiResponse(code = 500, message = "CEO 카카오 이메일 조회 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getCeoKakaoEmail(@RequestParam String code, HttpServletResponse response) {
+        try {
+            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            if (userService.existsByCeoEmail(kakaoEmail)) {
+                return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
+            } else {
+                return ResponseEntity.status(200).body(KakaoEmailRes.of(200, "Success", kakaoEmail));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    KakaoEmailRes.of(500, "CEO 카카오 이메일 조회 실패", null)
+            );
+        }
+
     }
 
     @PostMapping("/signup/kakao")
@@ -86,6 +129,25 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 카카오 회원 가입 실패", -1l)
+            );
+        }
+    }
+
+    @PostMapping("/ceo/signup/kakao")
+    @ApiOperation(value = "CEO 카카오 회원 가입", notes = "CEO 카카오 회원 가입")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 500, message = "CEO 카카오 회원 가입 실패")
+    })
+    public ResponseEntity<? extends UserPostRes> registerCeoKakaoUser(@RequestBody KakaoUserRegisterReq userInfo) {
+        try {
+            User user = userService.createCeoKakaoUser(userInfo);
+            return ResponseEntity.status(201).body(
+                    UserPostRes.of(201, "Created", user.getId())
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, " CEO 카카오 회원 가입 실패", -1l)
             );
         }
     }
@@ -134,6 +196,26 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)
+            );
+        }
+    }
+
+    @PostMapping("/ceo/update")
+    @ApiOperation(value = "CEO 회원 정보 수정", notes = "CEO 회원 정보를 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 500, message = "CEO 회원 정보 수정 실패")
+    })
+    public ResponseEntity<? extends CeoUserPostRes> updateCeoUser(@RequestBody CeoUserUpdateReq userInfo) {
+        try {
+            //        Long userId = jwtService.getUserId();
+            Long userId = 1l;
+            User user = userService.getUserByUserId(userId);
+            userService.updateCeoUser(user, userInfo);
+            return ResponseEntity.status(201).body(CeoUserPostRes.of(201, "Created", user.getId()));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(
+                    CeoUserPostRes.of(500, "CEO 회원 정보 수정 실패", -1l)
             );
         }
     }
@@ -193,7 +275,7 @@ public class UserController {
     public ResponseEntity<? extends BaseResponseBody> duplicateCheck(@RequestParam String email) {
         //        Long userId = jwtService.getUserId();-
         try {
-            if (!userService.existsByEmail(email)) {
+            if (!userService.existsByUserEmail(email)||userService.existsByCeoEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));

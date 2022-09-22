@@ -50,7 +50,7 @@ public class AuthController {
     public ResponseEntity<? extends AuthRes> kakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            User user = userService.getUserByEmail(kakaoEmail);
+            User user = userService.getUserByUserEmail(kakaoEmail);
             if (user.isWithdrawn()) {
                 return ResponseEntity.status(403).body(AuthRes.of(403, "탈퇴한 회원입니다.", null, false, user.getId()));
             }
@@ -84,7 +84,7 @@ public class AuthController {
         try {
             String email = loginInfo.getEmail();
             String pwd = loginInfo.getPwd();
-            User user = userService.getUserByEmail(email);
+            User user = userService.getUserByUserEmail(email);
 
             if (user.isWithdrawn()) {
                 return ResponseEntity.status(403).body(AuthRes.of(403, "탈퇴한 회원입니다.", null, false, user.getId()));

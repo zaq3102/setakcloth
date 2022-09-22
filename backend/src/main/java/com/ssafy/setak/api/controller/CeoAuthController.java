@@ -2,7 +2,6 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.LoginPostReq;
 import com.ssafy.setak.api.response.AuthRes;
-import com.ssafy.setak.api.service.CeoUserService;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.common.util.CookieUtil;
