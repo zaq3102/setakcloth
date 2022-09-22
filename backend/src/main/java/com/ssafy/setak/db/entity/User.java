@@ -21,19 +21,22 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    private String email;
+    private String userEmail;
+    private String ceoEmail;
     private String pwd;
     private String nickName;
-    private String addr;
-    private String addrDetail;
-    private float addrLat;
-    private float addrLng;
+
+    @Embedded
+    private Address address;
+
     private boolean isSocial;
     private boolean isWithdrawn;
 
-    @OneToOne
-    @JoinColumn(name = "user_wallet_id")
-    private UserWallet userWallet;
+    private String walletAddr;
+    private float balance;
+
+    @Enumerated
+    private UserType userType;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Order> orders = new ArrayList<>();
