@@ -28,13 +28,13 @@ public class LaundryService {
 //        User ceoUser = userRepository.findById(ceoUserId).orElseThrow(NullPointerException::new);
 
         laundryRepository.save(Laundry.builder()
-                .regNum(laundryInfo.getRegNum())
-                .laundryName(laundryInfo.getLaundryName())
-                .ceoName(laundryInfo.getCeoName())
-                .regDate(LocalDate.now())
-                .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
-                .userId(ceoUserId)
-                .build());
+                        .regNum(laundryInfo.getRegNum())
+                        .laundryName(laundryInfo.getLaundryName())
+                        .ceoName(laundryInfo.getCeoName())
+                        .regDate(LocalDate.now())
+                        .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
+                        .userId(ceoUserId)
+                        .build());
     }
 
 
