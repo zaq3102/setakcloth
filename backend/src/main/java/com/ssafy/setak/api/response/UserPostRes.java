@@ -16,14 +16,10 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserPostResponse")
 public class UserPostRes extends BaseResponseBody {
+
     @ApiModelProperty(name="유저 ID")
     Long userId;
 
-    //	public static UserPostRes of(User user) {
-//		UserPostRes res = new UserPostRes();
-//		res.setUserId(user.getUserId());
-//		return res;
-//	}
     public static UserPostRes of(Integer statusCode, String message, Long userId) {
         UserPostRes res = new UserPostRes();
         res.setStatusCode(statusCode);

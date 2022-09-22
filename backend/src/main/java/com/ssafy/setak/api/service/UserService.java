@@ -1,10 +1,9 @@
 package com.ssafy.setak.api.service;
 
-import com.ssafy.setak.api.request.KakaoUserRegisterReq;
-import com.ssafy.setak.api.request.UserRegisterReq;
-import com.ssafy.setak.api.request.UserUpdateAddressReq;
-import com.ssafy.setak.api.request.UserUpdateReq;
+import com.ssafy.setak.api.request.*;
+import com.ssafy.setak.db.entity.Address;
 import com.ssafy.setak.db.entity.User;
+import com.ssafy.setak.db.entity.UserType;
 import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,37 +16,39 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserWalletService userWalletService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
         User user = new User();
-        user.setEmail(userInfo.getEmail());
-        UserWallet userWallet = userWalletService.createWallet(user.getUserWallet().getWalletAddr());
-        user.setUserWallet(userWallet);
+        user.setUserEmail(userInfo.getEmail());
+        user.setWalletAddr(userInfo.getWalletAddr());
+        user.setBalance(0f);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setSocial(false);
         user.setWithdrawn(false);
+        user.setUserType(UserType.USER);
         userRepository.save(user);
         return user;
     }
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
         User user = new User();
-        user.setEmail(userInfo.getEmail());
-        UserWallet userWallet = userWalletService.createWallet(user.getAddr());
-        user.setUserWallet(userWallet);
+        user.setUserEmail(userInfo.getEmail());
+        user.setWalletAddr(userInfo.getWalletAddr());
+        user.setBalance(0f);
         user.setSocial(true);
         user.setWithdrawn(false);
+        user.setUserType(UserType.USER);
         userRepository.save(user);
         return user;
     }
 
     public User getUserByUserId(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElse(null);
+
+
         return user;
     }
 
@@ -62,10 +63,12 @@ public class UserService {
     }
 
     public void updateUserAddress(User user, UserUpdateAddressReq userInfo) {
-        user.setAddr(userInfo.getAddr());
-        user.setAddrDetail(userInfo.getAddrDetail());
-        user.setAddrLat(userInfo.getAddrLat());
-        user.setAddrLng(userInfo.getAddrLng());
+        Address addr = new Address();
+        addr.setAddr(userInfo.getAddr());
+        addr.setAddrDetail(userInfo.getAddrDetail());
+        addr.setAddrLat(userInfo.getAddrLat());
+        addr.setAddrLng(userInfo.getAddrLng());
+        user.setAddress(addr);
         userRepository.save(user);
     }
 
@@ -74,12 +77,54 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email).get();
+    public User getUserByUserEmail(String email) {
+        User user = userRepository.findByUserEmail(email).get();
         return user;
     }
 
-    public boolean existsByEmail(String email) throws IOException {
-        return userRepository.existsByEmail(email);
+    public User getUserByCeoEmail(String email) {
+        User user = userRepository.findByCeoEmail(email).get();
+        return user;
+    }
+
+    public boolean existsByUserEmail(String email) throws IOException {
+        return userRepository.existsByUserEmail(email);
+    }
+
+    public User createCeoUser(UserRegisterReq userInfo) {
+        User user = new User();
+        user.setCeoEmail(userInfo.getEmail());
+        user.setWalletAddr(userInfo.getWalletAddr());
+        user.setBalance(0f);
+        user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
+        user.setSocial(false);
+        user.setWithdrawn(false);
+        user.setUserType(UserType.CEO);
+        userRepository.save(user);
+        return user;
+
+    }
+
+    public boolean existsByCeoEmail(String Email) {
+        return userRepository.existsByCeoEmail(Email);
+    }
+
+    public User createCeoKakaoUser(KakaoUserRegisterReq userInfo) {
+        User user = new User();
+        user.setCeoEmail(userInfo.getEmail());
+        user.setWalletAddr(userInfo.getWalletAddr());
+        user.setBalance(0f);
+        user.setSocial(true);
+        user.setWithdrawn(false);
+        user.setUserType(UserType.CEO);
+        userRepository.save(user);
+        return user;
+    }
+
+    public void updateCeoUser(User user, CeoUserUpdateReq userInfo) {
+
+        user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
+
+        userRepository.save(user);
     }
 }

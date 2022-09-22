@@ -14,6 +14,7 @@ public class UserGetRes extends BaseResponseBody {
 
     public static UserGetRes of(Integer statusCode, String message, User userInfo) {
         UserGetRes res = new UserGetRes();
+
         res.setStatusCode(statusCode);
         res.setMessage(message);
         res.setUserInfo(userInfo);
