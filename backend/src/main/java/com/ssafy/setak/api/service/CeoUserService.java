@@ -3,13 +3,7 @@ package com.ssafy.setak.api.service;
 import com.ssafy.setak.api.request.CeoUserUpdateReq;
 import com.ssafy.setak.api.request.KakaoUserRegisterReq;
 import com.ssafy.setak.api.request.UserRegisterReq;
-import com.ssafy.setak.db.entity.CeoUser;
-import com.ssafy.setak.db.entity.CeoWallet;
-import com.ssafy.setak.db.entity.User;
-import com.ssafy.setak.db.entity.UserWallet;
-import com.ssafy.setak.db.repository.CeoUserRepository;
 
-import com.ssafy.setak.db.repository.CeoWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

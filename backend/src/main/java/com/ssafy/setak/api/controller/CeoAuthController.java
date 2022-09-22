@@ -6,7 +6,6 @@ import com.ssafy.setak.api.service.CeoUserService;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.common.util.CookieUtil;
-import com.ssafy.setak.db.entity.CeoUser;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

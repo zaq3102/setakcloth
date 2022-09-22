@@ -1,8 +1,6 @@
 package com.ssafy.setak.api.response;
 
 
-import com.ssafy.setak.db.entity.CeoUser;
-import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
