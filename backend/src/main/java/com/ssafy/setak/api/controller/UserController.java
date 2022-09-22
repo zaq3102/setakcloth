@@ -4,6 +4,7 @@ import com.ssafy.setak.api.request.*;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
+import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
@@ -28,6 +29,9 @@ public class UserController {
 
     @Autowired
     private KakaoService kakaoService;
+
+    @Autowired
+    JwtService jwtService;
 
     @PostMapping("/signup")
     @ApiOperation(value = "고객 일반 회원 가입", notes = "고객 일반 회원 가입")
@@ -157,18 +161,21 @@ public class UserController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "고객 회원 정보 조회 실패")
     })
-    public ResponseEntity<? extends UserGetRes> getUser() {
+    public ResponseEntity<? extends BaseResponseBody> getUser() {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
+
+            //Long userId = 1l;
             User user = userService.getUserByUserId(userId);
 
             return ResponseEntity.status(200).body(
                     UserGetRes.of(200, "Success", user)
             );
         } catch (Exception e) {
+
             return ResponseEntity.status(500).body(
-                    UserGetRes.of(500, "고객 회원 정보 조회 실패", null)
+
+                    BaseResponseBody.of(500, "고객 회원 정보 조회 실패")
             );
         }
     }
@@ -182,8 +189,8 @@ public class UserController {
     })
     public ResponseEntity<? extends UserPostRes> updateUser(@RequestBody UserUpdateReq userInfo) {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
+            //Long userId = 1l;
             User user = userService.getUserByUserId(userId);
 
             if (userService.existsBynickName(userInfo.getNickName())) {
@@ -207,8 +214,8 @@ public class UserController {
     })
     public ResponseEntity<? extends UserPostRes> updateCeoUser(@RequestBody CeoUserUpdateReq userInfo) {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
+
             User user = userService.getUserByUserId(userId);
             userService.updateCeoUser(user, userInfo);
             return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
@@ -227,8 +234,7 @@ public class UserController {
     })
     public ResponseEntity<? extends UserPostRes> updateUserAddress(@RequestBody UserUpdateAddressReq userInfo) {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
             User user = userService.getUserByUserId(userId);
 
             userService.updateUserAddress(user, userInfo);
@@ -247,9 +253,10 @@ public class UserController {
             @ApiResponse(code = 500, message = "고객 회원 탈퇴 실패")
     })
     public ResponseEntity<? extends UserPostRes> deleteUser() {
-        //        Long userId = jwtService.getUserId();
+
         try {
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
+            System.out.println(userId);
             User user = userService.getUserByUserId(userId);
 
             userService.deleteUser(user);
@@ -274,7 +281,7 @@ public class UserController {
     public ResponseEntity<? extends BaseResponseBody> duplicateCheck(@RequestParam String email) {
         //        Long userId = jwtService.getUserId();-
         try {
-            if (!userService.existsByUserEmail(email)||userService.existsByCeoEmail(email)) {
+            if (!userService.existsByUserEmail(email)&&!userService.existsByCeoEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));

@@ -16,8 +16,6 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    @Autowired
-    private UserWalletService userWalletService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -26,7 +24,7 @@ public class UserService {
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
-        user.setBalance(0);
+        user.setBalance(0f);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setSocial(false);
         user.setWithdrawn(false);
@@ -39,7 +37,7 @@ public class UserService {
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
-        user.setBalance(0);
+        user.setBalance(0f);
         user.setSocial(true);
         user.setWithdrawn(false);
         user.setUserType(UserType.USER);
@@ -48,7 +46,9 @@ public class UserService {
     }
 
     public User getUserByUserId(Long userId) {
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findById(userId).orElse(null);
+
+
         return user;
     }
 
@@ -95,7 +95,7 @@ public class UserService {
         User user = new User();
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
-        user.setBalance(0);
+        user.setBalance(0f);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setSocial(false);
         user.setWithdrawn(false);
@@ -113,7 +113,7 @@ public class UserService {
         User user = new User();
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
-        user.setBalance(0);
+        user.setBalance(0f);
         user.setSocial(true);
         user.setWithdrawn(false);
         user.setUserType(UserType.CEO);
