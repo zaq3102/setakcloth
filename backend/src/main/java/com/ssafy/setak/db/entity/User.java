@@ -33,7 +33,7 @@ public class User {
     private boolean isWithdrawn;
 
     private String walletAddr;
-    private float balance;
+    private Float balance;
 
     @Enumerated
     private UserType userType;
