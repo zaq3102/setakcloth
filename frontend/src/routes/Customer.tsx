@@ -9,7 +9,7 @@ const Customer = () => {
     <Routes>
       <Route path="customer/" element={<Home />} />
       <Route path="customer/laundrylist" element={<LaundryList />} />
-      <Route path="customer/laundrydetail" element={<LaundryDetail />} />
+      <Route path="customer/:laundryId" element={<LaundryDetail />} />
     </Routes>
   );
 };

@@ -1,12 +1,68 @@
 // customer/CtmHome.tsx
-.customerhome{
-    text-align: center;
+.customerhome {
+  text-align: center;
 }
-.laundry-list{
-    text-align: center;
+
+.laundry-list {
+  text-align: center;
 }
 
 // customer/CtmLaundryList.tsx
-.customerlaundrylist{
-    text-align: center;
+.customerlaundrylist {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+#select {
+  min-width: 180px;
+}
+
+#cardImg {
+  width: 150px;
+}
+
+#laundryCard {
+  display: flex;
+  height: 170px;
+}
+
+#laundryBox {
+  display: flex;
+}
+
+.MuiCardContent-root {
+  width: 350px;
+  height: 150px;
+}
+
+// customer/CtmLaundryDetail.tsx
+.customerlaundrydetail {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.rightdiv {
+  display: flex;
+  flex-direction: column;
+}
+
+.laundrydetailcard {
+  height: 700px;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#laundrydetailimage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
 }
