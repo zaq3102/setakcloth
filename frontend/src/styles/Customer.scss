@@ -1,11 +1,9 @@
-// customer/CtmHome.tsx
-.customerhome {
-  text-align: center;
-}
-
-.laundry-list {
-  text-align: center;
-}
+$color0: #ff003e;
+$color1: #1e3e5c;
+$color2: #3066be;
+$color3: #60afff;
+$color4: #bfd7ea;
+$color5: #e0ebf5;
 
 // customer/CtmLaundryList.tsx
 .customerlaundrylist {
@@ -65,4 +63,148 @@
   align-items: center;
   justify-content: center;
   width: 200px;
+
+// customer/CtmHome.tsx
+.ctm-home {
+    text-align: center;
+}
+
+.ctm-laundry-list {
+    text-align: center;
+}
+
+//CtmMypage.tsx
+.ctm-my-page {
+    display: flex;
+    justify-content: center;
+}
+
+.ctm-my-page-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctm-my-info {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px;
+    height: 40%;
+    border: 1px solid $color2;
+    border-radius: 20px;
+}
+
+.ctm-my-info-title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.ctm-my-info-content {
+    display: flex;
+    justify-content: space-around;
+}
+
+.ctm-my-info-content-left {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctm-my-info-content-right {
+    // flex-grow: 1;
+}
+
+.ctm-my-page-btn {
+    justify-self: flex-end;
+    align-self: center;
+}
+
+.ctm-my-review-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px;
+    height: 300px;
+    width: 650px;
+    border: 1px solid $color2;
+    border-radius: 20px;
+}
+
+.ctm-my-review-list-title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.ctm-my-review-list-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.ctm-my-review-detail {
+    flex-grow: 1;
+    height: 150px;
+}
+
+.ctm-my-review {
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    background-color: $color5;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 45px;
+}
+
+.ctm-pagination {
+    align-self: center;
+}
+
+.ctm-no-pagination {
+    display: none;
+}
+
+.ctm-my-order-list {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin: 10px;
+    height: 535px;
+    width: 600px;
+    border: 1px solid $color2;
+    border-radius: 20px;
+}
+
+.ctm-my-order-list-title {
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.ctm-my-order-list-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.ctm-my-order-detail {
+    flex-grow: 1;
+    height: 150px;
+}
+
+.ctm-my-order {
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    background-color: $color5;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 90px;
 }

@@ -5,7 +5,6 @@ import com.ssafy.setak.api.request.UserRegisterReq;
 import com.ssafy.setak.api.request.UserUpdateAddressReq;
 import com.ssafy.setak.api.request.UserUpdateReq;
 import com.ssafy.setak.db.entity.User;
-import com.ssafy.setak.db.entity.UserWallet;
 import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class UserService {
     public User createUser(UserRegisterReq userInfo) throws IOException {
         User user = new User();
         user.setEmail(userInfo.getEmail());
-        UserWallet userWallet = userWalletService.createWallet(user.getAddr());
+        UserWallet userWallet = userWalletService.createWallet(user.getUserWallet().getWalletAddr());
         user.setUserWallet(userWallet);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
         user.setSocial(false);
@@ -73,5 +72,14 @@ public class UserService {
     public void deleteUser(User user) {
         user.setWithdrawn(true);
         userRepository.save(user);
+    }
+
+    public User getUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).get();
+        return user;
+    }
+
+    public boolean existsByEmail(String email) throws IOException {
+        return userRepository.existsByEmail(email);
     }
 }
