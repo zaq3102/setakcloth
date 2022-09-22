@@ -25,10 +25,10 @@ public class Laundry {
     private String laundryName;
     private String ceoName;
     private LocalDate regDate;
-    private String addr;
-    private String addrDetail;
-    private float addrLat;
-    private float addrLng;
+
+    @Embedded
+    private Address address;
+
     private String imgUrl;
     private String description;
     private String contact;
@@ -37,16 +37,11 @@ public class Laundry {
     private long minCost;
     private long deliveryCost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ceo_user_id")
-    private CeoUser ceoUser;
+    private long userId;
 
     @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<LaundryItem> laundryItems = new ArrayList<>();
 
     @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Order> orders = new ArrayList<>();
-
-    @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
-    private List<Review> reviews = new ArrayList<>();
 }

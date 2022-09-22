@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,10 @@ public class Order {
     private int state;
     private String hash;
 
+    private LocalDate reviewDate;
+    private int reviewScore;
+    private String reviewContent;
+
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
 
@@ -39,9 +44,7 @@ public class Order {
     @JoinColumn(name = "laundry_id")
     private Laundry laundry;
 
-    @OneToOne
-    @JoinColumn(name = "review_id")
-    private Review review;
+
 
     @OneToMany(mappedBy = "order", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<OrderDetail> orderDetails = new ArrayList<>();

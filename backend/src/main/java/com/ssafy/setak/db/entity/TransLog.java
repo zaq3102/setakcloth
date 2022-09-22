@@ -12,14 +12,17 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CeoWallet {
+public class TransLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ceo_wallet_id")
+    @Column(name = "trans_log_id")
     private Long id;
 
-    private String walletAddr;
-    private float balance;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
+    private long clean;
+    private String content;
 }

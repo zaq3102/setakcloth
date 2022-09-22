@@ -2,18 +2,13 @@ package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
-import com.ssafy.setak.db.entity.CeoUser;
 import com.ssafy.setak.db.entity.Laundry;
-import com.ssafy.setak.db.entity.User;
-import com.ssafy.setak.db.repository.CeoUserRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
-import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)

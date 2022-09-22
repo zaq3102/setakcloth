@@ -20,8 +20,7 @@ public class OrderDetail {
     @Column(name = "order_detail_id")
     private Long id;
 
-    private String item;
-    private float price;
+    private Long laundryItemId;
     private String blockAddr1;
     private String blockAddr2;
     private String blockAddr3;

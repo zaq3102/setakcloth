@@ -1,11 +1,8 @@
 package com.ssafy.setak.api.response;
 
 import com.ssafy.setak.common.model.response.BaseResponseBody;
-import com.ssafy.setak.db.entity.CeoUser;
-import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
-import org.checkerframework.checker.units.qual.A;
 
 @Data
 @ApiModel("CeoUserGetResponse")
