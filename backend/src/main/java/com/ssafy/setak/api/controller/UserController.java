@@ -1,7 +1,6 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.*;
-import com.ssafy.setak.api.response.CeoUserPostRes;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
@@ -206,16 +205,16 @@ public class UserController {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 500, message = "CEO 회원 정보 수정 실패")
     })
-    public ResponseEntity<? extends CeoUserPostRes> updateCeoUser(@RequestBody CeoUserUpdateReq userInfo) {
+    public ResponseEntity<? extends UserPostRes> updateCeoUser(@RequestBody CeoUserUpdateReq userInfo) {
         try {
             //        Long userId = jwtService.getUserId();
             Long userId = 1l;
             User user = userService.getUserByUserId(userId);
             userService.updateCeoUser(user, userInfo);
-            return ResponseEntity.status(201).body(CeoUserPostRes.of(201, "Created", user.getId()));
+            return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
-                    CeoUserPostRes.of(500, "CEO 회원 정보 수정 실패", -1l)
+                    UserPostRes.of(500, "CEO 회원 정보 수정 실패", -1l)
             );
         }
     }
