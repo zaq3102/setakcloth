@@ -1,5 +1,6 @@
 package com.ssafy.setak.db.repository;
 
+import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.db.entity.Order;
 import com.ssafy.setak.db.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,4 +20,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByUserEmail(String email);
 
+    Optional<User> findByCeoEmail(String email);
 }

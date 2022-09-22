@@ -82,6 +82,11 @@ public class UserService {
         return user;
     }
 
+    public User getUserByCeoEmail(String email) {
+        User user = userRepository.findByCeoEmail(email).get();
+        return user;
+    }
+
     public boolean existsByUserEmail(String email) throws IOException {
         return userRepository.existsByUserEmail(email);
     }
