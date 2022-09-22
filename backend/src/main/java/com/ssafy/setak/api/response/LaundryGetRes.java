@@ -68,10 +68,10 @@ public class LaundryGetRes extends BaseResponseBody {
         res.setMessage(message);
         res.setLaundryId(laundry.getId());
         res.setLaundryName(laundry.getLaundryName());
-        res.setAddr(laundry.getAddr());
-        res.setAddrDetail(laundry.getAddrDetail());
-        res.setAddrLat(laundry.getAddrLat());
-        res.setAddrLng(laundry.getAddrLng());
+        res.setAddr(laundry.getAddress().getAddr());
+        res.setAddrDetail(laundry.getAddress().getAddrDetail());
+        res.setAddrLat(laundry.getAddress().getAddrLat());
+        res.setAddrLng(laundry.getAddress().getAddrLng());
         res.setContact(laundry.getContact());
         res.setImgUrl(laundry.getImgUrl());
         res.setDescription(laundry.getDescription());
