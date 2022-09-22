@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.response;
 
 
+import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -20,10 +21,10 @@ public class CeoUserRes {
     boolean isSocial;
 
 
-    public static CeoUserRes of (CeoUser ceoUser) {
+    public static CeoUserRes of (User ceoUser) {
         CeoUserRes res = new CeoUserRes();
         res.setCeoId(ceoUser.getId());
-        res.setEmail(ceoUser.getEmail());
+        res.setEmail(ceoUser.getCeoEmail());
         res.setSocial(ceoUser.isSocial());
 
         return res;
