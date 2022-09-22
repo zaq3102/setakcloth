@@ -13,7 +13,6 @@ import {
   RadioGroup,
   TextField
 } from '@mui/material';
-import RadioGroupContext from '@mui/material/RadioGroup/RadioGroupContext';
 import * as React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -31,6 +30,7 @@ const CeoMypage: React.FC = () => {
   const [laundryDeliver, setLaundryDeliver] = useState<string>('true');
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
+  const [page, setPage] = useState(1);
 
   const reviewList = [
     '리뷰 1입니다~~~~~',
@@ -71,8 +71,6 @@ const CeoMypage: React.FC = () => {
     '드라이23클리닝': 10000
   };
 
-  const [page, setPage] = useState(1);
-
   const pageChange = (event, value) => {
     setPage(value);
   };
@@ -108,10 +106,10 @@ const CeoMypage: React.FC = () => {
   };
 
   return (
-    <div className="my-page">
-      <div className="my-info">
-        <div className="my-info-title">사업자 정보</div>
-        <div className="my-info-content">
+    <div className="ceo-my-page">
+      <div className="ceo-my-info">
+        <div className="ceo-my-info-title">사업자 정보</div>
+        <div className="ceo-my-info-content">
           <div>{TemplaundryName}님, 오늘도 화이팅!</div>
           <br />
           <div>세탁소 정보 보여줄까 말까</div>
@@ -119,10 +117,10 @@ const CeoMypage: React.FC = () => {
           <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
         </div>
         <Dialog open={openModal1} onClose={() => handleClose(1)}>
-          <div className="item-modal">
+          <div className="ceo-item-modal">
             <DialogTitle>세탁소 등록하기</DialogTitle>
             <DialogContent>
-              <div className="regist-laundry">
+              <div className="ceo-regist-laundry">
                 <TextField
                   sx={{ mt: 1 }}
                   required
@@ -202,17 +200,17 @@ const CeoMypage: React.FC = () => {
           </div>
         </Dialog>
         <Dialog open={openModal2} onClose={() => handleClose(2)}>
-          <div className="item-modal">
+          <div className="ceo-item-modal">
             <DialogTitle>세탁 품목 변경하기</DialogTitle>
             <DialogContent>
               <List sx={{ height: 200, overflow: 'auto' }}>
                 {Object.keys(itemList).map((item) => (
-                  <div className="item">
+                  <div className="ceo-item">
                     <ListItem key={item}>
                       <button
                         type="button"
                         onClick={itemDel}
-                        className="item-del-btn">
+                        className="ceo-item-del-btn">
                         삭제
                       </button>
                       <ListItemText primary={`${item} : ${itemList[item]}원`} />
@@ -220,7 +218,7 @@ const CeoMypage: React.FC = () => {
                   </div>
                 ))}
               </List>
-              <div className="add-new-item">
+              <div className="ceo-add-new-item">
                 <div>새로운 품목 추가하기</div>
                 <TextField
                   sx={{ mt: 2 }}
@@ -239,11 +237,13 @@ const CeoMypage: React.FC = () => {
                   type="number"
                   fullWidth
                   value={itemPrice}
-                  onChange={(event) => setItemPrice(event.target.value.trim())}
+                  onChange={(event) =>
+                    setItemPrice(parseInt(event.target.value, 10))
+                  }
                 />
                 <button
                   type="button"
-                  className="add-new-item-btn"
+                  className="ceo-add-new-item-btn"
                   onClick={itemAdd}>
                   추가
                 </button>
@@ -264,35 +264,35 @@ const CeoMypage: React.FC = () => {
         </Dialog>
         <button
           type="button"
-          className="my-page-btn"
+          className="ceo-my-page-btn"
           onClick={() => handleOpenModal(1)}>
           세탁소 등록하기 (이미 등록했으면 버튼 안 뜰 것임)
         </button>
         <Button
           variant="contained"
           color="color2"
-          className="my-page-btn"
+          className="ceo-my-page-btn"
           onClick={() => handleOpenModal(2)}>
           세탁 품목 변경하기 (세탁소 등록 안 했으면 버튼 안 뜰 것임)
         </Button>
       </div>
-      <div className="my-review-list">
-        <div className="my-review-list-title">우리 세탁소 리뷰 보기</div>
+      <div className="ceo-my-review-list">
+        <div className="ceo-my-review-list-title">우리 세탁소 리뷰 보기</div>
         <div>총 {reviewList.length}개의 게시물을 작성하였습니다.</div>
-        <div className="my-review-list-content">
+        <div className="ceo-my-review-list-content">
           {reviewList.slice((page - 1) * 5, page * 5).map((review) => (
             <Link key={review} to="/ceo/mypage">
-              <div className="my-review">{review}</div>
+              <div className="ceo-my-review">{review}</div>
             </Link>
           ))}
-          <div className="pagination">
+          <div className="ceo-pagination">
             <Pagination
               count={Math.ceil(reviewList.length / 5)}
               page={page}
               // variant="outlined"
               color="color2"
               className={`${
-                reviewList.length === 0 ? 'no-pagination' : 'pagination'
+                reviewList.length === 0 ? 'ceo-no-pagination' : 'ceo-pagination'
               }`}
               onChange={pageChange}
             />
