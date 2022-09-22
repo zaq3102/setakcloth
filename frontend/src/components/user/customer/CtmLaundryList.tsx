@@ -58,7 +58,7 @@ const CtmLaundryList: React.FC = () => {
   };
 
   const onclicklaundry = (value: number) => {
-    navigate(`../customer/${value}`);
+    navigate(`../${value}`);
   };
   return (
     <div className="customerlaundrylist">
