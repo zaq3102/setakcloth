@@ -14,8 +14,11 @@ public class UserRes {
     @ApiModelProperty(name = "유저 ID", example = "123")
     Long userId;
 
+    @ApiModelProperty(name = "CEO 이메일", example = "dbwowo@naver.com")
+    String ceoEmail;
+
     @ApiModelProperty(name = "유저 이메일", example = "dbwowo@naver.com")
-    String email;
+    String userEmail;
 
     @ApiModelProperty(name = "유저 닉네임", example = "벙글재열")
     String nickName;
@@ -35,16 +38,22 @@ public class UserRes {
     @ApiModelProperty(name = "소셜 로그인 여부", example = "true")
     boolean isSocial;
 
+    @ApiModelProperty(name = "타입", example = "true")
+    String userType;
+
     public static UserRes of (User user) {
         UserRes res = new UserRes();
+
         res.setUserId(user.getId());
-        res.setEmail(user.getEmail());
+        res.setUserEmail(user.getUserEmail());
+        res.setCeoEmail(user.getCeoEmail());
         res.setNickName(user.getNickName());
-        res.setAddr(user.getAddr());
-        res.setAddrDetail(user.getAddrDetail());
-        res.setAddrLat(user.getAddrLat());
-        res.setAddrLng(user.getAddrLng());
+        res.setAddr(user.getAddress().getAddr());
+        res.setAddrDetail(user.getAddress().getAddrDetail());
+        res.setAddrLat(user.getAddress().getAddrLat());
+        res.setAddrLng(user.getAddress().getAddrLng());
         res.setSocial(user.isSocial());
+        res.setUserType(user.getUserType().toString());
         return res;
     }
 }
