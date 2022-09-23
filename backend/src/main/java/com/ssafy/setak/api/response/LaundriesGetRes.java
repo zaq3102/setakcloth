@@ -33,7 +33,7 @@ public class LaundriesGetRes extends BaseResponseBody {
     public void setLaundries(List<Tuple> tuples){
         laundries = new ArrayList<>();
         for(Tuple tuple : tuples){
-            laundries.add(LaundryGetRes.of((Laundry) tuple.get(0), Float.valueOf(tuple.get(1).toString())));
+            laundries.add(LaundryGetRes.of((Laundry) tuple.get(0), Float.valueOf(tuple.get(1).toString()), Float.valueOf(tuple.get(2).toString())));
         }
     }
 }
