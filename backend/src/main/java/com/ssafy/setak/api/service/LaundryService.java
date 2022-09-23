@@ -63,7 +63,7 @@ public class LaundryService {
     public Laundry selectLaundry(Long laundryId){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null){
+        if(laundry != null && !laundry.isWithdrawn()){
             return laundry;
         }
 
@@ -74,7 +74,7 @@ public class LaundryService {
     public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null){
+        if(laundry != null && !laundry.isWithdrawn()){
             laundry.setRegNum(laundryInfo.getRegNum());
             laundry.setLaundryName(laundryInfo.getLaundryName());
             laundry.setCeoName(laundryInfo.getCeoName());
@@ -95,7 +95,7 @@ public class LaundryService {
     public boolean deleteLaundry(Long laundryId){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry!= null){
+        if(laundry!= null && !laundry.isWithdrawn()){
             laundry.setWithdrawn(true);
 
             return true;
@@ -118,7 +118,7 @@ public class LaundryService {
     public List<LaundryItem> getLaundryItems(Long laundryId){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null){
+        if(laundry != null && !laundry.isWithdrawn()){
             return laundry.getLaundryItems();
         }
 
@@ -130,7 +130,7 @@ public class LaundryService {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
         LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
 
-        if(laundry!= null && laundryItem != null){
+        if(laundry!= null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()){
             laundryItem.setName(laundryItemInfo.getName());
             laundryItem.setPrice(laundryItemInfo.getPrice());
 
@@ -145,7 +145,7 @@ public class LaundryService {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
         LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
 
-        if(laundry!= null && laundryItem != null){
+        if(laundry!= null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()){
             laundryItem.setWithdrawn(true);
 
             return true;
