@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("FavoriteGetResponse")
+@ApiModel("FavoriteLaundryGetResponse")
 public class FavoriteLaundryGetRes {
     @ApiModelProperty(name = "세탁소 ID")
     Long laundryId;
