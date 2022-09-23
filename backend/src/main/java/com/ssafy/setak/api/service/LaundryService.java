@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.Tuple;
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -37,6 +39,11 @@ public class LaundryService {
                         .build());
     }
 
+    public List<Tuple> selectAllLaundryOrderByDistance(Long userId){
+        List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByDistance(userId);
+        System.out.println(laundries.size());
+        return laundries;
+    }
 
     public Laundry selectLaundry(Long laundryId){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
