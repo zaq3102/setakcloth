@@ -28,11 +28,13 @@ public class Order {
     private String hash;
 
     private LocalDate reviewDate;
-    private int reviewScore;
+    private Integer reviewScore;
     private String reviewContent;
 
     @Enumerated(EnumType.STRING)
     private OrderType orderType;
+
+    Boolean isImg;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
