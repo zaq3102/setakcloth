@@ -23,4 +23,6 @@ public class LaundryItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "laundry_id")
     private Laundry laundry;
+
+    private boolean isWithdrawn;
 }
