@@ -148,6 +148,21 @@ public class LaundryController {
     }
 
     //TODO: 세탁소 아이템 수정
+    @PostMapping("/{laundry_id}/item/{laundry_item_id}/update")
+    @ApiOperation(value = "세탁소 아이템 수정", notes = "세탁소 아이템 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 아이템 추가 실패")
+    })
+    public ResponseEntity<?> updateLaundryItem(@PathVariable("laundry_id") Long laundryId, @PathVariable("laundry_item_id") Long laundryItemId, @RequestBody LaundryItemAddReq laundryItemInfo){
+        LaundryItem laundryItem = laundryService.updateLaundryItem(laundryId, laundryItemId, laundryItemInfo);
+
+        if(laundryItem != null){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } else {
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry or LaundryItem Not Found"));
+        }
+    }
 
     //TODO: 세탁소 아이템 삭제
 }
