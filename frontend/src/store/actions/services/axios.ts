@@ -51,15 +51,8 @@ requestAuth.interceptors.response.use(
   },
   async (error) => {
     const result = error.config;
-    console.log(error);
 
     // 로그아웃
-    if (
-      (result.url === '/logout' || result.url === '/ceo/logout') &&
-      result.method === 'delete'
-    ) {
-      return Promise.reject(error);
-    }
 
     // 로직 구현하기
 

@@ -1,4 +1,10 @@
-import { LOGIN, SOCIAL_LOGIN, LOGOUT } from '../actions/types/types';
+import {
+  LOGIN_CTM,
+  LOGIN_CEO,
+  SOCIAL_LOGIN_CTM,
+  SOCIAL_LOGIN_CEO,
+  LOGOUT
+} from '../actions/types/types';
 
 export const initState = {
   token: '', // accessToken
@@ -6,28 +12,34 @@ export const initState = {
   loginType: '' // 1: 고객, 0: 사업자
 };
 
-export default (action, state = initState) => {
-  switch (action) {
-    case LOGIN:
+export default (state = initState, action) => {
+  switch (action.type) {
+    case LOGIN_CTM:
       return {
-        ...state,
-        // token: action.payload.data.result.accessToken,
-        snsType: 0
+        token: action.payload.data.accessToken,
+        snsType: 0,
+        loginType: 0
       };
-    case SOCIAL_LOGIN:
+    case LOGIN_CEO:
       return {
-        ...state,
-        // token: action.payload.data.result.accessToken,
-        snsType: 1
+        token: action.payload.data.accessToken,
+        snsType: 0,
+        loginType: 1
+      };
+    case SOCIAL_LOGIN_CTM:
+      return {
+        token: action.payload.data.accessToken,
+        snsType: 1,
+        loginType: 0
+      };
+    case SOCIAL_LOGIN_CEO:
+      return {
+        token: action.payload.data.accessToken,
+        snsType: 1,
+        loginType: 1
       };
     case LOGOUT:
       return initState;
-    // return {
-    //   ...state,
-    //   token: '',
-    //   snsType: '',
-    //   loginType: ''
-    // };
     default:
       return state;
   }
