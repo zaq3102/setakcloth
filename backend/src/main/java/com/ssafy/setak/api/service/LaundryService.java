@@ -127,4 +127,18 @@ public class LaundryService {
 
         return null;
     }
+
+    @Transactional
+    public boolean deleteLaundryItem(Long laundryId, Long laundryItemId){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+        LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
+
+        if(laundry!= null && laundryItem != null){
+            laundryItem.setWithdrawn(true);
+
+            return true;
+        }
+
+        return false;
+    }
 }
