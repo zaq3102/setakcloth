@@ -2,7 +2,8 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
-import com.ssafy.setak.api.response.LaundryGetRes;
+import com.ssafy.setak.api.response.LaundriesGetRes;
+import com.ssafy.setak.api.response.LaundryDetailGetRes;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
@@ -11,9 +12,11 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.Tuple;
+import java.util.List;
 
 
 @Api(value = "Laundry API", tags = {"Laundry"})
@@ -37,7 +40,19 @@ public class LaundryController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    //TODO: 세탁소 전체 조회 - 거리순
+    @GetMapping("/distance")
+    @ApiOperation(value = "세탁소 전체 조회 - 거리순", notes = "세탁소 전체 조회 - 거리순")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 조회 실패"),
+    })
+    public ResponseEntity<?> getLaundryOrderByDistance(){
+        Long userId = 1L;
+        List<Tuple> laundries = laundryService.selectAllLaundryOrderByDistance(userId);
+
+        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+    }
+
     //TODO: 세탁소 전체 조회 - 리뷰많은 순 (특정거리 이내)
     //TODO: 세탁소 전체 조회 - 별점 순 (특정거리 이내)
 
@@ -51,7 +66,7 @@ public class LaundryController {
     public ResponseEntity<?> getLaundry(@PathVariable("laundry_id") Long laundryId){
         Laundry laundry = laundryService.selectLaundry(laundryId);
         if(laundry != null){
-            return ResponseEntity.status(200).body(LaundryGetRes.of(200, "Success", laundry));
+            return ResponseEntity.status(200).body(LaundryDetailGetRes.of(200, "Success", laundry));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
         }
