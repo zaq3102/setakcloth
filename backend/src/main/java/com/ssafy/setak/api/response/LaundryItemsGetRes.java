@@ -1,7 +1,6 @@
 package com.ssafy.setak.api.response;
 
 
-
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
@@ -36,10 +35,10 @@ public class LaundryItemsGetRes extends BaseResponseBody {
         return res;
     }
 
-    public void setLaundryItems(List<LaundryItem> list){
+    public void setLaundryItems(List<LaundryItem> list) {
         laundryItems = new ArrayList<>();
-        for(LaundryItem item : list){
-            if(item.isWithdrawn()) continue;
+        for (LaundryItem item : list) {
+            if (item.isWithdrawn()) continue;
             laundryItems.add(LaundryItemGetRes.of(item.getId(), item.getName(), item.getPrice()));
         }
     }

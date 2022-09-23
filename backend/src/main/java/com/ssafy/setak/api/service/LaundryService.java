@@ -32,38 +32,38 @@ public class LaundryService {
     private LaundryItemRepository laundryItemRepository;
 
     @Transactional
-    public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo){
+    public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo) {
 //        User ceoUser = userRepository.findById(ceoUserId).orElseThrow(NullPointerException::new);
 
         laundryRepository.save(Laundry.builder()
-                        .regNum(laundryInfo.getRegNum())
-                        .laundryName(laundryInfo.getLaundryName())
-                        .ceoName(laundryInfo.getCeoName())
-                        .regDate(LocalDate.now())
-                        .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
-                        .userId(ceoUserId)
-                        .build());
+                .regNum(laundryInfo.getRegNum())
+                .laundryName(laundryInfo.getLaundryName())
+                .ceoName(laundryInfo.getCeoName())
+                .regDate(LocalDate.now())
+                .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
+                .userId(ceoUserId)
+                .build());
     }
 
-    public List<Tuple> selectAllLaundryOrderByDistance(Long userId){
+    public List<Tuple> selectAllLaundryOrderByDistance(Long userId) {
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByDistance(userId);
         return laundries;
     }
 
-    public List<Tuple> selectAllLaundryOrderByOrder(Long userId){
+    public List<Tuple> selectAllLaundryOrderByOrder(Long userId) {
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByOrder(userId);
         return laundries;
     }
 
-    public List<Tuple> selectAllLaundryOrderByScore(Long userId){
+    public List<Tuple> selectAllLaundryOrderByScore(Long userId) {
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByScore(userId);
         return laundries;
     }
 
-    public Laundry selectLaundry(Long laundryId){
+    public Laundry selectLaundry(Long laundryId) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null && !laundry.isWithdrawn()){
+        if (laundry != null && !laundry.isWithdrawn()) {
             return laundry;
         }
 
@@ -71,10 +71,10 @@ public class LaundryService {
     }
 
     @Transactional
-    public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo){
+    public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null && !laundry.isWithdrawn()){
+        if (laundry != null && !laundry.isWithdrawn()) {
             laundry.setRegNum(laundryInfo.getRegNum());
             laundry.setLaundryName(laundryInfo.getLaundryName());
             laundry.setCeoName(laundryInfo.getCeoName());
@@ -92,10 +92,10 @@ public class LaundryService {
     }
 
     @Transactional
-    public boolean deleteLaundry(Long laundryId){
+    public boolean deleteLaundry(Long laundryId) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry!= null && !laundry.isWithdrawn()){
+        if (laundry != null && !laundry.isWithdrawn()) {
             laundry.setWithdrawn(true);
 
             return true;
@@ -105,7 +105,7 @@ public class LaundryService {
     }
 
     @Transactional
-    public void addLaundryItem(Long laundryId, LaundryItemAddReq laundryItemInfo){
+    public void addLaundryItem(Long laundryId, LaundryItemAddReq laundryItemInfo) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
         laundryItemRepository.save(LaundryItem.builder()
@@ -115,10 +115,10 @@ public class LaundryService {
                 .build());
     }
 
-    public List<LaundryItem> getLaundryItems(Long laundryId){
+    public List<LaundryItem> getLaundryItems(Long laundryId) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        if(laundry != null && !laundry.isWithdrawn()){
+        if (laundry != null && !laundry.isWithdrawn()) {
             return laundry.getLaundryItems();
         }
 
@@ -126,11 +126,11 @@ public class LaundryService {
     }
 
     @Transactional
-    public LaundryItem updateLaundryItem(Long laundryId, Long laundryItemId, LaundryItemAddReq laundryItemInfo){
+    public LaundryItem updateLaundryItem(Long laundryId, Long laundryItemId, LaundryItemAddReq laundryItemInfo) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
         LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
 
-        if(laundry!= null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()){
+        if (laundry != null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()) {
             laundryItem.setName(laundryItemInfo.getName());
             laundryItem.setPrice(laundryItemInfo.getPrice());
 
@@ -141,11 +141,11 @@ public class LaundryService {
     }
 
     @Transactional
-    public boolean deleteLaundryItem(Long laundryId, Long laundryItemId){
+    public boolean deleteLaundryItem(Long laundryId, Long laundryItemId) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
         LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
 
-        if(laundry!= null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()){
+        if (laundry != null && laundryItem != null && !laundry.isWithdrawn() && !laundryItem.isWithdrawn()) {
             laundryItem.setWithdrawn(true);
 
             return true;

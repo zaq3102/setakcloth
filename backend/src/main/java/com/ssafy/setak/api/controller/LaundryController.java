@@ -37,7 +37,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
-    public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo){
+    public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
         Long ceoUserId = 1L;
 
         laundryService.createLaundry(ceoUserId, laundryInfo);
@@ -50,7 +50,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 조회 실패"),
     })
-    public ResponseEntity<?> getLaundryOrderByDistance(){
+    public ResponseEntity<?> getLaundryOrderByDistance() {
         Long userId = 1L;
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByDistance(userId);
 
@@ -63,7 +63,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 주문 많은 순 전체 조회 실패"),
     })
-    public ResponseEntity<?> getLaundryOrderByOrder(){
+    public ResponseEntity<?> getLaundryOrderByOrder() {
         Long userId = 1L;
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByOrder(userId);
 
@@ -76,7 +76,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 별점 순 전체 조회 실패"),
     })
-    public ResponseEntity<?> getLaundryOrderByScore(){
+    public ResponseEntity<?> getLaundryOrderByScore() {
         Long userId = 1L;
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByScore(userId);
 
@@ -91,9 +91,9 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 조회 실패"),
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
-    public ResponseEntity<?> getLaundry(@PathVariable("laundry_id") Long laundryId){
+    public ResponseEntity<?> getLaundry(@PathVariable("laundry_id") Long laundryId) {
         Laundry laundry = laundryService.selectLaundry(laundryId);
-        if(laundry != null){
+        if (laundry != null) {
             return ResponseEntity.status(200).body(LaundryDetailGetRes.of(200, "Success", laundry));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
@@ -108,8 +108,8 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 수정 실패"),
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
-    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo){
-        if(laundryService.updateLaundry(laundryId, laundryInfo) != null)
+    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo) {
+        if (laundryService.updateLaundry(laundryId, laundryInfo) != null)
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         else
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
@@ -121,8 +121,8 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 삭제 실패")
     })
-    public ResponseEntity<?> deleteLaundry(@PathVariable("laundry_id") Long laundryId){
-        if(laundryService.deleteLaundry(laundryId)){
+    public ResponseEntity<?> deleteLaundry(@PathVariable("laundry_id") Long laundryId) {
+        if (laundryService.deleteLaundry(laundryId)) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
@@ -135,7 +135,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 아이템 추가 실패")
     })
-    public ResponseEntity<?> addLaundryItem(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryItemAddReq laundryItemInfo){
+    public ResponseEntity<?> addLaundryItem(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryItemAddReq laundryItemInfo) {
         laundryService.addLaundryItem(laundryId, laundryItemInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
@@ -147,10 +147,10 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 아이템 전체 조회 실패"),
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
-    public ResponseEntity<?> getLaundryItems(@PathVariable("laundry_id") Long laundryId){
+    public ResponseEntity<?> getLaundryItems(@PathVariable("laundry_id") Long laundryId) {
         List<LaundryItem> laundryItems = laundryService.getLaundryItems(laundryId);
 
-        if(laundryItems != null){
+        if (laundryItems != null) {
             return ResponseEntity.status(200).body(LaundryItemsGetRes.of(200, "Success", laundryItems));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
@@ -163,10 +163,10 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 아이템 추가 실패")
     })
-    public ResponseEntity<?> updateLaundryItem(@PathVariable("laundry_id") Long laundryId, @PathVariable("laundry_item_id") Long laundryItemId, @RequestBody LaundryItemAddReq laundryItemInfo){
+    public ResponseEntity<?> updateLaundryItem(@PathVariable("laundry_id") Long laundryId, @PathVariable("laundry_item_id") Long laundryItemId, @RequestBody LaundryItemAddReq laundryItemInfo) {
         LaundryItem laundryItem = laundryService.updateLaundryItem(laundryId, laundryItemId, laundryItemInfo);
 
-        if(laundryItem != null){
+        if (laundryItem != null) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry or LaundryItem Not Found"));
@@ -179,8 +179,8 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 아이템 삭제 실패")
     })
-    public ResponseEntity<?> deleteLaundryItem(@PathVariable("laundry_id") Long laundryId, @PathVariable("laundry_item_id") Long laundryItemId){
-        if(laundryService.deleteLaundryItem(laundryId, laundryItemId)){
+    public ResponseEntity<?> deleteLaundryItem(@PathVariable("laundry_id") Long laundryId, @PathVariable("laundry_item_id") Long laundryItemId) {
+        if (laundryService.deleteLaundryItem(laundryId, laundryItemId)) {
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry or LaundryItem Not Found"));

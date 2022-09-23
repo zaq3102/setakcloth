@@ -9,13 +9,13 @@ import lombok.Data;
 @Data
 @ApiModel("ReviewResponse")
 public class ReviewRes {
-    @ApiModelProperty(name="세탁소이름")
+    @ApiModelProperty(name = "세탁소이름")
     String laundryName;
-    @ApiModelProperty(name="닉네임")
+    @ApiModelProperty(name = "닉네임")
     String userNickName;
-    @ApiModelProperty(name="점수")
+    @ApiModelProperty(name = "점수")
     int score;
-    @ApiModelProperty(name="내용")
+    @ApiModelProperty(name = "내용")
     String content;
 
 

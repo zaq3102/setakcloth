@@ -21,7 +21,7 @@ public class CeoUserRes {
     boolean isSocial;
 
 
-    public static CeoUserRes of (User ceoUser) {
+    public static CeoUserRes of(User ceoUser) {
         CeoUserRes res = new CeoUserRes();
         res.setCeoId(ceoUser.getId());
         res.setEmail(ceoUser.getCeoEmail());

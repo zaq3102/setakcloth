@@ -282,7 +282,7 @@ public class UserController {
     public ResponseEntity<? extends BaseResponseBody> duplicateCheck(@RequestParam String email) {
         //        Long userId = jwtService.getUserId();-
         try {
-            if (!userService.existsByUserEmail(email)&&!userService.existsByCeoEmail(email)) {
+            if (!userService.existsByUserEmail(email) && !userService.existsByCeoEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
                 return ResponseEntity.status(202).body(BaseResponseBody.of(202, "이미 존재 하는 아이디입니다."));
@@ -324,8 +324,8 @@ public class UserController {
 
         try {
             Long userId = jwtService.getUserId();
-            List<Favorite> res =userService.getFavorites(userId);
-            return ResponseEntity.status(201).body(FavoriteGetRes.of(201, "Success" ,res));
+            List<Favorite> res = userService.getFavorites(userId);
+            return ResponseEntity.status(201).body(FavoriteGetRes.of(201, "Success", res));
 
 
         } catch (Exception e) {

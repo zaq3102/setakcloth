@@ -25,9 +25,10 @@ public class FavoriteGetRes extends BaseResponseBody {
         res.setLaundrys(favorites);
         return res;
     }
-    public void setLaundrys(List<Favorite> favorites){
+
+    public void setLaundrys(List<Favorite> favorites) {
         this.laundrys = new ArrayList<FavoriteLaundryGetRes>();
-        for(Favorite favorite : favorites){
+        for (Favorite favorite : favorites) {
             this.laundrys.add(FavoriteLaundryGetRes.of(favorite));
         }
     }

@@ -1,7 +1,6 @@
 package com.ssafy.setak.api.response;
 
 
-
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;

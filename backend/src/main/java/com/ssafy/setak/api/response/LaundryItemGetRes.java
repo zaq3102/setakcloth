@@ -1,7 +1,6 @@
 package com.ssafy.setak.api.response;
 
 
-
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.LaundryItem;
 import io.swagger.annotations.ApiModel;
@@ -17,13 +16,13 @@ import java.util.List;
 @ApiModel("LaundryItemGetResponse")
 public class LaundryItemGetRes {
 
-    @ApiModelProperty(name="항목 ID")
+    @ApiModelProperty(name = "항목 ID")
     Long id;
 
-    @ApiModelProperty(name="항목 명")
+    @ApiModelProperty(name = "항목 명")
     String name;
 
-    @ApiModelProperty(name="가격")
+    @ApiModelProperty(name = "가격")
     long price;
 
     public static LaundryItemGetRes of(Long id, String name, long price) {

@@ -47,7 +47,7 @@ public class OrderService {
                 .totalPrice(count)
                 .state(0)
                 .hash("hash")
-                .orderType(orderInfo.getOrderType() == 0? OrderType.DELIVERY : OrderType.PICKUP)
+                .orderType(orderInfo.getOrderType() == 0 ? OrderType.DELIVERY : OrderType.PICKUP)
                 .user(userRepository.findById(userId).orElse(null))
                 .laundry(laundryRepository.findById(orderInfo.getLaundryId()).orElse(null))
                 .build();
@@ -56,11 +56,10 @@ public class OrderService {
         for (int i = 0; i < orderDetails.size(); i++) {
             Long laundryItemID = orderDetails.get(i);
             orderDetailRepository.save(OrderDetail.builder()
-                            .laundryItemId(laundryItemID)
-                            .order(order)
+                    .laundryItemId(laundryItemID)
+                    .order(order)
                     .build());
         }
-
 
 
     }
@@ -68,15 +67,16 @@ public class OrderService {
     public Order selectOrder(Long orderId) {
         Order order = orderRepository.findById(orderId).orElse(null);
 
-        if(order != null){
+        if (order != null) {
             return order;
         }
 
         return null;
+    }
 
     @Transactional
     public void registerReview(long orderId, ReviewPostReq reviewInfo) {
-        Order order =  orderRepository.findById(orderId).orElse(null);
+        Order order = orderRepository.findById(orderId).orElse(null);
         System.out.println(order.getId());
         order.setReviewContent(reviewInfo.getContent());
         order.setReviewScore(reviewInfo.getScore());
@@ -88,7 +88,7 @@ public class OrderService {
     }
 
     public List<Order> getOrdersbyUser(Long userId) {
-        List<Order> orders =orderRepository.findByUserId(userId);
+        List<Order> orders = orderRepository.findByUserId(userId);
         return orders;
     }
 }

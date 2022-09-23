@@ -5,6 +5,7 @@ import com.ssafy.setak.api.response.OrderGetRes;
 import com.ssafy.setak.api.request.ReviewPostReq;
 import com.ssafy.setak.api.response.ReviewGetRes;
 import com.ssafy.setak.api.service.JwtService;
+import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.api.service.OrderService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
@@ -38,7 +39,7 @@ public class OrderController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "주문 등록 실패")
     })
-    public ResponseEntity<?> createOrder(@RequestBody OrderCreateReq orderInfo){
+    public ResponseEntity<?> createOrder(@RequestBody OrderCreateReq orderInfo) {
 //        Long userId = jwtService.getUserId();
         Long userId = 1l;
 
@@ -52,7 +53,7 @@ public class OrderController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "고객 주문 전체 조회 실패")
     })
-    public ResponseEntity<?> getOrdersByUserId(){
+    public ResponseEntity<?> getOrdersByUserId() {
 
         //        Long userId = jwtService.getUserId();
         Long userId = 1l;
@@ -67,9 +68,9 @@ public class OrderController {
             @ApiResponse(code = 500, message = "주문 조회 실패"),
             @ApiResponse(code = 404, message = "주문 없음"),
     })
-    public ResponseEntity<?> getOrder(@PathVariable("order_id") Long orderId){
+    public ResponseEntity<?> getOrder(@PathVariable("order_id") Long orderId) {
         Order order = orderService.selectOrder(orderId);
-        if(order != null){
+        if (order != null) {
             return ResponseEntity.status(200).body(OrderGetRes.of(200, "Success", order));
         } else {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
@@ -82,7 +83,7 @@ public class OrderController {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 500, message = "리뷰 등록실패")
     })
-    public ResponseEntity<? extends BaseResponseBody > registerReview(@PathVariable("order_id") String orderId, @RequestBody ReviewPostReq reviewInfo) {
+    public ResponseEntity<? extends BaseResponseBody> registerReview(@PathVariable("order_id") String orderId, @RequestBody ReviewPostReq reviewInfo) {
         try {
             orderService.registerReview(Long.parseLong(orderId), reviewInfo);
             return ResponseEntity.status(201).body(
@@ -102,7 +103,7 @@ public class OrderController {
             @ApiResponse(code = 200, message = "Created"),
             @ApiResponse(code = 500, message = "내 리뷰 조회")
     })
-    public ResponseEntity<? extends BaseResponseBody > GetUserReview() {
+    public ResponseEntity<? extends BaseResponseBody> GetUserReview() {
         try {
             Long userId = jwtService.getUserId();
             System.out.println(userId);
@@ -110,7 +111,7 @@ public class OrderController {
             System.out.println(res.size());
 
             return ResponseEntity.status(200).body(
-                    ReviewGetRes.of(200, "Success",res)
+                    ReviewGetRes.of(200, "Success", res)
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -127,20 +128,20 @@ public class OrderController {
             @ApiResponse(code = 500, message = "세탁소 리뷰 조회 실패"),
             @ApiResponse(code = 401, message = "세탁소 조회 실패")
     })
-    public ResponseEntity<? extends BaseResponseBody > GetLaundryReview(@PathVariable("laundry_id") String Id) {
+    public ResponseEntity<? extends BaseResponseBody> GetLaundryReview(@PathVariable("laundry_id") String Id) {
         try {
             Long laundryId = Long.parseLong(Id);
             Laundry laundry = laundryService.selectLaundry(laundryId);
-            if(laundry == null){
+            if (laundry == null) {
                 return ResponseEntity.status(401).body(
                         BaseResponseBody.of(401, "세탁소 조회 실패")
                 );
 
             }
-            List<Order> res =laundry.getOrders();
+            List<Order> res = laundry.getOrders();
 
             return ResponseEntity.status(200).body(
-                    ReviewGetRes.of(200, "Success",res)
+                    ReviewGetRes.of(200, "Success", res)
             );
         } catch (Exception e) {
             System.out.println(e.getMessage());

@@ -1,7 +1,6 @@
 package com.ssafy.setak.api.response;
 
 
-
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
@@ -30,11 +29,11 @@ public class LaundriesGetRes extends BaseResponseBody {
         return res;
     }
 
-    public void setLaundries(List<Tuple> tuples){
+    public void setLaundries(List<Tuple> tuples) {
         laundries = new ArrayList<>();
-        for(Tuple tuple : tuples){
+        for (Tuple tuple : tuples) {
             Laundry laundry = (Laundry) tuple.get(0);
-            if(laundry.isWithdrawn()) continue;
+            if (laundry.isWithdrawn()) continue;
             laundries.add(LaundryGetRes.of(laundry, Float.valueOf(tuple.get(1).toString()), Float.valueOf(tuple.get(2).toString())));
         }
     }

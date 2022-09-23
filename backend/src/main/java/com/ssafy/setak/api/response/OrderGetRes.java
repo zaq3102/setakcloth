@@ -62,9 +62,10 @@ public class OrderGetRes {
         res.setOrderDetails(order.getOrderDetails());
         return res;
     }
-    public void setOrderDetails(List<OrderDetail> details){
+
+    public void setOrderDetails(List<OrderDetail> details) {
         orderDetails = new ArrayList<>();
-        for(OrderDetail detail : details){
+        for (OrderDetail detail : details) {
             orderDetails.add(OrderDetailRes.of(detail.getLaundryItemId(), detail.getBlockAddr1(), detail.getBlockAddr2(), detail.getBlockAddr3()));
         }
     }
