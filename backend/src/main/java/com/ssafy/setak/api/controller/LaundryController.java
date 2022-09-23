@@ -116,6 +116,19 @@ public class LaundryController {
     }
 
     //TODO: 세탁소 삭제
+    @PostMapping("/{laundry_id}/delete")
+    @ApiOperation(value = "세탁소 삭제", notes = "세탁소 삭제")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 삭제 실패")
+    })
+    public ResponseEntity<?> deleteLaundry(@PathVariable("laundry_id") Long laundryId){
+        if(laundryService.deleteLaundry(laundryId)){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } else {
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
+        }
+    }
 
     //TODO: 세탁소 아이템 추가
     @PostMapping("/{laundry_id}/item/add")
