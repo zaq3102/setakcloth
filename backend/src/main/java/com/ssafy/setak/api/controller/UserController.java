@@ -276,7 +276,7 @@ public class UserController {
     @ApiOperation(value = "아이디 중복 검사", notes = "아이디 중복 검사")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 409, message = "이미 존재하는 아이디입니다"),
+            @ApiResponse(code = 202, message = "이미 존재하는 아이디입니다"),
             @ApiResponse(code = 500, message = "아이디 중복 검사 실패")
     })
     public ResponseEntity<? extends BaseResponseBody> duplicateCheck(@RequestParam String email) {
@@ -285,16 +285,16 @@ public class UserController {
             if (!userService.existsByUserEmail(email)&&!userService.existsByCeoEmail(email)) {
                 return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
             } else {
-                return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
+                return ResponseEntity.status(202).body(BaseResponseBody.of(202, "이미 존재 하는 아이디입니다."));
             }
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "이미 존재 하는 아이디입니다."));
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "아이디 중복 검사 실패"));
         }
     }
 
 
     @PostMapping("/favorite/add")
-    @ApiOperation(value = "즐겨찾기 틍록", notes = "즐겨찾기 등록")
+    @ApiOperation(value = "즐겨찾기 등록", notes = "즐겨찾기 등록")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success"),
 
@@ -314,11 +314,11 @@ public class UserController {
     }
 
     @GetMapping("/favorite")
-    @ApiOperation(value = "즐겨찾기 틍록", notes = "즐겨찾기 등록")
+    @ApiOperation(value = "즐겨찾기 조회", notes = "즐겨찾기 조회")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Success"),
 
-            @ApiResponse(code = 500, message = "즐겨 찾기 등록 실패")
+            @ApiResponse(code = 500, message = "즐겨 찾기 조회 실패")
     })
     public ResponseEntity<? extends BaseResponseBody> getFavorites() {
 
