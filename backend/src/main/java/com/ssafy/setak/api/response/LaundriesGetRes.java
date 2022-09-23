@@ -17,7 +17,7 @@ import java.util.List;
  * 세탁소 정보 조회 API ([GET] /api/laundry/distance) 요청에 대한 응답값 정의.
  */
 @Data
-@ApiModel("LaundriesGetRes")
+@ApiModel("LaundriesGetResponse")
 public class LaundriesGetRes extends BaseResponseBody {
     @ApiModelProperty(name = "세탁소 ID")
     List<LaundryGetRes> laundries;
