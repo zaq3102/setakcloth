@@ -51,7 +51,11 @@ public class LaundryGetRes {
     @ApiModelProperty(name = "거리")
     float distance;
 
-    public static LaundryGetRes of(Laundry laundry, float dis) {
+    @ApiModelProperty(name = "별점")
+    float score;
+
+
+    public static LaundryGetRes of(Laundry laundry, float dis, float score) {
         LaundryGetRes res = new LaundryGetRes();
         res.setLaundryId(laundry.getId());
         res.setLaundryName(laundry.getLaundryName());
@@ -64,6 +68,7 @@ public class LaundryGetRes {
         res.setDeliverCost(laundry.getDeliveryCost());
         res.setPickup(laundry.isPickup());
         res.setDistance(dis);
+        res.setScore(score);
         return res;
     }
 }
