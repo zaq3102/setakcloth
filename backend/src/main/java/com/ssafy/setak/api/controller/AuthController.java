@@ -116,10 +116,10 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    @ApiOperation(value = "고객 로그아웃", notes = "고객 로그아웃을 한다.")
+    @ApiOperation(value = "로그아웃", notes = "로그아웃을 한다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "고객 로그아웃 실패")
+            @ApiResponse(code = 500, message = "로그아웃 실패")
     })
     public ResponseEntity<? extends AuthRes> logout(HttpServletRequest request, HttpServletResponse response) {
         try {
@@ -151,7 +151,7 @@ public class AuthController {
             }
             return ResponseEntity.status(200).body(AuthRes.of(200, "Success", null, true, -1l));
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(AuthRes.of(500, "고객 로그아웃 실패", null, false, -1l));
+            return ResponseEntity.status(500).body(AuthRes.of(500, "로그아웃 실패", null, false, -1l));
         }
     }
 
