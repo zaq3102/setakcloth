@@ -112,4 +112,19 @@ public class LaundryService {
 
         return null;
     }
+
+    @Transactional
+    public LaundryItem updateLaundryItem(Long laundryId, Long laundryItemId, LaundryItemAddReq laundryItemInfo){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+        LaundryItem laundryItem = laundryItemRepository.findById(laundryItemId).orElse(null);
+
+        if(laundry!= null && laundryItem != null){
+            laundryItem.setName(laundryItemInfo.getName());
+            laundryItem.setPrice(laundryItemInfo.getPrice());
+
+            return laundryItem;
+        }
+
+        return null;
+    }
 }
