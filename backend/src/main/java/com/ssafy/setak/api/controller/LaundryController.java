@@ -6,9 +6,11 @@ import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.api.response.LaundriesGetRes;
 import com.ssafy.setak.api.response.LaundryDetailGetRes;
 import com.ssafy.setak.api.response.LaundryGetRes;
+import com.ssafy.setak.api.response.LaundryItemsGetRes;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
+import com.ssafy.setak.db.entity.LaundryItem;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -128,6 +130,22 @@ public class LaundryController {
     }
 
     //TODO: 세탁소 아이템 조회
+    @GetMapping("/{laundry_id}/item")
+    @ApiOperation(value = "세탁소 아이템 전체 조회", notes = "세탁소 아이템 전체 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 아이템 전체 조회 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
+    })
+    public ResponseEntity<?> getLaundryItems(@PathVariable("laundry_id") Long laundryId){
+        List<LaundryItem> laundryItems = laundryService.getLaundryItems(laundryId);
+
+        if(laundryItems != null){
+            return ResponseEntity.status(200).body(LaundryItemsGetRes.of(200, "Success", laundryItems));
+        } else {
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
+        }
+    }
 
     //TODO: 세탁소 아이템 수정
 
