@@ -33,6 +33,7 @@ public class LaundryItemsGetRes extends BaseResponseBody {
     public void setLaundryItems(List<LaundryItem> list){
         laundryItems = new ArrayList<>();
         for(LaundryItem item : list){
+            if(item.isWithdrawn()) continue;
             laundryItems.add(LaundryItemGetRes.of(item.getId(), item.getName(), item.getPrice()));
         }
     }
