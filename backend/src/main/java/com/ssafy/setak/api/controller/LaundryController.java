@@ -115,7 +115,6 @@ public class LaundryController {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
     }
 
-    //TODO: 세탁소 삭제
     @PostMapping("/{laundry_id}/delete")
     @ApiOperation(value = "세탁소 삭제", notes = "세탁소 삭제")
     @ApiResponses({
@@ -130,7 +129,6 @@ public class LaundryController {
         }
     }
 
-    //TODO: 세탁소 아이템 추가
     @PostMapping("/{laundry_id}/item/add")
     @ApiOperation(value = "세탁소 아이템 추가", notes = "세탁소 아이템 추가")
     @ApiResponses({
@@ -142,7 +140,6 @@ public class LaundryController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    //TODO: 세탁소 아이템 조회
     @GetMapping("/{laundry_id}/item")
     @ApiOperation(value = "세탁소 아이템 전체 조회", notes = "세탁소 아이템 전체 조회")
     @ApiResponses({
@@ -160,7 +157,6 @@ public class LaundryController {
         }
     }
 
-    //TODO: 세탁소 아이템 수정
     @PostMapping("/{laundry_id}/item/{laundry_item_id}/update")
     @ApiOperation(value = "세탁소 아이템 수정", notes = "세탁소 아이템 수정")
     @ApiResponses({
@@ -177,7 +173,6 @@ public class LaundryController {
         }
     }
 
-    //TODO: 세탁소 아이템 삭제
     @PostMapping("/{laundry_id}/item/{laundry_item_id}/delete")
     @ApiOperation(value = "세탁소 아이템 삭제", notes = "세탁소 아이템 삭제")
     @ApiResponses({
