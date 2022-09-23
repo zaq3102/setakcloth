@@ -2,6 +2,7 @@ package com.ssafy.setak.config;
 
 //import com.ssafy.common.interceptor.JwtInterceptor;
 //import com.ssafy.common.util.JwtTokenUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +21,7 @@ import javax.servlet.Filter;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    private static final String[] EXCLUDE_PATHS = {
+    //    private static final String[] EXCLUDE_PATHS = {
 //            "/auth/login",
 //            "/auth/logout",
 //            "/auth/refresh",
@@ -44,20 +45,20 @@ public class WebMvcConfig implements WebMvcConfigurer {
 //                .addPathPatterns("/room/*/check")
 //                .addPathPatterns("/room/*/log");
 //    }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        // configuration.addAllowedOrigin("*");
-//        configuration.addAllowedOriginPattern("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedHeader("*");
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
 //        configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
-//        configuration.setAllowCredentials(true);
-//        configuration.setMaxAge(3600L);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -87,4 +88,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.addUrlPatterns("/*");
         return registration;
     }
+
 }
