@@ -53,24 +53,21 @@ public class LaundryController {
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
     }
 
-    //TODO: 세탁소 전체 조회 - 리뷰많은 순 (특정거리 이내)
-    //TODO: 세탁소 전체 조회 - 별점 순 (특정거리 이내)
-
-    @GetMapping("/{laundry_id}")
-    @ApiOperation(value = "세탁소 상세 조회", notes = "세탁소 상세 조회")
+    //TODO: 세탁소 전체 조회 - 주문많은 순 (특정거리 이내)
+    @GetMapping("/order")
+    @ApiOperation(value = "세탁소 전체 조회 - 주문 많은 순", notes = "세탁소 전체 조회 - 주문 많은 순")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "세탁소 조회 실패"),
-            @ApiResponse(code = 404, message = "세탁소 없음"),
+            @ApiResponse(code = 500, message = "세탁소 주문 많은 순 전체 조회 실패"),
     })
-    public ResponseEntity<?> getLaundry(@PathVariable("laundry_id") Long laundryId){
-        Laundry laundry = laundryService.selectLaundry(laundryId);
-        if(laundry != null){
-            return ResponseEntity.status(200).body(LaundryDetailGetRes.of(200, "Success", laundry));
-        } else {
-            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
-        }
+    public ResponseEntity<?> getLaundryOrderByOrder(){
+        Long userId = 1L;
+        List<Tuple> laundries = laundryService.selectAllLaundryOrderByOrder(userId);
+
+        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
     }
+
+    //TODO: 세탁소 전체 조회 - 별점 순 (특정거리 이내)
 
 
     @PostMapping("/{laundry_id}/update")
