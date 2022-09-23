@@ -17,14 +17,18 @@ import java.util.List;
 @ApiModel("LaundryItemGetResponse")
 public class LaundryItemGetRes {
 
+    @ApiModelProperty(name="항목 ID")
+    Long id;
+
     @ApiModelProperty(name="항목 명")
     String name;
 
     @ApiModelProperty(name="가격")
     long price;
 
-    public static LaundryItemGetRes of(String name, long price) {
+    public static LaundryItemGetRes of(Long id, String name, long price) {
         LaundryItemGetRes res = new LaundryItemGetRes();
+        res.setId(id);
         res.setName(name);
         res.setPrice(price);
         return res;

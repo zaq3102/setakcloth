@@ -58,7 +58,7 @@ public class LaundryDetailGetRes extends BaseResponseBody {
     boolean isPickup;
 
     @ApiModelProperty(name = "세탁 아이템")
-    List<LaundryItemGetRes> laundryItems;
+    LaundryItemsGetRes laundryItems;
 
     public static LaundryDetailGetRes of(Integer statusCode, String message, Laundry laundry) {
         LaundryDetailGetRes res = new LaundryDetailGetRes();
@@ -77,14 +77,8 @@ public class LaundryDetailGetRes extends BaseResponseBody {
         res.setMinCost(laundry.getMinCost());
         res.setDeliverCost(laundry.getDeliveryCost());
         res.setPickup(laundry.isPickup());
-        res.setLaundryItems(laundry.getLaundryItems());
+        res.setLaundryItems(LaundryItemsGetRes.of(laundry.getLaundryItems()));
         return res;
     }
 
-    public void setLaundryItems(List<LaundryItem> items){
-        laundryItems = new ArrayList<>();
-        for(LaundryItem item : items){
-            laundryItems.add(LaundryItemGetRes.of(item.getName(), item.getPrice()));
-        }
-    }
 }

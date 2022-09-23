@@ -44,4 +44,6 @@ public class Laundry {
 
     @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<Order> orders = new ArrayList<>();
+
+    private boolean isWithdrawn;
 }

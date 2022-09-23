@@ -7,25 +7,33 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import { checkEmailRequest } from '../../store/actions/services/userService';
+import {
+  checkEmailRequest,
+  signupCeoRequest,
+  signupRequest
+} from '../../store/actions/services/userService';
 import TOS from './TOS';
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
+  const [pwd, setPwd] = useState('');
+  const [pwdCheck, setPwdCheck] = useState('');
   const [walletpassword, setWalletPassword] = useState('');
   const [walletpasswordCheck, setWalletPasswordCheck] = useState('');
   const [tosCheck, setTosCheck] = useState(false);
   const [page, setPage] = useState(1);
 
+  const navigate = useNavigate();
+
   // 유효성 확인 결과 변수
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const [isPasswordSame, setIsPasswordSame] = useState(false);
+  const [isPwdValid, setIsPwdValid] = useState(false);
+  const [isPwdSame, setIsPwdSame] = useState(false);
+  const [isWalletPwdValid, setIsWalletPwdValid] = useState(false);
+  const [isWalletPwdSame, setIsWalletPwdSame] = useState(false);
 
   // 이메일 중복 체크
   const [emailChecked, setEmailChecked] = useState(999);
@@ -34,6 +42,8 @@ const Signup: React.FC = () => {
     const result = await request(value);
     if (result?.data?.statusCode) {
       setState(result?.data?.statusCode);
+    } else if (result?.request?.status) {
+      setState(result?.request?.status);
     } else {
       alert('올바르지 않은 접근입니다.');
     }
@@ -60,19 +70,19 @@ const Signup: React.FC = () => {
     const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,16}$/;
     const valid = regPassword.test(event.target.value.trim());
 
-    setPassword(event.target.value.trim());
-    setIsPasswordValid(valid);
+    setPwd(event.target.value.trim());
+    setIsPwdValid(valid);
 
     if (event.target.value.trim() && valid) {
-      setIsPasswordSame(
-        event.target.value.trim() && event.target.value.trim() === passwordCheck
+      setIsPwdSame(
+        event.target.value.trim() && event.target.value.trim() === pwdCheck
       );
     }
   };
 
   const passwordCheckChange = (event) => {
-    setPasswordCheck(event.target.value.trim());
-    setIsPasswordSame(password === event.target.value.trim());
+    setPwdCheck(event.target.value.trim());
+    setIsPwdSame(pwd === event.target.value.trim());
   };
 
   const onClickTOS = () => {
@@ -89,22 +99,54 @@ const Signup: React.FC = () => {
 
   const walletpasswordCheckChange = (event) => {
     setWalletPasswordCheck(event.target.value.trim());
+    setIsWalletPwdSame(pwd === event.target.value.trim());
   };
 
   const onClickChange = () => {
     setPage(2);
   };
 
+  const handleSubmit = async () => {
+    const userInfo = {
+      email,
+      pwd,
+      walletAddr: 'migon'
+    };
+
+    let result = '';
+    if (mode === 'customer') {
+      result = await signupRequest(userInfo);
+    } else if (mode === 'ceo') {
+      result = await signupCeoRequest(userInfo);
+    }
+
+    if (result?.data?.message === 'Created') {
+      alert('회원가입을 축하드립니다!');
+      navigate('/login');
+    } else {
+      alert('회원가입에 실패하였습니다!');
+    }
+  };
+
   return (
     <div>
-      <h2>회원가입 페이지 입니다.</h2>
       {page === 1 ? (
-        <div>
+        <div className="signup-page">
           <div className="signup-type">
-            <button type="button" onClick={() => setMode('customer')}>
+            <button
+              type="button"
+              onClick={() => setMode('customer')}
+              className={`${
+                mode === 'customer' ? 'mode-selected' : 'mode-not-selected'
+              }`}>
               고객 회원가입
             </button>
-            <button type="button" onClick={() => setMode('ceo')}>
+            <button
+              type="button"
+              onClick={() => setMode('ceo')}
+              className={`${
+                mode === 'ceo' ? 'mode-selected' : 'mode-not-selected'
+              }`}>
               사업자 회원가입
             </button>
           </div>
@@ -116,9 +158,10 @@ const Signup: React.FC = () => {
             value={email}
             onChange={emailChange}
             autoFocus
+            sx={{ width: 300 }}
           />
           <FormHelperText
-            error={!!email && (!isEmailValid || emailChecked !== 'Success')}>
+            error={!!email && (!isEmailValid || emailChecked !== 200)}>
             {email
               ? isEmailValid
                 ? emailChecked
@@ -129,60 +172,59 @@ const Signup: React.FC = () => {
                 : '유효하지 않은 이메일입니다.'
               : '이메일을 입력해 주세요.'}
           </FormHelperText>
-          <br />
           <TextField
             margin="normal"
             required
             id="password"
             label="비밀번호"
             type="password"
-            value={password}
+            value={pwd}
             onChange={passwordChange}
+            sx={{ width: 300 }}
           />
-          <FormHelperText error={!!password && !isPasswordValid}>
-            {isPasswordValid
+          <FormHelperText error={!!pwd && !isPwdValid}>
+            {isPwdValid
               ? '안전한 비밀번호입니다.'
               : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'}
           </FormHelperText>
-          <br />
           <TextField
             margin="normal"
             required
             id="passwordcheck"
             label="비밀번호 확인"
             type="password"
-            value={passwordCheck}
+            value={pwdCheck}
             onChange={passwordCheckChange}
+            sx={{ width: 300 }}
           />
-          <FormHelperText error={!!passwordCheck && !isPasswordSame}>
-            {!passwordCheck || isPasswordSame
-              ? ' '
-              : '비밀번호가 일치하지 않습니다.'}
+          <FormHelperText error={!!pwdCheck && !isPwdSame}>
+            {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
           </FormHelperText>
-          <br />
           <FormControlLabel
             control={<Checkbox onClick={onClickTOS} />}
             label="세탁클로쓰의 이용약관에 동의합니다. (필수)"
           />
           <TOS />
-          <br />
-          <Link to="/">취소</Link>
-          <button
-            type="button"
-            onClick={onClickChange}
-            disabled={
-              !isEmailValid ||
-              emailChecked !== 200 ||
-              !isPasswordValid ||
-              !isPasswordSame ||
-              !tosCheck
-            }>
-            다음
-          </button>
+          <div className="signup-btn">
+            <Link to="/">취소</Link>
+            <button
+              className="next-btn"
+              type="button"
+              onClick={onClickChange}
+              disabled={
+                !isEmailValid ||
+                emailChecked !== 200 ||
+                !isPwdValid ||
+                !isPwdSame ||
+                !tosCheck
+              }>
+              다음
+            </button>
+          </div>
         </div>
       ) : (
-        <div>
-          <h3>지갑 생성하기</h3>
+        <div className="wallet-page">
+          <div>지갑 생성!</div>
           <TextField
             margin="normal"
             required
@@ -191,8 +233,13 @@ const Signup: React.FC = () => {
             type="password"
             value={walletpassword}
             onChange={walletpasswordChange}
+            sx={{ width: 300 }}
           />
-          <br />
+          <FormHelperText error={!!walletpassword && !isWalletPwdValid}>
+            {isWalletPwdValid
+              ? '안전한 비밀번호입니다.'
+              : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'}
+          </FormHelperText>
           <TextField
             margin="normal"
             required
@@ -201,13 +248,24 @@ const Signup: React.FC = () => {
             type="password"
             value={walletpasswordCheck}
             onChange={walletpasswordCheckChange}
+            sx={{ width: 300 }}
           />
+          <FormHelperText error={!!walletpasswordCheck && !isWalletPwdSame}>
+            {!walletpasswordCheck || isWalletPwdSame
+              ? ' '
+              : '비밀번호가 일치하지 않습니다.'}
+          </FormHelperText>
           <div>⭐️비밀번호 잃어버리면 안된다는 내용.⭐️</div>
-          <br />
-          <Link to="/">취소</Link>
-          <Button variant="contained" color="color2">
-            가입하기
-          </Button>
+          <div className="signup-btn">
+            <Link to="/">취소</Link>
+            <Button
+              variant="contained"
+              color="color2"
+              onClick={handleSubmit}
+              sx={{ ml: 5 }}>
+              가입하기
+            </Button>
+          </div>
         </div>
       )}
     </div>

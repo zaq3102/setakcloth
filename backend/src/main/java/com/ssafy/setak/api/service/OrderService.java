@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.OrderCreateReq;
+import com.ssafy.setak.api.request.ReviewPostReq;
 import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +73,22 @@ public class OrderService {
         }
 
         return null;
+
+    @Transactional
+    public void registerReview(long orderId, ReviewPostReq reviewInfo) {
+        Order order =  orderRepository.findById(orderId).orElse(null);
+        System.out.println(order.getId());
+        order.setReviewContent(reviewInfo.getContent());
+        order.setReviewScore(reviewInfo.getScore());
+        order.setReviewDate(LocalDate.now());
+        order.setIsImg(reviewInfo.isImg());
+        System.out.println(order.getReviewContent());
+        orderRepository.save(order);
+
+    }
+
+    public List<Order> getOrdersbyUser(Long userId) {
+        List<Order> orders =orderRepository.findByUserId(userId);
+        return orders;
     }
 }

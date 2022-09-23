@@ -7,13 +7,22 @@ const Login: React.FC = () => {
   const [mode, setMode] = useState('customer');
 
   return (
-    <div className="login">
-      로그인 페이지 입니다.
+    <div className="login-page">
       <div className="login-type">
-        <button type="button" onClick={() => setMode('customer')}>
+        <button
+          type="button"
+          onClick={() => setMode('customer')}
+          className={`${
+            mode === 'customer' ? 'mode-selected' : 'mode-not-selected'
+          }`}>
           고객 로그인
         </button>
-        <button type="button" onClick={() => setMode('ceo')}>
+        <button
+          type="button"
+          onClick={() => setMode('ceo')}
+          className={`${
+            mode === 'ceo' ? 'mode-selected' : 'mode-not-selected'
+          }`}>
           사업자 로그인
         </button>
       </div>
