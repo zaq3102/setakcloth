@@ -14,7 +14,7 @@ import java.util.List;
  * 세탁소 아이템 조회
  */
 @Data
-@ApiModel("UserPostResponse")
+@ApiModel("LaundryItemGetResponse")
 public class LaundryItemGetRes {
 
     @ApiModelProperty(name="항목 명")
