@@ -30,6 +30,12 @@ public class LaundryItemsGetRes extends BaseResponseBody {
         return res;
     }
 
+    public static LaundryItemsGetRes of(List<LaundryItem> list) {
+        LaundryItemsGetRes res = new LaundryItemsGetRes();
+        res.setLaundryItems(list);
+        return res;
+    }
+
     public void setLaundryItems(List<LaundryItem> list){
         laundryItems = new ArrayList<>();
         for(LaundryItem item : list){
