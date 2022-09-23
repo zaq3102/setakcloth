@@ -1,10 +1,13 @@
 package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
+import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.db.entity.Address;
 import com.ssafy.setak.db.entity.Laundry;
+import com.ssafy.setak.db.entity.LaundryItem;
 import com.ssafy.setak.db.entity.User;
+import com.ssafy.setak.db.repository.LaundryItemRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
 import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,9 @@ public class LaundryService {
 
     @Autowired
     private LaundryRepository laundryRepository;
+
+    @Autowired
+    private LaundryItemRepository laundryItemRepository;
 
     @Transactional
     public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo){
@@ -83,5 +89,17 @@ public class LaundryService {
         }
 
         return null;
+    }
+
+
+    @Transactional
+    public void addLaundryItem(Long laundryId, LaundryItemAddReq laundryItemInfo){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+
+        laundryItemRepository.save(LaundryItem.builder()
+                .name(laundryItemInfo.getName())
+                .price(laundryItemInfo.getPrice())
+                .laundry(laundry)
+                .build());
     }
 }
