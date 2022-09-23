@@ -1,5 +1,5 @@
 import axios from 'axios';
-import store from 'src';
+import store from '../../..';
 
 /**
  * 인증 필요없는 Axios

@@ -1,3 +1,10 @@
+$color0: #ff003e;
+$color1: #1e3e5c;
+$color2: #3066be;
+$color3: #60afff;
+$color4: #bfd7ea;
+$color5: #e0ebf5;
+
 .login {
   text-align: center;
   display: flex;
@@ -6,6 +13,18 @@
   justify-content: center;
 }
 
+// Signup.tsx
 .signup-type {
   display: flex;
+}
+
+.terms-box {
+  overflow: auto;
+  height: 100px;
+  width: 70%;
+  line-height: normal;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid #dadada;
+  box-sizing: border-box;
 }
