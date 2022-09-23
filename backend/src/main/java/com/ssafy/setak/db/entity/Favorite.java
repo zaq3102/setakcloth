@@ -19,7 +19,6 @@ public class Favorite {
     @Column(name = "favorite_id")
     private Long id;
 
-    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")

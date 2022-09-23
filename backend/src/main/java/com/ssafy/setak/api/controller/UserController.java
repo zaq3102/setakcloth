@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.*;
+import com.ssafy.setak.api.response.FavoriteGetRes;
 import com.ssafy.setak.api.response.KakaoEmailRes;
 import com.ssafy.setak.api.response.UserGetRes;
 import com.ssafy.setak.api.response.UserPostRes;
@@ -8,6 +9,8 @@ import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
+import com.ssafy.setak.db.entity.Favorite;
+import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -18,6 +21,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
@@ -288,6 +292,47 @@ public class UserController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "이미 존재 하는 아이디입니다."));
+        }
+    }
+
+
+    @PostMapping("/favorite/add")
+    @ApiOperation(value = "즐겨찾기 틍록", notes = "즐겨찾기 등록")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Success"),
+
+            @ApiResponse(code = 500, message = "즐겨 찾기 등록 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> addFavorite(@RequestBody AddFavoriteReq favorite) {
+        //        Long userId = jwtService.getUserId();-
+        try {
+            Long userId = jwtService.getUserId();
+            userService.addFavorite(userId, favorite);
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
+
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 등록 실패"));
+        }
+    }
+
+    @GetMapping("/favorite")
+    @ApiOperation(value = "즐겨찾기 틍록", notes = "즐겨찾기 등록")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Success"),
+
+            @ApiResponse(code = 500, message = "즐겨 찾기 등록 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getFavorites() {
+
+        try {
+            Long userId = jwtService.getUserId();
+            List<Favorite> res =userService.getFavorites(userId);
+            return ResponseEntity.status(201).body(FavoriteGetRes.of(201, "Success" ,res));
+
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회"));
         }
     }
 }
