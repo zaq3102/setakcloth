@@ -84,7 +84,7 @@ public class LaundryDetailGetRes extends BaseResponseBody {
     public void setLaundryItems(List<LaundryItem> items){
         laundryItems = new ArrayList<>();
         for(LaundryItem item : items){
-            laundryItems.add(LaundryItemGetRes.of(item.getName(), item.getPrice()));
+            laundryItems.add(LaundryItemGetRes.of(item.getId(), item.getName(), item.getPrice()));
         }
     }
 }
