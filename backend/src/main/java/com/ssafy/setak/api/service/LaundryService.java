@@ -102,4 +102,14 @@ public class LaundryService {
                 .laundry(laundry)
                 .build());
     }
+
+    public List<LaundryItem> getLaundryItems(Long laundryId){
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+
+        if(laundry != null){
+            return laundry.getLaundryItems();
+        }
+
+        return null;
+    }
 }
