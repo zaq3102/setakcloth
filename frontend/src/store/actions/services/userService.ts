@@ -1,5 +1,21 @@
 import { request, requestAuth } from './axios';
-import { LOGIN, SOCIAL_LOGIN, LOGOUT } from '../types/types';
+import {
+  LOGIN_CTM,
+  LOGIN_CEO,
+  SOCIAL_LOGIN_CTM,
+  SOCIAL_LOGIN_CEO,
+  LOGOUT
+} from '../types/types';
+
+// 고객 회원 정보 조회
+export const ctmInfoRequest = async () => {
+  try {
+    const payload = await requestAuth.get('/user');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
 
 // 고객 회원가입
 export const signupRequest = async (dataToSubmit) => {
@@ -21,12 +37,26 @@ export const signupCeoRequest = async (dataToSubmit) => {
   }
 };
 
-// 로그인
+// 고객 로그인
 export const loginRequest = async (dataToSubmit) => {
   try {
     const payload = await request.post('/auth/login', dataToSubmit);
+    console.log(payload);
     return {
-      type: LOGIN,
+      type: LOGIN_CTM,
+      payload
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 로그인
+export const loginCeoRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.post('/auth/ceo/login', dataToSubmit);
+    return {
+      type: LOGIN_CEO,
       payload
     };
   } catch (err) {
@@ -37,14 +67,13 @@ export const loginRequest = async (dataToSubmit) => {
 // 로그아웃
 export const logoutRequest = async () => {
   try {
-    const payload = await request.get('/auth/logout');
-    return {
-      type: LOGOUT,
-      payload
-    };
+    await request.get('/auth/logout');
   } catch (err) {
-    return err;
+    console.log(err);
   }
+  // finally {
+  //   store.dispatch({ type: TOKEN_DELETE });
+  // }
 };
 
 // 이메일 중복 체크

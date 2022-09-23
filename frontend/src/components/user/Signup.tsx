@@ -169,8 +169,8 @@ const Signup: React.FC = () => {
                     ? '사용 가능한 이메일입니다.'
                     : '이메일 중복 여부를 확인중입니다.'
                   : '이미 사용중인 이메일입니다.'
-                : '유효하지 않은 이메일입니다.'
-              : '이메일을 입력해 주세요.'}
+                : '유효하지 않은 이메일 형식입니다.'
+              : ''}
           </FormHelperText>
           <TextField
             margin="normal"
@@ -183,9 +183,11 @@ const Signup: React.FC = () => {
             sx={{ width: 300 }}
           />
           <FormHelperText error={!!pwd && !isPwdValid}>
-            {isPwdValid
-              ? '안전한 비밀번호입니다.'
-              : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'}
+            {pwd
+              ? isPwdValid
+                ? '안전한 비밀번호입니다.'
+                : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
+              : ''}
           </FormHelperText>
           <TextField
             margin="normal"
