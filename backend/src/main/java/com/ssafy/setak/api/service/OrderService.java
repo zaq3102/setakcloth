@@ -64,6 +64,16 @@ public class OrderService {
 
 
     }
+
+    public Order selectOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId).orElse(null);
+
+        if(order != null){
+            return order;
+        }
+
+        return null;
+
     @Transactional
     public void registerReview(long orderId, ReviewPostReq reviewInfo) {
         Order order =  orderRepository.findById(orderId).orElse(null);
