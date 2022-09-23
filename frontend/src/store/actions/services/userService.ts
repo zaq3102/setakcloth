@@ -1,4 +1,4 @@
-import { request } from './axios';
+import { request, requestAuth } from './axios';
 import { LOGIN, SOCIAL_LOGIN, LOGOUT } from '../types/types';
 
 // 회원가입
@@ -40,7 +40,9 @@ export const logoutRequest = async () => {
 // 이메일 중복 체크
 export const checkEmailRequest = async (dataToSubmit) => {
   try {
-    const payload = await request.post('/user/signup/check', dataToSubmit);
+    const payload = await request.get(
+      `/user/signup/check/?email=${dataToSubmit}`
+    );
     return payload;
   } catch (err) {
     return err;
