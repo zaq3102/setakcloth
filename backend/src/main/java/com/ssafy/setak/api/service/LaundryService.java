@@ -41,19 +41,16 @@ public class LaundryService {
 
     public List<Tuple> selectAllLaundryOrderByDistance(Long userId){
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByDistance(userId);
-        System.out.println(laundries.size());
         return laundries;
     }
 
     public List<Tuple> selectAllLaundryOrderByOrder(Long userId){
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByOrder(userId);
-        System.out.println(laundries.size());
         return laundries;
     }
 
     public List<Tuple> selectAllLaundryOrderByScore(Long userId){
         List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByScore(userId);
-        System.out.println(laundries.size());
         return laundries;
     }
 
