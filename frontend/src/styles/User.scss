@@ -5,26 +5,69 @@ $color3: #60afff;
 $color4: #bfd7ea;
 $color5: #e0ebf5;
 
-.login {
-  text-align: center;
+.login-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
 // Signup.tsx
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
 .signup-type {
   display: flex;
+  margin-bottom: 10px;
+}
+
+.mode-selected {
+  padding: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border: 0;
+  border-radius: 10px;
+  background-color: $color3;
+}
+
+.mode-not-selected {
+  padding: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border: 1px solid $color4;
+  border-radius: 10px;
+  background-color: white;
 }
 
 .terms-box {
   overflow: auto;
   height: 100px;
-  width: 70%;
+  width: 300px;
   line-height: normal;
   margin-top: 8px;
   padding: 12px;
   border: 1px solid #dadada;
   box-sizing: border-box;
+}
+
+.signup-btn {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.next-btn {
+  margin-left: 15px;
+}
+
+.wallet-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
 }
