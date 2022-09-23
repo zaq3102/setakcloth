@@ -1,20 +1,28 @@
 package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.*;
-import com.ssafy.setak.db.entity.Address;
-import com.ssafy.setak.db.entity.User;
-import com.ssafy.setak.db.entity.UserType;
+import com.ssafy.setak.api.response.FavoriteGetRes;
+import com.ssafy.setak.db.entity.*;
+import com.ssafy.setak.db.repository.FavoriteRepository;
+import com.ssafy.setak.db.repository.LaundryRepository;
 import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private LaundryRepository laundryRepository;
+    @Autowired
+    private FavoriteRepository favoriteRepository;
 
 
     @Autowired
@@ -126,5 +134,21 @@ public class UserService {
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
 
         userRepository.save(user);
+    }
+
+    public void addFavorite(Long userId, AddFavoriteReq favoriteInfo) {
+        Favorite favorite = new Favorite();
+        User user = userRepository.findById(userId).orElse(null);
+        Laundry laundry = laundryRepository.findById(favoriteInfo.getLaundryId()).orElse(null);
+        favorite.setUser(user);
+        favorite.setLaundry(laundry);
+        favoriteRepository.save(favorite);
+
+    }
+
+
+    public List<Favorite> getFavorites(Long userId) {
+        List<Favorite> favorites = favoriteRepository.findByUserId(userId);
+        return favorites;
     }
 }
