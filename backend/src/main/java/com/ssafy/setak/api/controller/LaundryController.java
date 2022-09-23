@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.LaundryCreateReq;
+import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.api.response.LaundriesGetRes;
 import com.ssafy.setak.api.response.LaundryDetailGetRes;
@@ -113,4 +114,22 @@ public class LaundryController {
     }
 
     //TODO: 세탁소 삭제
+
+    //TODO: 세탁소 아이템 추가
+    @PostMapping("/{laundry_id}/item/add")
+    @ApiOperation(value = "세탁소 아이템 추가", notes = "세탁소 아이템 추가")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 아이템 추가 실패")
+    })
+    public ResponseEntity<?> addLaundryItem(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryItemAddReq laundryItemInfo){
+        laundryService.addLaundryItem(laundryId, laundryItemInfo);
+        return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+    }
+
+    //TODO: 세탁소 아이템 조회
+
+    //TODO: 세탁소 아이템 수정
+
+    //TODO: 세탁소 아이템 삭제
 }
