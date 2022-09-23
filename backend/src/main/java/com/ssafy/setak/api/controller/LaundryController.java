@@ -53,7 +53,6 @@ public class LaundryController {
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
     }
 
-    //TODO: 세탁소 전체 조회 - 주문많은 순 (특정거리 이내)
     @GetMapping("/order")
     @ApiOperation(value = "세탁소 전체 조회 - 주문 많은 순", notes = "세탁소 전체 조회 - 주문 많은 순")
     @ApiResponses({
@@ -67,8 +66,18 @@ public class LaundryController {
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
     }
 
-    //TODO: 세탁소 전체 조회 - 별점 순 (특정거리 이내)
+    @GetMapping("/score")
+    @ApiOperation(value = "세탁소 전체 조회 - 별점 순", notes = "세탁소 전체 조회 - 별점 순")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 별점 순 전체 조회 실패"),
+    })
+    public ResponseEntity<?> getLaundryOrderByScore(){
+        Long userId = 1L;
+        List<Tuple> laundries = laundryService.selectAllLaundryOrderByScore(userId);
 
+        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+    }
 
     @PostMapping("/{laundry_id}/update")
     @ApiOperation(value = "세탁소 수정", notes = "세탁소 수정")
