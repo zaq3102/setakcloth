@@ -51,6 +51,12 @@ public class LaundryService {
         return laundries;
     }
 
+    public List<Tuple> selectAllLaundryOrderByScore(Long userId){
+        List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByScore(userId);
+        System.out.println(laundries.size());
+        return laundries;
+    }
+
     public Laundry selectLaundry(Long laundryId){
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
