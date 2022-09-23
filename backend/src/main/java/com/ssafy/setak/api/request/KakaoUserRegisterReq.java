@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-@ApiModel("UserRegisterRequest")
+@ApiModel("KakaoUserRegisterRequest")
 public class KakaoUserRegisterReq {
 
     @ApiModelProperty(name = "유저 지갑주소", example = "1234223x23a231")
