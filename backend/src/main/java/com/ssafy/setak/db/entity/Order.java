@@ -1,9 +1,6 @@
 package com.ssafy.setak.db.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,6 +11,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name="`order`")
@@ -25,7 +23,7 @@ public class Order {
     private Long id;
 
     private LocalDateTime date;
-    private float totalPrice;
+    private Long totalPrice;
     private int state;
     private String hash;
 
