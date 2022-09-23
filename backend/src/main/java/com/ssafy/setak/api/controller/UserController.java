@@ -266,10 +266,7 @@ public class UserController {
                     UserPostRes.of(500, "고객 회원 탈퇴 실패", -1l)
             );
         }
-
-
     }
-
 
     @GetMapping("/signup/check")
     @ApiOperation(value = "아이디 중복 검사", notes = "아이디 중복 검사")
