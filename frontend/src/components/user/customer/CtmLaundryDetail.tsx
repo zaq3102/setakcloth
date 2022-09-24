@@ -10,6 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import * as React from 'react';
 import { useState } from 'react';
 import '../../../styles/Customer.scss';
+import GoogleMaps from '../../common/GoogleMaps';
 
 const CtmLaundryDetail: React.FC = () => {
   const itemData = [
@@ -64,6 +65,7 @@ const CtmLaundryDetail: React.FC = () => {
                 수거 배달 비: {item.deliverfee}원
               </Typography>
             </CardContent>
+            <GoogleMaps />
           </Card>
         ))}
       </div>
