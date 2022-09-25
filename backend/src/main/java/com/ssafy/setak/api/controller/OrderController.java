@@ -3,6 +3,7 @@ package com.ssafy.setak.api.controller;
 import com.ssafy.setak.api.request.OrderCreateReq;
 import com.ssafy.setak.api.response.OrderGetRes;
 import com.ssafy.setak.api.request.ReviewPostReq;
+import com.ssafy.setak.api.response.OrdersGetRes;
 import com.ssafy.setak.api.response.ReviewGetRes;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.LaundryService;
@@ -58,7 +59,8 @@ public class OrderController {
         //        Long userId = jwtService.getUserId();
         Long userId = 1l;
 
-        return null;
+        List<Order> orders = orderService.getOrdersbyUserId(userId);
+        return ResponseEntity.status(200).body(OrdersGetRes.of(200, "Success", orders));
     }
 
     @GetMapping("/{order_id}")
@@ -107,7 +109,7 @@ public class OrderController {
         try {
             Long userId = jwtService.getUserId();
             System.out.println(userId);
-            List<Order> res = orderService.getOrdersbyUser(userId);
+            List<Order> res = orderService.getOrdersbyUserId(userId);
             System.out.println(res.size());
 
             return ResponseEntity.status(200).body(
