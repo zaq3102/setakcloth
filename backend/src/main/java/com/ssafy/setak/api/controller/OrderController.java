@@ -63,6 +63,18 @@ public class OrderController {
         return ResponseEntity.status(200).body(OrdersGetRes.of(200, "Success", orders));
     }
 
+    @GetMapping("/laundry/{laundry_id}")
+    @ApiOperation(value = "세탁소 주문 전체 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 주문 전체 조회 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
+    })
+    public ResponseEntity<?> getOrdersByLaundryId(@PathVariable("laundry_id") Long laundryId) {
+        List<Order> orders = orderService.getOrdersByLaundryId(laundryId);
+        return ResponseEntity.status(200).body(OrdersGetRes.of(200, "Success", orders));
+    }
+
     @GetMapping("/{order_id}")
     @ApiOperation(value = "주문 상세 조회", notes = "주문 상세 조회")
     @ApiResponses({
