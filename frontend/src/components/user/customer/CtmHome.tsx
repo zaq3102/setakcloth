@@ -2,15 +2,14 @@ import {
   Button,
   Dialog,
   DialogActions,
-  DialogContent,
-  DialogContentText,
   DialogTitle,
   Grid,
   TextField
 } from '@mui/material';
+
 import * as React from 'react';
 import { useState } from 'react';
-import DaumPostcode from 'react-daum-postcode';
+import SearchAddress from '../../common/SearchAddress';
 import '../../../styles/Customer.scss';
 
 const CtmHome: React.FC = () => {
@@ -27,28 +26,10 @@ const CtmHome: React.FC = () => {
   const handleChange = () => {
     setOpen(false);
   };
-  const saveDetail = (event) => {
-    console.log(detailaddress);
-    setDetailaddress(event.target.value.trim());
-  };
-  const [openPostcode, setOpenPostcode] = useState<boolean>(false);
   const [myaddress, setMyaddress] = useState<string>(
     '서울특별시 강남구 역삼동 멀티캠퍼스'
   );
-  const handle = {
-    // 버튼 클릭 이벤트
-    clickButton: () => {
-      setOpenPostcode((current) => !current);
-    }, // 주소 선택 이벤트
-    selectAddress: (data: any) => {
-      console.log(`
-            주소: ${data.address},
-            우편번호: ${data.zonecode}
-        `);
-      setMyaddress(data.address);
-      setOpenPostcode(false);
-    }
-  };
+
   return (
     <div className="ctm-home">
       고객용 홈페이지입니다.
@@ -61,31 +42,7 @@ const CtmHome: React.FC = () => {
       {/* 주소 변경 모달 창 */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>주소 변경하기</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-            <button onClick={handle.clickButton} type="button">
-              주소 검색
-            </button>
-            <br />
-          </DialogContentText>
-          {openPostcode && (
-            <DaumPostcode
-              onComplete={handle.selectAddress} // 값을 선택할 경우 실행되는 이벤트
-              defaultQuery="서울특별시 강남구 역삼동 멀티캠퍼스" // 팝업을 열때 기본적으로 입력되는 검색어
-            />
-          )}
-          <br />
-          {myaddress}
-          <br />
-          <TextField
-            margin="normal"
-            required
-            id="detailaddress"
-            name="detailaddress"
-            label="상세 주소를 입력하세요."
-            onChange={saveDetail}
-          />
-        </DialogContent>
+        <SearchAddress />
         <DialogActions>
           <Button onClick={handleClose}>취소</Button>
           <Button onClick={handleChange}>변경</Button>
