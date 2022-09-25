@@ -50,7 +50,14 @@ public class AuthController {
     public ResponseEntity<? extends AuthRes> userKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            User user = userService.getUserByUserEmail(kakaoEmail);
+            User user = null;
+
+            try {
+                user = userService.getUserByUserEmail(kakaoEmail);
+            } catch (Exception e) {
+                return ResponseEntity.status(409).body(AuthRes.of(409, "존재하지 않는 회원입니다.", null, false, -1l));
+            }
+
             if (user.isWithdrawn()) {
                 return ResponseEntity.status(403).body(AuthRes.of(403, "탈퇴한 회원입니다.", null, false, user.getId()));
             }
@@ -166,7 +173,14 @@ public class AuthController {
     public ResponseEntity<? extends AuthRes> ceoKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
             String kakaoEmail = kakaoService.getKakaoEmail(code);
-            User user = userService.getUserByCeoEmail(kakaoEmail);
+            User user = null;
+
+            try {
+                user = userService.getUserByUserEmail(kakaoEmail);
+            } catch (Exception e) {
+                return ResponseEntity.status(409).body(AuthRes.of(409, "존재하지 않는 회원입니다.", null, false, -1l));
+            }
+
             if (user.isWithdrawn()) {
                 return ResponseEntity.status(403).body(AuthRes.of(403, "탈퇴한 회원입니다.", null, false, user.getId()));
             }
