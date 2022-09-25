@@ -126,7 +126,7 @@ public class OrderController {
         }
     }
 
-    @PostMapping("/review/{order_id}/create")
+    @PostMapping("/{order_id}/review/create")
     @ApiOperation(value = "리뷰 등록", notes = "리뷰 등록")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Created"),
@@ -149,7 +149,7 @@ public class OrderController {
     @GetMapping("/review")
     @ApiOperation(value = "내 리뷰 조회", notes = "내 리뷰 조회")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Created"),
+            @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "내 리뷰 조회 실패")
     })
     public ResponseEntity<? extends BaseResponseBody> GetUserReview() {
@@ -171,7 +171,7 @@ public class OrderController {
     }
 
     @GetMapping("/review/{laundry_id}")
-    @ApiOperation(value = " 세탁소 리뷰 ", notes = "세탁소 리뷰 조회")
+    @ApiOperation(value = " 세탁소 리뷰 조회", notes = "세탁소 리뷰 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 리뷰 조회 실패"),

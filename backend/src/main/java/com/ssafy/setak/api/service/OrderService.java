@@ -36,15 +36,15 @@ public class OrderService {
         LocalDateTime date = LocalDateTime.now();
 
         List<Long> orderDetails = orderInfo.getOrderDetails();
-        long count = 0;
-        for (int i = 0; i < orderDetails.size(); i++) {
-            Long laundryItemID = orderDetails.get(i);
-            LaundryItem laundryItem = laundryItemRepository.findById(laundryItemID).orElse(null);
-            count += laundryItem.getPrice();
-        }
+//        long count = 0;
+//        for (int i = 0; i < orderDetails.size(); i++) {
+//            Long laundryItemID = orderDetails.get(i);
+//            LaundryItem laundryItem = laundryItemRepository.findById(laundryItemID).orElse(null);
+//            count += laundryItem.getPrice();
+//        }
         Order order = Order.builder()
                 .date(date)
-                .totalPrice(count)
+                .totalPrice(orderInfo.getTotalPrice())
                 .state(0)
                 .hash("hash")
                 .orderType(orderInfo.getOrderType() == 0 ? OrderType.DELIVERY : OrderType.PICKUP)

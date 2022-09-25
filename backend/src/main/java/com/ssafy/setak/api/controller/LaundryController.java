@@ -38,7 +38,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
     public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
-        Long ceoUserId = 1L;
+        Long ceoUserId = 2L;
 
         laundryService.createLaundry(ceoUserId, laundryInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
