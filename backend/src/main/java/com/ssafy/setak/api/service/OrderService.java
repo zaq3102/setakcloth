@@ -91,4 +91,10 @@ public class OrderService {
         List<Order> orders = orderRepository.findByUserId(userId);
         return orders;
     }
+
+
+    public List<Order> getOrdersByLaundryId(Long laundryId) {
+        List<Order> orders = orderRepository.findByLaundryId(laundryId);
+        return orders;
+    }
 }
