@@ -11,10 +11,12 @@ import {
 import * as React from 'react';
 import { useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
+import { useNavigate } from 'react-router';
 import '../../../styles/Customer.scss';
 
 const CtmHome: React.FC = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const [detailaddress, setDetailaddress] = useState<string>('17층');
   const handleClickOpen = () => {
@@ -28,7 +30,6 @@ const CtmHome: React.FC = () => {
     setOpen(false);
   };
   const saveDetail = (event) => {
-    console.log(detailaddress);
     setDetailaddress(event.target.value.trim());
   };
   const [openPostcode, setOpenPostcode] = useState<boolean>(false);
@@ -49,6 +50,11 @@ const CtmHome: React.FC = () => {
       setOpenPostcode(false);
     }
   };
+
+  const handleMore = () => {
+    navigate('./laundrylist');
+  };
+
   return (
     <div className="ctm-home">
       고객용 홈페이지입니다.
@@ -97,7 +103,9 @@ const CtmHome: React.FC = () => {
         <Grid container spacing={2}>
           <Grid item xs={6}>
             즐겨찾기
-            <button type="button">더보기</button>
+            <button type="button" onClick={handleMore}>
+              더보기
+            </button>
             <br />
             <TextField
               id="laundry1"
@@ -118,7 +126,9 @@ const CtmHome: React.FC = () => {
             <br />
             <br />
             최근 이용한 세탁소
-            <button type="button">더보기</button>
+            <button type="button" onClick={handleMore}>
+              더보기
+            </button>
             <br />
             <TextField
               id="laundry1"
