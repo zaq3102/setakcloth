@@ -14,8 +14,9 @@ import {
   TextField
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { InfoRequest } from '../../../store/actions/services/userService';
 
 const CeoMypage: React.FC = () => {
   const TemplaundryName = '싸피 세탁소';
@@ -31,6 +32,15 @@ const CeoMypage: React.FC = () => {
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
   const [page, setPage] = useState(1);
+
+  const getMypage = async () => {
+    const result = await InfoRequest();
+    console.log(result);
+  };
+
+  useEffect(() => {
+    getMypage();
+  }, []);
 
   const reviewList = [
     '리뷰 1입니다~~~~~',
