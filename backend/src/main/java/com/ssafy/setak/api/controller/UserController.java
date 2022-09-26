@@ -176,8 +176,10 @@ public class UserController {
                     UserGetRes.of(200, "Success", user)
             );
         } catch (Exception e) {
-
+            System.out.print(e.getMessage());
             return ResponseEntity.status(500).body(
+
+
 
                     BaseResponseBody.of(500, "고객 회원 정보 조회 실패")
             );
