@@ -13,7 +13,6 @@ import {
 export const InfoRequest = async () => {
   try {
     const payload = await requestAuth.get('/user');
-    console.log(payload);
     return payload;
   } catch (err) {
     return err;
@@ -111,6 +110,19 @@ export const checkEmailRequest = async (dataToSubmit) => {
   try {
     const payload = await request.get(
       `/user/signup/check/?email=${dataToSubmit}`
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 주소 변경
+export const changeAddrRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/update/address',
+      dataToSubmit
     );
     return payload;
   } catch (err) {

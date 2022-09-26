@@ -1,58 +1,122 @@
 import {
-  Box,
   Card,
   CardContent,
   CardMedia,
+  Chip,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
-  SelectChangeEvent,
-  Typography
+  SelectChangeEvent
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { LaundryDistRequest } from '../../../store/actions/services/laundryService';
 import '../../../styles/Customer.scss';
 
 const CtmLaundryList: React.FC = () => {
   const [alignlist, setAlignlist] = useState('');
-  const itemData = [
+  const [laundryList, setLaundryList] = useState([]);
+  const sort = ['거리순', '이용많은순', '별점높은순'];
+  const navigate = useNavigate();
+
+  const laundryLst = [
     {
-      id: 1,
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: '세탁소1',
-      minimum: 15000,
-      deliverfee: 3000,
-      featured: true
+      laundryId: 1,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `../assets/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 2000,
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
     },
     {
-      id: 2,
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: '세탁소2',
-      minimum: 15000,
-      deliverfee: 3000,
-      featured: true
+      laundryId: 2,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `../assets/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 4000,
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: false,
+      pickup: true
     },
     {
-      id: 3,
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: '세탁소3',
-      minimum: 15000,
-      deliverfee: 3000,
-      featured: true
+      laundryId: 3,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `../assets/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: false,
+      pickup: true
     },
     {
-      id: 4,
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
-      title: '세탁소4',
-      minimum: 15000,
-      deliverfee: 3000,
-      featured: true
+      laundryId: 4,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `../assets/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
+    },
+    {
+      laundryId: 5,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `../assets/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
     }
   ];
 
-  const navigate = useNavigate();
+  const getList = async () => {
+    const result = await LaundryDistRequest();
+    if (result?.data?.laundries) {
+      setLaundryList(result?.data?.laundries);
+    } else {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
   const handleChange = (event: SelectChangeEvent) => {
     setAlignlist(event.target.value);
   };
@@ -60,11 +124,10 @@ const CtmLaundryList: React.FC = () => {
   const onclicklaundry = (value: number) => {
     navigate(`../${value}`);
   };
+
   return (
     <div className="customerlaundrylist">
-      세탁소리스트입니다.
-      <br />
-      <div>
+      <div className="laundry-sort">
         {/* 정렬 select */}
         <FormControl id="select">
           <InputLabel>정렬</InputLabel>
@@ -79,35 +142,42 @@ const CtmLaundryList: React.FC = () => {
       </div>
       <br />
       {/* 세탁소 정보 카드 */}
-      {itemData.map((item) => (
-        <div>
-          <Card
-            key={item.id}
-            id="laundryCard"
-            onClick={() => onclicklaundry(item.id)}>
-            <CardMedia
-              id="cardImg"
-              component="img"
-              image="../../assets/logo.png"
-            />
-            <Box id="laundryBox">
-              <CardContent>
-                <Typography component="div" variant="h6">
-                  {item.title}
-                </Typography>
-                <Typography variant="subtitle1" component="div">
-                  최소 이용금액 : {item.minimum}원
-                </Typography>
-                <Typography variant="subtitle1" component="div">
-                  수거 배달비 : {item.deliverfee}원
-                </Typography>
-                <br />
-                <Box>수선 드라이</Box>
-              </CardContent>
-            </Box>
-          </Card>
-          <br />
-        </div>
+      {laundryLst.map((item) => (
+        <Card
+          key={item.laundryId}
+          id="laundryCard"
+          sx={{ padding: 1, margin: 1 }}
+          onClick={() => onclicklaundry(item.laundryId)}>
+          <CardMedia id="cardImg" component="img" image={item.imgUrl} />
+          <CardContent id="laundryBox">
+            <div className="item-title">{item.laundryName}</div>
+            <div className="item-content">
+              <div>
+                {item.addr} {item.addrDetail}
+              </div>
+              <div>최소 이용금액 : {item.minCost}원</div>
+              <div>배달비 : {item.deliveryCost}원</div>
+              <div className="item-chips">
+                {item.deliver ? (
+                  <Chip
+                    label="배달"
+                    size="small"
+                    color="color2"
+                    variant="outlined"
+                  />
+                ) : null}
+                {item.pickup ? (
+                  <Chip
+                    label="수거"
+                    size="small"
+                    color="color3"
+                    variant="outlined"
+                  />
+                ) : null}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   );
