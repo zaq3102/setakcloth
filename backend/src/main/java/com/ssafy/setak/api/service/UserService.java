@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -158,5 +159,17 @@ public class UserService {
     public List<Favorite> getFavorites(Long userId) {
         List<Favorite> favorites = favoriteRepository.findByUserId(userId);
         return favorites;
+    }
+
+    public void deleteFavorite(Long userId, AddFavoriteReq favoriteInfo) {
+
+
+        Favorite favorite = favoriteRepository.findByUserIdAndLaundryId(userId,favoriteInfo.getLaundryId());
+
+        favoriteRepository.delete(favorite);
+
+
+
+
     }
 }
