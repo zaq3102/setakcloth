@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
+        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
@@ -37,11 +39,13 @@ public class UserService {
         user.setSocial(false);
         user.setWithdrawn(false);
         user.setUserType(UserType.USER);
+        user.setAddress(address);
         userRepository.save(user);
         return user;
     }
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
+        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
@@ -49,6 +53,7 @@ public class UserService {
         user.setSocial(true);
         user.setWithdrawn(false);
         user.setUserType(UserType.USER);
+        user.setAddress(address);
         userRepository.save(user);
         return user;
     }
@@ -100,6 +105,7 @@ public class UserService {
     }
 
     public User createCeoUser(UserRegisterReq userInfo) {
+        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
         User user = new User();
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
@@ -108,6 +114,7 @@ public class UserService {
         user.setSocial(false);
         user.setWithdrawn(false);
         user.setUserType(UserType.CEO);
+        user.setAddress(address);
         userRepository.save(user);
         return user;
 
@@ -119,12 +126,14 @@ public class UserService {
 
     public User createCeoKakaoUser(KakaoUserRegisterReq userInfo) {
         User user = new User();
+        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
         user.setSocial(true);
         user.setWithdrawn(false);
         user.setUserType(UserType.CEO);
+        user.setAddress(address);
         userRepository.save(user);
         return user;
     }
@@ -150,5 +159,17 @@ public class UserService {
     public List<Favorite> getFavorites(Long userId) {
         List<Favorite> favorites = favoriteRepository.findByUserId(userId);
         return favorites;
+    }
+
+    public void deleteFavorite(Long userId, AddFavoriteReq favoriteInfo) {
+
+
+        Favorite favorite = favoriteRepository.findByUserIdAndLaundryId(userId,favoriteInfo.getLaundryId());
+
+        favoriteRepository.delete(favorite);
+
+
+
+
     }
 }

@@ -176,8 +176,9 @@ public class UserController {
                     UserGetRes.of(200, "Success", user)
             );
         } catch (Exception e) {
-
+            System.out.print(e.getMessage());
             return ResponseEntity.status(500).body(
+
 
                     BaseResponseBody.of(500, "고객 회원 정보 조회 실패")
             );
@@ -304,11 +305,13 @@ public class UserController {
         //        Long userId = jwtService.getUserId();-
         try {
             Long userId = jwtService.getUserId();
+
             userService.addFavorite(userId, favorite);
             return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Success"));
 
 
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 등록 실패"));
         }
     }
@@ -326,6 +329,27 @@ public class UserController {
             Long userId = jwtService.getUserId();
             List<Favorite> res = userService.getFavorites(userId);
             return ResponseEntity.status(201).body(FavoriteGetRes.of(201, "Success", res));
+
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회"));
+        }
+    }
+
+
+    @PostMapping("/favorite/delete")
+    @ApiOperation(value = "즐겨찾기 삭제", notes = "즐겨찾기 삭제")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Create"),
+
+            @ApiResponse(code = 500, message = "즐겨 삭제 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> deleteFavorites(@RequestBody AddFavoriteReq favorite) {
+
+        try {
+            Long userId = jwtService.getUserId();
+            userService.deleteFavorite(userId, favorite);
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Create"));
 
 
         } catch (Exception e) {
