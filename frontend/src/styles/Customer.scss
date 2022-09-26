@@ -51,11 +51,26 @@ $color5: #e0ebf5;
 }
 
 .laundrydetailcard {
-    height: 700px;
-    width: 500px;
+    height: 600px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.laundryitems {
+    height: 300px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.itemlist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 #laundrydetailimage {
@@ -63,6 +78,10 @@ $color5: #e0ebf5;
     align-items: center;
     justify-content: center;
     width: 200px;
+}
+
+.laundrynum {
+    width: 50px;
 }
 
 // customer/CtmHome.tsx
