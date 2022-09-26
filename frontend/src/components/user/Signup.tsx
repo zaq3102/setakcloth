@@ -6,7 +6,7 @@ import {
   TextField
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import {
@@ -36,14 +36,20 @@ const Signup: React.FC = () => {
   const [isWalletPwdSame, setIsWalletPwdSame] = useState(false);
 
   // 이메일 중복 체크
-  const [emailChecked, setEmailChecked] = useState(999);
+  const [emailChecked, setEmailChecked] = useState(false);
+
+  useEffect(() => {
+    // console.log('컴포넌트가 화면에 나타남');
+    setEmailChecked(false);
+    return () => {
+      // console.log('컴포넌트가 화면에서 사라짐');
+    };
+  }, [email]);
 
   const debounceFunc = debounce(async (value, request, setState) => {
     const result = await request(value);
     if (result?.data?.statusCode) {
       setState(result?.data?.statusCode);
-    } else if (result?.request?.status) {
-      setState(result?.request?.status);
     } else {
       alert('올바르지 않은 접근입니다.');
     }
