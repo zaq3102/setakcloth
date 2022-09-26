@@ -25,6 +25,12 @@ public class LaundryCreateReq {
     @ApiModelProperty(name = "위도")
     float addrLat;
 
-    @ApiModelProperty(name = "경도도")
+    @ApiModelProperty(name = "경도")
     float addrLng;
+
+    @ApiModelProperty(name = "배달")
+    boolean deliver;
+
+    @ApiModelProperty(name = "픽업")
+    boolean pickup;
 }
