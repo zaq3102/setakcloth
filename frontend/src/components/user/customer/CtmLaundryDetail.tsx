@@ -1,24 +1,29 @@
 import {
+  Box,
   Button,
   Card,
   CardContent,
   CardMedia,
   IconButton,
+  Pagination,
+  Rating,
   TextField,
   Typography
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import '../../../styles/Customer.scss';
 import AddIcon from '@mui/icons-material/Add';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import StarIcon from '@mui/icons-material/Star';
 import GoogleMaps from '../../common/GoogleMaps';
 
 const CtmLaundryDetail: React.FC = () => {
   const itemData = [
     {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+      img: '/assets/laundry1.jpg',
       title: '세탁소1',
       minimum: 15000,
       deliverfee: 3000,
@@ -79,11 +84,74 @@ const CtmLaundryDetail: React.FC = () => {
     setMode(value);
   };
 
+  const value = 3.5;
+  const [pageReview, setPageReview] = useState(1);
+  const labels: { [index: string]: string } = {
+    0.5: '0.5점',
+    1: '1점',
+    1.5: '1.5점',
+    2: '2점',
+    2.5: '2.5점',
+    3: '3점',
+    3.5: '3.5점',
+    4: '4점',
+    4.5: '4.5점',
+    5: '5점'
+  };
+  const myReviewList = ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'];
+  const pageReviewChange = (event, value) => {
+    setPageReview(value);
+  };
+
   let content = <div>{orderInfo}</div>;
   if (mode === 1) {
     content = <div>{orderInfo}</div>;
   } else if (mode === 2) {
-    content = <div>{reviewList}</div>;
+    content = (
+      <div>
+        <div>{reviewList}</div>
+        <div>
+          <Rating
+            name="text-feedback"
+            value={value}
+            readOnly
+            precision={0.5}
+            emptyIcon={
+              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+            }
+          />
+          <Box>{labels[value]}</Box>
+        </div>
+        <br />
+        <Typography variant="h4" component="div">
+          리뷰 {myReviewList.length}개
+        </Typography>
+        <div className="laundry-review-list-content">
+          <div className="laundry-review-detail">
+            {myReviewList
+              .slice((pageReview - 1) * 3, pageReview * 3)
+              .map((review) => (
+                <Link key={review} to="/">
+                  <div className="laundry-review">{review}</div>
+                </Link>
+              ))}
+          </div>
+          <div className="laundry-pagination">
+            <Pagination
+              count={Math.ceil(myReviewList.length / 3)}
+              page={pageReview}
+              color="color2"
+              className={`${
+                myReviewList.length === 0
+                  ? 'laundry-no-pagination'
+                  : 'laundry-pagination'
+              }`}
+              onChange={pageReviewChange}
+            />
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -162,8 +230,12 @@ const CtmLaundryDetail: React.FC = () => {
       {/* toggle */}
       <div id="rightdiv">
         <div>
-          <Button onClick={() => handleTab(1)}>주문</Button>
-          <Button onClick={() => handleTab(2)}>리뷰</Button>
+          <Button className="orderinfo-button" onClick={() => handleTab(1)}>
+            주문
+          </Button>
+          <Button className="reviewlist-button" onClick={() => handleTab(2)}>
+            리뷰
+          </Button>
         </div>
         <div>{content}</div>
       </div>
