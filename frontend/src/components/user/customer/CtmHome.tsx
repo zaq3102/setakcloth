@@ -57,8 +57,6 @@ const CtmHome: React.FC = () => {
 
   return (
     <div className="ctm-home">
-      고객용 홈페이지입니다.
-      <br />
       {myaddress}
       {detailaddress}
       <Button variant="outlined" onClick={handleClickOpen}>

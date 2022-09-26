@@ -6,6 +6,7 @@ import store from '../../..';
  */
 export const request = axios.create({
   baseURL: 'https://j7a706.p.ssafy.io:8080/',
+  // baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 
@@ -24,6 +25,7 @@ request.interceptors.response.use(
  */
 export const requestAuth = axios.create({
   baseURL: 'https://j7a706.p.ssafy.io:8080/',
+  // baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 

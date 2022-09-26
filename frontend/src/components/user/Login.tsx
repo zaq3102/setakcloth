@@ -2,7 +2,7 @@ import { Button, FormHelperText, TextField } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Form, Link, useNavigate } from 'react-router-dom';
 import {
   loginCeoRequest,
   loginRequest
@@ -99,6 +99,11 @@ const Login: React.FC = () => {
         value={pwd}
         onChange={passwordChange}
         sx={{ width: 300 }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
       />
       <br />
       <Button variant="contained" color="color2" onClick={handleSubmit}>
