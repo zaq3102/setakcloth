@@ -12,6 +12,8 @@ import java.util.List;
 @Repository
 public interface LaundryRepository extends JpaRepository<Laundry, Long> {
 
+    List<Laundry> findByUserId(Long userId);
+
     @Query("SELECT l, round(6371 * acos(cos(l.address.addrLat * 3.141592653589793 / 180.0) * cos(u.address.addrLat * 3.141592653589793 / 180.0) * cos((u.address.addrLng * 3.141592653589793 / 180.0) - (l.address.addrLng * 3.141592653589793 / 180.0)) + sin(l.address.addrLat * 3.141592653589793 / 180.0) * sin(u.address.addrLat * 3.141592653589793 / 180.0)),1) as distance, " +
             "AVG(o.reviewScore) AS score " +
             "FROM Laundry l, User u, Order o " +
