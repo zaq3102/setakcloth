@@ -1,3 +1,4 @@
+import { LAUNDRY_ITEM_LIST } from '../types/types';
 import { request, requestAuth } from './axios';
 
 // 세탁소 전체 조회 (거리순)
@@ -35,6 +36,51 @@ export const LaundryScoreRequest = async () => {
 export const LaundryRegistRequest = async (dataToSubmit) => {
   try {
     const payload = await requestAuth.post('/laundry/create', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 세탁소 정보 가져오기
+export const myLaundryRequest = async () => {
+  try {
+    const payload = await requestAuth.get('/laundry/');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 아이템 전체 조회
+export const myLaundryItemsRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`/laundry/${dataToSubmit}/item`);
+    return {
+      type: LAUNDRY_ITEM_LIST,
+      payload
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 아이템 등록
+export const LaundryItemAddRequest = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(`/laundry/${data1}/item/add`, data2);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 아이템 삭제
+export const LaundryItemDelRequest = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(
+      `/laundry/${data1}/item/${data2}/delete`
+    );
     return payload;
   } catch (err) {
     return err;

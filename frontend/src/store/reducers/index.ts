@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import user from './user';
+import laundry from './laundry';
 
 const rootReducer = combineReducers({
-  user
+  user,
+  laundry
 });
 
 export default rootReducer;
