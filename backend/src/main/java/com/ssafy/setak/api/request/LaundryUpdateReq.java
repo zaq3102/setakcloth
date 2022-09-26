@@ -35,7 +35,7 @@ public class LaundryUpdateReq {
     String contact;
 
     @ApiModelProperty(name = "배달가능")
-    boolean isDeliver;
+    boolean deliver;
 
     @ApiModelProperty(name = "배달 최소 주문 금액")
     long minCost;
@@ -44,5 +44,5 @@ public class LaundryUpdateReq {
     long deliveryCost;
 
     @ApiModelProperty(name = "픽업가능")
-    boolean isPickup;
+    boolean pickup;
 }
