@@ -133,6 +133,11 @@ $color5: #e0ebf5;
   flex-direction: column;
 }
 
+.ceo-modal-bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
 .ceo-item {
   display: flex;
   justify-content: space-between;

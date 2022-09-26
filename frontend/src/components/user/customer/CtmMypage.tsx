@@ -119,7 +119,7 @@ const CtmMypage: React.FC = () => {
     <div className="ctm-my-page">
       <div className="ctm-my-page-left">
         <div className="ctm-my-info">
-          <div className="ctm-my-info-title">사용자 정보</div>
+          <div className="ctm-my-info-title">내 정보</div>
           <div className="ctm-my-info-content">
             <div className="ctm-my-info-content-left">
               <img src="../assets/logo.png" alt="profileImg" width={100} />

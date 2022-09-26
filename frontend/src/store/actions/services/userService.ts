@@ -13,7 +13,6 @@ import {
 export const InfoRequest = async () => {
   try {
     const payload = await requestAuth.get('/user');
-    console.log(payload);
     return payload;
   } catch (err) {
     return err;

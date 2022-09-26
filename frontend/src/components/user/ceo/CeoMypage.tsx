@@ -16,6 +16,7 @@ import {
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { LaundryRegistRequest } from '../../../store/actions/services/laundryService';
 import { InfoRequest } from '../../../store/actions/services/userService';
 
 const CeoMypage: React.FC = () => {
@@ -28,7 +29,8 @@ const CeoMypage: React.FC = () => {
   const [openDate, setOpenDate] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
   const [addr, setAddr] = useState<string>('');
-  const [laundryDeliver, setLaundryDeliver] = useState<string>('true');
+  const [deliver, setDeliver] = useState<string>('true');
+  const [pickup, setPickup] = useState<string>('true');
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
   const [page, setPage] = useState(1);
@@ -108,10 +110,36 @@ const CeoMypage: React.FC = () => {
     // 등록 과정
   };
 
-  const handleRegistLaundry = () => {};
+  const handleRegistLaundry = async () => {
+    const LaundryInfo = {
+      regNum,
+      laundryName,
+      ceoName,
+      addr,
+      addrDetail: 'ㅎㅇ',
+      addrLat: 1.0,
+      addrLng: 1.3,
+      deliver,
+      pickup
+    };
+
+    const result = await LaundryRegistRequest(LaundryInfo);
+    console.log(result);
+
+    setOpenModal1(false);
+    // if (result?.data?.userInfo) {
+    //   setUserInfo(result?.data?.userInfo);
+    // } else {
+    //   console.log('error');
+    // }
+  };
 
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLaundryDeliver(event.target.value);
+    setDeliver(event.target.value);
+  };
+
+  const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPickup(event.target.value);
   };
 
   return (
@@ -178,19 +206,38 @@ const CeoMypage: React.FC = () => {
                   value={addr}
                   onChange={(event) => setAddr(event.target.value.trim())}
                 />
-                <div>배달 가능 여부</div>
-                <RadioGroup value={laundryDeliver} onChange={handleDeliver}>
-                  <FormControlLabel
-                    value="true"
-                    control={<Radio />}
-                    label="배달 가능"
-                  />
-                  <FormControlLabel
-                    value="false"
-                    control={<Radio />}
-                    label="배달 불가 (손님이 직접 수거)"
-                  />
-                </RadioGroup>
+                <div className="ceo-modal-bottom">
+                  <div>
+                    배달 가능 여부
+                    <RadioGroup value={deliver} onChange={handleDeliver}>
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="배달 가능"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="배달 불가 (손님이 직접 수거)"
+                      />
+                    </RadioGroup>
+                  </div>
+                  <div>
+                    픽업 가능 여부
+                    <RadioGroup value={pickup} onChange={handlePickup}>
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="손님이 수거 가능"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="손님이 수거 불가능(배달만 가능)"
+                      />
+                    </RadioGroup>
+                  </div>
+                </div>
               </div>
             </DialogContent>
             <DialogActions>

@@ -1,7 +1,8 @@
 import * as React from 'react';
+import Slide from './common/Slide';
 
 const Home: React.FC = () => {
-  return <div>홈페이지 입니다.</div>;
+  return <Slide />;
 };
 
 export default Home;
