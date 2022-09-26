@@ -47,7 +47,11 @@ const Login: React.FC = () => {
 
     if (result?.payload?.data?.message === 'Success') {
       dispatch(result);
-      navigate('/');
+      if (mode === 'customer') {
+        navigate('/customer');
+      } else if (mode === 'ceo') {
+        navigate('/ceo');
+      }
     } else {
       alert('로그인에 실패하였습니다!');
     }
