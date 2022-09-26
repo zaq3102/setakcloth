@@ -45,7 +45,7 @@ public class OrderGetRes {
     LocalDate reviewDate;
 
     @ApiModelProperty(name = "리뷰 평점")
-    int reviewScore;
+    Integer reviewScore;
 
     @ApiModelProperty(name = "리뷰 내용")
     String reviewContent;
