@@ -2,15 +2,18 @@ import { request, requestAuth } from './axios';
 import {
   LOGIN_CTM,
   LOGIN_CEO,
+  LOGIN_CTM_KAKAO,
+  LOGIN_CEO_KAKAO,
   SOCIAL_LOGIN_CTM,
   SOCIAL_LOGIN_CEO,
   LOGOUT
 } from '../types/types';
 
-// 고객 회원 정보 조회
-export const ctmInfoRequest = async () => {
+// 회원 정보 조회
+export const InfoRequest = async () => {
   try {
     const payload = await requestAuth.get('/user');
+    console.log(payload);
     return payload;
   } catch (err) {
     return err;
@@ -37,13 +40,25 @@ export const signupCeoRequest = async (dataToSubmit) => {
   }
 };
 
-// 고객 로그인
+// 고객 일반 로그인
 export const loginRequest = async (dataToSubmit) => {
   try {
     const payload = await request.post('/auth/login', dataToSubmit);
-    console.log(payload);
     return {
       type: LOGIN_CTM,
+      payload
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 카카오 로그인
+export const loginkakaoRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(`/auth/login/kakao?code=${dataToSubmit}`);
+    return {
+      type: LOGIN_CTM_KAKAO,
       payload
     };
   } catch (err) {
@@ -57,6 +72,21 @@ export const loginCeoRequest = async (dataToSubmit) => {
     const payload = await request.post('/auth/ceo/login', dataToSubmit);
     return {
       type: LOGIN_CEO,
+      payload
+    };
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 카카오 로그인
+export const loginkakaoCeoRequest = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(
+      `/auth/ceo/login/kakao?code=${dataToSubmit}`
+    );
+    return {
+      type: LOGIN_CEO_KAKAO,
       payload
     };
   } catch (err) {
