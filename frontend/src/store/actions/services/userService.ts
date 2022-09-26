@@ -117,3 +117,16 @@ export const checkEmailRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 주소 변경
+export const changeAddrRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/update/address',
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

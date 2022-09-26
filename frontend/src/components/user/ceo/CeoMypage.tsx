@@ -23,11 +23,11 @@ const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(12340000000000);
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
-  const [laundryNum, setLaundryNum] = useState('');
+  const [regNum, setRegNum] = useState('');
   const [ceoName, setCeoName] = useState<string>('');
   const [openDate, setOpenDate] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
-  const [laundryAddr, setLaundryAddr] = useState<string>('');
+  const [addr, setAddr] = useState<string>('');
   const [laundryDeliver, setLaundryDeliver] = useState<string>('true');
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
@@ -35,7 +35,6 @@ const CeoMypage: React.FC = () => {
 
   const getMypage = async () => {
     const result = await InfoRequest();
-    console.log(result);
   };
 
   useEffect(() => {
@@ -137,8 +136,8 @@ const CeoMypage: React.FC = () => {
                   label="사업자 등록번호"
                   name="laundry-num"
                   fullWidth
-                  value={laundryNum}
-                  onChange={(event) => setLaundryNum(event.target.value.trim())}
+                  value={regNum}
+                  onChange={(event) => setRegNum(event.target.value.trim())}
                 />
                 <TextField
                   sx={{ mt: 2, mb: 1 }}
@@ -176,10 +175,8 @@ const CeoMypage: React.FC = () => {
                   label="주소"
                   name="laundry-addr"
                   fullWidth
-                  value={laundryAddr}
-                  onChange={(event) =>
-                    setLaundryAddr(event.target.value.trim())
-                  }
+                  value={addr}
+                  onChange={(event) => setAddr(event.target.value.trim())}
                 />
                 <div>배달 가능 여부</div>
                 <RadioGroup value={laundryDeliver} onChange={handleDeliver}>

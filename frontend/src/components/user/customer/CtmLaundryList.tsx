@@ -11,12 +11,28 @@ import {
   Typography
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import { LaundryDistRequest } from '../../../store/actions/services/laundryService';
 import '../../../styles/Customer.scss';
 
 const CtmLaundryList: React.FC = () => {
   const [alignlist, setAlignlist] = useState('');
+  const [laundryList, setLaundryList] = useState([]);
+
+  const getList = async () => {
+    const result = await LaundryDistRequest();
+    if (result?.data?.laundries) {
+      setLaundryList(result?.data?.laundries);
+    } else {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
   const itemData = [
     {
       id: 1,

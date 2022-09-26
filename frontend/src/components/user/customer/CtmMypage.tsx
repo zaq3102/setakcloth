@@ -7,21 +7,36 @@ import {
   Pagination
 } from '@mui/material';
 import * as React from 'react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import user from 'src/store/reducers/user';
+import { InfoRequest } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 
 const CtmMypage: React.FC = () => {
-  const nickname = '김수미';
   const [clean, setClean] = useState<number>(12340000000000);
   const [point, setPoint] = useState<number>(12340);
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
   const [pageReview, setPageReview] = useState(1);
   const [pageOrder, setPageOrder] = useState(1);
+  const [userInfo, setUserInfo] = useState('');
   // const [profile, setProfile] = useState({ profileImg: '' });
   const ImageInput = useRef<HTMLInputElement>();
   const ImageShow = useRef<HTMLImageElement>();
+
+  const getMypage = async () => {
+    const result = await InfoRequest();
+    if (result?.data?.userInfo) {
+      setUserInfo(result?.data?.userInfo);
+    } else {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getMypage();
+  }, []);
 
   const myReviewList = [
     '리뷰 1입니다~~~~~',
@@ -117,9 +132,14 @@ const CtmMypage: React.FC = () => {
               </Button>
             </div>
             <div className="ctm-my-info-content-right">
-              <div>{nickname}님, 오늘도 화이팅!</div>
+              <div>
+                {Boolean(userInfo.nickName) ? userInfo.nickName : '사용자'}님,
+                오늘도 화이팅!
+              </div>
               <br />
-              <div>개인 정보</div>
+              <div>
+                주소 : {userInfo.addr} {userInfo.addrDetail}
+              </div>
               <br />
               <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
               <div>(포인트 아이콘 들어갈 예정) {point} 포인트</div>
