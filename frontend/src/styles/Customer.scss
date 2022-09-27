@@ -50,7 +50,7 @@ $color5: #e0ebf5;
 
 .MuiCardContent-root {
     width: 350px;
-    height: 150px;
+    height: 170px;
 }
 
 .laundry-sort {
@@ -62,33 +62,53 @@ $color5: #e0ebf5;
     text-align: center;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     margin-top: 10px;
 }
 
 .rightdiv {
     display: flex;
-    flex-direction: column;
+}
+
+.item-text {
+    font-size: large;
+}
+
+.rightdiv-button {
+    width: 500px;
 }
 
 .orderinfo-button {
-    width: 200px;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    width: 50%;
 }
 
 .reviewlist-button {
-    width: 200px;
+    padding: 10px;
+    border: 0;
+    background-color: white;
+    width: 50%;
 }
 
-.laundrydetailcard {
-    height: 600px;
-    width: 400px;
+.button-selected {
+    padding: 10px;
+    border-bottom: 2px solid $color2;
+}
+
+.rightdiv-content {
+    padding: 20px;
+}
+
+.order-isDeliver {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.laundryitems {
-    height: 300px;
+.laundrydetailcard {
+    height: 600px;
     width: 400px;
     display: flex;
     flex-direction: column;

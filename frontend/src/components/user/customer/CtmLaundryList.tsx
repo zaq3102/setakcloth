@@ -106,6 +106,7 @@ const CtmLaundryList: React.FC = () => {
 
   const getList = async () => {
     const result = await LaundryDistRequest();
+    console.log(result);
     if (result?.data?.laundries) {
       setLaundryList(result?.data?.laundries);
     } else {
