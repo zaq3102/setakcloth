@@ -34,7 +34,7 @@ public class LaundriesGetRes extends BaseResponseBody {
         for (Tuple tuple : tuples) {
             Laundry laundry = (Laundry) tuple.get(0);
             if (laundry.isWithdrawn()) continue;
-            laundries.add(LaundryGetRes.of(laundry, Float.valueOf(tuple.get(1).toString()), Float.valueOf(tuple.get(2).toString())));
+            laundries.add(LaundryGetRes.of(laundry, Float.valueOf(tuple.get(1).toString()), Float.valueOf((tuple.get(2) == null ? -1 : tuple.get(2)).toString())));
         }
     }
 }

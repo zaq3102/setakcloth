@@ -3,6 +3,7 @@ package com.ssafy.setak.api.response;
 
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
+import com.ssafy.setak.db.entity.Order;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -56,6 +57,9 @@ public class LaundryDetailRes {
     @ApiModelProperty(name = "세탁 아이템")
     List<LaundryItemGetRes> laundryItems;
 
+    @ApiModelProperty(name = "별점")
+    float score;
+
     public static LaundryDetailRes of(Laundry laundry) {
         LaundryDetailRes res = new LaundryDetailRes();
         res.setLaundryId(laundry.getId());
@@ -72,6 +76,18 @@ public class LaundryDetailRes {
         res.setDeliverCost(laundry.getDeliveryCost());
         res.setPickup(laundry.isPickup());
         res.setLaundryItems(laundry.getLaundryItems());
+
+        List<Order> orders = laundry.getOrders();
+        float avg = 0;
+        int cnt = 0;
+        for(Order order : orders){
+            if(order.getReviewScore() != null){
+                avg += order.getReviewScore();
+                cnt++;
+            }
+        }
+
+        res.setScore(cnt == 0 ? -1 : avg/cnt);
         return res;
     }
 
