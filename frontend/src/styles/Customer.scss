@@ -71,12 +71,35 @@ $color5: #e0ebf5;
     flex-direction: column;
 }
 
+.orderinfo-button {
+    width: 200px;
+}
+
+.reviewlist-button {
+    width: 200px;
+}
+
 .laundrydetailcard {
-    height: 700px;
-    width: 500px;
+    height: 600px;
+    width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.laundryitems {
+    height: 300px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.itemlist {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
 
 #laundrydetailimage {
@@ -84,6 +107,26 @@ $color5: #e0ebf5;
     align-items: center;
     justify-content: center;
     width: 200px;
+}
+
+.laundrynum {
+    width: 50px;
+}
+
+.laundry-review-list-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+}
+
+.laundry-review-detail {
+    background-color: $color5;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 100%;
 }
 
 // customer/CtmHome.tsx
