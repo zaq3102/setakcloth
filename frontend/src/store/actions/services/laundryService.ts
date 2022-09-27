@@ -5,7 +5,6 @@ import { request, requestAuth } from './axios';
 export const LaundryDistRequest = async () => {
   try {
     const payload = await requestAuth.get('/laundry/distance');
-    console.log(payload);
     return payload;
   } catch (err) {
     return err;
@@ -50,6 +49,16 @@ export const myLaundryRequest = async () => {
       type: LAUNDRY_INFO,
       payload
     };
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 하나 조회
+export const LaundryDetailRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`/laundry/${dataToSubmit}`);
+    return payload;
   } catch (err) {
     return err;
   }

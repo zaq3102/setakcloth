@@ -29,3 +29,13 @@ export const myorderCeoRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 주문 등록
+export const orderRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post('/order/create', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

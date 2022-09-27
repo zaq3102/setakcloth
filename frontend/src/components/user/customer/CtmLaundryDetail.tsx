@@ -4,81 +4,101 @@ import {
   Card,
   CardContent,
   CardMedia,
+  FormControlLabel,
   IconButton,
   Pagination,
+  Radio,
+  RadioGroup,
   Rating,
   TextField,
   Typography
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import StarIcon from '@mui/icons-material/Star';
+import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
+import AddIcon from '@mui/icons-material/Add';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import '../../../styles/Customer.scss';
 import KakaoMaps from '../../common/KakaoMaps';
+import {
+  LaundryDetailRequest,
+  LaundryReviewRequest,
+  myLaundryItemsRequest
+} from '../../../store/actions/services/laundryService';
+import { orderRequest } from '../../../store/actions/services/orderService';
 
 const CtmLaundryDetail: React.FC = () => {
-  const itemData = [
-    {
-      img: '',
-      title: '세탁소1',
-      minimum: 15000,
-      deliverfee: 3000,
-      laundryinfo: '세탁소 정보',
-      featured: true
-    }
-  ];
-
-  const itemList = [
-    {
-      item: '셔츠',
-      price: 1100,
-      id: 1
-    },
-    {
-      item: '바지',
-      price: 1500,
-      id: 2
-    },
-    {
-      item: '자켓',
-      price: 3000,
-      id: 3
-    },
-    {
-      item: '코트',
-      price: 5000,
-      id: 4
-    }
-  ];
+  const [laundry, setLaundry] = useState([]);
+  const [laundryItemList, setLaundryItemList] = useState([]);
+  const { laundryId } = useParams();
 
   const [mode, setMode] = useState(1);
-  const orderInfo = '주문 정보';
-  const reviewList = '리뷰 정보';
-  const [count, setCount] = useState([0]);
-  const [sum, setSum] = useState(0);
+  const [orderDetails, setOrderDetails] = useState([]);
+  const [orderType, setOrderType] = useState<number>(0);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
+  const [reviewList, setReviewList] = useState([]);
+
+  const getItemList = async () => {
+    const result = await myLaundryItemsRequest(laundryId);
+    if (result?.payload?.data?.laundryItems) {
+      const items = result?.payload?.data?.laundryItems;
+      setLaundryItemList(items);
+      const temp = [];
+      for (let i = 0; i < items.length; i += 1) {
+        temp.push(0);
+      }
+      setOrderDetails(temp);
+    } else {
+      console.log('error');
+    }
+  };
+
+  const getLaundry = async () => {
+    const result = await LaundryDetailRequest(laundryId);
+    if (result?.data?.laundry) {
+      setLaundry(result?.data?.laundry);
+    } else {
+      console.log('error');
+    }
+  };
+
+  const getReviewList = async () => {
+    const result = await LaundryReviewRequest(laundryId);
+    if (result?.data?.message === 'Success') {
+      setReviewList(result?.data?.reviews);
+    } else {
+      console.log('error');
+    }
+  };
 
   useEffect(() => {
-    const temp = [];
-    for (let i = 0; i < itemList.length; i += 1) {
-      temp.push(0);
-    }
-    setCount(temp);
+    getItemList();
+    getLaundry();
+    getReviewList();
   }, []);
 
-  const minusOne = (value) => {
-    console.log('minus' + value);
-    const temp = count;
-    temp[value - 1] -= 1;
-    setCount(temp);
+  const minusOne = (index) => {
+    const newArr = [...orderDetails];
+    newArr[index] -= 1;
+    setTotalPrice(totalPrice - laundryItemList[index].price);
+    setOrderDetails(newArr);
   };
-  const plusOne = (value) => {
-    console.log('plus' + value);
-    count[value - 1] += 1;
+
+  const plusOne = (index) => {
+    const newArr = [...orderDetails];
+    newArr[index] += 1;
+    setTotalPrice(totalPrice + laundryItemList[index].price);
+    setOrderDetails(newArr);
   };
 
   const handleTab = (value) => {
     setMode(value);
+  };
+
+  const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setOrderType(parseInt(event.target.value, 10));
   };
 
   const value = 3.5;
@@ -95,14 +115,80 @@ const CtmLaundryDetail: React.FC = () => {
     4.5: '4.5점',
     5: '5점'
   };
-  const myReviewList = ['리뷰 1', '리뷰 2', '리뷰 3', '리뷰 4', '리뷰 5'];
+
   const pageReviewChange = (event, value) => {
     setPageReview(value);
   };
 
-  let content = <div>{orderInfo}</div>;
+  const handleOrder = async () => {
+    const orderInfo = {
+      laundryId,
+      orderType,
+      totalPrice,
+      orderDetails
+    };
+    const result = await orderRequest(orderInfo);
+    if (result?.data?.message === 'Success') {
+      alert('주문이 완료 되었습니다.');
+      const temp = [];
+      for (let i = 0; i < orderDetails.length; i += 1) {
+        temp.push(0);
+      }
+      setOrderDetails(temp);
+      setTotalPrice(0);
+    } else {
+      console.log('error');
+    }
+  };
+
+  let content = '';
   if (mode === 1) {
-    content = <div>{orderInfo}</div>;
+    content = (
+      <>
+        <Typography gutterBottom variant="h4" component="div">
+          세탁 서비스 주문하기
+        </Typography>
+        {laundryItemList.map((item, idx) => (
+          <div className="itemlist">
+            <div className="item-text">
+              {item.name} {item.price}원
+            </div>
+            <IconButton
+              onClick={() => minusOne(idx)}
+              disabled={orderDetails[idx] === 0}>
+              <HorizontalRuleIcon />
+            </IconButton>
+            <TextField
+              className="laundrynum"
+              id="outlined-basic"
+              variant="outlined"
+              value={orderDetails[idx]}
+            />
+            <IconButton onClick={() => plusOne(idx)}>
+              <AddIcon />
+            </IconButton>
+          </div>
+        ))}
+        <div className="order-isDeliver">
+          <div>수령 방법</div>
+          <RadioGroup row value={orderType} onChange={handleDeliver}>
+            <FormControlLabel value={0} control={<Radio />} label="배달" />
+            <FormControlLabel value={1} control={<Radio />} label="직접 수거" />
+          </RadioGroup>
+        </div>
+        <div className="item-text">
+          총 수량 : {orderDetails.reduce((a, b) => a + b, 0)}
+        </div>
+        <div className="item-text">예상 금액 : {totalPrice}원</div>
+        <Button
+          variant="contained"
+          color="color2"
+          onClick={handleOrder}
+          disabled={totalPrice === 0}>
+          주문하기
+        </Button>
+      </>
+    );
   } else if (mode === 2) {
     content = (
       <div>
@@ -119,13 +205,12 @@ const CtmLaundryDetail: React.FC = () => {
           />
           <Box>{labels[value]}</Box>
         </div>
-        <br />
         <Typography variant="h4" component="div">
-          리뷰 {myReviewList.length}개
+          리뷰 {reviewList.length}개
         </Typography>
         <div className="laundry-review-list-content">
           <div className="laundry-review-detail">
-            {myReviewList
+            {reviewList
               .slice((pageReview - 1) * 3, pageReview * 3)
               .map((review) => (
                 <Link key={review} to="/">
@@ -135,11 +220,11 @@ const CtmLaundryDetail: React.FC = () => {
           </div>
           <div className="laundry-pagination">
             <Pagination
-              count={Math.ceil(myReviewList.length / 3)}
+              count={Math.ceil(reviewList.length / 3)}
               page={pageReview}
               color="color2"
               className={`${
-                myReviewList.length === 0
+                reviewList.length === 0
                   ? 'laundry-no-pagination'
                   : 'laundry-pagination'
               }`}
@@ -154,87 +239,51 @@ const CtmLaundryDetail: React.FC = () => {
   return (
     <div className="customerlaundrydetail">
       <div id="leftdiv">
-        {itemData.map((item) => (
-          <Card className="laundrydetailcard" key={item.img}>
-            <CardMedia
-              component="img"
-              height="200"
-              image={`${item.img}`}
-              alt={item.title}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {item.title}
-              </Typography>
-              <IconButton aria-label="add to favorites">
-                <FavoriteIcon />
-              </IconButton>
-              <Typography variant="body2" color="text.secondary">
-                {item.laundryinfo}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                최소 주문 금액: {item.minimum}원
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                수거 배달 비: {item.deliverfee}원
-              </Typography>
-            </CardContent>
-            <KakaoMaps />
-          </Card>
-        ))}
-        <br />
-        <Card className="laundryitems">
-          <CardContent>
-            <Typography gutterBottom variant="h4" component="div">
-              세탁 서비스 신청{count}
-            </Typography>
-            {itemList.map((item) => (
-              <div className="itemlist">
-                <Typography variant="h4" component="div">
-                  {item.item}
-                </Typography>
-                <Typography variant="h4" component="div">
-                  {item.price}원
-                </Typography>
-                <IconButton onClick={() => minusOne(item.id)}>
-                  <HorizontalRuleIcon />
-                </IconButton>
-                <TextField
-                  className="laundrynum"
-                  id="outlined-basic"
-                  variant="outlined"
-                  value={count[item.id - 1]}
-                />
-                <IconButton onClick={() => plusOne(item.id)}>
-                  <AddIcon />
-                </IconButton>
-                <br />
+        <Card className="laundrydetailcard">
+          <CardMedia
+            component="img"
+            height="200"
+            // image={`${item.img}`}
+            alt={laundry.laundryName}
+          />
+          <CardContent id="laundryBox">
+            <div className="item-title">{laundry.laundryName}</div>
+            <IconButton>
+              <FavoriteIcon />
+            </IconButton>
+            <div className="item-content">
+              <div>
+                {laundry.addr} {laundry.addrDetail}
               </div>
-            ))}
-            <br />
-            <Typography gutterBottom variant="h4" component="div">
-              총 수량 :{sum}
-            </Typography>
-            <Typography gutterBottom variant="h4" component="div">
-              예상 금액 :
-            </Typography>
+              <div>최소 이용금액 : {laundry.minCost}원</div>
+              <div>배달비 : {laundry.deliverCost}원</div>
+            </div>
           </CardContent>
+          <KakaoMaps />
         </Card>
-        <Button>취소</Button>
-        <Button>신청</Button>
       </div>
 
       {/* toggle */}
       <div id="rightdiv">
-        <div>
-          <Button className="orderinfo-button" onClick={() => handleTab(1)}>
+        <div className="rightdiv-button">
+          <button
+            type="button"
+            className={`orderinfo-button ${
+              mode === 1 ? 'button-selected' : null
+            }`}
+            onClick={() => handleTab(1)}>
             주문
-          </Button>
-          <Button className="reviewlist-button" onClick={() => handleTab(2)}>
+          </button>
+          <button
+            type="button"
+            className={`reviewlist-button ${
+              mode === 2 ? 'button-selected' : null
+            }`}
+            onClick={() => handleTab(2)}>
             리뷰
-          </Button>
+          </button>
         </div>
-        <div>{content}</div>
+        <div className="rightdiv-content">{content}</div>
       </div>
     </div>
   );
