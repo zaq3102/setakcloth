@@ -273,3 +273,51 @@ $color5: #e0ebf5;
     padding: 10px;
     height: 90px;
 }
+
+// CtmOrderDetail.tsx
+.order-detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.orderdetailcard{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 90%;
+}
+
+.orderdetailcard-left{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
+.orderdetailcard-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.orderdetail-status{
+    font-size: 20px;
+}
+
+.img-space{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
+
+.slide-space{
+    height: 140px;
+}

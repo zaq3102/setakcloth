@@ -53,17 +53,31 @@ const CtmMypage: React.FC = () => {
   ];
 
   const myOrderList = [
-    '최근 목록 1입니다~~~~~',
-    '최근 목록 2입니다~~~~~',
-    '최근 목록 3입니다~~~~~',
-    '최근 목록 4입니다~~~~~',
-    '최근 목록 5입니다~~~~~',
-    '최근 목록 6입니다~~~~~',
-    '최근 목록 7입니다~~~~~',
-    '최근 목록 8입니다~~~~~',
-    '최근 목록 9입니다~~~~~',
-    '최근 목록 10입니다~~~~~',
-    '최근 목록 11입니다~~~~~'
+    {
+      orderId: 1,
+      laundryName: '크린토피아 역삼점',
+      orderItems: ['신발', '모자']
+    },
+    {
+      orderId: 2,
+      laundryName: '크린토피아 역삼점',
+      orderItems: ['신발', '모자']
+    },
+    {
+      orderId: 3,
+      laundryName: '크린토피아 역삼점',
+      orderItems: ['신발', '모자']
+    },
+    {
+      orderId: 4,
+      laundryName: '크린토피아 역삼점',
+      orderItems: ['신발', '모자']
+    },
+    {
+      orderId: 5,
+      laundryName: '크린토피아 역삼점',
+      orderItems: ['신발', '모자']
+    }
   ];
 
   const pageReviewChange = (event, value) => {
@@ -113,6 +127,10 @@ const CtmMypage: React.FC = () => {
       ImageShow.current.src = img.src;
       // setSelectedFile(file);
     }
+  };
+
+  const onClickItem = (value: string) => {
+    navigate(`./${value}`);
   };
 
   return (
@@ -250,8 +268,12 @@ const CtmMypage: React.FC = () => {
             {myOrderList
               .slice((pageOrder - 1) * 4, pageOrder * 4)
               .map((order) => (
-                <Link key={order} to="/ceo/mypage">
-                  <div className="ctm-my-order">{order}</div>
+                <Link to={`../order/${order.orderId}`}>
+                  <div className="ctm-my-order">
+                    <div>{order.orderId}</div>
+                    <div>{order.laundryName}</div>
+                    <div>{order.orderItems}</div>
+                  </div>
                 </Link>
               ))}
           </div>
