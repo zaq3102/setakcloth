@@ -4,6 +4,7 @@ import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.api.response.*;
+import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
@@ -26,6 +27,9 @@ import java.util.List;
 public class LaundryController {
 
     @Autowired
+    private JwtService jwtService;
+
+    @Autowired
     private LaundryService laundryService;
 
     @PostMapping("/create")
@@ -35,7 +39,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
     public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
-        Long ceoUserId = 1L;
+        Long ceoUserId = jwtService.getUserId();
 
         laundryService.createLaundry(ceoUserId, laundryInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -48,7 +52,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "사장님 세탁소 조회 실패"),
     })
     public ResponseEntity<?> getLaundries() {
-        Long ceoUserId = 1L;
+        Long ceoUserId = jwtService.getUserId();
         List<Laundry> laundries = laundryService.selectAllByUserId(ceoUserId);
 
         return ResponseEntity.status(200).body(LaundryDetailsGetRes.of(200, "Success", laundries));
@@ -62,7 +66,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 조회 실패"),
     })
     public ResponseEntity<?> getLaundryOrderByDistance() {
-        Long userId = 1L;
+        Long userId = jwtService.getUserId();
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByDistance(userId);
 
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
@@ -75,7 +79,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 주문 많은 순 전체 조회 실패"),
     })
     public ResponseEntity<?> getLaundryOrderByOrder() {
-        Long userId = 1L;
+        Long userId = jwtService.getUserId();
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByOrder(userId);
 
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
@@ -88,7 +92,7 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 별점 순 전체 조회 실패"),
     })
     public ResponseEntity<?> getLaundryOrderByScore() {
-        Long userId = 1L;
+        Long userId = jwtService.getUserId();
         List<Tuple> laundries = laundryService.selectAllLaundryOrderByScore(userId);
 
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
