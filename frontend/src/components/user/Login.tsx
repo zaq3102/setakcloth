@@ -106,9 +106,20 @@ const Login: React.FC = () => {
         }}
       />
       <br />
-      <Button variant="contained" color="color2" onClick={handleSubmit}>
-        로그인
-      </Button>
+      <div className="login-button-area">
+        <Button
+          className="login-button"
+          variant="contained"
+          color="color2"
+          onClick={handleSubmit}>
+          로그인
+        </Button>
+        <img
+          className="kakao-login-button"
+          src="../assets/Img/kakao_login_medium.png"
+          alt="kakao-login-btn"
+        />
+      </div>
       <br />
       <Link to="/">비밀번호 찾기</Link>
       <br />
