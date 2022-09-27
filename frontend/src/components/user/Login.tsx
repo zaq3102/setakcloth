@@ -105,7 +105,11 @@ const Login: React.FC = () => {
           onClick={handleSubmit}>
           로그인
         </Button>
-        <img src="../../../assets/Img/kakao_login_small.png"></img>
+        <img
+          className="kakao-login-button"
+          src="../assets/Img/kakao_login_medium.png"
+          alt="kakao-login-btn"
+        />
       </div>
       <br />
       <Link to="/">비밀번호 찾기</Link>
