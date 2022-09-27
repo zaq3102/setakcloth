@@ -18,7 +18,6 @@ import '../../../styles/Customer.scss';
 import AddIcon from '@mui/icons-material/Add';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import StarIcon from '@mui/icons-material/Star';
-import GoogleMaps from '../../common/GoogleMaps';
 
 const CtmLaundryDetail: React.FC = () => {
   const itemData = [
@@ -182,7 +181,6 @@ const CtmLaundryDetail: React.FC = () => {
                 수거 배달 비: {item.deliverfee}원
               </Typography>
             </CardContent>
-            <GoogleMaps />
           </Card>
         ))}
         <br />
