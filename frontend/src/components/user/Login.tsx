@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import { myLaundryRequest } from '../../store/actions/services/laundryService';
 import {
   loginCeoRequest,
   loginRequest
@@ -50,6 +51,12 @@ const Login: React.FC = () => {
       if (mode === 'customer') {
         navigate('/customer');
       } else if (mode === 'ceo') {
+        const result2 = await myLaundryRequest();
+        if (result2?.payload?.data?.laundries) {
+          dispatch(result2);
+        } else {
+          console.log('error');
+        }
         navigate('/ceo');
       }
     } else {
