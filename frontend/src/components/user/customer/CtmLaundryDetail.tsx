@@ -10,11 +10,12 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import * as React from 'react';
 import { useState } from 'react';
 import '../../../styles/Customer.scss';
+import KakaoMaps from '../../common/KakaoMaps';
 
 const CtmLaundryDetail: React.FC = () => {
   const itemData = [
     {
-      img: 'https://images.unsplash.com/photo-1551963831-b3b1ca40c98e',
+      img: '',
       title: '세탁소1',
       minimum: 15000,
       deliverfee: 3000,
@@ -64,6 +65,7 @@ const CtmLaundryDetail: React.FC = () => {
                 수거 배달 비: {item.deliverfee}원
               </Typography>
             </CardContent>
+            <KakaoMaps />
           </Card>
         ))}
       </div>
