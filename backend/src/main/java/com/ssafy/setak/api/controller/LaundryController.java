@@ -45,7 +45,7 @@ public class LaundryController {
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     @ApiOperation(value = "사장님 세탁소 전체 조회", notes = "사장님 세탁소 전체 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
