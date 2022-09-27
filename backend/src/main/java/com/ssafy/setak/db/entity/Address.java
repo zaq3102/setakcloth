@@ -15,8 +15,11 @@ import javax.persistence.*;
 public class Address {
 
     private String addr;
+
     private String addrDetail;
+
     private Float addrLat;
+
     private Float addrLng;
 }
 

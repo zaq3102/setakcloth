@@ -42,7 +42,13 @@ public class LaundryService {
                 .regDate(LocalDate.now())
                 .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
                 .userId(ceoUserId)
+                .isDeliver(laundryInfo.isDeliver())
+                .isPickup(laundryInfo.isPickup())
                 .build());
+    }
+
+    public List<Laundry> selectAllByUserId(Long ceoUserId) {
+        return laundryRepository.findByUserId(ceoUserId);
     }
 
     public List<Tuple> selectAllLaundryOrderByDistance(Long userId) {

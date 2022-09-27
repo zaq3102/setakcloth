@@ -47,7 +47,11 @@ const Login: React.FC = () => {
 
     if (result?.payload?.data?.message === 'Success') {
       dispatch(result);
-      navigate('/');
+      if (mode === 'customer') {
+        navigate('/customer');
+      } else if (mode === 'ceo') {
+        navigate('/ceo');
+      }
     } else {
       alert('로그인에 실패하였습니다!');
     }
@@ -95,6 +99,11 @@ const Login: React.FC = () => {
         value={pwd}
         onChange={passwordChange}
         sx={{ width: 300 }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
       />
       <br />
       <Button variant="contained" color="color2" onClick={handleSubmit}>

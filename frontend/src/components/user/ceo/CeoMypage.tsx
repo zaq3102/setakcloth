@@ -14,23 +14,88 @@ import {
   TextField
 } from '@mui/material';
 import * as React from 'react';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import {
+  LaundryItemAddRequest,
+  LaundryItemDelRequest,
+  LaundryRegistRequest,
+  myLaundryItemsRequest,
+  myLaundryRequest
+} from '../../../store/actions/services/laundryService';
+import { InfoRequest } from '../../../store/actions/services/userService';
 
 const CeoMypage: React.FC = () => {
   const TemplaundryName = '싸피 세탁소';
   const [clean, setClean] = useState<number>(12340000000000);
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
-  const [laundryNum, setLaundryNum] = useState('');
+  const [regNum, setRegNum] = useState('');
   const [ceoName, setCeoName] = useState<string>('');
   const [openDate, setOpenDate] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
-  const [laundryAddr, setLaundryAddr] = useState<string>('');
-  const [laundryDeliver, setLaundryDeliver] = useState<string>('true');
+  const [addr, setAddr] = useState<string>('');
+  const [deliver, setDeliver] = useState<string>('true');
+  const [pickup, setPickup] = useState<string>('true');
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
   const [page, setPage] = useState(1);
+  const [laundryList, setLaundryList] = useState([]);
+  const [ceoInfo, setCeoInfo] = useState('');
+  const [itemList, setItemList] = useState([]);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const getMyInfo = async () => {
+    const result = await InfoRequest();
+    console.log(result);
+    if (result?.data?.userInfo) {
+      setCeoInfo(result?.data?.userInfo);
+    } else {
+      console.log('error');
+    }
+  };
+
+  const getMyLaundry = async () => {
+    const result = await myLaundryRequest();
+    console.log(result);
+    if (result?.data?.laundries) {
+      setLaundryList(result?.data?.laundries);
+    } else {
+      console.log('error');
+    }
+  };
+
+  const getMyItems = async () => {
+    const result = await myLaundryItemsRequest(laundryList[0].laundryId);
+    dispatch(result);
+    if (result?.payload?.data?.laundryItems) {
+      setItemList(result?.payload?.data?.laundryItems);
+    } else {
+      console.log('error');
+    }
+  };
+
+  const registItem = async () => {
+    const item = {
+      name: itemName,
+      price: itemPrice
+    };
+    const result = await LaundryItemAddRequest(laundryList[0].laundryId, item);
+    if (result?.data?.message === 'Success') {
+      getMyItems();
+      setItemName('');
+      setItemPrice(0);
+    } else {
+      console.log('error');
+    }
+  };
+
+  useEffect(() => {
+    getMyInfo();
+    getMyLaundry();
+  }, []);
 
   const reviewList = [
     '리뷰 1입니다~~~~~',
@@ -46,31 +111,6 @@ const CeoMypage: React.FC = () => {
     '리뷰 11입니다~~~~~'
   ];
 
-  const itemList = {
-    '와이셔츠 세탁': 5000,
-    '모자 세탁': 3000,
-    '치마 수선': 6000,
-    '드라이클리닝': 10000,
-    '모자 1세탁': 3000,
-    '치마 1수선': 6000,
-    '드라이2클리닝': 10000,
-    '모자 세2탁': 3000,
-    '치마 수4선': 6000,
-    '드라이5클리닝': 10000,
-    '모자 세6탁': 3000,
-    '치마 수1선': 6000,
-    '드라이클2리닝': 10000,
-    '모자 세3탁': 3000,
-    '치마 5수선': 6000,
-    '드라3이클리닝': 10000,
-    '모자 4세탁': 3000,
-    '치마 3수선': 6000,
-    '드라이2클4리닝': 10000,
-    '모자 1세탁4': 3000,
-    '치마 11수선': 6000,
-    '드라이23클리닝': 10000
-  };
-
   const pageChange = (event, value) => {
     setPage(value);
   };
@@ -79,6 +119,7 @@ const CeoMypage: React.FC = () => {
     if (modalType === 1) {
       setOpenModal1(true);
     } else if (modalType === 2) {
+      getMyItems();
       setOpenModal2(true);
     }
   };
@@ -91,18 +132,55 @@ const CeoMypage: React.FC = () => {
     }
   };
 
-  const itemAdd = () => {};
-
-  const itemDel = () => {};
+  const delItem = async (id) => {
+    const result = await LaundryItemDelRequest(laundryList[0].laundryId, id);
+    if (result?.data?.message === 'Success') {
+      getMyItems();
+    } else {
+      console.log('error');
+    }
+  };
 
   const handleSetItem = () => {
     // 등록 과정
   };
 
-  const handleRegistLaundry = () => {};
+  const handleRegistLaundry = async () => {
+    const LaundryInfo = {
+      regNum,
+      laundryName,
+      ceoName,
+      addr,
+      addrDetail: 'ㅎㅇ',
+      addrLat: 1.0,
+      addrLng: 1.3,
+      deliver,
+      pickup
+    };
+
+    const result = await LaundryRegistRequest(LaundryInfo);
+    if (result?.data?.message === 'Success') {
+      alert('세탁소 등록이 되었습니다.');
+      // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
+      navigate('../mypage');
+    } else {
+      console.log('error');
+    }
+
+    setOpenModal1(false);
+    // if (result?.data?.userInfo) {
+    //   setUserInfo(result?.data?.userInfo);
+    // } else {
+    //   console.log('error');
+    // }
+  };
 
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLaundryDeliver(event.target.value);
+    setDeliver(event.target.value);
+  };
+
+  const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPickup(event.target.value);
   };
 
   return (
@@ -127,8 +205,8 @@ const CeoMypage: React.FC = () => {
                   label="사업자 등록번호"
                   name="laundry-num"
                   fullWidth
-                  value={laundryNum}
-                  onChange={(event) => setLaundryNum(event.target.value.trim())}
+                  value={regNum}
+                  onChange={(event) => setRegNum(event.target.value.trim())}
                 />
                 <TextField
                   sx={{ mt: 2, mb: 1 }}
@@ -166,24 +244,41 @@ const CeoMypage: React.FC = () => {
                   label="주소"
                   name="laundry-addr"
                   fullWidth
-                  value={laundryAddr}
-                  onChange={(event) =>
-                    setLaundryAddr(event.target.value.trim())
-                  }
+                  value={addr}
+                  onChange={(event) => setAddr(event.target.value.trim())}
                 />
-                <div>배달 가능 여부</div>
-                <RadioGroup value={laundryDeliver} onChange={handleDeliver}>
-                  <FormControlLabel
-                    value="true"
-                    control={<Radio />}
-                    label="배달 가능"
-                  />
-                  <FormControlLabel
-                    value="false"
-                    control={<Radio />}
-                    label="배달 불가 (손님이 직접 수거)"
-                  />
-                </RadioGroup>
+                <div className="ceo-modal-bottom">
+                  <div>
+                    배달 가능 여부
+                    <RadioGroup value={deliver} onChange={handleDeliver}>
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="배달 가능"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="배달 불가 (손님이 직접 수거)"
+                      />
+                    </RadioGroup>
+                  </div>
+                  <div>
+                    픽업 가능 여부
+                    <RadioGroup value={pickup} onChange={handlePickup}>
+                      <FormControlLabel
+                        value="true"
+                        control={<Radio />}
+                        label="손님이 수거 가능"
+                      />
+                      <FormControlLabel
+                        value="false"
+                        control={<Radio />}
+                        label="손님이 수거 불가능(배달만 가능)"
+                      />
+                    </RadioGroup>
+                  </div>
+                </div>
               </div>
             </DialogContent>
             <DialogActions>
@@ -204,16 +299,18 @@ const CeoMypage: React.FC = () => {
             <DialogTitle>세탁 품목 변경하기</DialogTitle>
             <DialogContent>
               <List sx={{ height: 200, overflow: 'auto' }}>
-                {Object.keys(itemList).map((item) => (
-                  <div className="ceo-item">
-                    <ListItem key={item}>
+                {itemList.map((item) => (
+                  <div className="ceo-item" key={item.id}>
+                    <ListItem>
                       <button
                         type="button"
-                        onClick={itemDel}
+                        onClick={() => delItem(item.id)}
                         className="ceo-item-del-btn">
                         삭제
                       </button>
-                      <ListItemText primary={`${item} : ${itemList[item]}원`} />
+                      <ListItemText
+                        primary={`${item.name} : ${item.price}원`}
+                      />
                     </ListItem>
                   </div>
                 ))}
@@ -244,7 +341,7 @@ const CeoMypage: React.FC = () => {
                 <button
                   type="button"
                   className="ceo-add-new-item-btn"
-                  onClick={itemAdd}>
+                  onClick={registItem}>
                   추가
                 </button>
               </div>
@@ -257,24 +354,27 @@ const CeoMypage: React.FC = () => {
                 onClick={handleSetItem}
                 variant="contained"
                 color="color2">
-                저장
+                확인
               </Button>
             </DialogActions>
           </div>
         </Dialog>
-        <button
-          type="button"
-          className="ceo-my-page-btn"
-          onClick={() => handleOpenModal(1)}>
-          세탁소 등록하기 (이미 등록했으면 버튼 안 뜰 것임)
-        </button>
-        <Button
-          variant="contained"
-          color="color2"
-          className="ceo-my-page-btn"
-          onClick={() => handleOpenModal(2)}>
-          세탁 품목 변경하기 (세탁소 등록 안 했으면 버튼 안 뜰 것임)
-        </Button>
+        {laundryList.length === 0 ? (
+          <button
+            type="button"
+            className="ceo-my-page-btn"
+            onClick={() => handleOpenModal(1)}>
+            세탁소 등록하기
+          </button>
+        ) : (
+          <Button
+            variant="contained"
+            color="color2"
+            className="ceo-my-page-btn"
+            onClick={() => handleOpenModal(2)}>
+            세탁 품목 변경하기
+          </Button>
+        )}
       </div>
       <div className="ceo-my-review-list">
         <div className="ceo-my-review-list-title">우리 세탁소 리뷰 보기</div>

@@ -35,11 +35,17 @@ public class OrderGetRes {
     @ApiModelProperty(name = "주문한 사용자 닉네임")
     String userNickName;
 
+    @ApiModelProperty(name = "주문한 사용자 주소")
+    String userAddr;
+
+    @ApiModelProperty(name = "주문한 사용자 상세 주소")
+    String userAddrDetail;
+
     @ApiModelProperty(name = "리뷰 날짜")
     LocalDate reviewDate;
 
     @ApiModelProperty(name = "리뷰 평점")
-    int reviewScore;
+    Integer reviewScore;
 
     @ApiModelProperty(name = "리뷰 내용")
     String reviewContent;
@@ -56,6 +62,8 @@ public class OrderGetRes {
         res.setOrderType(order.getOrderType());
         res.setLaundryName(order.getLaundry().getLaundryName());
         res.setUserNickName(order.getUser().getNickName());
+        res.setUserAddr(order.getUser().getAddress().getAddr());
+        res.setUserAddrDetail(order.getUser().getAddress().getAddrDetail());
         res.setReviewDate(order.getReviewDate());
         res.setReviewScore(order.getReviewScore());
         res.setReviewContent(order.getReviewContent());

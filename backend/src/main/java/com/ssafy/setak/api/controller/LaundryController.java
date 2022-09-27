@@ -3,10 +3,7 @@ package com.ssafy.setak.api.controller;
 import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
-import com.ssafy.setak.api.response.LaundriesGetRes;
-import com.ssafy.setak.api.response.LaundryDetailGetRes;
-import com.ssafy.setak.api.response.LaundryGetRes;
-import com.ssafy.setak.api.response.LaundryItemsGetRes;
+import com.ssafy.setak.api.response.*;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
@@ -43,6 +40,20 @@ public class LaundryController {
         laundryService.createLaundry(ceoUserId, laundryInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
+
+    @GetMapping("/")
+    @ApiOperation(value = "사장님 세탁소 전체 조회", notes = "사장님 세탁소 전체 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "사장님 세탁소 조회 실패"),
+    })
+    public ResponseEntity<?> getLaundries() {
+        Long ceoUserId = 1L;
+        List<Laundry> laundries = laundryService.selectAllByUserId(ceoUserId);
+
+        return ResponseEntity.status(200).body(LaundryDetailsGetRes.of(200, "Success", laundries));
+    }
+
 
     @GetMapping("/distance")
     @ApiOperation(value = "세탁소 전체 조회 - 거리순", notes = "세탁소 전체 조회 - 거리순")

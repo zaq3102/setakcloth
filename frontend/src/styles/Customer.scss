@@ -14,6 +14,15 @@ $color5: #e0ebf5;
     justify-content: center;
 }
 
+.item-title {
+    font-size: x-large;
+}
+
+.item-content>div {
+    line-height: 30px;
+    font-size: medium;
+}
+
 #select {
     min-width: 180px;
 }
@@ -27,13 +36,25 @@ $color5: #e0ebf5;
     height: 170px;
 }
 
+#laundryCard:hover {
+    background-color: $color5;
+    cursor: pointer;
+}
+
 #laundryBox {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 24px;
 }
 
 .MuiCardContent-root {
     width: 350px;
     height: 150px;
+}
+
+.laundry-sort {
+    margin-top: 15px;
 }
 
 // customer/CtmLaundryDetail.tsx
@@ -169,7 +190,7 @@ $color5: #e0ebf5;
     padding: 20px;
     margin: 10px;
     height: 300px;
-    width: 650px;
+    width: 95%;
     border: 1px solid $color2;
     border-radius: 20px;
 }
@@ -215,10 +236,10 @@ $color5: #e0ebf5;
 .ctm-my-order-list {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     padding: 20px;
     margin: 10px;
-    height: 535px;
-    width: 600px;
+    width: 50%;
     border: 1px solid $color2;
     border-radius: 20px;
 }

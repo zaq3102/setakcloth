@@ -1,5 +1,13 @@
+import { TextField } from '@mui/material';
 import React from 'react';
 import DaumPostcode from 'react-daum-postcode';
+
+declare global {
+  interface Window {
+    kakao?: any;
+  }
+}
+const { kakao } = window;
 
 const SearchAddress = (props) => {
   const handleComplete = (data) => {
@@ -24,11 +32,18 @@ const SearchAddress = (props) => {
   };
 
   return (
-    <DaumPostcode
-      autoClose={false}
-      onComplete={handleComplete}
-      onSearch={handleSearch}
-    />
+    <div>
+      <DaumPostcode
+        autoClose={false}
+        onComplete={handleComplete}
+        onSearch={handleSearch}
+      />
+      <TextField
+        id="outlined-basic"
+        label="상세 주소 입력"
+        variant="outlined"
+      />
+    </div>
   );
 };
 

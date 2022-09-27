@@ -9,13 +9,13 @@ import lombok.Data;
 @ApiModel("ReviewPostRequest")
 public class ReviewPostReq {
 
-    @ApiModelProperty(name = "이미지를 보여주는가", example = "dbwowo@naver.com")
+    @ApiModelProperty(name = "이미지를 보여주는가", example = "true")
     boolean isImg;
 
     @ApiModelProperty(name = "리뷰 내용", example = "dbwowo")
     String content;
 
-    @ApiModelProperty(name = "리뷰 점수", example = "dbwowo")
+    @ApiModelProperty(name = "리뷰 점수", example = "4")
     int score;
 
 
