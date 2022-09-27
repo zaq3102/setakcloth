@@ -10,3 +10,4 @@ export const LOGOUT = 'user/LOGOUT' as const;
 // laundry
 export const LAUNDRY_ITEM_LIST = 'laundry/LAUNDRY_ITEM_LIST' as const;
 export const LAUNDRY_ADD_ITEM = 'laundry/LAUNDRY_ADD_ITEM' as const;
+export const LAUNDRY_INFO = 'laundry/LAUNDRY_INFO' as const;
