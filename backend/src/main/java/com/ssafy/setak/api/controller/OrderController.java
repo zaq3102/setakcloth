@@ -42,8 +42,7 @@ public class OrderController {
     })
     public ResponseEntity<?> createOrder(@RequestBody OrderCreateReq orderInfo) {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
+            Long userId = jwtService.getUserId();
 
             orderService.createOrder(userId, orderInfo);
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -63,9 +62,7 @@ public class OrderController {
     })
     public ResponseEntity<?> getOrdersByUserId() {
         try {
-            //        Long userId = jwtService.getUserId();
-            Long userId = 1l;
-
+            Long userId = jwtService.getUserId();
             List<Order> orders = orderService.getOrdersbyUserId(userId);
             return ResponseEntity.status(200).body(OrdersGetRes.of(200, "Success", orders));
         } catch (Exception e) {
