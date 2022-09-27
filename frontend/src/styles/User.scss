@@ -5,12 +5,24 @@ $color3: #60afff;
 $color4: #bfd7ea;
 $color5: #e0ebf5;
 
+
+// Login.tsx
 .login-page {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
   text-align: center;
+}
+
+.login-button-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kakao-login-button{
+  width: 75px;
 }
 
 // Signup.tsx
