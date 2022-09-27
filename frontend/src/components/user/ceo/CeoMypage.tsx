@@ -42,6 +42,7 @@ const CeoMypage: React.FC = () => {
   const [itemPrice, setItemPrice] = useState<number>(0);
   const [page, setPage] = useState(1);
   const [laundryList, setLaundryList] = useState([]);
+  const [reviewList, setReviewList] = useState([]);
   const [ceoInfo, setCeoInfo] = useState('');
   const [itemList, setItemList] = useState([]);
   const navigate = useNavigate();
@@ -49,7 +50,6 @@ const CeoMypage: React.FC = () => {
 
   const getMyInfo = async () => {
     const result = await InfoRequest();
-    console.log(result);
     if (result?.data?.userInfo) {
       setCeoInfo(result?.data?.userInfo);
     } else {
@@ -59,9 +59,8 @@ const CeoMypage: React.FC = () => {
 
   const getMyLaundry = async () => {
     const result = await myLaundryRequest();
-    console.log(result);
-    if (result?.data?.laundries) {
-      setLaundryList(result?.data?.laundries);
+    if (result?.payload?.data?.laundries) {
+      setLaundryList(result?.payload?.data?.laundries);
     } else {
       console.log('error');
     }
@@ -77,6 +76,14 @@ const CeoMypage: React.FC = () => {
     }
   };
 
+  const getMyReviews = async () => {
+    const result = await LaundryRegistRequest(laundryList[0].laundryId);
+    if (result?.data?.review) {
+      setReviewList(result?.data?.review);
+    } else {
+      console.log('error');
+    }
+  };
   const registItem = async () => {
     const item = {
       name: itemName,
@@ -96,20 +103,6 @@ const CeoMypage: React.FC = () => {
     getMyInfo();
     getMyLaundry();
   }, []);
-
-  const reviewList = [
-    '리뷰 1입니다~~~~~',
-    '리뷰 2입니다~~~~~',
-    '리뷰 3입니다~~~~~',
-    '리뷰 4입니다~~~~~',
-    '리뷰 5입니다~~~~~',
-    '리뷰 6입니다~~~~~',
-    '리뷰 7입니다~~~~~',
-    '리뷰 8입니다~~~~~',
-    '리뷰 9입니다~~~~~',
-    '리뷰 10입니다~~~~~',
-    '리뷰 11입니다~~~~~'
-  ];
 
   const pageChange = (event, value) => {
     setPage(value);
@@ -162,6 +155,7 @@ const CeoMypage: React.FC = () => {
     if (result?.data?.message === 'Success') {
       alert('세탁소 등록이 되었습니다.');
       // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
+      getMyLaundry();
       navigate('../mypage');
     } else {
       console.log('error');
@@ -376,29 +370,62 @@ const CeoMypage: React.FC = () => {
           </Button>
         )}
       </div>
-      <div className="ceo-my-review-list">
-        <div className="ceo-my-review-list-title">우리 세탁소 리뷰 보기</div>
-        <div>총 {reviewList.length}개의 게시물을 작성하였습니다.</div>
-        <div className="ceo-my-review-list-content">
-          {reviewList.slice((page - 1) * 5, page * 5).map((review) => (
-            <Link key={review} to="/ceo/mypage">
-              <div className="ceo-my-review">{review}</div>
-            </Link>
-          ))}
-          <div className="ceo-pagination">
-            <Pagination
-              count={Math.ceil(reviewList.length / 5)}
-              page={page}
-              // variant="outlined"
-              color="color2"
-              className={`${
-                reviewList.length === 0 ? 'ceo-no-pagination' : 'ceo-pagination'
-              }`}
-              onChange={pageChange}
-            />
+      {laundryList.length === 0 ? (
+        <div className="ceo-right">
+          <div className="ceo-right-text">
+            세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
           </div>
+          <img
+            src="../assets/laundry2.png"
+            className="ceo-right-img"
+            alt="laundry-img"
+          />
         </div>
-      </div>
+      ) : (
+        <div className="ceo-my-review-list">
+          <div className="ceo-my-review-list-title">우리 세탁소 리뷰 보기</div>
+          {reviewList.length === 0 ? (
+            <div className="ceo-my-review-none">
+              <div className="ceo-my-review-none-text">
+                아직 우리 세탁소의 리뷰를 작성한 고객이 없습니다.
+              </div>
+              <div className="ceo-my-review-none-text">
+                열심히 세탁소를 홍보합시다.
+              </div>
+              <img
+                src="../assets/cry-laundry.jpeg"
+                className="ceo-right-img"
+                alt="laundry-img"
+              />
+            </div>
+          ) : (
+            <>
+              <div>총 {reviewList.length}개의 리뷰가 존재합니다.</div>
+              <div className="ceo-my-review-list-content">
+                {reviewList.slice((page - 1) * 5, page * 5).map((review) => (
+                  <Link key={review} to="/ceo/mypage">
+                    <div className="ceo-my-review">{review.content}</div>
+                  </Link>
+                ))}
+                <div className="ceo-pagination">
+                  <Pagination
+                    count={Math.ceil(reviewList.length / 5)}
+                    page={page}
+                    // variant="outlined"
+                    color="color2"
+                    className={`${
+                      reviewList.length === 0
+                        ? 'ceo-no-pagination'
+                        : 'ceo-pagination'
+                    }`}
+                    onChange={pageChange}
+                  />
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 };

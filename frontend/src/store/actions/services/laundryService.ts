@@ -1,4 +1,4 @@
-import { LAUNDRY_ITEM_LIST } from '../types/types';
+import { LAUNDRY_ITEM_LIST, LAUNDRY_INFO } from '../types/types';
 import { request, requestAuth } from './axios';
 
 // 세탁소 전체 조회 (거리순)
@@ -46,7 +46,10 @@ export const LaundryRegistRequest = async (dataToSubmit) => {
 export const myLaundryRequest = async () => {
   try {
     const payload = await requestAuth.get('/laundry/');
-    return payload;
+    return {
+      type: LAUNDRY_INFO,
+      payload
+    };
   } catch (err) {
     return err;
   }
@@ -81,6 +84,16 @@ export const LaundryItemDelRequest = async (data1, data2) => {
     const payload = await requestAuth.post(
       `/laundry/${data1}/item/${data2}/delete`
     );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 리뷰 조회
+export const LaundryReviewRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`/order/review/${dataToSubmit}`);
     return payload;
   } catch (err) {
     return err;
