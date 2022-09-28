@@ -84,6 +84,7 @@ const CeoMypage: React.FC = () => {
       console.log('error');
     }
   };
+
   const registItem = async () => {
     const item = {
       name: itemName,
@@ -156,6 +157,12 @@ const CeoMypage: React.FC = () => {
       alert('세탁소 등록이 되었습니다.');
       // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
       getMyLaundry();
+      const result2 = await myLaundryRequest();
+      if (result2?.payload?.data?.laundries) {
+        dispatch(result2);
+      } else {
+        console.log('error');
+      }
       navigate('../mypage');
     } else {
       console.log('error');

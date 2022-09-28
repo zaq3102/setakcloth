@@ -8,7 +8,7 @@ $color5: #e0ebf5;
 // CeoHome.tsx
 .ceo-laundry-modes {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .ceo-laundry-mode {
@@ -18,9 +18,58 @@ $color5: #e0ebf5;
 }
 
 .ceo-order-item {
+  display: flex;
+  flex-direction: column;
   margin: 5px;
-  // border: 1px solid $color3;
-  // border-radius: 20px;
+  padding: 10px;
+  width: 300px;
+  border-radius: 20px;
+}
+
+.ceo-order-item:hover {
+  border: 1px solid $color2;
+  background-color: $color5;
+}
+
+.ceo-order-item-text {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.ceo-order-item-chip {
+  align-self: center;
+}
+
+.ceo-home-not-regist {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
+  align-items: center;
+}
+
+.ceo-home-not-regist-text {
+  text-align: center;
+  font-size: xx-large;
+  line-height: normal;
+  margin-bottom: 5vh;
+}
+
+.ceo-home-not-regist-img {
+  width: 30%;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  align-self: center;
+}
+
+.go-regist-button {
+  display: flex;
+  flex-direction: column;
+  margin: 20px;
+}
+
+.go-regist-button:hover {
+  background-color: $color5;
+  border-radius: 30px;
 }
 
 // CeoOrderDetail.tsx
