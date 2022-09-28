@@ -151,11 +151,59 @@ $color5: #e0ebf5;
 
 // customer/CtmHome.tsx
 .ctm-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     text-align: center;
 }
 
-.ctm-laundry-list {
-    text-align: center;
+.list-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-button-tag-set {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.button-tag-text {
+    font-size: x-large;
+    color: black;
+}
+
+.ctm-address-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.my-address-title{
+    font-size: medium;
+    margin-right: 20px;
+}
+
+.address-modify-btn{
+    margin-left: 20px;
+}
+
+.laundry-list-img {
+    width: 43%;
+}
+
+.list-buttons-up {
+    display: flex;
+    flex-direction: row;
+}
+
+.list-buttons-down {
+    display: flex;
+    flex-direction: row;
 }
 
 //CtmMypage.tsx
@@ -295,14 +343,14 @@ $color5: #e0ebf5;
 }
 
 // CtmOrderDetail.tsx
-.order-detail{
+.order-detail {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.orderdetailcard{
+.orderdetailcard {
     margin-top: 20px;
     display: flex;
     flex-direction: row;
@@ -311,7 +359,7 @@ $color5: #e0ebf5;
     width: 90%;
 }
 
-.orderdetailcard-left{
+.orderdetailcard-left {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -319,18 +367,18 @@ $color5: #e0ebf5;
     height: 200px;
 }
 
-.orderdetailcard-right{
+.orderdetailcard-right {
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 20px;
 }
 
-.orderdetail-status{
+.orderdetail-status {
     font-size: 20px;
 }
 
-.img-space{
+.img-space {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -338,6 +386,6 @@ $color5: #e0ebf5;
     font-size: 20px;
 }
 
-.slide-space{
+.slide-space {
     height: 140px;
 }
