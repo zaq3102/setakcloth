@@ -1,21 +1,24 @@
-import {
-  Button,
-  Dialog,
-  DialogActions,
-  DialogTitle,
-  Grid,
-  TextField
-} from '@mui/material';
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 
 import * as React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import SearchAddress from '../../common/SearchAddress';
 import '../../../styles/Customer.scss';
 
 const CtmHome: React.FC = () => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
 
   const [detailaddress, setDetailaddress] = useState<string>('17층');
+
+  // const modes = [0, 1, 2, 3, 4];
+
+  const moveToList = () => {
+    navigate('laundrylist');
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,112 +34,95 @@ const CtmHome: React.FC = () => {
   );
 
   return (
-    <div className="ctm-home">
-      고객용 홈페이지입니다.
-      <br />
-      {myaddress}
-      {detailaddress}
-      <Button variant="outlined" onClick={handleClickOpen}>
-        수정하기
-      </Button>
-      {/* 주소 변경 모달 창 */}
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>주소 변경하기</DialogTitle>
-        <SearchAddress />
-        <DialogActions>
-          <Button onClick={handleClose}>취소</Button>
-          <Button onClick={handleChange}>변경</Button>
-        </DialogActions>
-      </Dialog>
-      <br /> <br />
-      {/* 세탁소 리스트 */}
-      <div className="ctm-laundry-list">
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            즐겨찾기
-            <button type="button">더보기</button>
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
+    <div>
+      <div className="ctm-home">
+        <div className="ctm-address-area">
+          <div className="my-address-title">우리 집</div>
+          <br />
+          <div>
+            {myaddress}
+            {detailaddress}
+          </div>
+          <div className="address-modify-btn">
+            <Button variant="outlined" onClick={handleClickOpen}>
+              수정하기
+            </Button>
+          </div>
+        </div>
+        {/* 주소 변경 모달 창 */}
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>주소 변경하기</DialogTitle>
+          <SearchAddress />
+          <DialogActions>
+            <Button onClick={handleClose}>취소</Button>
+            <Button onClick={handleChange}>변경</Button>
+          </DialogActions>
+        </Dialog>
+        <br /> <br />
+      </div>
+      <div className="list-buttons">
+        <div className="list-buttons-up">
+          <Button
+            onClick={moveToList}
+            fullWidth={false}
+            className="list-button-tag-set"
+            sx={{
+              maxWidth: '50%',
+              minWidth: '50%'
+            }}>
+            <img
+              className="laundry-list-img"
+              src="../assets/heart.png"
+              alt="favourite laundry list"
             />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
+            <div className="button-tag-text">즐겨찾기 세탁소 목록</div>
+          </Button>
+          <Button
+            onClick={moveToList}
+            className="list-button-tag-set"
+            sx={{
+              maxWidth: '50%',
+              minWidth: '50%'
+            }}>
+            <img
+              className="laundry-list-img"
+              src="../assets/clock.png"
+              alt="recently used laundry list"
             />
-            <br />
-            <br />
-            <br />
-            최근 이용한 세탁소
-            <button type="button">더보기</button>
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
+            <div className="button-tag-text">최근 이용한 세탁소 목록</div>
+          </Button>
+        </div>
+        <div className="list-buttons-down">
+          <Button
+            onClick={moveToList}
+            className="list-button-tag-set"
+            sx={{
+              maxWidth: '50%',
+              minWidth: '50%'
+            }}>
+            <img
+              className="laundry-list-img"
+              src="../assets/map.png"
+              alt="nearest laundry list"
+            />{' '}
+            <div className="button-tag-text"> 가까운 세탁소 목록</div>
+          </Button>
+
+          <Button
+            onClick={moveToList}
+            className="list-button-tag-set"
+            sx={{
+              maxWidth: '50%',
+              minWidth: '50%'
+            }}>
+            <img
+              className="laundry-list-img"
+              src="../assets/star.png"
+              alt="highest rate laundry list"
             />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            근처 세탁소 목록
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-            <br />
-            <TextField
-              id="laundry1"
-              defaultValue="세탁소 정보"
-              InputProps={{
-                readOnly: true
-              }}
-            />
-          </Grid>
-        </Grid>
+            <div className="button-tag-text">별점 높은 세탁소 목록</div>
+          </Button>
+        </div>
       </div>
     </div>
   );
