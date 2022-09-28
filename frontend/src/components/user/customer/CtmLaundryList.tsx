@@ -28,9 +28,10 @@ const CtmLaundryList: React.FC = () => {
       addr: 'String',
       addrDetail: 'String',
       contact: 'String',
-      imgUrl: `../assets/laundry${String(
-        Math.floor(Math.random() * 3) + 1
-      )}.png`,
+      imgUrl: 'https://via.placeholder.com/150/BFD7EA/111111',
+      // imgUrl: `../assets/laundry${String(
+      //   Math.floor(Math.random() * 3) + 1
+      // )}.png`,
       minCost: 2000,
       deliveryCost: 'Number',
       distance: 'Number',
@@ -44,9 +45,10 @@ const CtmLaundryList: React.FC = () => {
       addr: 'String',
       addrDetail: 'String',
       contact: 'String',
-      imgUrl: `../assets/laundry${String(
-        Math.floor(Math.random() * 3) + 1
-      )}.png`,
+      imgUrl: 'https://via.placeholder.com/150/BFD7EA/111111',
+      // imgUrl: `../assets/laundry${String(
+      //   Math.floor(Math.random() * 3) + 1
+      // )}.png`,
       minCost: 4000,
       deliveryCost: 'Number',
       distance: 'Number',
@@ -60,9 +62,10 @@ const CtmLaundryList: React.FC = () => {
       addr: 'String',
       addrDetail: 'String',
       contact: 'String',
-      imgUrl: `../assets/laundry${String(
-        Math.floor(Math.random() * 3) + 1
-      )}.png`,
+      imgUrl: 'https://via.placeholder.com/150/BFD7EA/111111',
+      // imgUrl: `../assets/laundry${String(
+      //   Math.floor(Math.random() * 3) + 1
+      // )}.png`,
       minCost: 'Number',
       deliveryCost: 'Number',
       distance: 'Number',
@@ -76,9 +79,10 @@ const CtmLaundryList: React.FC = () => {
       addr: 'String',
       addrDetail: 'String',
       contact: 'String',
-      imgUrl: `../assets/laundry${String(
-        Math.floor(Math.random() * 3) + 1
-      )}.png`,
+      imgUrl: 'https://via.placeholder.com/150/BFD7EA/111111',
+      // imgUrl: `../assets/laundry${String(
+      //   Math.floor(Math.random() * 3) + 1
+      // )}.png`,
       minCost: 'Number',
       deliveryCost: 'Number',
       distance: 'Number',
@@ -92,9 +96,10 @@ const CtmLaundryList: React.FC = () => {
       addr: 'String',
       addrDetail: 'String',
       contact: 'String',
-      imgUrl: `../assets/laundry${String(
-        Math.floor(Math.random() * 3) + 1
-      )}.png`,
+      imgUrl: 'https://via.placeholder.com/150/BFD7EA/111111',
+      // imgUrl: `../assets/laundry${String(
+      //   Math.floor(Math.random() * 3) + 1
+      // )}.png`,
       minCost: 'Number',
       deliveryCost: 'Number',
       distance: 'Number',

@@ -44,7 +44,7 @@ export const LaundryRegistRequest = async (dataToSubmit) => {
 // 사업자 세탁소 정보 가져오기
 export const myLaundryRequest = async () => {
   try {
-    const payload = await requestAuth.get('/laundry/');
+    const payload = await requestAuth.get('/laundry');
     return {
       type: LAUNDRY_INFO,
       payload
