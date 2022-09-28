@@ -11,14 +11,17 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { LaundryDistRequest } from '../../../store/actions/services/laundryService';
+import { useLocation, useNavigate } from 'react-router';
+import {
+  LaundryDistRequest,
+  LaundryScoreRequest
+} from '../../../store/actions/services/laundryService';
 import '../../../styles/Customer.scss';
 
 const CtmLaundryList: React.FC = () => {
   const [alignlist, setAlignlist] = useState('');
   const [laundryList, setLaundryList] = useState([]);
-  const sort = ['거리순', '이용많은순', '별점높은순'];
+  const sort = ['즐겨찾기', '거리순', '이용많은순', '별점높은순'];
   const navigate = useNavigate();
 
   const laundryLst = [
@@ -105,7 +108,21 @@ const CtmLaundryList: React.FC = () => {
   ];
 
   const getList = async () => {
-    const result = await LaundryDistRequest();
+    const mode = location.state;
+    let result = '';
+    if (mode) {
+      if (mode === 1) {
+        result = await LaundryDistRequest();
+      } else if (mode === 2) {
+        result = await LaundryScoreRequest();
+      } else if (mode === 3) {
+        result = await LaundryDistRequest();
+      } else if (mode === 4) {
+        result = await LaundryDistRequest();
+      }
+    } else {
+      result = await LaundryDistRequest();
+    }
     console.log(result);
     if (result?.data?.laundries) {
       setLaundryList(result?.data?.laundries);
@@ -143,13 +160,18 @@ const CtmLaundryList: React.FC = () => {
       </div>
       <br />
       {/* 세탁소 정보 카드 */}
-      {laundryLst.map((item) => (
+      {laundryList.map((item) => (
         <Card
           key={item.laundryId}
           id="laundryCard"
           sx={{ padding: 1, margin: 1 }}
           onClick={() => onclicklaundry(item.laundryId)}>
-          <CardMedia id="cardImg" component="img" image={item.imgUrl} />
+          <CardMedia
+            id="cardImg"
+            component="img"
+            image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.png"
+          />
+          {/* image={item.imgUrl} /> */}
           <CardContent id="laundryBox">
             <div className="item-title">{item.laundryName}</div>
             <div className="item-content">
