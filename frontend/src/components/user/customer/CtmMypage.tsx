@@ -9,7 +9,6 @@ import {
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import user from 'src/store/reducers/user';
 import { InfoRequest } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 
@@ -140,7 +139,11 @@ const CtmMypage: React.FC = () => {
           <div className="ctm-my-info-title">내 정보</div>
           <div className="ctm-my-info-content">
             <div className="ctm-my-info-content-left">
-              <img src="../assets/logo.png" alt="profileImg" width={100} />
+              <img
+                src="https://via.placeholder.com/150/BFD7EA/111111"
+                alt="profileImg"
+                width={100}
+              />
               <Button
                 variant="contained"
                 color="color2"
@@ -212,7 +215,7 @@ const CtmMypage: React.FC = () => {
                 </Button>
                 <br />
                 <img
-                  src="../assets/logo.png"
+                  src="https://via.placeholder.com/150/BFD7EA/111111"
                   alt="profile-img"
                   ref={ImageShow}
                   width="100"
@@ -238,7 +241,7 @@ const CtmMypage: React.FC = () => {
               {myReviewList
                 .slice((pageReview - 1) * 3, pageReview * 3)
                 .map((review) => (
-                  <Link key={review} to="/ceo/mypage">
+                  <Link key={review} to="/customer/mypage">
                     <div className="ctm-my-review">{review}</div>
                   </Link>
                 ))}

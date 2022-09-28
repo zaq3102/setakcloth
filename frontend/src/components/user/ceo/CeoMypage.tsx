@@ -383,7 +383,7 @@ const CeoMypage: React.FC = () => {
             세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
           </div>
           <img
-            src="../assets/laundry2.png"
+            src="https://via.placeholder.com/150/BFD7EA/111111"
             className="ceo-right-img"
             alt="laundry-img"
           />
@@ -400,7 +400,7 @@ const CeoMypage: React.FC = () => {
                 열심히 세탁소를 홍보합시다.
               </div>
               <img
-                src="../assets/cry-laundry.jpeg"
+                src="https://via.placeholder.com/150/BFD7EA/111111"
                 className="ceo-right-img"
                 alt="laundry-img"
               />

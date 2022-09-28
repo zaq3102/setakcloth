@@ -7,10 +7,10 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const images = [
-  '../assets/0.jpeg',
-  '../assets/1.jpeg',
-  '../assets/2.jpeg',
-  '../assets/3.jpeg'
+  'https://via.placeholder.com/150/BFD7EA/111111',
+  'https://via.placeholder.com/150/BFD7EA/111111',
+  'https://via.placeholder.com/150/BFD7EA/111111',
+  'https://via.placeholder.com/150/BFD7EA/111111'
 ];
 
 const Slider = () => {

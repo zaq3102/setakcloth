@@ -6,7 +6,10 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
-const images = ['../../assets/clean.png', '../../assets/clean2.png'];
+const images = [
+  'https://via.placeholder.com/150/BFD7EA/111111',
+  'https://via.placeholder.com/150/BFD7EA/111111'
+];
 
 const Slider = () => {
   const theme = useTheme();

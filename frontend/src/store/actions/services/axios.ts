@@ -5,8 +5,8 @@ import store from '../../..';
  * 인증 필요없는 Axios
  */
 export const request = axios.create({
-  // baseURL: 'https://j7a706.p.ssafy.io:8080/',
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: 'https://j7a706.p.ssafy.io:8080/',
+  // baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 
@@ -24,8 +24,8 @@ request.interceptors.response.use(
  * 인증 필요한 Axios
  */
 export const requestAuth = axios.create({
-  // baseURL: 'https://j7a706.p.ssafy.io:8080/',
-  baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: 'https://j7a706.p.ssafy.io:8080/',
+  // baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 
