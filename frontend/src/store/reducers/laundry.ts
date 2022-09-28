@@ -5,7 +5,9 @@ import {
 } from '../actions/types/types';
 
 export const initState = {
-  laundry_item_list: []
+  laundry_item_list: [],
+  laundryItems: [],
+  laundryInfo: []
 };
 
 export default (state = initState, action) => {
