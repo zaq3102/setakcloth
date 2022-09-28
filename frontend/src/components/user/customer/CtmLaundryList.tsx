@@ -24,8 +24,88 @@ const CtmLaundryList: React.FC = () => {
   const sort = ['즐겨찾기', '거리순', '이용많은순', '별점높은순'];
   const navigate = useNavigate();
 
-  const location = useLocation();
-  console.log(location.state);
+  const laundryLst = [
+    {
+      laundryId: 1,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 2000,
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
+    },
+    {
+      laundryId: 2,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 4000,
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: false,
+      pickup: true
+    },
+    {
+      laundryId: 3,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: false,
+      pickup: true
+    },
+    {
+      laundryId: 4,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
+    },
+    {
+      laundryId: 5,
+      laundryName: 'String',
+      addr: 'String',
+      addrDetail: 'String',
+      contact: 'String',
+      imgUrl: `https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry${String(
+        Math.floor(Math.random() * 3) + 1
+      )}.png`,
+      minCost: 'Number',
+      deliveryCost: 'Number',
+      distance: 'Number',
+      score: 'Number',
+      deliver: true,
+      pickup: true
+    }
+  ];
 
   const getList = async () => {
     const mode = location.state;

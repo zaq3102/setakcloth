@@ -70,10 +70,10 @@ const CtmHome: React.FC = () => {
             onClick={() => handleButton(1)}>
             <img
               className="laundry-list-img"
-              src="../assets/map.png"
-              alt="nearest laundry list"
-            />{' '}
-            <div className="button-tag-text"> 가까운 세탁소 목록</div>
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/heart.png"
+              alt="favourite laundry list"
+            />
+            <div className="button-tag-text">즐겨찾기 세탁소 목록</div>
           </Button>
 
           <Button
@@ -85,8 +85,8 @@ const CtmHome: React.FC = () => {
             onClick={() => handleButton(2)}>
             <img
               className="laundry-list-img"
-              src="../assets/star.png"
-              alt="highest rate laundry list"
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/clock.png"
+              alt="recently used laundry list"
             />
             <div className="button-tag-text">별점 높은 세탁소 목록</div>
           </Button>
@@ -101,10 +101,10 @@ const CtmHome: React.FC = () => {
             onClick={() => handleButton(3)}>
             <img
               className="laundry-list-img"
-              src="../assets/heart.png"
-              alt="favourite laundry list"
-            />
-            <div className="button-tag-text">즐겨찾기 세탁소 목록</div>
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/map.png"
+              alt="nearest laundry list"
+            />{' '}
+            <div className="button-tag-text"> 가까운 세탁소 목록</div>
           </Button>
           <Button
             className="list-button-tag-set"
@@ -115,8 +115,8 @@ const CtmHome: React.FC = () => {
             onClick={() => handleButton(4)}>
             <img
               className="laundry-list-img"
-              src="../assets/clock.png"
-              alt="recently used laundry list"
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/star.png"
+              alt="highest rate laundry list"
             />
             <div className="button-tag-text">최근 이용한 세탁소 목록</div>
           </Button>

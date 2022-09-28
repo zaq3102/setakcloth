@@ -330,7 +330,7 @@ const CeoMypage: React.FC = () => {
                 <TextField
                   sx={{ mt: 2, mb: 1 }}
                   required
-                  label="가격 (단위 : 원)"
+                  label="가격 (단위 : 클린)"
                   name="item-price"
                   type="number"
                   fullWidth
@@ -383,7 +383,7 @@ const CeoMypage: React.FC = () => {
             세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
           </div>
           <img
-            src="../assets/laundry2.png"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry2.jpg"
             className="ceo-right-img"
             alt="laundry-img"
           />
@@ -400,7 +400,7 @@ const CeoMypage: React.FC = () => {
                 열심히 세탁소를 홍보합시다.
               </div>
               <img
-                src="../assets/cry-laundry.jpeg"
+                src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/cry-laundry.jpeg"
                 className="ceo-right-img"
                 alt="laundry-img"
               />

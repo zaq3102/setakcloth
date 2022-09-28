@@ -52,6 +52,7 @@ const Login: React.FC = () => {
         navigate('/customer');
       } else if (mode === 'ceo') {
         const result2 = await myLaundryRequest();
+        console.log(result2);
         if (result2?.payload?.data?.laundries) {
           dispatch(result2);
         } else {
@@ -123,7 +124,7 @@ const Login: React.FC = () => {
         </Button>
         <img
           className="kakao-login-button"
-          src="../assets/Img/kakao_login_medium.png"
+          src="assets/Img/kakao_login_medium.png"
           alt="kakao-login-btn"
         />
       </div>
