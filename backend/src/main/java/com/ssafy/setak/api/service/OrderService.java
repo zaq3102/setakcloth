@@ -54,14 +54,14 @@ public class OrderService {
         orderRepository.save(order);
 
         for (int i = 0; i < orderDetails.size(); i++) {
-            Long laundryItemID = orderDetails.get(i);
-            orderDetailRepository.save(OrderDetail.builder()
-                    .laundryItemId(laundryItemID)
-                    .order(order)
-                    .build());
+            Long laundryItemCount = orderDetails.get(i);
+            for (int j = 0; j < laundryItemCount; j++) {
+                orderDetailRepository.save(OrderDetail.builder()
+                        .laundryItemId(new Long(i+1))
+                        .order(order)
+                        .build());
+            }
         }
-
-
     }
 
     public Order selectOrder(Long orderId) {
