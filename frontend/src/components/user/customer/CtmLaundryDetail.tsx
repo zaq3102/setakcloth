@@ -122,7 +122,7 @@ const CtmLaundryDetail: React.FC = () => {
 
   const handleOrder = async () => {
     const orderInfo = {
-      laundryId,
+      laundryId: parseInt(laundryId, 10),
       orderType,
       totalPrice,
       orderDetails
@@ -243,6 +243,7 @@ const CtmLaundryDetail: React.FC = () => {
           <CardMedia
             component="img"
             height="200"
+            image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.jpg"
             // image={`${item.img}`}
             alt={laundry.laundryName}
           />

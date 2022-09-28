@@ -7,8 +7,8 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const images = [
-  'https://via.placeholder.com/150/BFD7EA/111111',
-  'https://via.placeholder.com/150/BFD7EA/111111'
+  'https://setakcloth.s3.ap-northeast-2.amazonaws.com/clean.png',
+  'https://setakcloth.s3.ap-northeast-2.amazonaws.com/clean2.png'
 ];
 
 const Slider = () => {

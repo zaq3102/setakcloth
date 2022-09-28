@@ -124,7 +124,7 @@ const Login: React.FC = () => {
         </Button>
         <img
           className="kakao-login-button"
-          src="../assets/Img/kakao_login_medium.png"
+          src="assets/Img/kakao_login_medium.png"
           alt="kakao-login-btn"
         />
       </div>
