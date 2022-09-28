@@ -15,6 +15,7 @@ import {
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
+import Web3 from 'web3';
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
@@ -37,6 +38,9 @@ const Signup: React.FC = () => {
 
   // 이메일 중복 체크
   const [emailChecked, setEmailChecked] = useState(false);
+
+  // 지갑 주소
+  const [walletAddr, setWalletAddr] = useState(false);
 
   useEffect(() => {
     // console.log('컴포넌트가 화면에 나타남');
@@ -113,11 +117,13 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const userInfo = {
+    let userInfo = {
       email,
       pwd,
-      walletAddr: 'migon'
+      walletAddr
     };
+
+    console.log(userInfo);
 
     let result = '';
     if (mode === 'customer') {
@@ -132,6 +138,16 @@ const Signup: React.FC = () => {
     } else {
       alert('회원가입에 실패하였습니다!');
     }
+  };
+
+  const createWallet = async () => {
+    var web3 = new Web3('ws://127.0.0.1:8545');
+
+    let userAccount = web3.eth.personal
+      .newAccount(walletpassword)
+      .then((res) => {
+        setWalletAddr(res);
+      });
   };
 
   return (
@@ -263,7 +279,15 @@ const Signup: React.FC = () => {
               ? ' '
               : '비밀번호가 일치하지 않습니다.'}
           </FormHelperText>
-          <div>⭐️비밀번호 잃어버리면 안된다는 내용.⭐️</div>
+          <div>
+            <p>
+              ⭐️지갑 비밀번호는 서비스 내에서 저장하지 않습니다. 잊어버리시는
+              경우 찾을 수 없으니 유의하여 기억해두시길 바랍니다. ⭐️
+            </p>
+            <Button variant="contained" onClick={createWallet}>
+              생성
+            </Button>
+          </div>
           <div className="signup-btn">
             <Link to="/">취소</Link>
             <Button
