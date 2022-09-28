@@ -91,7 +91,7 @@ const CeoHome: React.FC = () => {
           </div>
           <Link to="./mypage" className="go-regist-button">
             <img
-              src="https://via.placeholder.com/150/BFD7EA/111111"
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.jpg"
               className="ceo-home-not-regist-img"
               alt="laundry-img"
             />

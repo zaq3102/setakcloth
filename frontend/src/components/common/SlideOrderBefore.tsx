@@ -6,7 +6,10 @@ import Button from '@mui/material/Button';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
-const images = ['../../assets/dirty.png', '../../assets/dirty2.png'];
+const images = [
+  'https://setakcloth.s3.ap-northeast-2.amazonaws.com/dirty.png',
+  'https://setakcloth.s3.ap-northeast-2.amazonaws.com/dirty2.png'
+];
 
 const Slider = () => {
   const theme = useTheme();
