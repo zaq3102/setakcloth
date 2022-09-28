@@ -1,22 +1,39 @@
 import { Button, Step, StepLabel, Stepper } from '@mui/material';
 import * as React from 'react';
-import { useState, useRef } from 'react';
-import { useNavigate } from 'react-router';
+import { useState, useRef, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { getOrderRequest } from '../../../store/actions/services/orderService';
 
 const CeoOrderDetail: React.FC = () => {
   const navigate = useNavigate();
   const ImageShow = useRef<HTMLDivElement>();
   const ImageInput = useRef<HTMLInputElement>();
   const [currentMode, setCurrentMode] = useState(0);
+  const { orderNum } = useParams();
+  const [orderInfo, setOrderInfo] = useState([]);
 
   const modes = ['수락 대기중', '세탁중', '세탁 완료', '배달중'];
-  const orderInfo = {
-    orderId: 'anonymous_456',
-    orderNum: 'S1234',
-    orderDeliver: 'O',
-    orderAddr: '평안남도 평양시 칠팔구 고노도로 12',
-    orderReq: '없음'
+
+  const getList = async () => {
+    const result = await getOrderRequest(orderNum);
+    if (result?.data) {
+      setOrderInfo(result?.data);
+    } else {
+      console.log('error');
+    }
   };
+
+  useEffect(() => {
+    getList();
+  }, []);
+
+  // const orderInfo = {
+  //   orderId: 'anonymous_456',
+  //   orderNum: 'S1234',
+  //   orderDeliver: 'O',
+  //   orderAddr: '평안남도 평양시 칠팔구 고노도로 12',
+  //   orderReq: '없음'
+  // };
 
   const onImgInputBtnClick = (event) => {
     event.preventDefault();
@@ -89,19 +106,17 @@ const CeoOrderDetail: React.FC = () => {
         <div className="ceo-order-info">
           <div className="ceo-order-info-title">주문 상세 정보</div>
           <div className="ceo-order-info-detail">
-            주문자 : {orderInfo.orderId}
+            주문번호 : {orderInfo.orderId}
           </div>
           <div className="ceo-order-info-detail">
-            주문번호 : {orderInfo.orderNum}
+            주문자 :{' '}
+            {orderInfo.userNickName ? orderInfo.userNickName : 'Anonymous'}
           </div>
           <div className="ceo-order-info-detail">
-            배송여부 : {orderInfo.orderDeliver}
+            배송 여부 : {orderInfo.orderType === 'DELIVER' ? '배달' : '수거'}
           </div>
           <div className="ceo-order-info-detail">
-            주소 : {orderInfo.orderAddr}
-          </div>
-          <div className="ceo-order-info-detail">
-            특이사항 : {orderInfo.orderReq}
+            주소 : {orderInfo.userAddr} {orderInfo.userAddrDetail}
           </div>
         </div>
       </div>

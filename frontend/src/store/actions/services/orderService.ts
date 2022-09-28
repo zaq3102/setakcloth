@@ -39,3 +39,13 @@ export const orderRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 주문 하나 조회
+export const getOrderRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`/order/${dataToSubmit}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
