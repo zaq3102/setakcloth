@@ -73,15 +73,31 @@ const CeoOrderDetail: React.FC = () => {
       <div className="ceo-order-detail">
         <div className="ceo-photo-upload">
           <div className="ceo-scrollmenu" ref={ImageShow}>
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
-            <img className="logo" src="../assets/logo.png" alt="" />
+            <img
+              className="logo"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
+              alt=""
+            />
+            <img
+              className="logo"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
+              alt=""
+            />
+            <img
+              className="logo"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
+              alt=""
+            />
+            <img
+              className="logo"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
+              alt=""
+            />
+            <img
+              className="logo"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
+              alt=""
+            />
           </div>
           <input
             type="file"

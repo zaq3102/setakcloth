@@ -72,7 +72,7 @@ const CtmHome: React.FC = () => {
             }}>
             <img
               className="laundry-list-img"
-              src="../assets/heart.png"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
               alt="favourite laundry list"
             />
             <div className="button-tag-text">즐겨찾기 세탁소 목록</div>
@@ -86,7 +86,7 @@ const CtmHome: React.FC = () => {
             }}>
             <img
               className="laundry-list-img"
-              src="../assets/clock.png"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
               alt="recently used laundry list"
             />
             <div className="button-tag-text">최근 이용한 세탁소 목록</div>
@@ -102,7 +102,7 @@ const CtmHome: React.FC = () => {
             }}>
             <img
               className="laundry-list-img"
-              src="../assets/map.png"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
               alt="nearest laundry list"
             />{' '}
             <div className="button-tag-text"> 가까운 세탁소 목록</div>
@@ -117,7 +117,7 @@ const CtmHome: React.FC = () => {
             }}>
             <img
               className="laundry-list-img"
-              src="../assets/star.png"
+              src="https://via.placeholder.com/150/BFD7EA/111111"
               alt="highest rate laundry list"
             />
             <div className="button-tag-text">별점 높은 세탁소 목록</div>

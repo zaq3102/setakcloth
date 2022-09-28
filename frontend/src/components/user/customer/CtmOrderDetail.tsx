@@ -12,8 +12,8 @@ const CtmOrderDetail: React.FC = () => {
     laundryName: '크린토피아 역삼점',
     orderItems: ['신발', '모자'],
     state: '배달 완료',
-    laundryLogo: '../../assets/laundry1.png',
-    deliverimg: '../../assets/deliver.jpg'
+    laundryLogo: 'https://via.placeholder.com/150/BFD7EA/111111',
+    deliverimg: 'https://via.placeholder.com/150/BFD7EA/111111'
   };
 
   return (
