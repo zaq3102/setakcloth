@@ -56,7 +56,7 @@ const Login: React.FC = () => {
         if (result2?.payload?.data?.laundries) {
           dispatch(result2);
         } else {
-          console.log('error');
+          navigate('/error');
         }
         navigate('/ceo');
       }

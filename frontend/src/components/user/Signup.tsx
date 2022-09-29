@@ -9,13 +9,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
+import Web3 from 'web3';
 import {
   checkEmailRequest,
   signupCeoRequest,
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
-import Web3 from 'web3';
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
@@ -118,7 +118,7 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    let userInfo = {
+    const userInfo = {
       email,
       pwd,
       walletAddr
@@ -141,9 +141,9 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
-    var web3 = new Web3('ws://127.0.0.1:8545');
+    const web3 = new Web3('ws://127.0.0.1:8545');
 
-    let userAccount = web3.eth.personal
+    const userAccount = web3.eth.personal
       .newAccount(walletpassword)
       .then((res) => {
         setWalletAddr(res);
