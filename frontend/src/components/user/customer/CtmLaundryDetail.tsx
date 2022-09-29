@@ -13,7 +13,6 @@ import {
   Typography
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import StarIcon from '@mui/icons-material/Star';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,6 +27,7 @@ import {
 } from '../../../store/actions/services/laundryService';
 import { orderRequest } from '../../../store/actions/services/orderService';
 import '../../../styles/OrderButton.scss';
+import { addLike, delLike } from '../../../store/actions/services/userService';
 
 const CtmLaundryDetail: React.FC = () => {
   const [laundry, setLaundry] = useState([]);
@@ -39,6 +39,7 @@ const CtmLaundryDetail: React.FC = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [reviewList, setReviewList] = useState([]);
   const [pageReview, setPageReview] = useState(1);
+  const [heartClicked, setHeartClicked] = useState(true);
   const navigate = useNavigate();
 
   const getItemList = async () => {
@@ -67,7 +68,6 @@ const CtmLaundryDetail: React.FC = () => {
 
   const getReviewList = async () => {
     const result = await LaundryReviewRequest(laundryId);
-    console.log(result);
     if (result?.data?.message === 'Success') {
       setReviewList(result?.data?.reviews);
     } else {
@@ -128,6 +128,7 @@ const CtmLaundryDetail: React.FC = () => {
       }
       setOrderDetails(temp);
       setTotalPrice(0);
+      setOrderType(1);
     } else {
       navigate('/error');
     }
@@ -264,6 +265,24 @@ const CtmLaundryDetail: React.FC = () => {
     })
   );
 
+  const handleHeart = async () => {
+    if (heartClicked) {
+      // const result = await delLike(laundryId);
+      // if (result?.data?.message === 'Success') {
+      setHeartClicked(false);
+      // } else {
+      //   navigate('/error');
+      // }
+    } else {
+      // const result = await addLike(laundryId);
+      // if (result?.data?.message === 'Success') {
+      setHeartClicked(true);
+      // } else {
+      //   navigate('/error');
+      // }
+    }
+  };
+
   return (
     <div className="customerlaundrydetail">
       <div id="leftdiv">
@@ -277,9 +296,14 @@ const CtmLaundryDetail: React.FC = () => {
           />
           <CardContent id="laundryBox">
             <div className="item-title">{laundry.laundryName}</div>
-            <IconButton>
-              <FavoriteIcon />
-            </IconButton>
+            <div
+              className={
+                'heart-animation' +
+                ' ' +
+                `${heartClicked ? 'heart-clicked' : null}`
+              }
+              onClick={handleHeart}
+            />
             <div className="item-content">
               <div>
                 {laundry.addr} {laundry.addrDetail}

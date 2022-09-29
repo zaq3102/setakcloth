@@ -34,6 +34,7 @@ const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(12340000000000);
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
+  const [openModal3, setOpenModal3] = useState<boolean>(false);
   const [regNum, setRegNum] = useState('');
   const [ceoName, setCeoName] = useState<string>('');
   const [openDate, setOpenDate] = useState('');
@@ -128,14 +129,24 @@ const CeoMypage: React.FC = () => {
     } else if (modalType === 2) {
       getMyItems();
       setOpenModal2(true);
+    } else if (modalType === 3) {
+      setOpenModal3(true);
     }
   };
 
   const handleClose = (modalType) => {
-    if (modalType === 1) {
-      setOpenModal1(false);
-    } else if (modalType === 2) {
-      setOpenModal2(false);
+    switch (modalType) {
+      case 1:
+        setOpenModal1(false);
+        break;
+      case 2:
+        setOpenModal2(false);
+        break;
+      case 3:
+        setOpenModal3(false);
+        break;
+      default:
+        break;
     }
   };
 
@@ -146,10 +157,6 @@ const CeoMypage: React.FC = () => {
     } else {
       navigate('/error');
     }
-  };
-
-  const handleSetItem = () => {
-    // 등록 과정
   };
 
   const handleRegistLaundry = async () => {
@@ -181,7 +188,7 @@ const CeoMypage: React.FC = () => {
       navigate('/error');
     }
 
-    setOpenModal1(false);
+    handleClose(1);
     // if (result?.data?.userInfo) {
     //   setUserInfo(result?.data?.userInfo);
     // } else {
@@ -207,9 +214,6 @@ const CeoMypage: React.FC = () => {
             <div className="ceo-my-info-title">사업자 정보</div>
             <div className="ceo-my-info-content">
               <div>{TemplaundryName}님, 오늘도 화이팅!</div>
-              <br />
-              <div>세탁소 정보 보여줄까 말까</div>
-              <br />
               <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
             </div>
             <Dialog open={openModal1} onClose={() => handleClose(1)}>
@@ -372,12 +376,6 @@ const CeoMypage: React.FC = () => {
                   <Button onClick={() => handleClose(2)} color="color2">
                     취소
                   </Button>
-                  <Button
-                    onClick={handleSetItem}
-                    variant="contained"
-                    color="color2">
-                    확인
-                  </Button>
                 </DialogActions>
               </div>
             </Dialog>
@@ -404,7 +402,7 @@ const CeoMypage: React.FC = () => {
                     사진 변경하기
                   </Button>
                 </div>
-                <Dialog open={openModal2} onClose={() => handleClose(2)}>
+                <Dialog open={openModal3} onClose={() => handleClose(3)}>
                   <UploadPhoto />
                   <DialogActions>
                     <Button
