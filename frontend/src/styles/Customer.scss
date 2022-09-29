@@ -236,7 +236,8 @@ a.toListBtn {
 
 
 .toListBtn {
-    margin: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
     font-size: 15px;
     letter-spacing: 2px;
     display: inline-block;
@@ -256,7 +257,7 @@ a.toListBtn {
         bottom: 0;
         opacity: 0;
         content: '';
-        background-color: $color2;
+        background-color: $color1;
         z-index: -2;
     }
 

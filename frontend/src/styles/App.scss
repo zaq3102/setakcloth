@@ -27,8 +27,8 @@ $color5: #e0ebf5;
 .Header {
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
-  background-color: $color4;
+  background-color: white;
+  border: 1px solid $color1;
   justify-content: space-between;
   font-size: calc(8px + 2vmin);
   color: $color1;
