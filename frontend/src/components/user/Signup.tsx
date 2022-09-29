@@ -152,8 +152,12 @@ const Signup: React.FC = () => {
       });
   };
 
-  const signUpHandler = () => {
+  const kakaoUserSignUpHandler = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup`;
+  };
+
+  const kakaoCeoSignUpHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup/ceo`;
   };
 
   return (
@@ -252,10 +256,12 @@ const Signup: React.FC = () => {
             </button>
           </div>
           <div>
-            <button className="w-12" onClick={signUpHandler}>
+            <button className="w-12" onClick={kakaoUserSignUpHandler}>
+              <img alt="카카오 고객 회원 가입" className="kakao object-fill" />
+            </button>
+            <button className="w-12" onClick={kakaoCeoSignUpHandler}>
               <img
-                src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg"
-                alt="카카오 로그인"
+                alt="카카오 사장님 회원 가입"
                 className="kakao object-fill"
               />
             </button>
