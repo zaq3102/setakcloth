@@ -153,7 +153,7 @@ const Signup: React.FC = () => {
   };
 
   const signUpHandler = () => {
-    window.location.href = 'https://www.google.com/';
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup`;
   };
 
   return (
