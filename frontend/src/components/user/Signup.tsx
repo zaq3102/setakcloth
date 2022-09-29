@@ -152,6 +152,10 @@ const Signup: React.FC = () => {
       });
   };
 
+  const signUpHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup`;
+  };
+
   return (
     <div>
       {page === 1 ? (
@@ -245,6 +249,15 @@ const Signup: React.FC = () => {
                 !tosCheck
               }>
               다음
+            </button>
+          </div>
+          <div>
+            <button className="w-12" onClick={signUpHandler}>
+              <img
+                src="http://papaspick.com/web/upload/2019_web/icon/kakao_login.jpg"
+                alt="카카오 로그인"
+                className="kakao object-fill"
+              />
             </button>
           </div>
         </div>
