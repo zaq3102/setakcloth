@@ -35,6 +35,7 @@ const Signup: React.FC = () => {
   const [isPwdSame, setIsPwdSame] = useState(false);
   const [isWalletPwdValid, setIsWalletPwdValid] = useState(false);
   const [isWalletPwdSame, setIsWalletPwdSame] = useState(false);
+  const [isWalletCreated, setIsWalletCreated] = useState(false);
 
   // 이메일 중복 체크
   const [emailChecked, setEmailChecked] = useState(false);
@@ -109,7 +110,7 @@ const Signup: React.FC = () => {
 
   const walletpasswordCheckChange = (event) => {
     setWalletPasswordCheck(event.target.value.trim());
-    setIsWalletPwdSame(pwd === event.target.value.trim());
+    setIsWalletPwdSame(walletpassword === event.target.value.trim());
   };
 
   const onClickChange = () => {
@@ -122,7 +123,6 @@ const Signup: React.FC = () => {
       pwd,
       walletAddr
     };
-
     console.log(userInfo);
 
     let result = '';
@@ -147,6 +147,8 @@ const Signup: React.FC = () => {
       .newAccount(walletpassword)
       .then((res) => {
         setWalletAddr(res);
+        setIsWalletCreated(true);
+        alert('지갑이 생성되었습니다!');
       });
   };
 
@@ -284,7 +286,10 @@ const Signup: React.FC = () => {
               ⭐️지갑 비밀번호는 서비스 내에서 저장하지 않습니다. 잊어버리시는
               경우 찾을 수 없으니 유의하여 기억해두시길 바랍니다. ⭐️
             </p>
-            <Button variant="contained" onClick={createWallet}>
+            <Button
+              variant="contained"
+              onClick={createWallet}
+              disabled={!walletpasswordCheck || !isWalletPwdSame}>
               생성
             </Button>
           </div>
@@ -293,6 +298,7 @@ const Signup: React.FC = () => {
             <Button
               variant="contained"
               color="color2"
+              disabled={!isWalletCreated}
               onClick={handleSubmit}
               sx={{ ml: 5 }}>
               가입하기
