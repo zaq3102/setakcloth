@@ -9,16 +9,14 @@ import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Tuple;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -33,16 +31,16 @@ public class LaundryController {
     @Autowired
     private LaundryService laundryService;
 
-    @PostMapping("/create")
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiOperation(value = "세탁소 등록", notes = "세탁소 등록")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
-    public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
+    public ResponseEntity<?> createLaundry(@RequestPart LaundryCreateReq laundryInfo, MultipartFile multipartFile) {
         Long ceoUserId = jwtService.getUserId();
 
-        laundryService.createLaundry(ceoUserId, laundryInfo);
+        laundryService.createLaundry(ceoUserId, laundryInfo, multipartFile);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
