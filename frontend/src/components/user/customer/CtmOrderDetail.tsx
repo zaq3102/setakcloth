@@ -1,21 +1,29 @@
 import { Card, CardMedia } from '@mui/material';
 import * as React from 'react';
-import { useParams } from 'react-router';
+import { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { getOrderRequest } from '../../../store/actions/services/orderService';
 import SlideOrderBefore from '../../common/SlideOrderBefore';
 import SlideOrderAfter from '../../common/SlideOrderAfter';
 import '../../../styles/Customer.scss';
 
 const CtmOrderDetail: React.FC = () => {
   const { orderId } = useParams();
+  const [order, setOrder] = useState([]);
+  const navigate = useNavigate();
 
-  const order = {
-    laundryName: '크린토피아 역삼점',
-    orderItems: ['신발', '모자'],
-    state: '배달 완료',
-    laundryLogo:
-      'https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.jpg',
-    deliverimg: 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/deliver.jpg'
+  const getOrder = async () => {
+    const result = await getOrderRequest(orderId);
+    if (result?.data) {
+      setOrder(result?.data);
+    } else {
+      navigate('/error');
+    }
   };
+
+  useEffect(() => {
+    getOrder();
+  });
 
   return (
     <div className="order-detail">
@@ -31,15 +39,12 @@ const CtmOrderDetail: React.FC = () => {
           <div className="orderdetail-status">배달 현황 : {order.state}</div>
         </div>
         <div className="orderdetailcard-right">
-          주문 번호 : {orderId}
-          <br />
-          주문한 세탁소 : {order.laundryName}
-          <br />
+          주문 번호 : {order.orderId}
+          세탁소 : {order.laundryName}
+          주문 품목 : {order.orderItems}
           주문 품목 : {order.orderItems}
         </div>
       </Card>
-      <br />
-
       <div className="img-space">
         <br />
         세탁 전 <br />

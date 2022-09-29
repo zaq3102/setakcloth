@@ -19,7 +19,7 @@ const CeoOrderDetail: React.FC = () => {
     if (result?.data) {
       setOrderInfo(result?.data);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 

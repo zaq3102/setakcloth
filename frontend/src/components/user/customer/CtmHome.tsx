@@ -23,8 +23,7 @@ declare global {
 }
 const { kakao } = window;
 
-const CtmHome: React.FC = (props) => {
-  console.log(props);
+const CtmHome: React.FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
@@ -37,7 +36,7 @@ const CtmHome: React.FC = (props) => {
       const userInfo = result?.data?.userInfo;
       setMyaddress(`${userInfo.addr} ${userInfo.addrDetail}`);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
@@ -66,10 +65,10 @@ const CtmHome: React.FC = (props) => {
       if (result2?.data) {
         setMyaddress(`${addr} ${addrDetail}`);
       } else {
-        console.log('error');
+        navigate('/error');
       }
     } else {
-      console.log('error');
+      navigate('/error');
     }
     setOpen(false);
   };
