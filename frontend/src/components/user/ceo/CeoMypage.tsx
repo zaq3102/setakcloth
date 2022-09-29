@@ -21,6 +21,7 @@ import {
   LaundryItemAddRequest,
   LaundryItemDelRequest,
   LaundryRegistRequest,
+  LaundryReviewRequest,
   myLaundryItemsRequest,
   myLaundryRequest
 } from '../../../store/actions/services/laundryService';
@@ -77,7 +78,8 @@ const CeoMypage: React.FC = () => {
   };
 
   const getMyReviews = async () => {
-    const result = await LaundryRegistRequest(laundryList[0].laundryId);
+    console.log(laundryList);
+    const result = await LaundryReviewRequest(laundryList[0].laundryId);
     if (result?.data?.review) {
       setReviewList(result?.data?.review);
     } else {
@@ -103,6 +105,9 @@ const CeoMypage: React.FC = () => {
   useEffect(() => {
     getMyInfo();
     getMyLaundry();
+    if (laundryList.length > 0) {
+      getMyReviews();
+    }
   }, []);
 
   const pageChange = (event, value) => {
@@ -383,7 +388,7 @@ const CeoMypage: React.FC = () => {
             세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
           </div>
           <img
-            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry2.jpg"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry2.png"
             className="ceo-right-img"
             alt="laundry-img"
           />
