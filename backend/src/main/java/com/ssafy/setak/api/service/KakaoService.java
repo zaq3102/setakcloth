@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.service;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,18 +13,26 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 public class KakaoService {
-    public String getKakaoEmail(String code) {
+
+    @Value("${kakao.client.id}")
+    private String client_id;
+
+    @Value("${kakao.client.secret}")
+    private String client_secret;
+
+    public String getKakaoEmail(String code, String redirectUri) {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders tokenRequestHeader = new HttpHeaders(); // http 요청 헤더 만들기
         tokenRequestHeader.add("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 
+
         MultiValueMap<String, String> tokenRequestBody = new LinkedMultiValueMap<>(); // http 요청 바디 만들기
         tokenRequestBody.add("grant_type", "authorization_code");
         tokenRequestBody.add("code", code);
-        tokenRequestBody.add("client_id", "f140d8d4bcb6c6e471e9f7de35c92ce7");
-        tokenRequestBody.add("client_secret", "LPTgcQdZbDNuaqnEwGMHWROplMyKnYht");
-        tokenRequestBody.add("redirect_uri", "http://localhost:3000/login");
+        tokenRequestBody.add("client_id", client_id);
+        tokenRequestBody.add("client_secret", client_secret);
+        tokenRequestBody.add("redirect_uri", redirectUri);
 
         HttpEntity<MultiValueMap<String, String>> tokenRequest = new HttpEntity<>(tokenRequestBody,
                 tokenRequestHeader);
