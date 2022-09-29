@@ -13,6 +13,7 @@ import com.ssafy.setak.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.Tuple;
 import java.time.LocalDate;
@@ -31,9 +32,14 @@ public class LaundryService {
     @Autowired
     private LaundryItemRepository laundryItemRepository;
 
+    @Autowired
+    FileService fileService;
+
     @Transactional
-    public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo) {
+    public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo, MultipartFile multipartFile) {
 //        User ceoUser = userRepository.findById(ceoUserId).orElseThrow(NullPointerException::new);
+
+        String imgUrl = fileService.uploadFile(multipartFile);
 
         laundryRepository.save(Laundry.builder()
                 .regNum(laundryInfo.getRegNum())
@@ -44,6 +50,7 @@ public class LaundryService {
                 .userId(ceoUserId)
                 .isDeliver(laundryInfo.isDeliver())
                 .isPickup(laundryInfo.isPickup())
+                .imgUrl(imgUrl)
                 .build());
     }
 
