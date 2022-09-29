@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.Tuple;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -67,7 +68,7 @@ public class LaundryController {
     })
     public ResponseEntity<?> getLaundryOrderByDistance() {
         Long userId = jwtService.getUserId();
-        List<Tuple> laundries = laundryService.selectAllLaundryOrderByDistance(userId);
+        List<Tuple> laundries = laundryService.selectAllLaundryLimitDistance(userId);
 
         return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
     }
@@ -80,9 +81,9 @@ public class LaundryController {
     })
     public ResponseEntity<?> getLaundryOrderByOrder() {
         Long userId = jwtService.getUserId();
-        List<Tuple> laundries = laundryService.selectAllLaundryOrderByOrder(userId);
+        List<Tuple> laundries = laundryService.selectAllLaundryLimitDistance(userId);
 
-        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+        return ResponseEntity.status(200).body(LaundriesGetRes.ofSortByOrder(200, "Success", laundries));
     }
 
     @GetMapping("/score")
@@ -93,9 +94,9 @@ public class LaundryController {
     })
     public ResponseEntity<?> getLaundryOrderByScore() {
         Long userId = jwtService.getUserId();
-        List<Tuple> laundries = laundryService.selectAllLaundryOrderByScore(userId);
+        List<Tuple> laundries = laundryService.selectAllLaundryLimitDistance(userId);
 
-        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+        return ResponseEntity.status(200).body(LaundriesGetRes.ofSortByScore(200, "Success", laundries));
     }
 
 
