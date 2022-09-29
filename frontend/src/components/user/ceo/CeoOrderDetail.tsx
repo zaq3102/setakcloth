@@ -27,14 +27,6 @@ const CeoOrderDetail: React.FC = () => {
     getList();
   }, []);
 
-  // const orderInfo = {
-  //   orderId: 'anonymous_456',
-  //   orderNum: 'S1234',
-  //   orderDeliver: 'O',
-  //   orderAddr: '평안남도 평양시 칠팔구 고노도로 12',
-  //   orderReq: '없음'
-  // };
-
   const onImgInputBtnClick = (event) => {
     event.preventDefault();
     ImageInput.current.click();
