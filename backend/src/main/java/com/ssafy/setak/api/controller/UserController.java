@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +37,9 @@ public class UserController {
 
     @Autowired
     JwtService jwtService;
+
+    @Value("${client.url}")
+    private String clientUrl;
 
     @PostMapping("/signup")
     @ApiOperation(value = "고객 일반 회원 가입", notes = "고객 일반 회원 가입")
@@ -84,7 +88,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/signup");
             if (userService.existsByUserEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
 
@@ -107,7 +111,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getCeoKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/signup/ceo");
             if (userService.existsByCeoEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
             } else {
