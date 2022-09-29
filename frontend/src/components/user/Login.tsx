@@ -65,6 +65,14 @@ const Login: React.FC = () => {
     }
   };
 
+  const kakaoUserLoginHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/login`;
+  };
+
+  const kakaoCeoLoginHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/login/ceo`;
+  };
+
   return (
     <div className="login-page">
       <div className="login-type">
@@ -122,11 +130,17 @@ const Login: React.FC = () => {
           onClick={handleSubmit}>
           로그인
         </Button>
-        <img
+        {/* <img
           className="kakao-login-button"
           src="../assets/Img/kakao_login_medium.png"
           alt="kakao-login-btn"
-        />
+        /> */}
+        <button className="w-12" onClick={kakaoUserLoginHandler}>
+          <img alt="카카오 고객 로그인" className="kakao object-fill" />
+        </button>
+        <button className="w-12" onClick={kakaoCeoLoginHandler}>
+          <img alt="카카오 사장님 로그인" className="kakao object-fill" />
+        </button>
       </div>
       <br />
       <Link to="/">비밀번호 찾기</Link>
