@@ -110,7 +110,7 @@ export const logoutRequest = async () => {
 export const checkEmailRequest = async (dataToSubmit) => {
   try {
     const payload = await request.get(
-      `/user/signup/check/?email=${dataToSubmit}`
+      `/user/signup/check?email=${dataToSubmit}`
     );
     return payload;
   } catch (err) {
