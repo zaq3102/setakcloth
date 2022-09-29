@@ -4,6 +4,7 @@ package com.ssafy.setak.api.response;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
+import com.ssafy.setak.db.entity.Order;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -50,11 +51,14 @@ public class LaundryGetRes {
     @ApiModelProperty(name = "거리")
     float distance;
 
+    @ApiModelProperty(name = "주문 수")
+    float orderCount;
+
     @ApiModelProperty(name = "별점")
     float score;
 
 
-    public static LaundryGetRes of(Laundry laundry, float dis, float score) {
+    public static LaundryGetRes of(Laundry laundry, float dis) {
         LaundryGetRes res = new LaundryGetRes();
         res.setLaundryId(laundry.getId());
         res.setLaundryName(laundry.getLaundryName());
@@ -67,7 +71,19 @@ public class LaundryGetRes {
         res.setDeliverCost(laundry.getDeliveryCost());
         res.setPickup(laundry.isPickup());
         res.setDistance(dis);
-        res.setScore(score);
+
+        List<Order> orders = laundry.getOrders();
+        res.setOrderCount(orders.size());
+        float avg = 0;
+        int cnt = 0;
+        for(Order order : orders){
+            if(order.getReviewScore() != null){
+                avg += order.getReviewScore();
+                cnt++;
+            }
+        }
+
+        res.setScore(cnt == 0 ? -1 : avg/cnt);
         return res;
     }
 }
