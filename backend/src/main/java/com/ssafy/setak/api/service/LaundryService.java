@@ -51,18 +51,8 @@ public class LaundryService {
         return laundryRepository.findByUserId(ceoUserId);
     }
 
-    public List<Tuple> selectAllLaundryOrderByDistance(Long userId) {
-        List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByDistance(userId);
-        return laundries;
-    }
-
-    public List<Tuple> selectAllLaundryOrderByOrder(Long userId) {
-        List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByOrder(userId);
-        return laundries;
-    }
-
-    public List<Tuple> selectAllLaundryOrderByScore(Long userId) {
-        List<Tuple> laundries = laundryRepository.selectAllLaundryOrderByScore(userId);
+    public List<Tuple> selectAllLaundryLimitDistance(Long userId) {
+        List<Tuple> laundries = laundryRepository.selectAllLaundryLimitDistance(userId);
         return laundries;
     }
 
