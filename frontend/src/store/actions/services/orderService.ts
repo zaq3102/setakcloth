@@ -1,9 +1,19 @@
 import { request, requestAuth } from './axios';
 
 // 내 리뷰 조회
-export const myreviewRequest = async () => {
+export const myReviewRequest = async () => {
   try {
     const payload = await requestAuth.get('/order/review');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 세탁소 리뷰 조회
+export const LaundryReviewRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`/order/review/${dataToSubmit}`);
     return payload;
   } catch (err) {
     return err;

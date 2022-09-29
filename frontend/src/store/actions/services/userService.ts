@@ -8,6 +8,7 @@ import {
   SOCIAL_LOGIN_CEO,
   LOGOUT
 } from '../types/types';
+import axios from 'axios';
 
 // 회원 정보 조회
 export const InfoRequest = async () => {
@@ -123,6 +124,23 @@ export const changeAddrRequest = async (dataToSubmit) => {
     const payload = await requestAuth.post(
       '/user/update/address',
       dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 주소 위도 경도 받기
+export const getLocationxyRequest = async (dataToSubmit) => {
+  try {
+    const payload = await axios.get(
+      `https://dapi.kakao.com/v2/local/search/address.json?query=${dataToSubmit}`,
+      {
+        headers: {
+          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_REST}`
+        }
+      }
     );
     return payload;
   } catch (err) {
