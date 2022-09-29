@@ -43,7 +43,7 @@ const CeoHome: React.FC = () => {
       setState2(list.filter((order) => order.state === 2));
       setState3(list.filter((order) => order.state === 3));
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 

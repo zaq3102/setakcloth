@@ -68,15 +68,15 @@ $color5: #e0ebf5;
 
 .rightdiv {
     display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .item-text {
     font-size: large;
 }
 
-.rightdiv-button {
-    width: 500px;
-}
+.rightdiv-button {}
 
 .orderinfo-button {
     padding: 10px;
@@ -98,7 +98,18 @@ $color5: #e0ebf5;
 }
 
 .rightdiv-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+    width: 70vh;
     padding: 20px;
+}
+
+.laundry-pagination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .order-isDeliver {
@@ -133,11 +144,15 @@ $color5: #e0ebf5;
     width: 50px;
 }
 
-.laundry-review-list-content {
+.laundry-my-review-list {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
+    flex-grow: 1;
+}
+
+.laundry-my-review-list-content {
+    display: flex;
+    flex-direction: column;
 }
 
 .laundry-review-detail {
@@ -147,6 +162,48 @@ $color5: #e0ebf5;
     margin-bottom: 10px;
     padding: 10px;
     height: 100%;
+}
+
+.laundry-my-review-list-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.laundry-my-review {
+    display: flex;
+    background-color: $color5;
+    border-radius: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 70vh;
+    height: 10vh;
+}
+
+.laundry-my-review-img {
+    align-self: center;
+    width: 50px;
+    height: 50px;
+}
+
+.laundry-my-review-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.laundry-my-review-nickname {
+    align-self: center;
+}
+
+.laundry-my-review-content {
+    overflow: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    flex-grow: 1;
+    max-height: 8vh;
+    align-self: center;
 }
 
 // customer/CtmHome.tsx
@@ -176,19 +233,19 @@ $color5: #e0ebf5;
     color: black;
 }
 
-.ctm-address-area{
+.ctm-address-area {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
 }
 
-.my-address-title{
+.my-address-title {
     font-size: medium;
     margin-right: 20px;
 }
 
-.address-modify-btn{
+.address-modify-btn {
     margin-left: 20px;
 }
 
@@ -376,16 +433,4 @@ $color5: #e0ebf5;
 
 .orderdetail-status {
     font-size: 20px;
-}
-
-.img-space {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 20px;
-}
-
-.slide-space {
-    height: 140px;
 }
