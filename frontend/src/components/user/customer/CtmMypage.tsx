@@ -9,6 +9,11 @@ import {
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {
+  getBalance,
+  chargeClean,
+  unlockAccount
+} from '../../../store/actions/services/walletService';
 import Loading from '../../../components/common/Loading';
 import {
   myorderCtmRequest,
@@ -33,6 +38,7 @@ const CtmMypage: React.FC = () => {
 
   const getMypage = async () => {
     const result = await InfoRequest();
+
     if (result?.data?.userInfo) {
       setUserInfo(result?.data?.userInfo);
     } else {
@@ -58,11 +64,19 @@ const CtmMypage: React.FC = () => {
     }
   };
 
+  const get = async () => {
+    const result = await gettest('dbwowo');
+    console.log(result);
+  };
+
   useEffect(() => {
     setPending(true);
+
+    get();
     getMypage();
     getMyReviews();
     getMyOrders();
+
     setTimeout(() => {
       setPending(false);
     }, 3000);
@@ -92,6 +106,11 @@ const CtmMypage: React.FC = () => {
     }
   };
 
+  const handlecharge = async () => {
+    const result = await unlockAccount(userInfo.wallet, '12341234');
+    console.log(result);
+  };
+
   const onClickItem = (value: string) => {
     navigate(`./${value}`);
   };
@@ -116,7 +135,7 @@ const CtmMypage: React.FC = () => {
                     주소 : {userInfo.addr} {userInfo.addrDetail}
                   </div>
                   <br />
-                  <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
+                  <div>(클린 아이콘 들어갈 예정) {userInfo.balance} 클린</div>
                   <div>(포인트 아이콘 들어갈 예정) {point} 포인트</div>
                   <button
                     type="button"
@@ -137,7 +156,7 @@ const CtmMypage: React.FC = () => {
                       취소
                     </Button>
                     <Button
-                      // onClick={handleRegistLaundry}
+                      onClick={handlecharge}
                       variant="contained"
                       color="color2">
                       충전하기
