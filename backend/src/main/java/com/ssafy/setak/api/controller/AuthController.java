@@ -53,7 +53,7 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> userKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/login");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/userlogin");
             User user = null;
 
             try {
@@ -176,7 +176,7 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> ceoKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/login/ceo");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/ceologin");
             User user = null;
 
             try {
