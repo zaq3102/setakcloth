@@ -359,11 +359,11 @@ public class UserController {
     }
 
     @PostMapping("/favorite/search")
-    @ApiOperation(value = "즐겨찾기 조회", notes = "즐겨찾기 조회")
+    @ApiOperation(value = "즐겨찾기 여부 조회", notes = "즐겨찾기 여부  조회")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Create"),
 
-            @ApiResponse(code = 500, message = "즐겨찾기 조회실패")
+            @ApiResponse(code = 500, message = "즐겨찾기 여부 조회실패")
     })
     public ResponseEntity<? extends BaseResponseBody> searchFavorites(@RequestBody AddFavoriteReq favorite) {
 
