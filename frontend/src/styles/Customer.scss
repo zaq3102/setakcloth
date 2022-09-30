@@ -210,8 +210,74 @@ $color5: #e0ebf5;
 .ctm-home {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    margin-left: 10vh;
+}
+
+.tolist-Btn-Group {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+a.toListBtn {
+    text-decoration: none;
+    -webkit-transition: 0.3s all ease;
+    transition: 0.3s ease all;
+
+    &:hover {
+        color: #FFF;
+    }
+
+    &:focus {
+        color: #FFF;
+    }
+}
+
+
+.toListBtn {
+    margin: 1px;
+    font-size: 15px;
+    letter-spacing: 2px;
+    display: inline-block;
     text-align: center;
+    width: 20%;
+    padding: 14px 0px;
+    border-radius: 2px;
+    position: relative;
+
+    &:before {
+        -webkit-transition: 0.5s all ease;
+        transition: 0.5s all ease;
+        position: absolute;
+        top: 0;
+        left: 50%;
+        right: 50%;
+        bottom: 0;
+        opacity: 0;
+        content: '';
+        background-color: $color2;
+        z-index: -2;
+    }
+
+    &:hover {
+        &:before {
+            -webkit-transition: 0.5s all ease;
+            transition: 0.5s all ease;
+            left: 0;
+            right: 0;
+            opacity: 1;
+        }
+    }
+
+    &:focus {
+        &:before {
+            transition: 0.5s all ease;
+            left: 0;
+            right: 0;
+            opacity: 1;
+        }
+    }
 }
 
 .list-buttons {
@@ -261,6 +327,11 @@ $color5: #e0ebf5;
 .list-buttons-down {
     display: flex;
     flex-direction: row;
+}
+
+.modify-btn-img {
+    width: 5vh;
+
 }
 
 //CtmMypage.tsx
