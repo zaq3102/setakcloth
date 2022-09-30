@@ -65,7 +65,7 @@ const Header: React.FC = () => {
           TransitionComponent={Fade}>
           {token ? (
             <div>
-              <MenuItem onclick={onLogoutHandler}>Logout</MenuItem>
+              <MenuItem onClick={onLogoutHandler}>Logout</MenuItem>
               {loginType === 0 ? (
                 <Link to="/customer/mypage">
                   <MenuItem onClick={profileClose}>My Page</MenuItem>
