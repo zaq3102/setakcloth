@@ -104,10 +104,9 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "최신 오픈 세탁소 조회 실패"),
     })
     public ResponseEntity<?> getLaundryOrderByDate() {
-        Long userId = jwtService.getUserId();
-        List<Tuple> laundries = laundryService.selectLaundryOrderByDate(1L);
+        List<Laundry> laundries = laundryService.findTop5ByOrderByJoinDateDesc();
 
-        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+        return ResponseEntity.status(200).body(LaundryDetailsGetRes.of(200, "Success", laundries));
     }
 
     @GetMapping("/{laundry_id}")
