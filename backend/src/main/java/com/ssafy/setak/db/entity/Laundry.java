@@ -37,6 +37,8 @@ public class Laundry {
     private long minCost;
     private long deliveryCost;
 
+    private LocalDateTime joinDate; //서비스 등록 날짜
+
     private long userId;
 
     @OneToMany(mappedBy = "laundry", fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
