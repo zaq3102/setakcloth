@@ -31,16 +31,16 @@ public class LaundryController {
     @Autowired
     private LaundryService laundryService;
 
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/create")
     @ApiOperation(value = "세탁소 등록", notes = "세탁소 등록")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
-    public ResponseEntity<?> createLaundry(@RequestPart LaundryCreateReq laundryInfo, MultipartFile multipartFile) {
+    public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
         Long ceoUserId = jwtService.getUserId();
 
-        laundryService.createLaundry(ceoUserId, laundryInfo, multipartFile);
+        laundryService.createLaundry(ceoUserId, laundryInfo);
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
     }
 
@@ -97,6 +97,18 @@ public class LaundryController {
         return ResponseEntity.status(200).body(LaundriesGetRes.ofSortByScore(200, "Success", laundries));
     }
 
+    @GetMapping("/latest")
+    @ApiOperation(value = "최신 오픈 세탁소 5개", notes = "최신 오픈 세탁소 5개")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "최신 오픈 세탁소 조회 실패"),
+    })
+    public ResponseEntity<?> getLaundryOrderByDate() {
+        Long userId = jwtService.getUserId();
+        List<Tuple> laundries = laundryService.selectLaundryOrderByDate(1L);
+
+        return ResponseEntity.status(200).body(LaundriesGetRes.of(200, "Success", laundries));
+    }
 
     @GetMapping("/{laundry_id}")
     @ApiOperation(value = "세탁소 상세 조회", notes = "세탁소 상세 조회")
@@ -122,8 +134,8 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 수정 실패"),
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
-    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo) {
-        if (laundryService.updateLaundry(laundryId, laundryInfo) != null)
+    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestPart LaundryUpdateReq laundryInfo, @RequestPart MultipartFile multipartFile) {
+        if (laundryService.updateLaundry(laundryId, laundryInfo, multipartFile) != null)
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         else
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
