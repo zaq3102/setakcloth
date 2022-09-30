@@ -43,7 +43,7 @@ const CtmLaundryDetail: React.FC = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [reviewList, setReviewList] = useState([]);
   const [pageReview, setPageReview] = useState(1);
-  const [heartClicked, setHeartClicked] = useState(true);
+  const [heartClicked, setHeartClicked] = useState(false);
   const navigate = useNavigate();
 
   const getItemList = async () => {
@@ -81,9 +81,8 @@ const CtmLaundryDetail: React.FC = () => {
 
   const isHeartClicked = async () => {
     const result = await isLike({ laundryId });
-    console.log(result);
-    if (result?.data?.message === 'Created') {
-      setHeartClicked(false);
+    if (result?.data?.message === 'Create') {
+      setHeartClicked(result?.data?.isFavorite);
     } else {
       navigate('/error');
     }
@@ -282,14 +281,14 @@ const CtmLaundryDetail: React.FC = () => {
 
   const handleHeart = async () => {
     if (heartClicked) {
-      const result = await delLike(laundryId);
-      if (result?.data?.message === 'Success') {
+      const result = await delLike({ laundryId });
+      if (result?.data?.message === 'Create') {
         setHeartClicked(false);
       } else {
         navigate('/error');
       }
     } else {
-      const result = await addLike(laundryId);
+      const result = await addLike({ laundryId });
       if (result?.data?.message === 'Success') {
         setHeartClicked(true);
       } else {

@@ -159,7 +159,7 @@ export const addLike = async (dataToSubmit) => {
 };
 
 // 즐겨찾기 조회
-export const likeAll = async () => {
+export const LaundryLikeRequest = async () => {
   try {
     const payload = await requestAuth.get('/user/favorite');
     return payload;

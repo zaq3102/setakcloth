@@ -87,7 +87,7 @@ const CtmHome: React.FC = (props) => {
 
   return (
     <div>
-      {/* 게시판 이동 버튼 5개(전체보기, 거리순, 별점순, 즐겨찾기, 최근 이용) */}
+      {/* 게시판 이동 버튼 5개(전체보기, 거리순, 별점순, 즐겨찾기) */}
       <div className="tolist-Btn-Group">
         <a className="toListBtn" onClick={() => handleButton(0)}>
           전체보기
