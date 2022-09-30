@@ -23,7 +23,7 @@ declare global {
 }
 const { kakao } = window;
 
-const CtmHome: React.FC = () => {
+const CtmHome: React.FC = (props) => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
@@ -87,12 +87,32 @@ const CtmHome: React.FC = () => {
 
   return (
     <div>
+      {/* 게시판 이동 버튼 5개(전체보기, 거리순, 별점순, 즐겨찾기, 최근 이용) */}
+      <div className="tolist-Btn-Group">
+        <a className="toListBtn" onClick={() => handleButton(0)}>
+          전체보기
+        </a>
+        <a className="toListBtn" onClick={() => handleButton(1)}>
+          거리순
+        </a>
+        <a className="toListBtn" onClick={() => handleButton(2)}>
+          별점순
+        </a>
+        <a className="toListBtn" onClick={() => handleButton(3)}>
+          즐겨찾기
+        </a>
+      </div>
+      {/* 주소 */}
       <div className="ctm-home">
         <div className="ctm-address-area">
-          <div className="my-address-title">우리 집 : {myaddress}</div>
+          <div className="my-address-title">우리 집 {myaddress}</div>
           <div className="address-modify-btn">
-            <Button variant="outlined" onClick={handleClickOpen}>
-              수정하기
+            <Button onClick={handleClickOpen}>
+              <img
+                className="modify-btn-img"
+                src="./assets/pen.gif"
+                alt="수정하기"
+              />
             </Button>
           </div>
         </div>
@@ -113,7 +133,9 @@ const CtmHome: React.FC = () => {
           </DialogActions>
         </Dialog>
       </div>
-      <div className="list-buttons">
+
+      {/* 큰 버튼 4개 */}
+      {/* <div className="list-buttons">
         <div className="list-buttons-down">
           <Button
             className="list-button-tag-set"
@@ -175,7 +197,7 @@ const CtmHome: React.FC = () => {
             <div className="button-tag-text">최근 이용한 세탁소 목록</div>
           </Button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };
