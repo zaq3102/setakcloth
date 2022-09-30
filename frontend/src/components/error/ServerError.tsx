@@ -2,7 +2,7 @@ import React from 'react';
 
 const ServerError = () => {
   return (
-    <div id="container">
+    <div className="error-content">
       <h1>
         죄송합니다.
         <br />
