@@ -3,7 +3,10 @@ import { useLocation } from 'react-router';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginkakaoRequest } from '../../store/actions/services/userService';
+import {
+  loginkakaoRequest,
+  loginkakaoCeoRequest
+} from '../../store/actions/services/userService';
 
 const Kakao: React.FC = () => {
   const navigate = useNavigate();
@@ -12,27 +15,66 @@ const Kakao: React.FC = () => {
   const location = useLocation();
   const path = location.pathname;
   const code = location.search.substr(6);
+
   const kakaoUserLogin = async () => {
     const result = await loginkakaoRequest(code);
     if (result?.payload?.data?.message === 'Success') {
-      console.log(result);
       dispatch(result);
       navigate('/customer');
     } else {
-      alert('로그인에 실패하였습니다!');
+      const status = result?.response?.data?.statusCode;
+      switch (status) {
+        case 403:
+          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          navigate('/login');
+          break;
+
+        case 409:
+          alert('회원가입을 먼저 해주세요!');
+          navigate('/login');
+          break;
+
+        default:
+          alert('로그인에 실패하였습니다!');
+          navigate('/login');
+          break;
+      }
     }
   };
+
+  const kakaoCeoLogin = async () => {
+    const result = await loginkakaoCeoRequest(code);
+    if (result?.payload?.data?.message === 'Success') {
+      dispatch(result);
+      navigate('/ceo');
+    } else {
+      const status = result?.response?.data?.statusCode;
+      switch (status) {
+        case 403:
+          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          navigate('/login');
+          break;
+
+        case 409:
+          alert('회원가입을 먼저 해주세요!');
+          navigate('/login');
+          break;
+
+        default:
+          alert('로그인에 실패하였습니다!');
+          navigate('/login');
+          break;
+      }
+    }
+  };
+
   switch (path) {
     case '/kakao/userlogin':
       kakaoUserLogin();
       break;
 
     case '/kakao/ceologin':
-      return (
-        <div>
-          <h1>카카오 사장님 로그인</h1>
-        </div>
-      );
+      kakaoCeoLogin();
       break;
 
     case '/kakao/usersignup':
