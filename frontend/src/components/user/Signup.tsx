@@ -111,6 +111,7 @@ const Signup: React.FC = () => {
   };
 
   const walletpasswordChange = (event) => {
+    console.log(`${process.env.REACT_APP_ETH_URL}`);
     setWalletPassword(event.target.value.trim());
   };
 
@@ -150,7 +151,6 @@ const Signup: React.FC = () => {
     let userAccount = web3.eth.personal
       .newAccount(walletpassword)
       .then((res) => {
-        console.log(`${process.env.REACT_APP_ETH_URL}`);
         setWalletAddr(res);
         setIsWalletCreated(true);
         alert('지갑이 생성되었습니다!');
