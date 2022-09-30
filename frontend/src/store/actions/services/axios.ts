@@ -50,11 +50,14 @@ requestAuth.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const result = error.config;
+    const result = error.response;
 
     // 로그아웃
 
     // 로직 구현하기
+    if (result?.data?.statusCode === 500) {
+      window.location.replace('/banned');
+    }
 
     // .catch() 로 이어진다.
     return Promise.reject(error);

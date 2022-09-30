@@ -7,6 +7,7 @@ import Ceo from './routes/Ceo';
 import User from './routes/User';
 import ServerError from './components/error/ServerError';
 import NotFound from './components/error/NotFound';
+import NotAllowed from './components/error/NotAllowed';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
         <Route path="/customer/*" element={<Customer />} />
         <Route path="/ceo/*" element={<Ceo />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/banned" element={<NotAllowed />} />
         <Route path="/error" element={<ServerError />} />
       </Route>
     </Routes>
