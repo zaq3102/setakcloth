@@ -369,8 +369,7 @@ public class UserController {
 
         try {
             Long userId = jwtService.getUserId();
-            System.out.println(userId+"SS");
-            System.out.println(favorite.getLaundryId());
+
             boolean state =userService.sarchFavorite(userId, favorite.getLaundryId());
             return ResponseEntity.status(201).body(FavoriteSearchRes.of(201, "Create",state));
 
