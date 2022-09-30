@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   CardMedia,
@@ -13,8 +12,7 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { Link, useParams } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate, useParams } from 'react-router-dom';
 import StarIcon from '@mui/icons-material/Star';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import AddIcon from '@mui/icons-material/Add';
@@ -28,17 +26,25 @@ import {
   myLaundryItemsRequest
 } from '../../../store/actions/services/laundryService';
 import { orderRequest } from '../../../store/actions/services/orderService';
+import '../../../styles/OrderButton.scss';
+import {
+  addLike,
+  delLike,
+  isLike
+} from '../../../store/actions/services/userService';
 
 const CtmLaundryDetail: React.FC = () => {
   const [laundry, setLaundry] = useState([]);
   const [laundryItemList, setLaundryItemList] = useState([]);
   const { laundryId } = useParams();
-
   const [mode, setMode] = useState(1);
   const [orderDetails, setOrderDetails] = useState([]);
-  const [orderType, setOrderType] = useState<number>(0);
+  const [orderType, setOrderType] = useState<number>(1);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [reviewList, setReviewList] = useState([]);
+  const [pageReview, setPageReview] = useState(1);
+  const [heartClicked, setHeartClicked] = useState(false);
+  const navigate = useNavigate();
 
   const getItemList = async () => {
     const result = await myLaundryItemsRequest(laundryId);
@@ -51,7 +57,7 @@ const CtmLaundryDetail: React.FC = () => {
       }
       setOrderDetails(temp);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
@@ -60,7 +66,7 @@ const CtmLaundryDetail: React.FC = () => {
     if (result?.data?.laundry) {
       setLaundry(result?.data?.laundry);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
@@ -69,7 +75,16 @@ const CtmLaundryDetail: React.FC = () => {
     if (result?.data?.message === 'Success') {
       setReviewList(result?.data?.reviews);
     } else {
-      console.log('error');
+      navigate('/error');
+    }
+  };
+
+  const isHeartClicked = async () => {
+    const result = await isLike({ laundryId });
+    if (result?.data?.message === 'Create') {
+      setHeartClicked(result?.data?.isFavorite);
+    } else {
+      navigate('/error');
     }
   };
 
@@ -77,6 +92,7 @@ const CtmLaundryDetail: React.FC = () => {
     getItemList();
     getLaundry();
     getReviewList();
+    isHeartClicked();
   }, []);
 
   const minusOne = (index) => {
@@ -98,22 +114,13 @@ const CtmLaundryDetail: React.FC = () => {
   };
 
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setOrderType(parseInt(event.target.value, 10));
-  };
-
-  const value = 3.5;
-  const [pageReview, setPageReview] = useState(1);
-  const labels: { [index: string]: string } = {
-    0.5: '0.5점',
-    1: '1점',
-    1.5: '1.5점',
-    2: '2점',
-    2.5: '2.5점',
-    3: '3점',
-    3.5: '3.5점',
-    4: '4점',
-    4.5: '4.5점',
-    5: '5점'
+    const DeliverType = parseInt(event.target.value, 10);
+    if (DeliverType === 0) {
+      setTotalPrice(totalPrice + laundry.deliverCost);
+    } else if (DeliverType === 1) {
+      setTotalPrice(totalPrice - laundry.deliverCost);
+    }
+    setOrderType(DeliverType);
   };
 
   const pageReviewChange = (event, value) => {
@@ -129,15 +136,15 @@ const CtmLaundryDetail: React.FC = () => {
     };
     const result = await orderRequest(orderInfo);
     if (result?.data?.message === 'Success') {
-      alert('주문이 완료 되었습니다.');
       const temp = [];
       for (let i = 0; i < orderDetails.length; i += 1) {
         temp.push(0);
       }
       setOrderDetails(temp);
       setTotalPrice(0);
+      setOrderType(1);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
@@ -149,7 +156,7 @@ const CtmLaundryDetail: React.FC = () => {
           세탁 서비스 주문하기
         </Typography>
         {laundryItemList.map((item, idx) => (
-          <div className="itemlist">
+          <div className="itemlist" key={item.id}>
             <div className="item-text">
               {item.name} {item.price}원
             </div>
@@ -172,69 +179,123 @@ const CtmLaundryDetail: React.FC = () => {
         <div className="order-isDeliver">
           <div>수령 방법</div>
           <RadioGroup row value={orderType} onChange={handleDeliver}>
-            <FormControlLabel value={0} control={<Radio />} label="배달" />
             <FormControlLabel value={1} control={<Radio />} label="직접 수거" />
+            <FormControlLabel value={0} control={<Radio />} label="배달" />
           </RadioGroup>
         </div>
         <div className="item-text">
           총 수량 : {orderDetails.reduce((a, b) => a + b, 0)}
         </div>
         <div className="item-text">예상 금액 : {totalPrice}원</div>
-        <Button
-          variant="contained"
-          color="color2"
-          onClick={handleOrder}
-          disabled={totalPrice === 0}>
-          주문하기
-        </Button>
+        <button
+          className="order-button-button"
+          type="button"
+          disabled={totalPrice === 0}
+          onClick={handleOrder}>
+          <span>주문하기</span>
+          <div className="order-button-cart">
+            <svg viewBox="0 0 36 26">
+              <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5" />
+              <polyline points="15 13.5 17 15.5 22 10.5" />
+            </svg>
+          </div>
+        </button>
       </>
     );
   } else if (mode === 2) {
     content = (
-      <div>
-        <div>{reviewList}</div>
-        <div>
+      <>
+        <div className="rightdiv-top">
           <Rating
             name="text-feedback"
-            value={value}
+            value={laundry.score}
             readOnly
             precision={0.5}
             emptyIcon={
               <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
             }
+            size="large"
           />
-          <Box>{labels[value]}</Box>
+          <Box>{laundry.score === -1 ? null : laundry.score}</Box>
+          <Typography variant="h4" component="div">
+            리뷰 {reviewList.length}개
+          </Typography>
         </div>
-        <Typography variant="h4" component="div">
-          리뷰 {reviewList.length}개
-        </Typography>
-        <div className="laundry-review-list-content">
-          <div className="laundry-review-detail">
+        <div className="laundry-my-review-list">
+          <div className="laundry-my-review-list-content">
             {reviewList
               .slice((pageReview - 1) * 3, pageReview * 3)
               .map((review) => (
-                <Link key={review} to="/">
-                  <div className="laundry-review">{review}</div>
-                </Link>
+                <div className="laundry-my-review">
+                  <img
+                    className="laundry-my-review-img"
+                    src="../assets/user.png"
+                    alt="user-img"
+                  />
+                  <div className="laundry-my-review-info">
+                    <div className="laundry-my-review-nickname">
+                      {review.userNickName ? review.userNickName : '익명'}
+                    </div>
+                    <div className="laundry-my-review-rate">
+                      <Rating
+                        value={review.score}
+                        readOnly
+                        precision={0.5}
+                        emptyIcon={<StarIcon />}
+                        size="medium"
+                      />
+                    </div>
+                  </div>
+                  <div className="laundry-my-review-content">
+                    {review.content}
+                  </div>
+                </div>
               ))}
           </div>
           <div className="laundry-pagination">
             <Pagination
               count={Math.ceil(reviewList.length / 3)}
               page={pageReview}
+              // variant="outlined"
               color="color2"
               className={`${
-                reviewList.length === 0
-                  ? 'laundry-no-pagination'
-                  : 'laundry-pagination'
+                reviewList.length === 0 ? 'ctm-no-pagination' : 'ctm-pagination'
               }`}
               onChange={pageReviewChange}
             />
           </div>
         </div>
-      </div>
+      </>
     );
   }
+
+  document.querySelectorAll('.order-button-button').forEach((button) =>
+    button.addEventListener('click', (e) => {
+      if (!button.classList.contains('loading')) {
+        button.classList.add('loading');
+        setTimeout(() => button.classList.remove('loading'), 3700);
+      }
+      e.preventDefault();
+    })
+  );
+
+  const handleHeart = async () => {
+    if (heartClicked) {
+      const result = await delLike({ laundryId });
+      if (result?.data?.message === 'Create') {
+        setHeartClicked(false);
+      } else {
+        navigate('/error');
+      }
+    } else {
+      const result = await addLike({ laundryId });
+      if (result?.data?.message === 'Success') {
+        setHeartClicked(true);
+      } else {
+        navigate('/error');
+      }
+    }
+  };
 
   return (
     <div className="customerlaundrydetail">
@@ -249,9 +310,14 @@ const CtmLaundryDetail: React.FC = () => {
           />
           <CardContent id="laundryBox">
             <div className="item-title">{laundry.laundryName}</div>
-            <IconButton>
-              <FavoriteIcon />
-            </IconButton>
+            <div
+              className={
+                'heart-animation' +
+                ' ' +
+                `${heartClicked ? 'heart-clicked' : null}`
+              }
+              onClick={handleHeart}
+            />
             <div className="item-content">
               <div>
                 {laundry.addr} {laundry.addrDetail}
@@ -265,7 +331,7 @@ const CtmLaundryDetail: React.FC = () => {
       </div>
 
       {/* toggle */}
-      <div id="rightdiv">
+      <div className="rightdiv">
         <div className="rightdiv-button">
           <button
             type="button"

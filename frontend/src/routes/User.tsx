@@ -4,6 +4,7 @@ import Signup from '../components/user/Signup';
 import Login from '../components/user/Login';
 import Kakao from '../components/user/Kakao';
 import TOS from '../components/user/TOS';
+import NotFound from '../components/error/NotFound';
 import '../styles/User.scss';
 
 const User = () => {
@@ -13,6 +14,7 @@ const User = () => {
       <Route path="login" element={<Login />} />
       <Route path="tos" element={<TOS />} />
       <Route path="kakao/:data" element={<Kakao />} />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

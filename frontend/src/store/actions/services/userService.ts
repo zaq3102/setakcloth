@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { request, requestAuth } from './axios';
 import {
   LOGIN_CTM,
@@ -8,7 +9,6 @@ import {
   SOCIAL_LOGIN_CEO,
   LOGOUT
 } from '../types/types';
-import axios from 'axios';
 
 // 회원 정보 조회
 export const InfoRequest = async () => {
@@ -110,7 +110,7 @@ export const logoutRequest = async () => {
 export const checkEmailRequest = async (dataToSubmit) => {
   try {
     const payload = await request.get(
-      `/user/signup/check/?email=${dataToSubmit}`
+      `/user/signup/check?email=${dataToSubmit}`
     );
     return payload;
   } catch (err) {
@@ -141,6 +141,52 @@ export const getLocationxyRequest = async (dataToSubmit) => {
           Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_REST}`
         }
       }
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 등록
+export const addLike = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post('/user/favorite/add', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 조회
+export const LaundryLikeRequest = async () => {
+  try {
+    const payload = await requestAuth.get('/user/favorite');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 삭제
+export const delLike = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/favorite/delete',
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 여부 조회
+export const isLike = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/favorite/search',
+      dataToSubmit
     );
     return payload;
   } catch (err) {

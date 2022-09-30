@@ -21,7 +21,7 @@ $color5: #e0ebf5;
   justify-content: center;
 }
 
-.kakao-login-button{
+.kakao-login-button {
   width: 75px;
 }
 
@@ -82,4 +82,13 @@ $color5: #e0ebf5;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+}
+
+.error-content {
+  text-align: center;
+  line-height: 30px;
+}
+
+.error-content-bold {
+  font-size: xx-large;
 }

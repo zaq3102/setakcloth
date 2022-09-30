@@ -1,5 +1,5 @@
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './styles/App.scss';
 import { ThemeProvider } from '@mui/material';
@@ -28,7 +28,10 @@ const store = configureStore({
 
 const persistor = persistStore(store);
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(
+  document.getElementById('root') as HTMLElement
+);
+root.render(
   <Provider store={store}>
     <PersistGate persistor={persistor}>
       <BrowserRouter>
@@ -37,8 +40,7 @@ ReactDOM.render(
         </ThemeProvider>
       </BrowserRouter>
     </PersistGate>
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
 export default store;

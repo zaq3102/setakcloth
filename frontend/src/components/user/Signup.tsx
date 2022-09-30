@@ -9,6 +9,7 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
+import Web3 from 'web3';
 import {
   checkEmailRequest,
   signupCeoRequest,
@@ -123,7 +124,7 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    let userInfo = {
+    const userInfo = {
       email,
       pwd,
       walletAddr
