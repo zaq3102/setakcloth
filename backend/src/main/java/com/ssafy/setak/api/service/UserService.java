@@ -6,6 +6,7 @@ import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.FavoriteRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
 import com.ssafy.setak.db.repository.UserRepository;
+import jdk.jfr.internal.LongMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -169,6 +170,12 @@ public class UserService {
         favoriteRepository.delete(favorite);
 
 
+
+
+    }
+
+    public Boolean sarchFavorite(Long userId, Long laundryId) {
+        return favoriteRepository.existsByUserIdAndLaundryId(userId,laundryId);
 
 
     }
