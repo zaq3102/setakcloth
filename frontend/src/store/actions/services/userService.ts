@@ -159,12 +159,33 @@ export const addLike = async (dataToSubmit) => {
 };
 
 // 즐겨찾기 조회
+export const likeAll = async () => {
+  try {
+    const payload = await requestAuth.get('/user/favorite');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
 
 // 즐겨찾기 삭제
 export const delLike = async (dataToSubmit) => {
   try {
     const payload = await requestAuth.post(
       '/user/favorite/delete',
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 여부 조회
+export const isLike = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/favorite/search',
       dataToSubmit
     );
     return payload;

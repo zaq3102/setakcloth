@@ -155,8 +155,8 @@ const CtmMypage: React.FC = () => {
                 <div className="ctm-my-review-detail">
                   {reviewList
                     .slice((pageReview - 1) * 3, pageReview * 3)
-                    .map((review) => (
-                      <Link key={review} to="/customer/mypage">
+                    .map((review, idx) => (
+                      <Link key={idx} to="/customer/mypage">
                         <div className="ctm-my-review">{review.content}</div>
                       </Link>
                     ))}
@@ -186,7 +186,7 @@ const CtmMypage: React.FC = () => {
                 {orderList
                   .slice((pageOrder - 1) * 4, pageOrder * 4)
                   .map((order) => (
-                    <Link to={`../order/${order.orderId}`}>
+                    <Link to={`../order/${order.orderId}`} key={order.orderId}>
                       <div className="ctm-my-order">
                         <div>{order.orderId}</div>
                         <div>{order.laundryName}</div>
