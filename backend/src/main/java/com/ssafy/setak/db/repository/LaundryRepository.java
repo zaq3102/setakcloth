@@ -20,4 +20,10 @@ public interface LaundryRepository extends JpaRepository<Laundry, Long> {
             "AND round(6371 * acos(cos(l.address.addrLat * 3.141592653589793 / 180.0) * cos(u.address.addrLat * 3.141592653589793 / 180.0) * cos((u.address.addrLng * 3.141592653589793 / 180.0) - (l.address.addrLng * 3.141592653589793 / 180.0)) + sin(l.address.addrLat * 3.141592653589793 / 180.0) * sin(u.address.addrLat * 3.141592653589793 / 180.0)),1) <= 1.5 " +
             "ORDER BY distance")
     List<Tuple> selectAllLaundryLimitDistance(@Param("userId") Long userId);
+
+    @Query("SELECT l, round(6371 * acos(cos(l.address.addrLat * 3.141592653589793 / 180.0) * cos(u.address.addrLat * 3.141592653589793 / 180.0) * cos((u.address.addrLng * 3.141592653589793 / 180.0) - (l.address.addrLng * 3.141592653589793 / 180.0)) + sin(l.address.addrLat * 3.141592653589793 / 180.0) * sin(u.address.addrLat * 3.141592653589793 / 180.0)),1) as distance " +
+            "FROM Laundry l, User u " +
+            "WHERE u.id = :userId " +
+            "ORDER BY l.regDate DESC" )
+    List<Tuple> selectLaundryOrderByDate(@Param("userId") Long userId);
 }
