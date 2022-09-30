@@ -359,11 +359,11 @@ public class UserController {
     }
 
     @PostMapping("/favorite/search")
-    @ApiOperation(value = "즐겨찾기 삭제", notes = "즐겨찾기 삭제")
+    @ApiOperation(value = "즐겨찾기 조회", notes = "즐겨찾기 조회")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Create"),
 
-            @ApiResponse(code = 500, message = "즐겨 삭제 실패")
+            @ApiResponse(code = 500, message = "즐겨찾기 조회실패")
     })
     public ResponseEntity<? extends BaseResponseBody> searchFavorites(@RequestBody AddFavoriteReq favorite) {
 
@@ -374,7 +374,7 @@ public class UserController {
             return ResponseEntity.status(201).body(FavoriteSearchRes.of(201, "Create",state));
 
         } catch (Exception e) {
-            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회"));
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
         }
     }
 }
