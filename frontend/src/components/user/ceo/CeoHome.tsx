@@ -65,12 +65,12 @@ const CeoHome: React.FC = () => {
                   key={order.orderId}
                   className="ceo-order-item"
                   onClick={() => onClickItem(order.orderId)}>
-                  <div className="ceo-order-item-text">
-                    [주문 번호: {order.orderId}]
-                  </div>
-                  <div className="ceo-order-item-text">
-                    {order.date.substring(0, 19)}
-                  </div>
+                  <span className="ceo-order-item-Time-text">
+                    <span className="ceo-order-item-orderNo-text">
+                      [주문 번호: {order.orderId}]{' '}
+                    </span>
+                    {order.date.substring(0, 16)}
+                  </span>
                   <div className="ceo-order-item-text">
                     {order.userAddr} {order.userAddrDetail}
                   </div>
