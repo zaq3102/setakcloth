@@ -33,7 +33,16 @@ $color5: #e0ebf5;
 
 .ceo-order-item-text {
   margin-top: 2px;
-  margin-bottom: 2px;
+  margin-bottom: 10px;
+}
+
+.ceo-order-item-orderNo-text {
+  font-weight: bold;
+}
+
+.ceo-order-item-Time-text {
+  font-size: medium;
+  line-height: 3vh;
 }
 
 .ceo-order-item-chip {
