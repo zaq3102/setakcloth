@@ -6,7 +6,6 @@ import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.db.entity.Address;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.LaundryItem;
-import com.ssafy.setak.db.entity.User;
 import com.ssafy.setak.db.repository.LaundryItemRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
 import com.ssafy.setak.db.repository.UserRepository;
@@ -66,8 +65,9 @@ public class LaundryService {
         return laundries;
     }
 
-    public List<Tuple> selectLaundryOrderByDate(Long userId){
-        List<Tuple> laundries = laundryRepository.selectLaundryOrderByDate(userId);
+    public List<Laundry> findTop5ByOrderByJoinDateDesc(){
+        List<Laundry> laundries = laundryRepository.findTop5ByOrderByJoinDateDesc();
+
         return laundries;
     }
 
