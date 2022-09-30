@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Transactional(readOnly = true)
@@ -35,13 +37,6 @@ public class OrderService {
     public void createOrder(Long userId, OrderCreateReq orderInfo) {
         LocalDateTime date = LocalDateTime.now();
 
-        List<Long> orderDetails = orderInfo.getOrderDetails();
-//        long count = 0;
-//        for (int i = 0; i < orderDetails.size(); i++) {
-//            Long laundryItemID = orderDetails.get(i);
-//            LaundryItem laundryItem = laundryItemRepository.findById(laundryItemID).orElse(null);
-//            count += laundryItem.getPrice();
-//        }
         Order order = Order.builder()
                 .date(date)
                 .totalPrice(orderInfo.getTotalPrice())
@@ -53,13 +48,20 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
 
-        for (int i = 0; i < orderDetails.size(); i++) {
-            Long laundryItemCount = orderDetails.get(i);
-            for (int j = 0; j < laundryItemCount; j++) {
-                orderDetailRepository.save(OrderDetail.builder()
-                        .laundryItemId(new Long(i+1))
-                        .order(order)
-                        .build());
+        HashMap<Long, Integer> orderDetails = orderInfo.getOrderDetails();
+
+        LaundryItem laundryItem = null;
+        for (Map.Entry<Long, Integer> entry : orderDetails.entrySet()) {
+            laundryItem = laundryItemRepository.findById(entry.getKey()).orElse(null);
+
+            if(laundryItem != null) {
+                for (int i = 0; i < orderDetails.get(entry.getKey()); i++) {
+                    orderDetailRepository.save(OrderDetail.builder()
+                            .order(order)
+                            .name(laundryItem.getName())
+                            .price(laundryItem.getPrice())
+                            .build());
+                }
             }
         }
     }
