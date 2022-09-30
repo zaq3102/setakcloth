@@ -9,13 +9,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import Web3 from 'web3';
 import {
   checkEmailRequest,
   signupCeoRequest,
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
+
 // import Web3 from 'web3';
 const Web3 = require('web3');
 
