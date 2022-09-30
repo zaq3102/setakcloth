@@ -180,7 +180,7 @@ public class AuthController {
             User user = null;
 
             try {
-                user = userService.getUserByUserEmail(kakaoEmail);
+                user = userService.getUserByCeoEmail(kakaoEmail);
             } catch (Exception e) {
                 return ResponseEntity.status(409).body(AuthRes.of(409, "존재하지 않는 회원입니다.", null, false, -1l));
             }
