@@ -1,5 +1,17 @@
 import * as React from 'react';
-import { Card, CardContent, CardMedia, Chip } from '@mui/material';
+import {
+  Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField
+} from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -17,6 +29,7 @@ import {
   LaundryLikeRequest
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
+import Address from '../../../components/common/Address';
 
 const CtmMypage = () => {
   const [clean, setClean] = useState<number>(12340000000000);
@@ -31,12 +44,52 @@ const CtmMypage = () => {
   const [mode, setMode] = useState(1);
   const [modeState, setModeState] = useState(-1);
   const stateText = ['수락 대기중', '세탁중', '배달중', '세탁 완료'];
+  const [openNickname, setOpenNickname] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
+  const [openCharge, setOpenCharge] = useState(false);
+  const [myaddress, setMyaddress] = useState('');
+
+  const handleOpen = (value) => {
+    switch (value) {
+      case 1:
+        setOpenNickname(true);
+        break;
+      case 2:
+        setOpenAddress(true);
+        break;
+      case 3:
+        setOpenCharge(true);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const handleClose = (value) => {
+    switch (value) {
+      case 1:
+        setOpenNickname(false);
+        break;
+      case 2:
+        setOpenAddress(false);
+        break;
+      case 3:
+        setOpenCharge(false);
+        break;
+      default:
+        break;
+    }
+  };
+
   const navigate = useNavigate();
 
   const getMypage = async () => {
     const result = await InfoRequest();
     if (result?.data?.userInfo) {
       setUserInfo(result?.data?.userInfo);
+      setMyaddress(
+        `${result?.data?.userInfo?.addr} ${result?.data?.userInfo?.addrDetail}`
+      );
     } else {
       navigate('/error');
     }
@@ -87,7 +140,6 @@ const CtmMypage = () => {
     setModeState(value);
   };
 
-  console.log(orderList);
   let content = '';
   if (mode === 1) {
     let orderTempList = orderList;
@@ -171,6 +223,17 @@ const CtmMypage = () => {
       </>
     );
   }
+  // 닉네임 변경 로직
+  const handleNickname = () => {};
+
+  // 주소 변경 로직
+  const changeAddress = (value) => {
+    setMyaddress(value);
+  };
+
+  // 충전 로직
+  const handleCharge = () => {};
+
   return (
     <div className="ctm-mypage">
       <CardContent className="ctm-mypage-left">
@@ -183,12 +246,14 @@ const CtmMypage = () => {
         </div>
         <div className="ctm-mypage-left-bottom">
           <div className="ctm-mypage-left-bottom-content">
+            <div className="ctm-mypage-left-bottom-clean">
+              {/* {userInfo.balance} */}
+              10000 클린
+            </div>
             <div className="ctm-mypage-left-bottom-nickname">
               {userInfo.nickName ? userInfo.nickName : '닉네임을 바꿔주세요.'}
             </div>
-            <div className="ctm-mypage-left-bottom-address">
-              {userInfo.addr} {userInfo.addrDetail}
-            </div>
+            <div className="ctm-mypage-left-bottom-address">{myaddress}</div>
           </div>
           <div className="ctm-mypage-left-bottom-chips">
             <Chip
@@ -199,7 +264,7 @@ const CtmMypage = () => {
                 width: 140,
                 background: 'linear-gradient(#e66465, #FFD6EC)'
               }}
-              // onClick={() => handleMode(0)}
+              onClick={() => handleOpen(1)}
             />
             <Chip
               className="ctm-mypage-left-bottom-chip"
@@ -209,7 +274,7 @@ const CtmMypage = () => {
                 width: 140,
                 background: 'linear-gradient(#e66465, #FFD6EC)'
               }}
-              // onClick={() => handleMode(0)}
+              onClick={() => handleOpen(2)}
             />
             <Chip
               className="ctm-mypage-left-bottom-chip"
@@ -219,7 +284,7 @@ const CtmMypage = () => {
                 width: 140,
                 background: 'linear-gradient(#e66465, #FFD6EC)'
               }}
-              // onClick={() => handleMode(0)}
+              onClick={() => handleOpen(3)}
             />
           </div>
         </div>
@@ -227,35 +292,44 @@ const CtmMypage = () => {
       <div className="ctm-mypage-right">
         <div className="ctm-mypage-right-top">
           <Chip
-            className="ctm-mypage-right-top-chip"
+            className={`ctm-mypage-right-top-chip ${
+              mode === 1 ? 'ctm-right-top-chip-selected' : null
+            }`}
             label="나의 주문"
             style={{
               height: 40,
               width: 140,
               marginRight: 20,
-              background: 'linear-gradient(#e66465, #FFD6EC)'
+              background: 'rgb(250, 209, 226)',
+              fontSize: 'medium'
             }}
             onClick={() => handleMode(1)}
           />
           <Chip
-            className="ctm-mypage-right-top-chip"
+            className={`ctm-mypage-right-top-chip ${
+              mode === 2 ? 'ctm-right-top-chip-selected' : null
+            }`}
             label="나의 리뷰"
             style={{
               height: 40,
               width: 140,
               marginRight: 20,
-              background: 'linear-gradient(#e66465, #FFD6EC)'
+              background: 'rgb(250, 209, 226)',
+              fontSize: 'medium'
             }}
             onClick={() => handleMode(2)}
           />
           <Chip
-            className="ctm-mypage-right-top-chip"
+            className={`ctm-mypage-right-top-chip ${
+              mode === 3 ? 'ctm-right-top-chip-selected' : null
+            }`}
             label="나의 즐겨찾기"
             style={{
               height: 40,
               width: 140,
               marginRight: 20,
-              background: 'linear-gradient(#e66465, #FFD6EC)'
+              background: 'rgb(250, 209, 226)',
+              fontSize: 'medium'
             }}
             onClick={() => handleMode(3)}
           />
@@ -303,6 +377,64 @@ const CtmMypage = () => {
           <div className="ctm-mypage-right-medium" />
         )}
         <div className="ctm-mypage-right-bottom">{content}</div>
+      </div>
+
+      {/* 모달 모음집 */}
+      <div>
+        <Dialog open={openNickname} onClose={() => handleClose(1)}>
+          <DialogTitle>닉네임 변경하기</DialogTitle>
+          <DialogContent>
+            <DialogContentText>변경할 닉네임을 입력해주세요.</DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="닉네임"
+              type="text"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose(1)}>취소</Button>
+            <Button onClick={handleNickname}>변경하기</Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog open={openAddress} onClose={() => handleClose(2)}>
+          <Address changeAddress={changeAddress} handleClose={handleClose} />
+        </Dialog>
+      </div>
+
+      <div>
+        <Dialog open={openCharge} onClose={() => handleClose(3)}>
+          <DialogTitle>클린 충전하기</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              지갑 비밀번호와 충전할 금액을 입력해주세요.
+            </DialogContentText>
+            <TextField
+              autoFocus
+              margin="dense"
+              label="지갑 비밀번호"
+              type="password"
+              fullWidth
+              variant="standard"
+            />
+            <TextField
+              margin="dense"
+              label="충전할 금액"
+              type="number"
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose(3)}>취소</Button>
+            <Button onClick={handleCharge}>충전하기</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     </div>
   );

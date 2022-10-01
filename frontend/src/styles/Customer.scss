@@ -396,8 +396,13 @@ a.toListBtn {
 .ctm-mypage-left-bottom-content {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     flex-grow: 1;
+}
+
+.ctm-mypage-left-bottom-clean {
+    font-size: x-large;
+    font-weight: 500;
 }
 
 .ctm-mypage-right {
@@ -407,12 +412,16 @@ a.toListBtn {
 
 .ctm-mypage-right-top {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: flex-end;
     padding-left: 4vh;
     padding-bottom: 4vh;
     width: 95vh;
     height: 15vh;
+}
+
+.ctm-right-top-chip-selected {
+    background: rgb(238, 133, 175) !important;
 }
 
 .ctm-mypage-right-medium {
