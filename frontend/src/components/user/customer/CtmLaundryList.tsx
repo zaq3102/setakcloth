@@ -8,6 +8,7 @@ import {
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router';
+import { LaundryLikeRequest } from '../../../store/actions/services/userService';
 import {
   LaundryDistRequest,
   LaundryScoreRequest
@@ -23,22 +24,24 @@ const CtmLaundryList: React.FC = () => {
   const getList = async () => {
     const mode = location.state;
     let result = '';
-    if (mode) {
-      if (mode === 1) {
+    switch (mode) {
+      case 1: // 거리순
         result = await LaundryDistRequest();
-      } else if (mode === 2) {
+        break;
+      case 2: // 별점순
         result = await LaundryScoreRequest();
-      } else if (mode === 3) {
+        break;
+      case 3: // 즐겨찾기
+        result = await LaundryLikeRequest();
+        break;
+      default: // 전체 보기
         result = await LaundryDistRequest();
-      } else if (mode === 4) {
-        result = await LaundryDistRequest();
-      }
-    } else {
-      result = await LaundryDistRequest();
+        break;
     }
-    console.log(result);
     if (result?.data?.laundries) {
       setLaundryList(result?.data?.laundries);
+    } else if (result?.data?.laundrys) {
+      setLaundryList(result?.data?.laundrys);
     } else {
       navigate('/error');
     }

@@ -172,4 +172,10 @@ public class UserService {
 
 
     }
+
+    public Boolean sarchFavorite(Long userId, Long laundryId) {
+        return favoriteRepository.existsByUserIdAndLaundryId(userId,laundryId);
+
+
+    }
 }

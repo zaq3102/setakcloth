@@ -27,7 +27,11 @@ import {
 } from '../../../store/actions/services/laundryService';
 import { orderRequest } from '../../../store/actions/services/orderService';
 import '../../../styles/OrderButton.scss';
-import { addLike, delLike } from '../../../store/actions/services/userService';
+import {
+  addLike,
+  delLike,
+  isLike
+} from '../../../store/actions/services/userService';
 
 const CtmLaundryDetail: React.FC = () => {
   const [laundry, setLaundry] = useState([]);
@@ -39,7 +43,7 @@ const CtmLaundryDetail: React.FC = () => {
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [reviewList, setReviewList] = useState([]);
   const [pageReview, setPageReview] = useState(1);
-  const [heartClicked, setHeartClicked] = useState(true);
+  const [heartClicked, setHeartClicked] = useState(false);
   const navigate = useNavigate();
 
   const getItemList = async () => {
@@ -75,10 +79,20 @@ const CtmLaundryDetail: React.FC = () => {
     }
   };
 
+  const isHeartClicked = async () => {
+    const result = await isLike({ laundryId });
+    if (result?.data?.message === 'Create') {
+      setHeartClicked(result?.data?.isFavorite);
+    } else {
+      navigate('/error');
+    }
+  };
+
   useEffect(() => {
     getItemList();
     getLaundry();
     getReviewList();
+    isHeartClicked();
   }, []);
 
   const minusOne = (index) => {
@@ -142,7 +156,7 @@ const CtmLaundryDetail: React.FC = () => {
           세탁 서비스 주문하기
         </Typography>
         {laundryItemList.map((item, idx) => (
-          <div className="itemlist">
+          <div className="itemlist" key={item.id}>
             <div className="item-text">
               {item.name} {item.price}원
             </div>
@@ -267,19 +281,19 @@ const CtmLaundryDetail: React.FC = () => {
 
   const handleHeart = async () => {
     if (heartClicked) {
-      // const result = await delLike(laundryId);
-      // if (result?.data?.message === 'Success') {
-      setHeartClicked(false);
-      // } else {
-      //   navigate('/error');
-      // }
+      const result = await delLike({ laundryId });
+      if (result?.data?.message === 'Create') {
+        setHeartClicked(false);
+      } else {
+        navigate('/error');
+      }
     } else {
-      // const result = await addLike(laundryId);
-      // if (result?.data?.message === 'Success') {
-      setHeartClicked(true);
-      // } else {
-      //   navigate('/error');
-      // }
+      const result = await addLike({ laundryId });
+      if (result?.data?.message === 'Success') {
+        setHeartClicked(true);
+      } else {
+        navigate('/error');
+      }
     }
   };
 

@@ -1,5 +1,6 @@
 package com.ssafy.setak.api.request;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -15,6 +16,10 @@ public class LaundryUpdateReq {
 
     @ApiModelProperty(name = "대표자성명")
     String ceoName;
+
+    @JsonProperty("regDate")
+    @ApiModelProperty(name = "개업일자")
+    String regDate;
 
     @ApiModelProperty(name = "주소")
     String addr;

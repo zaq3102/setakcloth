@@ -53,7 +53,7 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> userKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/login");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/userlogin");
             User user = null;
 
             try {
@@ -176,11 +176,11 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> ceoKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/login/ceo");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/ceologin");
             User user = null;
 
             try {
-                user = userService.getUserByUserEmail(kakaoEmail);
+                user = userService.getUserByCeoEmail(kakaoEmail);
             } catch (Exception e) {
                 return ResponseEntity.status(409).body(AuthRes.of(409, "존재하지 않는 회원입니다.", null, false, -1l));
             }

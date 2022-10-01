@@ -159,6 +159,14 @@ export const addLike = async (dataToSubmit) => {
 };
 
 // 즐겨찾기 조회
+export const LaundryLikeRequest = async () => {
+  try {
+    const payload = await requestAuth.get('/user/favorite');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
 
 // 즐겨찾기 삭제
 export const delLike = async (dataToSubmit) => {
@@ -167,6 +175,65 @@ export const delLike = async (dataToSubmit) => {
       '/user/favorite/delete',
       dataToSubmit
     );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 즐겨찾기 여부 조회
+export const isLike = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      '/user/favorite/search',
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 카카오 이메일 받아오기
+export const getCtmKakaoEmail = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(
+      `/user/kakao/email?code=${dataToSubmit}`,
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 카카오 이메일 받아오기
+export const getCeoKakaoEmail = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(
+      `/user/ceo/kakao/email?code=${dataToSubmit}`,
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 카카오 회원가입
+export const signupCtmKakao = async (dataToSubmit) => {
+  try {
+    const payload = await request.post('/user/signup/kakao', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 카카오 회원가입
+export const signupCeoKakao = async (dataToSubmit) => {
+  try {
+    const payload = await request.post('/user/ceo/signup/kakao', dataToSubmit);
     return payload;
   } catch (err) {
     return err;
