@@ -5,10 +5,13 @@ import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   loginkakaoRequest,
-  loginkakaoCeoRequest
+  loginkakaoCeoRequest,
+  getCtmKakaoEmail
 } from '../../store/actions/services/userService';
 
 const Kakao: React.FC = () => {
+  const [email, setEmail] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -26,7 +29,7 @@ const Kakao: React.FC = () => {
       switch (status) {
         case 403:
           alert('탈퇴한 회원입니다. 다시 가입해주세요!');
-          navigate('/login');
+          navigate('/signup');
           break;
 
         case 409:
@@ -52,7 +55,7 @@ const Kakao: React.FC = () => {
       switch (status) {
         case 403:
           alert('탈퇴한 회원입니다. 다시 가입해주세요!');
-          navigate('/login');
+          navigate('/signup');
           break;
 
         case 409:
@@ -68,6 +71,21 @@ const Kakao: React.FC = () => {
     }
   };
 
+  const kakaoUserGetEmail = async (e) => {
+    console.log('hi');
+
+    const result = await getCtmKakaoEmail(code);
+    console.log(result);
+
+    if (result?.data?.statusCode === 200) {
+      setEmail(result?.data.kakaoEmail);
+      e.preventDefault();
+    } else if (result?.response?.status === 409) {
+      alert('이미 가입한 회원입니다. 로그인을 해주세요!');
+      navigate('/login');
+    }
+  };
+
   switch (path) {
     case '/kakao/userlogin':
       kakaoUserLogin();
@@ -78,11 +96,11 @@ const Kakao: React.FC = () => {
       break;
 
     case '/kakao/usersignup':
-      return (
-        <div>
-          <h1>카카오 고객 회원 가입</h1>
-        </div>
-      );
+      kakaoUserGetEmail();
+      if (email) {
+        console.log(email);
+        navigate('/signup');
+      }
       break;
 
     case '/kakao/ceosignup':
