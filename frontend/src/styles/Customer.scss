@@ -358,139 +358,98 @@ a.toListBtn {
 }
 
 //CtmMypage.tsx
-.ctm-my-page {
+.ctm-mypage {
+    display: flex;
+    justify-content: space-evenly;
+    padding: 3vh;
+}
+
+.ctm-mypage-left {
+    background-color: rgb(248, 230, 233);
+    border-radius: 30px;
+    padding: 3vh;
+    width: 40vh;
+    height: 80vh;
+}
+
+.ctm-mypage-left-top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 20vh;
+}
+
+.ctm-mypage-left-top-profile {
+    width: 20vh;
+}
+
+.ctm-mypage-left-bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 3vh;
+    height: 50vh;
+}
+
+.ctm-mypage-left-bottom-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-grow: 1;
+}
+
+.ctm-mypage-left-bottom-clean {
+    font-size: x-large;
+    font-weight: 500;
+}
+
+.ctm-mypage-right {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctm-mypage-right-top {
     display: flex;
     justify-content: center;
+    align-items: flex-end;
+    padding-left: 4vh;
+    padding-bottom: 4vh;
+    width: 95vh;
+    height: 15vh;
 }
 
-.ctm-my-page-left {
+.ctm-right-top-chip-selected {
+    background: rgb(238, 133, 175) !important;
+}
+
+.ctm-mypage-right-medium {
     display: flex;
-    flex-direction: column;
+    justify-content: space-evenly;
+    width: 95vh;
+    height: 5vh;
+    padding-left: 4vh;
+    padding-right: 4vh;
 }
 
-.ctm-my-info {
+.ctm-mypage-right-bottom {
     display: flex;
-    flex-direction: column;
-    padding: 20px;
-    margin: 10px;
-    height: 40%;
-    border: 1px solid $color2;
-    border-radius: 20px;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    overflow: auto;
+    width: 95vh;
+    height: 60vh;
 }
 
-.ctm-my-info-title {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 10px;
+.ctm-mypage-right-bottom-review {
+    margin-bottom: 5vh;
+    margin-right: 1vh;
 }
 
-.ctm-my-info-content {
-    display: flex;
-    justify-content: space-around;
-}
-
-.ctm-my-info-content-left {
-    display: flex;
-    flex-direction: column;
-}
-
-.ctm-my-info-content-right {
-    // flex-grow: 1;
-}
-
-.ctm-my-page-btn {
-    justify-self: flex-end;
-    align-self: center;
-}
-
-.ctm-my-review-list {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    margin: 10px;
-    height: 300px;
-    width: 95%;
-    border: 1px solid $color2;
-    border-radius: 20px;
-}
-
-.ctm-my-review-list-title {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.ctm-my-review-list-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-}
-
-.ctm-my-review-detail {
-    flex-grow: 1;
-    height: 150px;
-}
-
-.ctm-my-review {
-    // white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    background-color: $color5;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    height: 45px;
-}
-
-.ctm-pagination {
-    align-self: center;
-}
-
-.ctm-no-pagination {
-    display: none;
-}
-
-.ctm-my-order-list {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    padding: 20px;
-    margin: 10px;
-    width: 50%;
-    border: 1px solid $color2;
-    border-radius: 20px;
-}
-
-.ctm-my-order-list-title {
-    font-size: 30px;
-    font-weight: 600;
-    margin-bottom: 10px;
-}
-
-.ctm-my-order-list-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    flex: 1;
-}
-
-.ctm-my-order-detail {
-    flex-grow: 1;
-    height: 150px;
-}
-
-.ctm-my-order {
-    // white-space: nowrap;
-    // overflow: hidden;
-    // text-overflow: ellipsis;
-    background-color: $color5;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    height: 90px;
+.ctm-mypage-right-bottom-review-text {
+    overflow-x: auto;
+    overflow-wrap: anywhere;
 }
 
 // CtmOrderDetail.tsx
