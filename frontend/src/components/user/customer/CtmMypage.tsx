@@ -30,6 +30,7 @@ const CtmMypage = () => {
   const [pending, setPending] = useState(false);
   const [mode, setMode] = useState(1);
   const [modeState, setModeState] = useState(-1);
+  const stateText = ['수락 대기중', '세탁중', '배달중', '세탁 완료'];
   const navigate = useNavigate();
 
   const getMypage = async () => {
@@ -86,6 +87,7 @@ const CtmMypage = () => {
     setModeState(value);
   };
 
+  console.log(orderList);
   let content = '';
   if (mode === 1) {
     let orderTempList = orderList;
@@ -100,10 +102,10 @@ const CtmMypage = () => {
     content = (
       <>
         {orderTempList.map((order) => (
-          <Link to={`../order/${order.orderId}`} key={order.orderId}>
-            <Card
-              sx={{ maxWidth: 250, maxHeight: 250, borderRadius: 10 }}
-              className="ctm-mypage-right-bottom-review">
+          <Card
+            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
+            className="ctm-mypage-right-bottom-review">
+            <Link to={`../order/${order.orderId}`} key={order.orderId}>
               <CardMedia
                 component="img"
                 height="100"
@@ -112,11 +114,12 @@ const CtmMypage = () => {
               />
               <CardContent
                 className="ctm-mypage-right-bottom-review-text"
-                sx={{ maxWidth: 250, maxHeight: 150 }}>
-                {order.orderId}
+                sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
+                <div>[주문 번호 : {order.orderId}]</div>
+                <div>{stateText[order.state]}</div>
               </CardContent>
-            </Card>
-          </Link>
+            </Link>
+          </Card>
         ))}
       </>
     );
@@ -125,7 +128,7 @@ const CtmMypage = () => {
       <>
         {reviewList.map((review, idx) => (
           <Card
-            sx={{ maxWidth: 250, maxHeight: 250, borderRadius: 10 }}
+            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
             key={idx}
             className="ctm-mypage-right-bottom-review">
             <CardMedia
@@ -136,7 +139,7 @@ const CtmMypage = () => {
             />
             <CardContent
               className="ctm-mypage-right-bottom-review-text"
-              sx={{ maxWidth: 250, maxHeight: 150 }}>
+              sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
               {review.content}
             </CardContent>
           </Card>
@@ -147,30 +150,30 @@ const CtmMypage = () => {
     content = (
       <>
         {likeList.map((like, idx) => (
-          <Link to={`../${like.laundryId}`} key={like.laundryId}>
-            <Card
-              sx={{ maxWidth: 250, maxHeight: 250, borderRadius: 10 }}
-              className="ctm-mypage-right-bottom-review">
+          <Card
+            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
+            className="ctm-mypage-right-bottom-review">
+            <Link to={`../${like.laundryId}`} key={like.laundryId}>
               <CardMedia
                 component="img"
-                height="100"
+                sx={{ height: 1 / 2 }}
                 image="../assets/laundry1.jpg"
                 alt="green iguana"
               />
               <CardContent
                 className="ctm-mypage-right-bottom-review-text"
-                sx={{ maxWidth: 250, maxHeight: 150 }}>
+                sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
                 {like.laundryName}
               </CardContent>
-            </Card>
-          </Link>
+            </Link>
+          </Card>
         ))}
       </>
     );
   }
   return (
     <div className="ctm-mypage">
-      <div className="ctm-mypage-left">
+      <CardContent className="ctm-mypage-left">
         <div className="ctm-mypage-left-top">
           <img
             className="ctm-mypage-left-top-profile"
@@ -220,7 +223,7 @@ const CtmMypage = () => {
             />
           </div>
         </div>
-      </div>
+      </CardContent>
       <div className="ctm-mypage-right">
         <div className="ctm-mypage-right-top">
           <Chip

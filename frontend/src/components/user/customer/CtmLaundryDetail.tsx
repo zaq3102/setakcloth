@@ -128,11 +128,15 @@ const CtmLaundryDetail: React.FC = () => {
   };
 
   const handleOrder = async () => {
+    const orderCnts = {};
+    for (let i = 0; i < laundryItemList.length; i += 1) {
+      orderCnts[laundryItemList[i].id] = orderDetails[i];
+    }
     const orderInfo = {
       laundryId: parseInt(laundryId, 10),
       orderType,
       totalPrice,
-      orderDetails
+      orderDetails: orderCnts
     };
     const result = await orderRequest(orderInfo);
     if (result?.data?.message === 'Success') {
