@@ -3,44 +3,104 @@ import { useLocation } from 'react-router';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { loginkakaoRequest } from '../../store/actions/services/userService';
+import {
+  loginkakaoRequest,
+  loginkakaoCeoRequest,
+  getCtmKakaoEmail
+} from '../../store/actions/services/userService';
 
 const Kakao: React.FC = () => {
+  const [email, setEmail] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const location = useLocation();
   const path = location.pathname;
   const code = location.search.substr(6);
+
   const kakaoUserLogin = async () => {
     const result = await loginkakaoRequest(code);
     if (result?.payload?.data?.message === 'Success') {
-      console.log(result);
       dispatch(result);
       navigate('/customer');
     } else {
-      alert('로그인에 실패하였습니다!');
+      const status = result?.response?.data?.statusCode;
+      switch (status) {
+        case 403:
+          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          navigate('/signup');
+          break;
+
+        case 409:
+          alert('회원가입을 먼저 해주세요!');
+          navigate('/login');
+          break;
+
+        default:
+          alert('로그인에 실패하였습니다!');
+          navigate('/login');
+          break;
+      }
     }
   };
+
+  const kakaoCeoLogin = async () => {
+    const result = await loginkakaoCeoRequest(code);
+    if (result?.payload?.data?.message === 'Success') {
+      dispatch(result);
+      navigate('/ceo');
+    } else {
+      const status = result?.response?.data?.statusCode;
+      switch (status) {
+        case 403:
+          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          navigate('/signup');
+          break;
+
+        case 409:
+          alert('회원가입을 먼저 해주세요!');
+          navigate('/login');
+          break;
+
+        default:
+          alert('로그인에 실패하였습니다!');
+          navigate('/login');
+          break;
+      }
+    }
+  };
+
+  const kakaoUserGetEmail = async (e) => {
+    console.log('hi');
+
+    const result = await getCtmKakaoEmail(code);
+    console.log(result);
+
+    if (result?.data?.statusCode === 200) {
+      setEmail(result?.data.kakaoEmail);
+      e.preventDefault();
+    } else if (result?.response?.status === 409) {
+      alert('이미 가입한 회원입니다. 로그인을 해주세요!');
+      navigate('/login');
+    }
+  };
+
   switch (path) {
     case '/kakao/userlogin':
       kakaoUserLogin();
       break;
 
     case '/kakao/ceologin':
-      return (
-        <div>
-          <h1>카카오 사장님 로그인</h1>
-        </div>
-      );
+      kakaoCeoLogin();
       break;
 
     case '/kakao/usersignup':
-      return (
-        <div>
-          <h1>카카오 고객 회원 가입</h1>
-        </div>
-      );
+      kakaoUserGetEmail();
+      if (email) {
+        console.log(email);
+        navigate('/signup');
+      }
       break;
 
     case '/kakao/ceosignup':

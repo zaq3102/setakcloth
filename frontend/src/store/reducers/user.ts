@@ -1,8 +1,8 @@
 import {
   LOGIN_CTM,
   LOGIN_CEO,
-  SOCIAL_LOGIN_CTM,
-  SOCIAL_LOGIN_CEO,
+  LOGIN_CTM_KAKAO,
+  LOGIN_CEO_KAKAO,
   LOGOUT
 } from '../actions/types/types';
 
@@ -26,13 +26,13 @@ export default (state = initState, action) => {
         snsType: 0,
         loginType: 1
       };
-    case SOCIAL_LOGIN_CTM:
+    case LOGIN_CTM_KAKAO:
       return {
         token: action.payload.data.accessToken,
         snsType: 1,
         loginType: 0
       };
-    case SOCIAL_LOGIN_CEO:
+    case LOGIN_CEO_KAKAO:
       return {
         token: action.payload.data.accessToken,
         snsType: 1,

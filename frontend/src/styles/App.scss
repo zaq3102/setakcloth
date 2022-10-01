@@ -17,37 +17,35 @@ $color5: #e0ebf5;
 .logo-img {
   margin-left: 2vh;
   margin-right: 1vh;
-  height: 8vh;
+  height: 10vh;
 }
 
 .logo-text {
-  font-size: xx-large;
+  margin-left: 2vh;
+  width: 20vh;
 }
 
 .Header {
   display: flex;
   flex-direction: row;
-  background-color: white;
-  border: 1px solid $color1;
+  height: 15vh;
   justify-content: space-between;
-  font-size: calc(8px + 2vmin);
-  color: $color1;
 }
 
 .Logo-Space {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-left: 3%;
+  margin-left: 3vh;
 }
 
 .Login-Space {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 3%;
-  margin-top: 1%;
-  margin-bottom: 1%;
+  margin-right: 1vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
 }
 
 .Profile-Img {
