@@ -193,3 +193,49 @@ export const isLike = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 고객 카카오 이메일 받아오기
+export const getCtmKakaoEmail = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(
+      `/user/kakao/email?code=${dataToSubmit}`,
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 카카오 이메일 받아오기
+export const getCeoKakaoEmail = async (dataToSubmit) => {
+  try {
+    const payload = await request.get(
+      `/user/ceo/kakao/email?code=${dataToSubmit}`,
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 카카오 회원가입
+export const signupCtmKakao = async (dataToSubmit) => {
+  try {
+    const payload = await request.post('/user/signup/kakao', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 사업자 카카오 회원가입
+export const signupCeoKakao = async (dataToSubmit) => {
+  try {
+    const payload = await request.post('/user/ceo/signup/kakao', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
