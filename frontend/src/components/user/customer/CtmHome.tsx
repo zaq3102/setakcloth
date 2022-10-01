@@ -1,5 +1,9 @@
 import {
   Button,
+  Card,
+  CardContent,
+  CardMedia,
+  Chip,
   Dialog,
   DialogActions,
   DialogTitle,
@@ -10,6 +14,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 import '../../../styles/Customer.scss';
+import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
 import {
   changeAddrRequest,
   getLocationxyRequest,
@@ -29,6 +34,7 @@ const CtmHome: React.FC = (props) => {
   const [myaddress, setMyaddress] = useState<string>('');
   const [addr, setAddr] = useState<string>('');
   const [addrDetail, setAddrDetail] = useState<string>('');
+  const [latestLaundry, setLatestLaundry] = useState([]);
 
   const getMyInfo = async () => {
     const result = await InfoRequest();
@@ -40,8 +46,18 @@ const CtmHome: React.FC = (props) => {
     }
   };
 
+  const getLatestLaundry = async () => {
+    const result = await LaundryLatestRequest();
+    if (result?.data?.laundries) {
+      setLatestLaundry(result?.data?.laundries);
+    } else {
+      console.log('error');
+    }
+  };
+
   useEffect(() => {
     getMyInfo();
+    getLatestLaundry();
   }, []);
 
   const handleClickOpen = () => {
@@ -105,7 +121,10 @@ const CtmHome: React.FC = (props) => {
       {/* 주소 */}
       <div className="ctm-home">
         <div className="ctm-address-area">
-          <div className="my-address-title">우리 집 {myaddress}</div>
+          <div className="my-address-title">
+            <Chip color="color1" label="우리 집" variant="outlined" />
+          </div>
+          <div className="my-address-content">{myaddress}</div>
           <div className="address-modify-btn">
             <Button onClick={handleClickOpen}>
               <img
@@ -134,70 +153,51 @@ const CtmHome: React.FC = (props) => {
         </Dialog>
       </div>
 
-      {/* 큰 버튼 4개 */}
-      {/* <div className="list-buttons">
-        <div className="list-buttons-down">
-          <Button
-            className="list-button-tag-set"
-            sx={{
-              maxWidth: '50%',
-              minWidth: '50%'
-            }}
-            onClick={() => handleButton(1)}>
-            <img
-              className="laundry-list-img"
-              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/heart.png"
-              alt="favourite laundry list"
+      {/* 최신 세탁소 5개 리스트 */}
+      <div>
+        {latestLaundry.map((item) => (
+          <Card
+            key={item.laundryId}
+            id="laundryCard"
+            sx={{ padding: 1, margin: 1 }}
+            onClick={() => onclicklaundry(item.laundryId)}>
+            <CardMedia
+              id="cardImg"
+              component="img"
+              image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.png"
             />
-            <div className="button-tag-text">즐겨찾기 세탁소 목록</div>
-          </Button>
-
-          <Button
-            className="list-button-tag-set"
-            sx={{
-              maxWidth: '50%',
-              minWidth: '50%'
-            }}
-            onClick={() => handleButton(2)}>
-            <img
-              className="laundry-list-img"
-              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/clock.png"
-              alt="recently used laundry list"
-            />
-            <div className="button-tag-text">별점 높은 세탁소 목록</div>
-          </Button>
-        </div>
-        <div className="list-buttons-up">
-          <Button
-            className="list-button-tag-set"
-            sx={{
-              maxWidth: '50%',
-              minWidth: '50%'
-            }}
-            onClick={() => handleButton(3)}>
-            <img
-              className="laundry-list-img"
-              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/map.png"
-              alt="nearest laundry list"
-            />{' '}
-            <div className="button-tag-text"> 가까운 세탁소 목록</div>
-          </Button>
-          <Button
-            className="list-button-tag-set"
-            sx={{
-              maxWidth: '50%',
-              minWidth: '50%'
-            }}
-            onClick={() => handleButton(4)}>
-            <img
-              className="laundry-list-img"
-              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/star.png"
-              alt="highest rate laundry list"
-            />
-            <div className="button-tag-text">최근 이용한 세탁소 목록</div>
-          </Button>
-        </div>
-      </div> */}
+            {/* image={item.imgUrl} /> */}
+            <CardContent id="laundryBox">
+              <div className="item-title">{item.laundryName}</div>
+              <div className="item-content">
+                <div>
+                  {item.addr} {item.addrDetail}
+                </div>
+                <div>최소 이용금액 : {item.minCost}원</div>
+                <div>배달비 : {item.deliveryCost}원</div>
+                <div className="item-chips">
+                  {item.deliver ? (
+                    <Chip
+                      label="배달"
+                      size="small"
+                      color="color2"
+                      variant="outlined"
+                    />
+                  ) : null}
+                  {item.pickup ? (
+                    <Chip
+                      label="수거"
+                      size="small"
+                      color="color3"
+                      variant="outlined"
+                    />
+                  ) : null}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 };
