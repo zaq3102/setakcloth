@@ -9,7 +9,8 @@ const Logo: React.FC = () => {
         alt=""
       /> */}
       <img className="logo-img" src="../assets/santa1.png" alt="logo" />
-      <div className="logo-text">세탁 CLOTH</div>
+
+      <img className="logo-text" src="../assets/title.png" alt="logo" />
     </>
   );
 };
