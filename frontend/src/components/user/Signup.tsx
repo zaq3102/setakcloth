@@ -148,7 +148,9 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
-    let userAccount = web3.eth.personal
+    const web3 = new Web3(`${process.env.REACT_APP_ETH_URL}`);
+
+    const userAccount = web3.eth.personal
       .newAccount(walletpassword)
       .then((res) => {
         setWalletAddr(res);

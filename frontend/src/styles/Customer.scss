@@ -262,10 +262,10 @@ a.toListBtn {
 
 
 .toListBtn {
-    margin-left: 1px;
-    margin-right: 1px;
-    font-size: 15px;
-    letter-spacing: 2px;
+    margin-left: 1vh;
+    margin-right: 1vh;
+    font-size: 2vh;
+    letter-spacing: 0.5vh;
     display: inline-block;
     text-align: center;
     width: 20%;
@@ -333,13 +333,9 @@ a.toListBtn {
     justify-content: space-between;
 }
 
-.my-address-title {
+.my-address-content{
+    margin-left: 1vh;
     font-size: medium;
-    margin-right: 20px;
-}
-
-.address-modify-btn {
-    margin-left: 20px;
 }
 
 .laundry-list-img {

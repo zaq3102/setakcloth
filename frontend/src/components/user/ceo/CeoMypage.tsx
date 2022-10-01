@@ -37,7 +37,7 @@ const CeoMypage: React.FC = () => {
   const [openModal3, setOpenModal3] = useState<boolean>(false);
   const [regNum, setRegNum] = useState('');
   const [ceoName, setCeoName] = useState<string>('');
-  const [openDate, setOpenDate] = useState('');
+  const [regDate, setRegDate] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
   const [addr, setAddr] = useState<string>('');
   const [deliver, setDeliver] = useState<string>('true');
@@ -102,6 +102,7 @@ const CeoMypage: React.FC = () => {
       getMyItems();
       setItemName('');
       setItemPrice(0);
+      setRegDate('');
     } else {
       navigate('/error');
     }
@@ -164,6 +165,7 @@ const CeoMypage: React.FC = () => {
       regNum,
       laundryName,
       ceoName,
+      regDate,
       addr,
       addrDetail: 'ㅎㅇ',
       addrLat: 1.0,
@@ -245,11 +247,11 @@ const CeoMypage: React.FC = () => {
                       sx={{ mt: 2, mb: 1 }}
                       required
                       label="개업일자"
-                      name="open-date"
+                      name="reg-date"
                       type="date"
                       fullWidth
-                      value={openDate}
-                      onChange={(event) => setOpenDate(event.target.value)}
+                      value={regDate}
+                      onChange={(event) => setRegDate(event.target.value)}
                     />
                     <TextField
                       sx={{ mt: 2, mb: 1 }}
