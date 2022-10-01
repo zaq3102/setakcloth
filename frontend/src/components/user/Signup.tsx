@@ -9,13 +9,19 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
-import Web3 from 'web3';
 import {
   checkEmailRequest,
   signupCeoRequest,
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
+
+// import Web3 from 'web3';
+const Web3 = require('web3');
+
+export const web3 = new Web3(
+  new Web3.providers.HttpProvider(`${process.env.REACT_APP_ETH_URL}`)
+);
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
@@ -105,6 +111,7 @@ const Signup: React.FC = () => {
   };
 
   const walletpasswordChange = (event) => {
+    console.log(`${process.env.REACT_APP_ETH_URL}`);
     setWalletPassword(event.target.value.trim());
   };
 
@@ -141,9 +148,7 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
-    const web3 = new Web3('ws://127.0.0.1:8545');
-
-    const userAccount = web3.eth.personal
+    let userAccount = web3.eth.personal
       .newAccount(walletpassword)
       .then((res) => {
         setWalletAddr(res);
@@ -153,11 +158,11 @@ const Signup: React.FC = () => {
   };
 
   const kakaoUserSignUpHandler = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/usersignup`;
   };
 
   const kakaoCeoSignUpHandler = () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/signup/ceo`;
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/ceosignup`;
   };
 
   return (

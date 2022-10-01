@@ -1,10 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.*;
-import com.ssafy.setak.api.response.FavoriteGetRes;
-import com.ssafy.setak.api.response.KakaoEmailRes;
-import com.ssafy.setak.api.response.UserGetRes;
-import com.ssafy.setak.api.response.UserPostRes;
+import com.ssafy.setak.api.response.*;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
@@ -88,7 +85,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/signup");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/usersignup");
             if (userService.existsByUserEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
 
@@ -111,7 +108,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getCeoKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/signup/ceo");
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/ceosignup");
             if (userService.existsByCeoEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
             } else {
@@ -358,6 +355,26 @@ public class UserController {
 
         } catch (Exception e) {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회"));
+        }
+    }
+
+    @PostMapping("/favorite/search")
+    @ApiOperation(value = "즐겨찾기 여부 조회", notes = "즐겨찾기 여부  조회")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Create"),
+
+            @ApiResponse(code = 500, message = "즐겨찾기 여부 조회실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> searchFavorites(@RequestBody AddFavoriteReq favorite) {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            boolean state =userService.sarchFavorite(userId, favorite.getLaundryId());
+            return ResponseEntity.status(201).body(FavoriteSearchRes.of(201, "Create",state));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
         }
     }
 }
