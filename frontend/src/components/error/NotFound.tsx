@@ -4,6 +4,7 @@ const NotFound = () => {
   return (
     <div id="container">
       <div className="error-content">
+        <br />
         <h1>
           죄송합니다.
           <br />

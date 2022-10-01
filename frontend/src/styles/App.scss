@@ -7,6 +7,7 @@ $color5: #e0ebf5;
 
 .App {
   text-align: center;
+  
 }
 
 .logo {
@@ -21,14 +22,16 @@ $color5: #e0ebf5;
 }
 
 .logo-text {
-  font-size: xx-large;
+  margin-left: 2vh;
+  font-size: 3vh;
 }
 
 .Header {
   display: flex;
   flex-direction: row;
-  background-color: white;
-  border: 1px solid $color1;
+  // background-color: black;
+  background-image:url('../../public/assets/background.webp');
+  height: 15vh;
   justify-content: space-between;
   font-size: calc(8px + 2vmin);
   color: $color1;
