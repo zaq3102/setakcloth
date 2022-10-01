@@ -8,9 +8,9 @@ const Logo: React.FC = () => {
         src="https://via.placeholder.com/150/BFD7EA/111111"
         alt=""
       /> */}
-      <img className="logo-img" src="../assets/santa1.png" alt="logo" />
+      <img className="logo-img" src="../assets/logo3.png" alt="logo" />
 
-      <img className="logo-text" src="../assets/title.png" alt="logo" />
+      <img className="logo-text" src="../assets/setakcloth.png" alt="logo" />
     </>
   );
 };
