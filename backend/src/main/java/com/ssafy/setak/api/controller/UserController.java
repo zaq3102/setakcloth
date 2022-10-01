@@ -377,4 +377,46 @@ public class UserController {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
         }
     }
+
+
+    @PostMapping("/blance")
+    @ApiOperation(value = "잔고 업데이트", notes = "잔고 업데이트")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Create"),
+
+            @ApiResponse(code = 500, message = "잔고 업데이트 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> updateBalance(@RequestBody UserBalanceReq balanceInfo) {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            userService.updateBalance(userId,balanceInfo);
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Create"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
+        }
+    }
+
+    @GetMapping("/blance")
+    @ApiOperation(value = "잔고 받기", notes = "잔고 받기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+
+            @ApiResponse(code = 500, message = "잔고 받기 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getBalance() {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            float balance =userService.getBalance(userId);
+            return ResponseEntity.status(200).body(UserBalanceRes.of(200,"Create",balance));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
+        }
+    }
 }
+
