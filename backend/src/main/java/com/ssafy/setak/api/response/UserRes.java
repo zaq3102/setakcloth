@@ -5,8 +5,8 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+
+
 
 @Data
 @ApiModel("UserResponse")
@@ -41,6 +41,12 @@ public class UserRes {
     @ApiModelProperty(name = "타입", example = "true")
     String userType;
 
+    @ApiModelProperty(name = "지갑주소", example = "123123123123123")
+    String wallet;
+
+    @ApiModelProperty(name = "잔고", example = "123123123123123")
+    float balance;
+
     public static UserRes of (User user) {
         UserRes res = new UserRes();
 
@@ -54,6 +60,8 @@ public class UserRes {
         res.setAddrLng(user.getAddress().getAddrLng());
         res.setSocial(user.isSocial());
         res.setUserType(user.getUserType().toString());
+        res.setBalance(user.getBalance());
+        res.setWallet(user.getWalletAddr());
         return res;
     }
 }

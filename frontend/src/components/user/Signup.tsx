@@ -15,6 +15,7 @@ import {
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
+import { createWalletWe3 } from '../../store/actions/services/walletService';
 
 // import Web3 from 'web3';
 const Web3 = require('web3');
@@ -111,7 +112,6 @@ const Signup: React.FC = () => {
   };
 
   const walletpasswordChange = (event) => {
-    console.log(`${process.env.REACT_APP_ETH_URL}`);
     setWalletPassword(event.target.value.trim());
   };
 
@@ -148,16 +148,23 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
-    const web3 = new Web3(`${process.env.REACT_APP_ETH_URL}`);
-
-    const userAccount = web3.eth.personal
-      .newAccount(walletpassword)
-      .then((res) => {
-        setWalletAddr(res);
-        setIsWalletCreated(true);
-        alert('지갑이 생성되었습니다!');
-      });
+    const result = await createWalletWe3(walletpassword);
+    setWalletAddr(result);
+    setIsWalletCreated(true);
+    alert('지갑이 생성되었습니다!');
   };
+
+  // const getMyWallet = async () => {
+  //   const result = await getBalance(
+  //     '0x71D46EEBCD8eD64BDA37e4D5532427c1881f2E34'
+  //   );
+  //   console.log(result);
+  //   // if (result?.data?.userInfo) {
+  //   //   setUserInfo(result?.data?.userInfo);
+  //   // } else {
+  //   //   console.log('error');
+  //   // }
+  // };
 
   const kakaoUserSignUpHandler = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/usersignup`;

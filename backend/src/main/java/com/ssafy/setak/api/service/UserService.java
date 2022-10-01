@@ -178,4 +178,16 @@ public class UserService {
 
 
     }
+
+    public void updateBalance(Long userId, UserBalanceReq balanceInfo) {
+        User user = userRepository.findById(userId).orElse(null);
+        user.setBalance(balanceInfo.getBalance());
+        userRepository.save(user);
+
+    }
+
+    public float getBalance(Long userId) {
+        User user = userRepository.findById(userId).orElse(null);
+        return user.getBalance();
+    }
 }
