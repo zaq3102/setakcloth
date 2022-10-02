@@ -7,8 +7,17 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
-  TextField
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Rating,
+  Select,
+  SelectChangeEvent,
+  TextField,
+  Typography
 } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -20,6 +29,7 @@ import {
   getLocationxyRequest,
   InfoRequest
 } from '../../../store/actions/services/userService';
+import { Box } from '@mui/system';
 
 declare global {
   interface Window {
@@ -35,6 +45,11 @@ const CtmHome: React.FC = (props) => {
   const [addr, setAddr] = useState<string>('');
   const [addrDetail, setAddrDetail] = useState<string>('');
   const [latestLaundry, setLatestLaundry] = useState([]);
+  const [align, setAlign] = React.useState('');
+
+  const handleSelect = (event: SelectChangeEvent) => {
+    setAlign(event.target.value as string);
+  };
 
   const getMyInfo = async () => {
     const result = await InfoRequest();
@@ -44,6 +59,10 @@ const CtmHome: React.FC = (props) => {
     } else {
       navigate('/error');
     }
+  };
+
+  const onclicklaundry = (value: number) => {
+    navigate(`../${value}`);
   };
 
   const getLatestLaundry = async () => {
@@ -103,38 +122,20 @@ const CtmHome: React.FC = (props) => {
 
   return (
     <div>
-      {/* 게시판 이동 버튼 5개(전체보기, 거리순, 별점순, 즐겨찾기) */}
-      <div className="tolist-Btn-Group">
-        <a className="toListBtn" onClick={() => handleButton(0)}>
-          전체보기
-        </a>
-        <a className="toListBtn" onClick={() => handleButton(1)}>
-          거리순
-        </a>
-        <a className="toListBtn" onClick={() => handleButton(2)}>
-          별점순
-        </a>
-        <a className="toListBtn" onClick={() => handleButton(3)}>
-          즐겨찾기
-        </a>
-      </div>
       {/* 주소 */}
       <div className="ctm-home">
         <div className="ctm-address-area">
           <div className="my-address-title">
-            <Chip color="color1" label="우리 집" variant="outlined" />
+            <Chip color="color5" label="우리 집" variant="outlined" />
           </div>
           <div className="my-address-content">{myaddress}</div>
           <div className="address-modify-btn">
             <Button onClick={handleClickOpen}>
-              <img
-                className="modify-btn-img"
-                src="./assets/pen.gif"
-                alt="수정하기"
-              />
+              <EditIcon sx={{ fontSize: 20 }} color="color5" />
             </Button>
           </div>
         </div>
+
         {/* 주소 변경 모달 창 */}
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>주소 변경하기</DialogTitle>
@@ -153,6 +154,31 @@ const CtmHome: React.FC = (props) => {
         </Dialog>
       </div>
 
+      <div className="select-area">
+        <FormControl className="select">
+          <InputLabel id="select-label">최신 등록 순</InputLabel>
+          <Select
+            labelId="select"
+            id="select"
+            value={align}
+            label="정렬"
+            onChange={handleSelect}>
+            <MenuItem onClick={() => handleButton(1)} value="전체보기">
+              전체보기
+            </MenuItem>
+            <MenuItem onClick={() => handleButton(1)} value="거리순">
+              거리순
+            </MenuItem>
+            <MenuItem onClick={() => handleButton(2)} value="별점순">
+              별점순
+            </MenuItem>
+            <MenuItem onClick={() => handleButton(3)} value="즐겨찾기">
+              즐겨찾기
+            </MenuItem>
+          </Select>
+        </FormControl>
+      </div>
+
       {/* 최신 세탁소 5개 리스트 */}
       <div>
         {latestLaundry.map((item) => (
@@ -164,34 +190,57 @@ const CtmHome: React.FC = (props) => {
             <CardMedia
               id="cardImg"
               component="img"
-              image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.png"
+              image="../assets/ctmhome0.png"
             />
             {/* image={item.imgUrl} /> */}
             <CardContent id="laundryBox">
-              <div className="item-title">{item.laundryName}</div>
+              <div className="item-title-area">
+                <Typography variant="h3" className="item-title">
+                  {item.laundryName}
+                </Typography>
+                <Rating
+                  name="text-feedback"
+                  value={item.score}
+                  readOnly
+                  precision={0.5}
+                  emptyIcon={
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                  }
+                  size="large"
+                />
+                <Box>{item.score === -1 ? null : item.score}</Box>
+              </div>
               <div className="item-content">
-                <div>
-                  {item.addr} {item.addrDetail}
+                <div className="item-content-left">
+                  <Typography variant="h6">
+                    {item.addr} {item.addrDetail}
+                  </Typography>
+                  <Typography variant="h6">
+                    최소 이용금액 : {item.minCost}원
+                  </Typography>
+                  <Typography variant="h6">
+                    배달비 : {item.deliveryCost}원
+                  </Typography>
                 </div>
-                <div>최소 이용금액 : {item.minCost}원</div>
-                <div>배달비 : {item.deliveryCost}원</div>
-                <div className="item-chips">
-                  {item.deliver ? (
-                    <Chip
-                      label="배달"
-                      size="small"
-                      color="color2"
-                      variant="outlined"
-                    />
-                  ) : null}
-                  {item.pickup ? (
-                    <Chip
-                      label="수거"
-                      size="small"
-                      color="color3"
-                      variant="outlined"
-                    />
-                  ) : null}
+                <div className="item-content-right">
+                  <div className="item-chips">
+                    {item.deliver ? (
+                      <Chip
+                        label="배달"
+                        size="small"
+                        color="color2"
+                        variant="outlined"
+                      />
+                    ) : null}
+                    {item.pickup ? (
+                      <Chip
+                        label="수거"
+                        size="small"
+                        color="color3"
+                        variant="outlined"
+                      />
+                    ) : null}
+                  </div>
                 </div>
               </div>
             </CardContent>

@@ -29,6 +29,11 @@ $color5: #e0ebf5;
   justify-content: space-between;
 }
 
+.Header-menu{
+  display: flex;
+  align-self: center;
+}
+
 .Logo-Space {
   display: flex;
   align-items: center;
@@ -43,6 +48,10 @@ $color5: #e0ebf5;
   margin-right: 1vh;
   margin-top: 1vh;
   margin-bottom: 1vh;
+}
+
+.Login-Button{
+  margin-right: 1vh;
 }
 
 .Profile-Img {
