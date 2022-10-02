@@ -8,7 +8,9 @@ import lombok.Data;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @ApiModel("OrderDetailGetResponse")
@@ -50,10 +52,10 @@ public class OrderGetRes {
     @ApiModelProperty(name = "리뷰 내용")
     String reviewContent;
 
-    @ApiModelProperty(name = "주문 상세")
-    List<OrderDetailRes> orderDetails;
+    @ApiModelProperty(name = "주문 디테일")
+    Map<String, Integer> orderDetails;
 
-    public static OrderGetRes of(Integer statusCode, String message, Order order) {
+    public static OrderGetRes of(Order order) {
         OrderGetRes res = new OrderGetRes();
         res.setOrderId(order.getId());
         res.setDate(order.getDate());
@@ -71,10 +73,18 @@ public class OrderGetRes {
         return res;
     }
 
-    public void setOrderDetails(List<OrderDetail> details) {
-        orderDetails = new ArrayList<>();
-        for (OrderDetail detail : details) {
-            orderDetails.add(OrderDetailRes.of(detail.getId(), detail.getName(), detail.getPrice(), detail.getBlockAddr1(), detail.getBlockAddr2(), detail.getBlockAddr3()));
+    public Map<String, Integer> setOrderDetails(List<OrderDetail> details) {
+        orderDetails = new HashMap<>();
+        if(orderDetails != null){
+            for (OrderDetail detail : details) {
+                if(orderDetails.containsKey(detail.getName())){
+                    orderDetails.put(detail.getName(), orderDetails.get(detail.getName()) + 1);
+                } else{
+                    orderDetails.put(detail.getName(), 1);
+                }
+            }
+            return orderDetails;
         }
+        return null;
     }
 }
