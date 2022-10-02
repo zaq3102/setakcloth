@@ -2,6 +2,7 @@ package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.*;
 import com.ssafy.setak.api.response.FavoriteGetRes;
+import com.ssafy.setak.common.util.UserUtil;
 import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.FavoriteRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
@@ -25,14 +26,18 @@ public class UserService {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
+    @Autowired
+    private UserUtil userUtil;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
         Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
+        user.setNickName(newName);
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
@@ -46,8 +51,10 @@ public class UserService {
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
         Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
+        user.setNickName(newName);
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
         user.setSocial(true);
