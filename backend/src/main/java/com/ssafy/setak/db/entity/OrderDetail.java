@@ -18,7 +18,8 @@ public class OrderDetail {
     @Column(name = "order_detail_id")
     private Long id;
 
-    private Long laundryItemId;
+    private String name;
+    private long price;
     private String blockAddr1;
     private String blockAddr2;
     private String blockAddr3;
