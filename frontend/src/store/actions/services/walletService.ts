@@ -293,7 +293,7 @@ export const createWalletWe3 = async (walletpassword) => {
 
     return payload;
   } catch (err) {
-    return err;
+    return false;
   }
 };
 
@@ -304,7 +304,7 @@ export const getBalance = async (target_addr) => {
       .call({ from: CONTRACT_ADDRESS });
     return payload;
   } catch (err) {
-    return;
+    return false;
   }
 };
 
@@ -315,7 +315,7 @@ export const chargeClean = async (target_addr, value) => {
       .send({ from: MASTER_ADDR });
     return payload;
   } catch (err) {
-    return err;
+    return false;
   }
 };
 

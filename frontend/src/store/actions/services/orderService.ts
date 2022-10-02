@@ -82,3 +82,16 @@ export const changeState = async (dataToSubmit, orderDetailId) => {
     return err;
   }
 };
+
+// 리뷰 등록
+export const registReview = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(
+      `/order/${data1}/review/create`,
+      data2
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
