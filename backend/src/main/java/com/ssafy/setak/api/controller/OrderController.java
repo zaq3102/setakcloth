@@ -2,10 +2,8 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.OrderCreateReq;
 import com.ssafy.setak.api.request.OrderDetailUpdateReq;
-import com.ssafy.setak.api.response.OrderGetRes;
+import com.ssafy.setak.api.response.*;
 import com.ssafy.setak.api.request.ReviewPostReq;
-import com.ssafy.setak.api.response.OrdersGetRes;
-import com.ssafy.setak.api.response.ReviewGetRes;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.api.service.OrderService;
@@ -111,8 +109,9 @@ public class OrderController {
     public ResponseEntity<?> getOrder(@PathVariable("order_id") Long orderId) {
         try {
             Order order = orderService.selectOrder(orderId);
+            List<OrderDetailRes> orderDetails = orderService.getOrderDetails(orderId);
             if (order != null) {
-                return ResponseEntity.status(200).body(OrderGetRes.of(200, "Success", order));
+                return ResponseEntity.status(200).body(OrderOneGetRes.of(200, "Success", order, orderDetails));
             } else {
                 return ResponseEntity.status(404).body(BaseResponseBody.of(404, "주문 조회 실패"));
             }
@@ -134,8 +133,6 @@ public class OrderController {
     })
     public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
         Long userId = jwtService.getUserId();
-        System.out.println("================here ~~`");
-        System.out.println(orderDetailInfo);
         OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, orderDetailInfo);
         if(orderDetail != null){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -173,9 +170,7 @@ public class OrderController {
     public ResponseEntity<? extends BaseResponseBody> GetUserReview() {
         try {
             Long userId = jwtService.getUserId();
-            System.out.println(userId);
             List<Order> res = orderService.getOrdersbyUserId(userId);
-            System.out.println(res.size());
 
             return ResponseEntity.status(200).body(
                     ReviewGetRes.of(200, "Success", res)
