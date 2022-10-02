@@ -1,20 +1,19 @@
 package com.ssafy.setak.api.response;
 
-import com.ssafy.setak.db.entity.*;
+import com.ssafy.setak.common.model.response.BaseResponseBody;
+import com.ssafy.setak.db.entity.Order;
+import com.ssafy.setak.db.entity.OrderType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Data
 @ApiModel("OrderDetailGetResponse")
-public class OrderGetRes {
+public class OrderOneGetRes extends BaseResponseBody {
 
     @ApiModelProperty(name = "주문 ID")
     Long orderId;
@@ -52,11 +51,13 @@ public class OrderGetRes {
     @ApiModelProperty(name = "리뷰 내용")
     String reviewContent;
 
-    @ApiModelProperty(name = "주문 디테일")
-    Map<String, Integer> orderDetails;
+    @ApiModelProperty(name = "주문 상세")
+    List<OrderDetailRes> orderDetails;
 
-    public static OrderGetRes of(Order order) {
-        OrderGetRes res = new OrderGetRes();
+    public static OrderOneGetRes of(Integer statusCode, String message, Order order, List<OrderDetailRes> orderDetails) {
+        OrderOneGetRes res = new OrderOneGetRes();
+        res.setStatusCode(statusCode);
+        res.setMessage(message);
         res.setOrderId(order.getId());
         res.setDate(order.getDate());
         res.setTotalPrice(order.getTotalPrice());
@@ -69,22 +70,14 @@ public class OrderGetRes {
         res.setReviewDate(order.getReviewDate());
         res.setReviewScore(order.getReviewScore());
         res.setReviewContent(order.getReviewContent());
-        res.setOrderDetails(order.getOrderDetails());
+        res.setOrderDetails(orderDetails);
         return res;
     }
 
-    public Map<String, Integer> setOrderDetails(List<OrderDetail> details) {
-        orderDetails = new HashMap<>();
-        if(orderDetails != null){
-            for (OrderDetail detail : details) {
-                if(orderDetails.containsKey(detail.getName())){
-                    orderDetails.put(detail.getName(), orderDetails.get(detail.getName()) + 1);
-                } else{
-                    orderDetails.put(detail.getName(), 1);
-                }
-            }
-            return orderDetails;
-        }
-        return null;
-    }
+//    public void setOrderDetails(List<OrderDetail> details) {
+//        orderDetails = new ArrayList<>();
+//        for (OrderDetail detail : details) {
+//            orderDetails.add(OrderDetailRes.of(detail.getId(), detail.getName(), detail.getPrice(), detail.getBlockAddr1(), detail.getBlockAddr2(), detail.getBlockAddr3()));
+//        }
+//    }
 }

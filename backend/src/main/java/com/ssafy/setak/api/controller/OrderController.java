@@ -2,11 +2,8 @@ package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.OrderCreateReq;
 import com.ssafy.setak.api.request.OrderDetailUpdateReq;
-import com.ssafy.setak.api.response.OrderAddrRes;
-import com.ssafy.setak.api.response.OrderGetRes;
+import com.ssafy.setak.api.response.*;
 import com.ssafy.setak.api.request.ReviewPostReq;
-import com.ssafy.setak.api.response.OrdersGetRes;
-import com.ssafy.setak.api.response.ReviewGetRes;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.LaundryService;
 import com.ssafy.setak.api.service.OrderService;
@@ -112,8 +109,9 @@ public class OrderController {
     public ResponseEntity<?> getOrder(@PathVariable("order_id") Long orderId) {
         try {
             Order order = orderService.selectOrder(orderId);
+            List<OrderDetailRes> orderDetails = orderService.getOrderDetails(orderId);
             if (order != null) {
-                return ResponseEntity.status(200).body(OrderGetRes.of(200, "Success", order));
+                return ResponseEntity.status(200).body(OrderOneGetRes.of(200, "Success", order, orderDetails));
             } else {
                 return ResponseEntity.status(404).body(BaseResponseBody.of(404, "주문 조회 실패"));
             }
@@ -127,21 +125,52 @@ public class OrderController {
     }
 
     @PostMapping("/laundry/detail/{order_detail_id}/update")
-    @ApiOperation(value = "주문 상세 변경", notes = "주문 상세 변경")
+    @ApiOperation(value = "주문 상세 변경 (세탁전 후 사진)", notes = "주문 상세 변경 (세탁전 후 사진)")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "주문 상세 변경 실패"),
-            @ApiResponse(code = 404, message = "주문 상세 조회 실패"),
+            @ApiResponse(code = 500, message = "주문 상세 변경 (세탁전후 사진) 실패"),
+            @ApiResponse(code = 404, message = "주문 상세 조회 (세탁전후 사진) 실패"),
     })
     public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
         Long userId = jwtService.getUserId();
-        System.out.println("================here ~~`");
-        System.out.println(orderDetailInfo);
         OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, orderDetailInfo);
         if(orderDetail != null){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else{
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "OrderDetail Not Found"));
+        }
+    }
+
+    @PostMapping("/laundry/{order_id}/update/delivered")
+    @ApiOperation(value = "주문 상세 변경 (배달 사진)", notes = "주문 상세 변경 (배달 사진)")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 상세 변경 (배달) 실패"),
+            @ApiResponse(code = 404, message = "주문 상세 조회 (배달) 실패"),
+    })
+    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
+        Long userId = jwtService.getUserId();
+        Order order = orderService.updateOrderDelivered(orderId, userId, orderDetailInfo);
+        if(order != null){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Order Not Found"));
+        }
+    }
+
+    @PostMapping("/laundry/{order_id}/update")
+    @ApiOperation(value = "주문 상태 변경", notes = "주문 상태 변경")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 상태 변경"),
+            @ApiResponse(code = 404, message = "주문 상태 변경"),
+    })
+    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId) {
+        Order order = orderService.updateOrderState(orderId);
+        if(order != null){
+            return ResponseEntity.status(200).body(OrderStateRes.of(200, "Success", order.getState()));
+        } else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Order Not Found"));
         }
     }
 
@@ -174,9 +203,7 @@ public class OrderController {
     public ResponseEntity<? extends BaseResponseBody> GetUserReview() {
         try {
             Long userId = jwtService.getUserId();
-            System.out.println(userId);
             List<Order> res = orderService.getOrdersbyUserId(userId);
-            System.out.println(res.size());
 
             return ResponseEntity.status(200).body(
                     ReviewGetRes.of(200, "Success", res)

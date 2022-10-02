@@ -3,6 +3,7 @@ package com.ssafy.setak.api.service;
 import com.ssafy.setak.api.request.OrderCreateReq;
 import com.ssafy.setak.api.request.OrderDetailUpdateReq;
 import com.ssafy.setak.api.request.ReviewPostReq;
+import com.ssafy.setak.api.response.OrderDetailRes;
 import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +21,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
@@ -102,6 +100,71 @@ public class OrderService {
         return null;
     }
 
+    public List<OrderDetailRes> getOrderDetails(Long orderId){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order != null){
+            List<OrderDetailRes> orderDetailResList = new ArrayList<>();
+            List<OrderDetail> orderDetails = order.getOrderDetails();
+
+            String inputdata = null;
+            List<String> urls1 = null;
+            List<String> urls2 = null;
+            List<String> urls3 = null;
+
+            if(orderDetails != null){
+                for(OrderDetail detail : orderDetails){
+                    String txHash1 = detail.getBlockAddr1();
+                    String txHash2 = detail.getBlockAddr2();
+                    String txHash3 = detail.getBlockAddr3();
+
+                    if(txHash1 != null) {
+                        inputdata = new String(Numeric.hexStringToByteArray(getImgUrls(txHash1)));
+                        if(inputdata != null){
+                            urls1 = Arrays.asList(inputdata.split(","));
+                        }
+                    }
+
+                    if(txHash2!= null) {
+                        inputdata = new String(Numeric.hexStringToByteArray(getImgUrls(txHash2)));
+                        if(inputdata != null) {
+                            urls2 = Arrays.asList(inputdata.split(","));
+                        }
+                    }
+
+                    if(txHash3!= null) {
+                        inputdata = new String(Numeric.hexStringToByteArray(getImgUrls(txHash3)));
+                        if(inputdata != null) {
+                            urls3 = Arrays.asList(inputdata.split(","));
+                        }
+                    }
+
+                    OrderDetailRes orderDetailRes = OrderDetailRes.of(detail.getId(), detail.getName(), detail.getPrice(), urls1, urls2, urls3);
+                    orderDetailResList.add(orderDetailRes);
+                }
+            }
+
+            return orderDetailResList;
+        }
+
+        return null;
+    }
+
+    private String getImgUrls(String txHash){
+        try {
+            String inputdata = null;
+            Optional<org.web3j.protocol.core.methods.response.Transaction> tx = web3j.ethGetTransactionByHash(txHash).send().getTransaction();
+            if (tx.isPresent()) {
+                inputdata = tx.get().getInput();
+            }
+
+            return inputdata;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @Transactional
     public OrderDetail updateOrderDetail(Long orderDetailId, Long userId, OrderDetailUpdateReq orderInfo){
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
@@ -118,10 +181,10 @@ public class OrderService {
         try {
             PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
             if (personalUnlockAccount.accountUnlocked()) {
-                for (int i = 0; i < urls.size(); i++) {
-                    urlsString += "," + urls.get(i);
+                for (int i = 0; i < urls.size()-1; i++) {
+                    urlsString += (urls.get(i)  + ",");
                 }
-
+                urlsString += urls.get(urls.size()-1);
                 org.web3j.protocol.core.methods.request.Transaction transaction = Transaction.createEthCallTransaction(ADMIN_ADDRESS, userWalletAddr, Numeric.toHexString(urlsString.getBytes(StandardCharsets.UTF_8)));
                 EthSendTransaction ethCall = web3j.ethSendTransaction(transaction).sendAsync().get();
                 value = ethCall.getTransactionHash();
@@ -135,7 +198,7 @@ public class OrderService {
         }
 
         if(orderDetail != null){
-            switch(orderInfo.getState()){
+            switch(orderDetail.getOrder().getState()){
                 case 0:
                     if(value != null){
                         orderDetail.setBlockAddr1(value);
@@ -146,11 +209,6 @@ public class OrderService {
                         orderDetail.setBlockAddr2(value);
                     }
                     break;
-                case 2:
-                    if(value != null){
-                        orderDetail.setBlockAddr3(value);
-                    }
-                    break;
             }
         }
 
@@ -158,14 +216,84 @@ public class OrderService {
     }
 
     @Transactional
+    public Order updateOrderDelivered(Long orderId, Long userId, OrderDetailUpdateReq orderInfo){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order == null){
+            return null;
+        }
+
+        List<OrderDetail> orderDetails = order.getOrderDetails();
+
+        List<String> urls = orderInfo.getImgUrl();
+        User user = userRepository.findById(userId).orElse(null);
+        String userWalletAddr = user.getWalletAddr();
+
+        String value = null;
+        String urlsString = "";
+
+        try {
+            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+            if (personalUnlockAccount.accountUnlocked()) {
+                for (int i = 0; i < urls.size()-1; i++) {
+                    urlsString += (urls.get(i)  + ",");
+                }
+                urlsString += urls.get(urls.size()-1);
+                org.web3j.protocol.core.methods.request.Transaction transaction = Transaction.createEthCallTransaction(ADMIN_ADDRESS, userWalletAddr, Numeric.toHexString(urlsString.getBytes(StandardCharsets.UTF_8)));
+                EthSendTransaction ethCall = web3j.ethSendTransaction(transaction).sendAsync().get();
+                value = ethCall.getTransactionHash();
+
+                if(ethCall.getError() != null){
+                    //에러 있을 때
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(order.getState() == 2){
+            if(value != null){
+                for(OrderDetail orderDetail : orderDetails){
+                    orderDetail.setBlockAddr3(value);
+                }
+            }
+        }
+
+        return order;
+    }
+
+    @Transactional
+    public Order updateOrderState(Long orderId){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order == null){
+            return null;
+        }
+
+        int state = 0;
+
+        switch (order.getState()){
+            case 0:
+                state = 1;
+                break;
+            case 1:
+                state = 2;
+                break;
+            case 2:
+                state = 3;
+                break;
+        }
+
+        order.setState(state);
+
+        return order;
+    }
+
+    @Transactional
     public void registerReview(long orderId, ReviewPostReq reviewInfo) {
         Order order = orderRepository.findById(orderId).orElse(null);
-        System.out.println(order.getId());
         order.setReviewContent(reviewInfo.getContent());
         order.setReviewScore(reviewInfo.getScore());
         order.setReviewDate(LocalDate.now());
         order.setIsImg(reviewInfo.isImg());
-        System.out.println(order.getReviewContent());
         orderRepository.save(order);
     }
 
