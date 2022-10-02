@@ -245,7 +245,7 @@ const CtmMypage = () => {
             <CardContent
               className="ctm-mypage-right-bottom-review-text"
               sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
-              {review.content}
+              [{review.laundryName}] {review.content}
             </CardContent>
           </Card>
         ))}
