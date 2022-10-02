@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  FormHelperText,
   TextField
 } from '@mui/material';
 import { useState, useEffect } from 'react';
@@ -19,7 +20,6 @@ import {
   chargeClean,
   unlockAccount
 } from '../../../store/actions/services/walletService';
-import Loading from '../../../components/common/Loading';
 import {
   myorderCtmRequest,
   myReviewRequest
@@ -27,7 +27,9 @@ import {
 import {
   InfoRequest,
   LaundryLikeRequest,
-  balanceUpdate
+  balanceUpdate,
+  changeCtmInfo,
+  deleteUser
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
@@ -35,22 +37,39 @@ import Address from '../../../components/common/Address';
 const CtmMypage = () => {
   const [clean, setClean] = useState<number>(0);
   const [point, setPoint] = useState<number>(12340);
-  const [openModal1, setOpenModal1] = useState<boolean>(false);
-  const [openModal2, setOpenModal2] = useState<boolean>(false);
+
+  // 로컬 저장 값
   const [userInfo, setUserInfo] = useState('');
   const [reviewList, setReviewList] = useState([]);
   const [orderList, setOrderList] = useState([]);
   const [likeList, setLikeList] = useState([]);
-  const [pending, setPending] = useState(false);
+
+  // 어떤 메뉴 클릭 했는지
   const [mode, setMode] = useState(1);
   const [modeState, setModeState] = useState(-1);
   const stateText = ['수락 대기중', '세탁중', '배달중', '세탁 완료'];
+
+  // 모달창
   const [openNickname, setOpenNickname] = useState(false);
+  const [openPassword, setOpenPassword] = useState(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openCharge, setOpenCharge] = useState(false);
+  const [openDelete, setOpenDelete] = useState(false);
+
   const [myaddress, setMyaddress] = useState('');
+  const [mynickname, setmynickname] = useState('');
+
   const [walletPassword, setWalletPassword] = useState('');
   const [chargeAmount, setchargeAmount] = useState<number>(0);
+
+  // 비밀번호 변경 시 새로운 비밀번호 유효성 검사 및 일치 확인
+  const [pwd, setPwd] = useState('');
+  const [pwdCheck, setPwdCheck] = useState('');
+  const [isPwdValid, setIsPwdValid] = useState(false);
+  const [isPwdSame, setIsPwdSame] = useState(false);
+
+  // 닉네임 변경
+  const [nickName, setNickName] = useState('');
 
   const handleOpen = (value) => {
     switch (value) {
@@ -58,26 +77,39 @@ const CtmMypage = () => {
         setOpenNickname(true);
         break;
       case 2:
-        setOpenAddress(true);
+        setOpenPassword(true);
         break;
       case 3:
+        setOpenAddress(true);
+        break;
+      case 4:
         setOpenCharge(true);
+        break;
+      case 5:
+        setOpenDelete(true);
         break;
       default:
         break;
     }
   };
 
+  // 1 : 닉네임 / 2: 비밀번호 / 3 : 주소 / 4 : 충전 / 5 : 탈퇴
   const handleClose = (value) => {
     switch (value) {
       case 1:
         setOpenNickname(false);
         break;
       case 2:
-        setOpenAddress(false);
+        setOpenPassword(false);
         break;
       case 3:
+        setOpenAddress(false);
+        break;
+      case 4:
         setOpenCharge(false);
+        break;
+      case 5:
+        setOpenDelete(false);
         break;
       default:
         break;
@@ -93,6 +125,7 @@ const CtmMypage = () => {
       setMyaddress(
         `${result?.data?.userInfo?.addr} ${result?.data?.userInfo?.addrDetail}`
       );
+      setmynickname(result?.data?.userInfo?.nickName);
     } else {
       navigate('/error');
     }
@@ -234,8 +267,53 @@ const CtmMypage = () => {
       </>
     );
   }
+
   // 닉네임 변경 로직
-  const handleNickname = () => {};
+  const nickNameChange = (event) => {
+    setNickName(event.target.value.trim());
+  };
+
+  const handleNickname = async () => {
+    const result = await changeCtmInfo({ nickName });
+    if (result?.data?.message === 'Success') {
+      setmynickname(nickName);
+      handleClose(1);
+    } else if (result?.data?.statusCode === 409) {
+      alert('이미 존재하는 닉네임입니다.');
+      setNickName('');
+    } else {
+      navigate('/error');
+    }
+  };
+
+  // 비밀번호 변경 로직
+  const pwdChange = (event) => {
+    const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d@$!%*#?&]{8,16}$/;
+    const valid = regPassword.test(event.target.value.trim());
+
+    setPwd(event.target.value.trim());
+    setIsPwdValid(valid);
+
+    if (event.target.value.trim() && valid) {
+      setIsPwdSame(
+        event.target.value.trim() && event.target.value.trim() === pwdCheck
+      );
+    }
+  };
+
+  const pwdCheckChange = (event) => {
+    setPwdCheck(event.target.value.trim());
+    setIsPwdSame(pwd === event.target.value.trim());
+  };
+
+  const handlePassword = async () => {
+    const result = await changeCtmInfo({ pwd });
+    if (result?.data?.message === 'Success') {
+      handleClose(2);
+    } else {
+      navigate('/error');
+    }
+  };
 
   // 주소 변경 로직
   const changeAddress = (value) => {
@@ -257,11 +335,21 @@ const CtmMypage = () => {
       };
       await balanceUpdate(balanceInfo);
       await getMypage();
-      alert('충전완료');
+      alert('충전이 완료되었습니다.');
       handleClose(3);
     }
   };
 
+  // 회원 탈퇴 로직
+  const handleDelete = async () => {
+    const result = await deleteUser();
+    if (result?.data?.message === 'Created') {
+      alert('그동안 세탁클로쓰를 이용해주셔서 감사합니다.');
+      navigate('/');
+    } else {
+      navigate('/error');
+    }
+  };
   return (
     <div className="ctm-mypage">
       <CardContent className="ctm-mypage-left">
@@ -277,8 +365,11 @@ const CtmMypage = () => {
             <div className="ctm-mypage-left-bottom-clean">
               {userInfo.balance}클린
             </div>
+            <div className="ctm-mypage-left-bottom-id">
+              {userInfo.userEmail}
+            </div>
             <div className="ctm-mypage-left-bottom-nickname">
-              {userInfo.nickName ? userInfo.nickName : '닉네임을 바꿔주세요.'}
+              {mynickname || '닉네임을 바꿔주세요.'}
             </div>
             <div className="ctm-mypage-left-bottom-address">{myaddress}</div>
           </div>
@@ -295,7 +386,7 @@ const CtmMypage = () => {
             />
             <Chip
               className="ctm-mypage-left-bottom-chip"
-              label="주소 변경"
+              label="비밀번호 변경"
               style={{
                 height: 40,
                 width: 140,
@@ -305,7 +396,7 @@ const CtmMypage = () => {
             />
             <Chip
               className="ctm-mypage-left-bottom-chip"
-              label="충전하기"
+              label="주소 변경"
               style={{
                 height: 40,
                 width: 140,
@@ -313,6 +404,17 @@ const CtmMypage = () => {
               }}
               onClick={() => handleOpen(3)}
             />
+            <Chip
+              className="ctm-mypage-left-bottom-chip"
+              label="충전하기"
+              style={{
+                height: 40,
+                width: 140,
+                background: 'linear-gradient(#e66465, #FFD6EC)'
+              }}
+              onClick={() => handleOpen(4)}
+            />
+            <div onClick={() => handleOpen(5)}>회원 탈퇴</div>
           </div>
         </div>
       </CardContent>
@@ -407,66 +509,117 @@ const CtmMypage = () => {
       </div>
 
       {/* 모달 모음집 */}
-      <div>
-        <Dialog open={openNickname} onClose={() => handleClose(1)}>
-          <DialogTitle>닉네임 변경하기</DialogTitle>
-          <DialogContent>
-            <DialogContentText>변경할 닉네임을 입력해주세요.</DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="닉네임"
-              type="text"
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => handleClose(1)}>취소</Button>
-            <Button onClick={handleNickname}>변경하기</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog open={openNickname} onClose={() => handleClose(1)}>
+        <DialogTitle>닉네임 변경하기</DialogTitle>
+        <DialogContent>
+          <DialogContentText>변경할 닉네임을 입력해주세요.</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="닉네임"
+            type="text"
+            value={nickName}
+            onChange={nickNameChange}
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose(1)}>취소</Button>
+          <Button onClick={handleNickname}>변경하기</Button>
+        </DialogActions>
+      </Dialog>
 
-      <div>
-        <Dialog open={openAddress} onClose={() => handleClose(2)}>
-          <Address changeAddress={changeAddress} handleClose={handleClose} />
-        </Dialog>
-      </div>
+      <Dialog open={openPassword} onClose={() => handleClose(2)}>
+        <DialogTitle>비밀번호 변경하기</DialogTitle>
+        <DialogContent>
+          <DialogContentText>변경할 비밀번호을 입력해주세요.</DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="비밀번호"
+            type="password"
+            value={pwd}
+            onChange={pwdChange}
+            fullWidth
+            variant="standard"
+          />
+          <FormHelperText error={!!pwd && !isPwdValid}>
+            {pwd
+              ? isPwdValid
+                ? '안전한 비밀번호입니다.'
+                : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
+              : ''}
+          </FormHelperText>
+          <TextField
+            margin="dense"
+            label="비밀번호 확인"
+            type="password"
+            value={pwdCheck}
+            onChange={pwdCheckChange}
+            fullWidth
+            variant="standard"
+          />
+          <FormHelperText error={!!pwdCheck && !isPwdSame}>
+            {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
+          </FormHelperText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose(2)}>취소</Button>
+          <Button onClick={handlePassword} disabled={!isPwdValid || !isPwdSame}>
+            변경하기
+          </Button>
+        </DialogActions>
+      </Dialog>
 
-      <div>
-        <Dialog open={openCharge} onClose={() => handleClose(3)}>
-          <DialogTitle>클린 충전하기</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              지갑 비밀번호와 충전할 금액을 입력해주세요.
-            </DialogContentText>
-            <TextField
-              autoFocus
-              margin="dense"
-              label="지갑 비밀번호"
-              value={walletPassword}
-              onChange={walletPasswordChange}
-              type="password"
-              fullWidth
-              variant="standard"
-            />
-            <TextField
-              margin="dense"
-              label="충전할 금액"
-              type="number"
-              value={chargeAmount}
-              onChange={chargeAmountChange}
-              fullWidth
-              variant="standard"
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => handleClose(3)}>취소</Button>
-            <Button onClick={handleCharge}>충전하기</Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+      <Dialog open={openAddress} onClose={() => handleClose(3)}>
+        <Address changeAddress={changeAddress} handleClose={handleClose} />
+      </Dialog>
+
+      <Dialog open={openCharge} onClose={() => handleClose(4)}>
+        <DialogTitle>클린 충전하기</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            지갑 비밀번호와 충전할 금액을 입력해주세요.
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="지갑 비밀번호"
+            value={walletPassword}
+            onChange={walletPasswordChange}
+            type="password"
+            fullWidth
+            variant="standard"
+          />
+          <TextField
+            margin="dense"
+            label="충전할 금액"
+            type="number"
+            value={chargeAmount}
+            onChange={chargeAmountChange}
+            fullWidth
+            variant="standard"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose(4)}>취소</Button>
+          <Button onClick={handleCharge}>충전하기</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={openDelete} onClose={() => handleClose(5)}>
+        <DialogTitle>회원 탈퇴</DialogTitle>
+        <DialogContent>
+          정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => handleClose(5)}>취소</Button>
+          <Button onClick={handleDelete} color="color0">
+            탈퇴
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

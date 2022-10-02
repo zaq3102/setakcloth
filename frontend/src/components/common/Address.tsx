@@ -32,7 +32,7 @@ const Address: React.FC = ({ changeAddress, handleClose }) => {
       const result2 = await changeAddrRequest(addrInfo);
       if (result2?.data?.message === 'Created') {
         changeAddress(`${addr} ${addrDetail}`);
-        handleClose(2);
+        handleClose(3);
       } else {
         navigate('/error');
       }
@@ -70,7 +70,7 @@ const Address: React.FC = ({ changeAddress, handleClose }) => {
         onChange={addrDetailChange}
       />
       <DialogActions>
-        <Button onClick={() => handleClose(2)}>취소</Button>
+        <Button onClick={() => handleClose(3)}>취소</Button>
         <Button onClick={handleChange}>변경</Button>
       </DialogActions>
     </div>
