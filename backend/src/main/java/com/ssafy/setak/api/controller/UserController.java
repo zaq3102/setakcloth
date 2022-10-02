@@ -379,7 +379,7 @@ public class UserController {
     }
 
 
-    @PostMapping("/blance")
+    @PostMapping("/balance")
     @ApiOperation(value = "잔고 업데이트", notes = "잔고 업데이트")
     @ApiResponses({
             @ApiResponse(code = 201, message = "Create"),
@@ -399,7 +399,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/blance")
+    @GetMapping("/balance")
     @ApiOperation(value = "잔고 받기", notes = "잔고 받기")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),

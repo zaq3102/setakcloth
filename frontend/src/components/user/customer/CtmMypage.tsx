@@ -26,13 +26,14 @@ import {
 } from '../../../store/actions/services/orderService';
 import {
   InfoRequest,
-  LaundryLikeRequest
+  LaundryLikeRequest,
+  balanceUpdate
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
 
 const CtmMypage = () => {
-  const [clean, setClean] = useState<number>(12340000000000);
+  const [clean, setClean] = useState<number>(0);
   const [point, setPoint] = useState<number>(12340);
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
@@ -48,6 +49,8 @@ const CtmMypage = () => {
   const [openAddress, setOpenAddress] = useState(false);
   const [openCharge, setOpenCharge] = useState(false);
   const [myaddress, setMyaddress] = useState('');
+  const [walletPassword, setWalletPassword] = useState('');
+  const [chargeAmount, setchargeAmount] = useState<number>(0);
 
   const handleOpen = (value) => {
     switch (value) {
@@ -93,6 +96,14 @@ const CtmMypage = () => {
     } else {
       navigate('/error');
     }
+  };
+
+  const walletPasswordChange = (event) => {
+    setWalletPassword(event.target.value.trim());
+  };
+
+  const chargeAmountChange = (event) => {
+    setchargeAmount(event.target.value.trim());
   };
 
   const getMyReviews = async () => {
@@ -232,7 +243,24 @@ const CtmMypage = () => {
   };
 
   // 충전 로직
-  const handleCharge = () => {};
+  const handleCharge = async () => {
+    const check = await unlockAccount(userInfo.wallet, walletPassword);
+    console.log(check);
+    if (!check) {
+      alert('잘못된 비밀번호입니다');
+    } else {
+      const send = await chargeClean(userInfo.wallet, chargeAmount);
+      console.log(send);
+      const balance = await getBalance(userInfo.wallet);
+      const balanceInfo = {
+        balance
+      };
+      await balanceUpdate(balanceInfo);
+      await getMypage();
+      alert('충전완료');
+      handleClose(3);
+    }
+  };
 
   return (
     <div className="ctm-mypage">
@@ -247,8 +275,7 @@ const CtmMypage = () => {
         <div className="ctm-mypage-left-bottom">
           <div className="ctm-mypage-left-bottom-content">
             <div className="ctm-mypage-left-bottom-clean">
-              {/* {userInfo.balance} */}
-              10000 클린
+              {userInfo.balance}클린
             </div>
             <div className="ctm-mypage-left-bottom-nickname">
               {userInfo.nickName ? userInfo.nickName : '닉네임을 바꿔주세요.'}
@@ -418,6 +445,8 @@ const CtmMypage = () => {
               autoFocus
               margin="dense"
               label="지갑 비밀번호"
+              value={walletPassword}
+              onChange={walletPasswordChange}
               type="password"
               fullWidth
               variant="standard"
@@ -426,6 +455,8 @@ const CtmMypage = () => {
               margin="dense"
               label="충전할 금액"
               type="number"
+              value={chargeAmount}
+              onChange={chargeAmountChange}
               fullWidth
               variant="standard"
             />
