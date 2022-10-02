@@ -1,6 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.OrderCreateReq;
+import com.ssafy.setak.api.request.OrderDetailUpdateReq;
 import com.ssafy.setak.api.response.OrderGetRes;
 import com.ssafy.setak.api.request.ReviewPostReq;
 import com.ssafy.setak.api.response.OrdersGetRes;
@@ -11,6 +12,7 @@ import com.ssafy.setak.api.service.OrderService;
 import com.ssafy.setak.common.model.response.BaseResponseBody;
 import com.ssafy.setak.db.entity.Laundry;
 import com.ssafy.setak.db.entity.Order;
+import com.ssafy.setak.db.entity.OrderDetail;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -120,6 +122,25 @@ public class OrderController {
             return ResponseEntity.status(500).body(
                     BaseResponseBody.of(500, "주문 상세 조회 실패")
             );
+        }
+    }
+
+    @PostMapping("/laundry/detail/{order_detail_id}/update")
+    @ApiOperation(value = "주문 상세 변경", notes = "주문 상세 변경")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 상세 변경 실패"),
+            @ApiResponse(code = 404, message = "주문 상세 조회 실패"),
+    })
+    public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
+        Long userId = jwtService.getUserId();
+        System.out.println("================here ~~`");
+        System.out.println(orderDetailInfo);
+        OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, orderDetailInfo);
+        if(orderDetail != null){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "OrderDetail Not Found"));
         }
     }
 
