@@ -2,7 +2,19 @@ import { Button, Step, StepLabel, Stepper } from '@mui/material';
 import * as React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { getOrderRequest } from '../../../store/actions/services/orderService';
+import {
+  getOrderRequest,
+  getFromAddrRequest
+} from '../../../store/actions/services/orderService';
+import {
+  InfoRequest,
+  balanceUpdate
+} from '../../../store/actions/services/userService';
+import {
+  getBalance,
+  sendClean,
+  unlockAccount
+} from '../../../store/actions/services/walletService';
 
 const CeoOrderDetail: React.FC = () => {
   const navigate = useNavigate();
@@ -11,6 +23,8 @@ const CeoOrderDetail: React.FC = () => {
   const [currentState, setCurrentState] = useState(0);
   const { orderNum } = useParams();
   const [orderInfo, setOrderInfo] = useState([]);
+  const [fromAddr, setFromAddr] = useState('');
+  const [userInfo, setUserInfo] = useState('');
 
   const modes = ['수락 대기중', '세탁중', '세탁 완료', '배달중'];
 
@@ -23,9 +37,29 @@ const CeoOrderDetail: React.FC = () => {
       navigate('/error');
     }
   };
+  //고객지갑가져오기
+  const getFromAddr = async () => {
+    const result = await getFromAddrRequest(orderNum);
+    if (result?.data) {
+      setFromAddr(result?.data);
+    } else {
+      navigate('/error');
+    }
+  };
+
+  const getMypage = async () => {
+    const result = await InfoRequest();
+    if (result?.data?.userInfo) {
+      setUserInfo(result?.data?.userInfo);
+    } else {
+      navigate('/error');
+    }
+  };
 
   useEffect(() => {
     getList();
+    getFromAddr();
+    getMypage();
   }, []);
 
   const onImgInputBtnClick = (event) => {
@@ -51,7 +85,43 @@ const CeoOrderDetail: React.FC = () => {
 
   const handleSave = () => {};
 
-  const handleNext = () => {
+  const handleNext = async () => {
+    //처음상태일때.. 결제진행
+    if (currentState == 0) {
+      //비밀번호 검증 여기 해줘야됨
+      const check = await unlockAccount(userInfo.wallet, 'a12341234');
+      if (!check) {
+        alert('비밀번호가 틀립니다');
+        return;
+      }
+      const result = await sendClean(
+        fromAddr.fromAddr1,
+        userInfo.wallet,
+        fromAddr.price
+      );
+      if (!result) {
+        alert('결제오류발생');
+        navigate('/error');
+        return;
+      }
+      const balance = await getBalance(userInfo.wallet);
+      if (!balance) {
+        alert('결제오류발생');
+        navigate('/error');
+        return;
+      }
+      const balanceInfo = {
+        balance
+      };
+      const DBbalance = await balanceUpdate(balanceInfo);
+
+      if (!DBbalance) {
+        alert('결제오류발생');
+        navigate('/error');
+        return;
+      }
+    }
+    //order 의 state 바꾸고 사진넣는 부분구현필요
     setCurrentState(currentState + 1);
   };
 
