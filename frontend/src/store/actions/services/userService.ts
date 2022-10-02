@@ -244,6 +244,15 @@ export const balanceUpdate = async (dataToSubmit) => {
   }
 };
 
+export const getBalance = async () => {
+  try {
+    const payload = await requestAuth.get('/user/balance');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
 // 고객 정보 수정 (비밀번호, 닉네임)
 export const changeCtmInfo = async (dataToSubmit) => {
   try {
