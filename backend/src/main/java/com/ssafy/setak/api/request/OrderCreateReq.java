@@ -4,8 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 @Data
 @ApiModel("OrderCreateRequest")
@@ -21,5 +20,5 @@ public class OrderCreateReq {
     Long totalPrice;
 
     @ApiModelProperty(name = "주문 상세")
-    List<Long> orderDetails;
+    HashMap<Long, Integer> orderDetails;
 }
