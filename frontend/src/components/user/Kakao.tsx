@@ -1,17 +1,15 @@
 import * as React from 'react';
 import { useLocation } from 'react-router';
-import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
   loginkakaoRequest,
   loginkakaoCeoRequest,
-  getCtmKakaoEmail
+  getCtmKakaoEmail,
+  getCeoKakaoEmail
 } from '../../store/actions/services/userService';
 
 const Kakao: React.FC = () => {
-  const [email, setEmail] = useState('');
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -71,15 +69,17 @@ const Kakao: React.FC = () => {
     }
   };
 
-  const kakaoUserGetEmail = async (e) => {
-    console.log('hi');
-
-    const result = await getCtmKakaoEmail(code);
-    console.log(result);
-
+  const kakaoUserGetEmail = async (type) => {
+    let result = '';
+    if (type === 'customer') {
+      result = await getCtmKakaoEmail(code);
+    } else if (type === 'ceo') {
+      result = await getCeoKakaoEmail(code);
+    }
     if (result?.data?.statusCode === 200) {
-      setEmail(result?.data.kakaoEmail);
-      e.preventDefault();
+      navigate('/signup', {
+        state: { url: location.pathname, kakaoemail: result?.data?.kakaoEmail }
+      });
     } else if (result?.response?.status === 409) {
       alert('이미 가입한 회원입니다. 로그인을 해주세요!');
       navigate('/login');
@@ -96,19 +96,11 @@ const Kakao: React.FC = () => {
       break;
 
     case '/kakao/usersignup':
-      kakaoUserGetEmail();
-      if (email) {
-        console.log(email);
-        navigate('/signup');
-      }
+      kakaoUserGetEmail('customer');
       break;
 
     case '/kakao/ceosignup':
-      return (
-        <div>
-          <h1>카카오 사장님 회원 가입</h1>
-        </div>
-      );
+      kakaoUserGetEmail('ceo');
       break;
 
     default:
