@@ -239,3 +239,13 @@ export const signupCeoKakao = async (dataToSubmit) => {
     return err;
   }
 };
+
+//클린 잔고 업데이트
+export const balanceUpdate = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post('/user/balance', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
