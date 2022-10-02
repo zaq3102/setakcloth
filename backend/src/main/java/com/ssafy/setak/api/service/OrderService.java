@@ -216,6 +216,52 @@ public class OrderService {
     }
 
     @Transactional
+    public Order updateOrderDelivered(Long orderId, Long userId, OrderDetailUpdateReq orderInfo){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order == null){
+            return null;
+        }
+
+        List<OrderDetail> orderDetails = order.getOrderDetails();
+
+        List<String> urls = orderInfo.getImgUrl();
+        User user = userRepository.findById(userId).orElse(null);
+        String userWalletAddr = user.getWalletAddr();
+
+        String value = null;
+        String urlsString = "";
+
+        try {
+            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+            if (personalUnlockAccount.accountUnlocked()) {
+                for (int i = 0; i < urls.size()-1; i++) {
+                    urlsString += (urls.get(i)  + ",");
+                }
+                urlsString += urls.get(urls.size()-1);
+                org.web3j.protocol.core.methods.request.Transaction transaction = Transaction.createEthCallTransaction(ADMIN_ADDRESS, userWalletAddr, Numeric.toHexString(urlsString.getBytes(StandardCharsets.UTF_8)));
+                EthSendTransaction ethCall = web3j.ethSendTransaction(transaction).sendAsync().get();
+                value = ethCall.getTransactionHash();
+
+                if(ethCall.getError() != null){
+                    //에러 있을 때
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if(order.getState() == 2){
+            if(value != null){
+                for(OrderDetail orderDetail : orderDetails){
+                    orderDetail.setBlockAddr3(value);
+                }
+            }
+        }
+
+        return order;
+    }
+
+    @Transactional
     public void registerReview(long orderId, ReviewPostReq reviewInfo) {
         Order order = orderRepository.findById(orderId).orElse(null);
         order.setReviewContent(reviewInfo.getContent());
