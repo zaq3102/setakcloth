@@ -262,6 +262,32 @@ public class OrderService {
     }
 
     @Transactional
+    public Order updateOrderState(Long orderId){
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if(order == null){
+            return null;
+        }
+
+        int state = 0;
+
+        switch (order.getState()){
+            case 0:
+                state = 1;
+                break;
+            case 1:
+                state = 2;
+                break;
+            case 2:
+                state = 3;
+                break;
+        }
+
+        order.setState(state);
+
+        return order;
+    }
+
+    @Transactional
     public void registerReview(long orderId, ReviewPostReq reviewInfo) {
         Order order = orderRepository.findById(orderId).orElse(null);
         order.setReviewContent(reviewInfo.getContent());
