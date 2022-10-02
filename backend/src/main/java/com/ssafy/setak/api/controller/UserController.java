@@ -274,7 +274,6 @@ public class UserController {
 
         try {
             Long userId = jwtService.getUserId();
-            System.out.println(userId);
             User user = userService.getUserByUserId(userId);
 
             userService.deleteUser(user);
