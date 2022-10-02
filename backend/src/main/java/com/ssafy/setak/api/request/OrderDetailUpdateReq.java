@@ -10,10 +10,6 @@ import java.util.List;
 @Data
 @ApiModel("OrderDetailUpdateRequest")
 public class OrderDetailUpdateReq {
-
-    @ApiModelProperty(name = "상태", example = "1")
-    int state;
-
     @ApiModelProperty(name = "이미지 주소", example = "http://j7a706.p.ssafy.io:8085/ipfs/QmR5frs334UAfAfrrjWbTqFJsmEFEjomGFpGgFrmHqY3Za")
     List<String> imgUrl;
 }
