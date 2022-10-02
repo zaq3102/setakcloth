@@ -158,6 +158,22 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/laundry/{order_id}/update")
+    @ApiOperation(value = "주문 상태 변경", notes = "주문 상태 변경")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 상태 변경"),
+            @ApiResponse(code = 404, message = "주문 상태 변경"),
+    })
+    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId) {
+        Order order = orderService.updateOrderState(orderId);
+        if(order != null){
+            return ResponseEntity.status(200).body(OrderStateRes.of(200, "Success", order.getState()));
+        } else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Order Not Found"));
+        }
+    }
+
     @PostMapping("/{order_id}/review/create")
     @ApiOperation(value = "리뷰 등록", notes = "리뷰 등록")
     @ApiResponses({
