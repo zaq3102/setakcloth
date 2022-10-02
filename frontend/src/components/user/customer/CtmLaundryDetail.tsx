@@ -30,7 +30,9 @@ import '../../../styles/OrderButton.scss';
 import {
   addLike,
   delLike,
-  isLike
+  isLike,
+  getBalance,
+  balanceUpdate
 } from '../../../store/actions/services/userService';
 
 const CtmLaundryDetail: React.FC = () => {
@@ -44,6 +46,7 @@ const CtmLaundryDetail: React.FC = () => {
   const [reviewList, setReviewList] = useState([]);
   const [pageReview, setPageReview] = useState(1);
   const [heartClicked, setHeartClicked] = useState(false);
+  const [mybalance, setBalance] = useState(0);
   const navigate = useNavigate();
 
   const getItemList = async () => {
@@ -65,6 +68,14 @@ const CtmLaundryDetail: React.FC = () => {
     const result = await LaundryDetailRequest(laundryId);
     if (result?.data?.laundry) {
       setLaundry(result?.data?.laundry);
+    } else {
+      navigate('/error');
+    }
+  };
+  const getMybalance = async () => {
+    const result = await getBalance();
+    if (result?.data?.balance) {
+      setBalance(result?.data?.balance);
     } else {
       navigate('/error');
     }
@@ -93,6 +104,7 @@ const CtmLaundryDetail: React.FC = () => {
     getLaundry();
     getReviewList();
     isHeartClicked();
+    getMybalance();
   }, []);
 
   const minusOne = (index) => {
@@ -118,7 +130,6 @@ const CtmLaundryDetail: React.FC = () => {
     if (DeliverType === 0) {
       setTotalPrice(totalPrice + laundry.deliverCost);
     } else if (DeliverType === 1) {
-      setTotalPrice(totalPrice - laundry.deliverCost);
     }
     setOrderType(DeliverType);
   };
@@ -129,6 +140,11 @@ const CtmLaundryDetail: React.FC = () => {
 
   const handleOrder = async () => {
     const orderCnts = {};
+    if (totalPrice > mybalance) {
+      alert('해당금액이 부족합니다.');
+      navigate('../mypage');
+      return;
+    }
     for (let i = 0; i < laundryItemList.length; i += 1) {
       orderCnts[laundryItemList[i].id] = orderDetails[i];
     }
@@ -150,6 +166,11 @@ const CtmLaundryDetail: React.FC = () => {
     } else {
       navigate('/error');
     }
+    const balance = mybalance - totalPrice;
+    const balanceInfo = {
+      balance
+    };
+    await balanceUpdate(balanceInfo);
   };
 
   let content = '';
