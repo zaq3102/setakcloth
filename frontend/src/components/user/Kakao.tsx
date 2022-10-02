@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -12,9 +12,8 @@ import {
 const Kakao: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
   const location = useLocation();
-  const path = location.pathname;
+  const { data } = useParams();
   const code = location.search.substr(6);
 
   const kakaoUserLogin = async () => {
@@ -69,7 +68,7 @@ const Kakao: React.FC = () => {
     }
   };
 
-  const kakaoUserGetEmail = async (type) => {
+  const kakaoGetEmail = async (type) => {
     let result = '';
     if (type === 'customer') {
       result = await getCtmKakaoEmail(code);
@@ -78,7 +77,7 @@ const Kakao: React.FC = () => {
     }
     if (result?.data?.statusCode === 200) {
       navigate('/signup', {
-        state: { url: location.pathname, kakaoemail: result?.data?.kakaoEmail }
+        state: { url: data, kakaoemail: result?.data?.kakaoEmail }
       });
     } else if (result?.response?.status === 409) {
       alert('이미 가입한 회원입니다. 로그인을 해주세요!');
@@ -86,21 +85,21 @@ const Kakao: React.FC = () => {
     }
   };
 
-  switch (path) {
-    case '/kakao/userlogin':
+  switch (data) {
+    case 'userlogin':
       kakaoUserLogin();
       break;
 
-    case '/kakao/ceologin':
+    case 'ceologin':
       kakaoCeoLogin();
       break;
 
-    case '/kakao/usersignup':
-      kakaoUserGetEmail('customer');
+    case 'usersignup':
+      kakaoGetEmail('customer');
       break;
 
-    case '/kakao/ceosignup':
-      kakaoUserGetEmail('ceo');
+    case 'ceosignup':
+      kakaoGetEmail('ceo');
       break;
 
     default:

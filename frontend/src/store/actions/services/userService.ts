@@ -5,8 +5,6 @@ import {
   LOGIN_CEO,
   LOGIN_CTM_KAKAO,
   LOGIN_CEO_KAKAO,
-  SOCIAL_LOGIN_CTM,
-  SOCIAL_LOGIN_CEO,
   LOGOUT
 } from '../types/types';
 
@@ -197,10 +195,7 @@ export const isLike = async (dataToSubmit) => {
 // 고객 카카오 이메일 받아오기
 export const getCtmKakaoEmail = async (dataToSubmit) => {
   try {
-    const payload = await request.get(
-      `/user/kakao/email?code=${dataToSubmit}`,
-      dataToSubmit
-    );
+    const payload = await request.get(`/user/kakao/email?code=${dataToSubmit}`);
     return payload;
   } catch (err) {
     return err;
@@ -211,8 +206,7 @@ export const getCtmKakaoEmail = async (dataToSubmit) => {
 export const getCeoKakaoEmail = async (dataToSubmit) => {
   try {
     const payload = await request.get(
-      `/user/ceo/kakao/email?code=${dataToSubmit}`,
-      dataToSubmit
+      `/user/ceo/kakao/email?code=${dataToSubmit}`
     );
     return payload;
   } catch (err) {

@@ -54,11 +54,11 @@ const Signup: React.FC = () => {
   const [walletClicked, setWalletClicked] = useState(false);
 
   useEffect(() => {
-    if (state?.url === '/kakao/usersignup') {
+    if (state?.url === 'usersignup') {
       setMode('customer');
       setEmail(state?.kakaoemail);
       setPage(2);
-    } else if (state?.url === '/kakao/ceosignup') {
+    } else if (state?.url === 'ceosignup') {
       setMode('ceo');
       setEmail(state?.kakaoemail);
       setPage(2);
