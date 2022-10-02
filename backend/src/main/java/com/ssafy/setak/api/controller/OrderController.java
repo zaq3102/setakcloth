@@ -141,6 +141,23 @@ public class OrderController {
         }
     }
 
+    @PostMapping("/laundry/{order_id}/update/delivered")
+    @ApiOperation(value = "주문 상세 변경 (배달 사진)", notes = "주문 상세 변경 (배달 사진)")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 상세 변경 (배달) 실패"),
+            @ApiResponse(code = 404, message = "주문 상세 조회 (배달) 실패"),
+    })
+    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
+        Long userId = jwtService.getUserId();
+        Order order = orderService.updateOrderDelivered(orderId, userId, orderDetailInfo);
+        if(order != null){
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        } else{
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Order Not Found"));
+        }
+    }
+
     @PostMapping("/{order_id}/review/create")
     @ApiOperation(value = "리뷰 등록", notes = "리뷰 등록")
     @ApiResponses({
