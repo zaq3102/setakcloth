@@ -125,11 +125,11 @@ public class OrderController {
     }
 
     @PostMapping("/laundry/detail/{order_detail_id}/update")
-    @ApiOperation(value = "주문 상세 변경", notes = "주문 상세 변경")
+    @ApiOperation(value = "주문 상세 변경 (세탁전 후 사진)", notes = "주문 상세 변경 (세탁전 후 사진)")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 500, message = "주문 상세 변경 실패"),
-            @ApiResponse(code = 404, message = "주문 상세 조회 실패"),
+            @ApiResponse(code = 500, message = "주문 상세 변경 (세탁전후 사진) 실패"),
+            @ApiResponse(code = 404, message = "주문 상세 조회 (세탁전후 사진) 실패"),
     })
     public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
         Long userId = jwtService.getUserId();
