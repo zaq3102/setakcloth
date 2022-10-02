@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   getBalance,
   chargeClean,
@@ -29,10 +30,12 @@ import {
   LaundryLikeRequest,
   balanceUpdate,
   changeCtmInfo,
-  deleteUser
+  deleteUser,
+  logoutRequest
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
+import { LOGOUT } from '../../../store/actions/types/types';
 
 const CtmMypage = () => {
   const [clean, setClean] = useState<number>(0);
@@ -70,6 +73,8 @@ const CtmMypage = () => {
 
   // 닉네임 변경
   const [nickName, setNickName] = useState('');
+
+  const dispatch = useDispatch();
 
   const handleOpen = (value) => {
     switch (value) {
@@ -275,9 +280,10 @@ const CtmMypage = () => {
 
   const handleNickname = async () => {
     const result = await changeCtmInfo({ nickName });
-    if (result?.data?.message === 'Success') {
+    if (result?.data?.message === 'Created') {
       setmynickname(nickName);
       handleClose(1);
+      setNickName('');
     } else if (result?.data?.statusCode === 409) {
       alert('이미 존재하는 닉네임입니다.');
       setNickName('');
@@ -308,7 +314,8 @@ const CtmMypage = () => {
 
   const handlePassword = async () => {
     const result = await changeCtmInfo({ pwd });
-    if (result?.data?.message === 'Success') {
+    if (result?.data?.message === 'Created') {
+      setPwd('');
       handleClose(2);
     } else {
       navigate('/error');
@@ -345,6 +352,10 @@ const CtmMypage = () => {
     const result = await deleteUser();
     if (result?.data?.message === 'Created') {
       alert('그동안 세탁클로쓰를 이용해주셔서 감사합니다.');
+      logoutRequest();
+      dispatch({
+        type: LOGOUT
+      });
       navigate('/');
     } else {
       navigate('/error');
