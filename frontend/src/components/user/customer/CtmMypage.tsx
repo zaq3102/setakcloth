@@ -39,7 +39,6 @@ import { LOGOUT } from '../../../store/actions/types/types';
 
 const CtmMypage = () => {
   const [clean, setClean] = useState<number>(0);
-  const [point, setPoint] = useState<number>(12340);
 
   // 로컬 저장 값
   const [userInfo, setUserInfo] = useState('');
@@ -131,6 +130,7 @@ const CtmMypage = () => {
         `${result?.data?.userInfo?.addr} ${result?.data?.userInfo?.addrDetail}`
       );
       setmynickname(result?.data?.userInfo?.nickName);
+      setClean(result?.data?.userInfo?.balance);
     } else {
       navigate('/error');
     }
@@ -141,7 +141,11 @@ const CtmMypage = () => {
   };
 
   const chargeAmountChange = (event) => {
-    setchargeAmount(event.target.value.trim());
+    if (event.target.value.trim() < 0) {
+      setchargeAmount(0);
+    } else {
+      setchargeAmount(event.target.value.trim());
+    }
   };
 
   const getMyReviews = async () => {
@@ -330,20 +334,33 @@ const CtmMypage = () => {
   // 충전 로직
   const handleCharge = async () => {
     const check = await unlockAccount(userInfo.wallet, walletPassword);
-    console.log(check);
     if (!check) {
-      alert('잘못된 비밀번호입니다');
+      alert('잘못된 비밀번호입니다.');
+      setWalletPassword('');
     } else {
       const send = await chargeClean(userInfo.wallet, chargeAmount);
-      console.log(send);
+      if (!send) {
+        navigate('/error');
+        return;
+      }
       const balance = await getBalance(userInfo.wallet);
+      if (!balance) {
+        navigate('/error');
+        return;
+      }
       const balanceInfo = {
         balance
       };
-      await balanceUpdate(balanceInfo);
-      await getMypage();
+      const result = await balanceUpdate(balanceInfo);
+      if (!result) {
+        navigate('/error');
+        return;
+      }
+      setClean(balance);
       alert('충전이 완료되었습니다.');
-      handleClose(3);
+      setWalletPassword('');
+      setchargeAmount(0);
+      handleClose(4);
     }
   };
 
@@ -373,9 +390,7 @@ const CtmMypage = () => {
         </div>
         <div className="ctm-mypage-left-bottom">
           <div className="ctm-mypage-left-bottom-content">
-            <div className="ctm-mypage-left-bottom-clean">
-              {userInfo.balance}클린
-            </div>
+            <div className="ctm-mypage-left-bottom-clean">{clean} 클린</div>
             <div className="ctm-mypage-left-bottom-id">
               {userInfo.userEmail}
             </div>
