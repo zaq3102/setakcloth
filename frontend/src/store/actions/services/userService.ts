@@ -234,10 +234,30 @@ export const signupCeoKakao = async (dataToSubmit) => {
   }
 };
 
-//클린 잔고 업데이트
+// 클린 잔고 업데이트
 export const balanceUpdate = async (dataToSubmit) => {
   try {
     const payload = await requestAuth.post('/user/balance', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 정보 수정 (비밀번호, 닉네임)
+export const changeCtmInfo = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post('/user/update', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 탈퇴
+export const deleteUser = async () => {
+  try {
+    const payload = await requestAuth.post('/user/delete');
     return payload;
   } catch (err) {
     return err;

@@ -102,6 +102,11 @@ const Login: React.FC = () => {
         onChange={emailChange}
         autoFocus
         sx={{ width: 300 }}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            handleSubmit();
+          }
+        }}
       />
       <FormHelperText error={!!email && !isEmailValid}>
         {email ? (isEmailValid ? '' : '유효하지 않은 이메일 형식입니다.') : ''}
