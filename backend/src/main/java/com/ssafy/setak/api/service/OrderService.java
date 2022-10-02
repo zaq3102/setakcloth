@@ -198,7 +198,7 @@ public class OrderService {
         }
 
         if(orderDetail != null){
-            switch(orderInfo.getState()){
+            switch(orderDetail.getOrder().getState()){
                 case 0:
                     if(value != null){
                         orderDetail.setBlockAddr1(value);
@@ -207,11 +207,6 @@ public class OrderService {
                 case 1:
                     if(value != null){
                         orderDetail.setBlockAddr2(value);
-                    }
-                    break;
-                case 2:
-                    if(value != null){
-                        orderDetail.setBlockAddr3(value);
                     }
                     break;
             }
