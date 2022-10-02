@@ -54,9 +54,14 @@ dependencies {
 
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.5.2'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.0.RELEASE';
+
 	//web3j
 	implementation 'org.web3j:web3j-spring-boot-starter:1.6.0'
 	implementation 'org.web3j:core:4.9.4'
+
+	
+
 }
 
 tasks.named('test') {

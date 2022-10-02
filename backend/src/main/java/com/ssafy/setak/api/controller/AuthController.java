@@ -9,6 +9,7 @@ import com.ssafy.setak.common.util.CookieUtil;
 import com.ssafy.setak.db.entity.User;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +40,9 @@ public class AuthController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    @Value("${client.url}")
+    private String clientUrl;
+
     @GetMapping("/login/kakao")
     @ApiOperation(value = "고객 카카오 로그인", notes = "고객 카카오 로그인을 한다.")
     @ApiResponses({
@@ -49,7 +53,7 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> userKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/userlogin");
             User user = null;
 
             try {
@@ -172,11 +176,11 @@ public class AuthController {
     })
     public ResponseEntity<? extends AuthRes> ceoKakaoLogin(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl + "/kakao/ceologin");
             User user = null;
 
             try {
-                user = userService.getUserByUserEmail(kakaoEmail);
+                user = userService.getUserByCeoEmail(kakaoEmail);
             } catch (Exception e) {
                 return ResponseEntity.status(409).body(AuthRes.of(409, "존재하지 않는 회원입니다.", null, false, -1l));
             }

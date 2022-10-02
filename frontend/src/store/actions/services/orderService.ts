@@ -59,3 +59,16 @@ export const getOrderRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 주문 상세 변경
+export const changeState = async (dataToSubmit, orderDetailId) => {
+  try {
+    const payload = await requestAuth.post(
+      `/order/laundry/detail/${orderDetailId}/update`,
+      dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

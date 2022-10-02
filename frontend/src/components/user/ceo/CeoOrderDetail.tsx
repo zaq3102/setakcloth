@@ -8,7 +8,7 @@ const CeoOrderDetail: React.FC = () => {
   const navigate = useNavigate();
   const ImageShow = useRef<HTMLDivElement>();
   const ImageInput = useRef<HTMLInputElement>();
-  const [currentMode, setCurrentMode] = useState(0);
+  const [currentState, setCurrentState] = useState(0);
   const { orderNum } = useParams();
   const [orderInfo, setOrderInfo] = useState([]);
 
@@ -18,8 +18,9 @@ const CeoOrderDetail: React.FC = () => {
     const result = await getOrderRequest(orderNum);
     if (result?.data) {
       setOrderInfo(result?.data);
+      setCurrentState(result?.data?.state);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
@@ -48,12 +49,10 @@ const CeoOrderDetail: React.FC = () => {
     console.log('이미지 저장 완료');
   };
 
-  const handleSave = () => {
-    navigate('/ceo');
-  };
+  const handleSave = () => {};
 
   const handleNext = () => {
-    navigate('/ceo');
+    setCurrentState(currentState + 1);
   };
 
   const handleCancel = () => {
@@ -129,7 +128,7 @@ const CeoOrderDetail: React.FC = () => {
         </div>
       </div>
       <div className="ceo-order-mode">
-        <Stepper activeStep={currentMode}>
+        <Stepper activeStep={currentState}>
           {modes.map((mode) => (
             <Step key={mode}>
               <StepLabel>{mode}</StepLabel>

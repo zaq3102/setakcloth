@@ -15,7 +15,14 @@ import {
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
-import Web3 from 'web3';
+import { createWalletWe3 } from '../../store/actions/services/walletService';
+
+// import Web3 from 'web3';
+const Web3 = require('web3');
+
+export const web3 = new Web3(
+  new Web3.providers.HttpProvider(`${process.env.REACT_APP_ETH_URL}`)
+);
 
 const Signup: React.FC = () => {
   const [mode, setMode] = useState('customer');
@@ -118,7 +125,7 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    let userInfo = {
+    const userInfo = {
       email,
       pwd,
       walletAddr
@@ -141,15 +148,30 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
-    var web3 = new Web3('ws://127.0.0.1:8545');
+    const result = await createWalletWe3(walletpassword);
+    setWalletAddr(result);
+    setIsWalletCreated(true);
+    alert('지갑이 생성되었습니다!');
+  };
 
-    let userAccount = web3.eth.personal
-      .newAccount(walletpassword)
-      .then((res) => {
-        setWalletAddr(res);
-        setIsWalletCreated(true);
-        alert('지갑이 생성되었습니다!');
-      });
+  // const getMyWallet = async () => {
+  //   const result = await getBalance(
+  //     '0x71D46EEBCD8eD64BDA37e4D5532427c1881f2E34'
+  //   );
+  //   console.log(result);
+  //   // if (result?.data?.userInfo) {
+  //   //   setUserInfo(result?.data?.userInfo);
+  //   // } else {
+  //   //   console.log('error');
+  //   // }
+  // };
+
+  const kakaoUserSignUpHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/usersignup`;
+  };
+
+  const kakaoCeoSignUpHandler = () => {
+    window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/ceosignup`;
   };
 
   return (
@@ -245,6 +267,17 @@ const Signup: React.FC = () => {
                 !tosCheck
               }>
               다음
+            </button>
+          </div>
+          <div>
+            <button className="w-12" onClick={kakaoUserSignUpHandler}>
+              <img alt="카카오 고객 회원 가입" className="kakao object-fill" />
+            </button>
+            <button className="w-12" onClick={kakaoCeoSignUpHandler}>
+              <img
+                alt="카카오 사장님 회원 가입"
+                className="kakao object-fill"
+              />
             </button>
           </div>
         </div>

@@ -1,10 +1,7 @@
 package com.ssafy.setak.api.controller;
 
 import com.ssafy.setak.api.request.*;
-import com.ssafy.setak.api.response.FavoriteGetRes;
-import com.ssafy.setak.api.response.KakaoEmailRes;
-import com.ssafy.setak.api.response.UserGetRes;
-import com.ssafy.setak.api.response.UserPostRes;
+import com.ssafy.setak.api.response.*;
 import com.ssafy.setak.api.service.JwtService;
 import com.ssafy.setak.api.service.KakaoService;
 import com.ssafy.setak.api.service.UserService;
@@ -17,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +34,9 @@ public class UserController {
 
     @Autowired
     JwtService jwtService;
+
+    @Value("${client.url}")
+    private String clientUrl;
 
     @PostMapping("/signup")
     @ApiOperation(value = "고객 일반 회원 가입", notes = "고객 일반 회원 가입")
@@ -84,7 +85,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/usersignup");
             if (userService.existsByUserEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
 
@@ -107,7 +108,7 @@ public class UserController {
     })
     public ResponseEntity<? extends BaseResponseBody> getCeoKakaoEmail(@RequestParam String code, HttpServletResponse response) {
         try {
-            String kakaoEmail = kakaoService.getKakaoEmail(code);
+            String kakaoEmail = kakaoService.getKakaoEmail(code, clientUrl+"/kakao/ceosignup");
             if (userService.existsByCeoEmail(kakaoEmail)) {
                 return ResponseEntity.status(409).body(BaseResponseBody.of(409, "이미 존재 하는 아이디입니다."));
             } else {
@@ -356,4 +357,66 @@ public class UserController {
             return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회"));
         }
     }
+
+    @PostMapping("/favorite/search")
+    @ApiOperation(value = "즐겨찾기 여부 조회", notes = "즐겨찾기 여부  조회")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Create"),
+
+            @ApiResponse(code = 500, message = "즐겨찾기 여부 조회실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> searchFavorites(@RequestBody AddFavoriteReq favorite) {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            boolean state =userService.sarchFavorite(userId, favorite.getLaundryId());
+            return ResponseEntity.status(201).body(FavoriteSearchRes.of(201, "Create",state));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
+        }
+    }
+
+
+    @PostMapping("/blance")
+    @ApiOperation(value = "잔고 업데이트", notes = "잔고 업데이트")
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "Create"),
+
+            @ApiResponse(code = 500, message = "잔고 업데이트 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> updateBalance(@RequestBody UserBalanceReq balanceInfo) {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            userService.updateBalance(userId,balanceInfo);
+            return ResponseEntity.status(201).body(BaseResponseBody.of(201, "Create"));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
+        }
+    }
+
+    @GetMapping("/blance")
+    @ApiOperation(value = "잔고 받기", notes = "잔고 받기")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+
+            @ApiResponse(code = 500, message = "잔고 받기 실패")
+    })
+    public ResponseEntity<? extends BaseResponseBody> getBalance() {
+
+        try {
+            Long userId = jwtService.getUserId();
+
+            float balance =userService.getBalance(userId);
+            return ResponseEntity.status(200).body(UserBalanceRes.of(200,"Create",balance));
+
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(BaseResponseBody.of(500, "즐겨 찾기 조회 실패"));
+        }
+    }
 }
+

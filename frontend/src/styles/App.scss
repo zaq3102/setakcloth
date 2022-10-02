@@ -9,43 +9,44 @@ $color5: #e0ebf5;
   text-align: center;
 }
 
-.Navigation {
-  background-color: $color4;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  font-size: calc(8px + 2vmin);
-  color: $color1;
-}
-
 .logo {
   display: flex;
   align-items: center;
 }
 
 .logo-img {
-  margin-left: 2vh;
-  margin-right: 1vh;
-  height: 8vh;
+  height: 5vh;
 }
 
 .logo-text {
-  font-size: xx-large;
+  width: 15vh;
 }
 
 .Header {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  margin-top: 2vh;
-  margin-right: 2vh;
-  height: 5vh;
+  flex-direction: row;
+  height: 7vh;
+  justify-content: space-between;
 }
 
-.Header-Left {
-  margin-right: 5px;
+.Logo-Space {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 3vh;
+}
+
+.Login-Space {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1vh;
+  margin-top: 1vh;
+  margin-bottom: 1vh;
+}
+
+.Profile-Img {
+  width: 50px;
 }
 
 .homepage-img {

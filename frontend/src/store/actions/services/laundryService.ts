@@ -31,6 +31,16 @@ export const LaundryScoreRequest = async () => {
   }
 };
 
+// 세탁소 5개 조회 (최신 순)
+export const LaundryLatestRequest = async () => {
+  try {
+    const payload = await requestAuth.get('/laundry/latest');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
 // 세탁소 등록
 export const LaundryRegistRequest = async (dataToSubmit) => {
   try {

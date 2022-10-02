@@ -5,8 +5,7 @@ import store from '../../..';
  * 인증 필요없는 Axios
  */
 export const request = axios.create({
-  baseURL: 'https://j7a706.p.ssafy.io:8080/',
-  // baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 
@@ -24,8 +23,7 @@ request.interceptors.response.use(
  * 인증 필요한 Axios
  */
 export const requestAuth = axios.create({
-  baseURL: 'https://j7a706.p.ssafy.io:8080/',
-  // baseURL: process.env.REACT_APP_SERVER_URL,
+  baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true
 });
 
@@ -52,11 +50,14 @@ requestAuth.interceptors.response.use(
     return response;
   },
   async (error) => {
-    const result = error.config;
+    const result = error.response;
 
     // 로그아웃
 
     // 로직 구현하기
+    if (result?.data?.statusCode === 500) {
+      window.location.replace('/banned');
+    }
 
     // .catch() 로 이어진다.
     return Promise.reject(error);
