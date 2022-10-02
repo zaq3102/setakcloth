@@ -196,15 +196,27 @@ public class UserController {
     public ResponseEntity<? extends UserPostRes> updateUser(@RequestBody UserUpdateReq userInfo) {
         try {
             Long userId = jwtService.getUserId();
-            //Long userId = 1l;
             User user = userService.getUserByUserId(userId);
 
-            if (userService.existsBynickName(userInfo.getNickName())) {
-                return ResponseEntity.status(409).body(UserPostRes.of(409, "중복된 닉네임", user.getId()));
+            String nickName = userInfo.getNickName();
+            String pwd = userInfo.getPwd();
+
+            if (nickName != null) {
+                if (userService.existsBynickName(nickName)) {
+                    return ResponseEntity.status(409).body(UserPostRes.of(409, "중복된 닉네임", user.getId()));
+                }
+                userService.updateUserNickName(user, nickName);
+                return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
             }
 
-            userService.updateUser(user, userInfo);
-            return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+            if (pwd != null) {
+                userService.updateUserPwd(user, pwd);
+                return ResponseEntity.status(201).body(UserPostRes.of(201, "Created", user.getId()));
+            }
+
+            return ResponseEntity.status(500).body(
+                    UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)
+            );
         } catch (Exception e) {
             return ResponseEntity.status(500).body(
                     UserPostRes.of(500, "고객 회원 정보 수정 실패", -1l)

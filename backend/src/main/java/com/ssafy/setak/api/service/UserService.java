@@ -2,6 +2,7 @@ package com.ssafy.setak.api.service;
 
 import com.ssafy.setak.api.request.*;
 import com.ssafy.setak.api.response.FavoriteGetRes;
+import com.ssafy.setak.common.util.UserUtil;
 import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.FavoriteRepository;
 import com.ssafy.setak.db.repository.LaundryRepository;
@@ -25,14 +26,18 @@ public class UserService {
     @Autowired
     private FavoriteRepository favoriteRepository;
 
+    @Autowired
+    private UserUtil userUtil;
 
     @Autowired
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
         Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
+        user.setNickName(newName);
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
@@ -46,8 +51,10 @@ public class UserService {
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
         Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
+        user.setNickName(newName);
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
         user.setSocial(true);
@@ -60,8 +67,6 @@ public class UserService {
 
     public User getUserByUserId(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
-
-
         return user;
     }
 
@@ -117,7 +122,6 @@ public class UserService {
         user.setAddress(address);
         userRepository.save(user);
         return user;
-
     }
 
     public boolean existsByCeoEmail(String Email) {
@@ -139,9 +143,7 @@ public class UserService {
     }
 
     public void updateCeoUser(User user, CeoUserUpdateReq userInfo) {
-
         user.setPwd(passwordEncoder.encode(userInfo.getPwd()));
-
         userRepository.save(user);
     }
 
@@ -152,7 +154,6 @@ public class UserService {
         favorite.setUser(user);
         favorite.setLaundry(laundry);
         favoriteRepository.save(favorite);
-
     }
 
 
@@ -162,32 +163,32 @@ public class UserService {
     }
 
     public void deleteFavorite(Long userId, AddFavoriteReq favoriteInfo) {
-
-
         Favorite favorite = favoriteRepository.findByUserIdAndLaundryId(userId,favoriteInfo.getLaundryId());
-
         favoriteRepository.delete(favorite);
-
-
-
-
     }
 
     public Boolean sarchFavorite(Long userId, Long laundryId) {
         return favoriteRepository.existsByUserIdAndLaundryId(userId,laundryId);
-
-
     }
 
     public void updateBalance(Long userId, UserBalanceReq balanceInfo) {
         User user = userRepository.findById(userId).orElse(null);
         user.setBalance(balanceInfo.getBalance());
         userRepository.save(user);
-
     }
 
     public float getBalance(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         return user.getBalance();
+    }
+
+    public void updateUserNickName(User user, String nickName) {
+        user.setNickName(nickName);
+        userRepository.save(user);
+    }
+
+    public void updateUserPwd(User user, String pwd) {
+        user.setPwd(passwordEncoder.encode(pwd));
+        userRepository.save(user);
     }
 }
