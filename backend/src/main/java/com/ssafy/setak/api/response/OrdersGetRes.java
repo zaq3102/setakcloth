@@ -28,7 +28,7 @@ public class OrdersGetRes extends BaseResponseBody {
     public void setOrders(List<Order> orderList) {
         orders = new ArrayList<>();
         for (Order order : orderList) {
-            orders.add(OrderGetRes.of(200, "Success", order));
+            orders.add(OrderGetRes.of(order));
         }
     }
 }
