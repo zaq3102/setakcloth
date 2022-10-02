@@ -33,7 +33,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
-        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
         String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
-        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
         String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
@@ -92,6 +92,14 @@ public class UserService {
 
     public void deleteUser(User user) {
         user.setWithdrawn(true);
+
+        String userEmail = user.getUserEmail();
+        String ceoEmail = user.getCeoEmail();
+        if (userEmail != null) {
+            user.setUserEmail(userEmail + "withdrawn" + user.getId());
+        } else if (ceoEmail != null) {
+            user.setCeoEmail(ceoEmail + "withdrawn" + user.getId());
+        }
         userRepository.save(user);
     }
 
@@ -110,7 +118,7 @@ public class UserService {
     }
 
     public User createCeoUser(UserRegisterReq userInfo) {
-        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
         User user = new User();
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
@@ -130,7 +138,7 @@ public class UserService {
 
     public User createCeoKakaoUser(KakaoUserRegisterReq userInfo) {
         User user = new User();
-        Address address = new Address("서울시 강남구" , "역상동 멀티캠퍼스" , (float) 37.5015, (float)127.0396 );
+        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
@@ -163,12 +171,12 @@ public class UserService {
     }
 
     public void deleteFavorite(Long userId, AddFavoriteReq favoriteInfo) {
-        Favorite favorite = favoriteRepository.findByUserIdAndLaundryId(userId,favoriteInfo.getLaundryId());
+        Favorite favorite = favoriteRepository.findByUserIdAndLaundryId(userId, favoriteInfo.getLaundryId());
         favoriteRepository.delete(favorite);
     }
 
     public Boolean sarchFavorite(Long userId, Long laundryId) {
-        return favoriteRepository.existsByUserIdAndLaundryId(userId,laundryId);
+        return favoriteRepository.existsByUserIdAndLaundryId(userId, laundryId);
     }
 
     public void updateBalance(Long userId, UserBalanceReq balanceInfo) {
