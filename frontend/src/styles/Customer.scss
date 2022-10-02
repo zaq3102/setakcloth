@@ -15,12 +15,21 @@ $color5: #e0ebf5;
 }
 
 .item-title {
-    font-size: x-large;
+    font-size: large;
 }
 
-.item-content>div {
+.item-title-area{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.item-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     line-height: 30px;
-    font-size: medium;
+    font-size: small;
 }
 
 #select {
@@ -45,7 +54,6 @@ $color5: #e0ebf5;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-top: 24px;
 }
 
 .MuiCardContent-root {
@@ -75,8 +83,6 @@ $color5: #e0ebf5;
 .item-text {
     font-size: large;
 }
-
-.rightdiv-button {}
 
 .orderinfo-button {
     padding: 10px;
@@ -234,96 +240,22 @@ $color5: #e0ebf5;
 
 // customer/CtmHome.tsx
 .ctm-home {
+    margin-bottom: 1vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: start;
-    margin-left: 10vh;
+    background-color: #1e3e5c;
+    color: white;
 }
 
-.tolist-Btn-Group {
+.select-area{
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-a.toListBtn {
-    text-decoration: none;
-    -webkit-transition: 0.3s all ease;
-    transition: 0.3s ease all;
-
-    &:hover {
-        color: #FFF;
-    }
-
-    &:focus {
-        color: #FFF;
-    }
-}
-
-
-.toListBtn {
-    margin-left: 1vh;
-    margin-right: 1vh;
-    font-size: 2vh;
-    letter-spacing: 0.5vh;
-    display: inline-block;
-    text-align: center;
-    width: 20%;
-    padding: 14px 0px;
-    border-radius: 2px;
-    position: relative;
-
-    &:before {
-        -webkit-transition: 0.5s all ease;
-        transition: 0.5s all ease;
-        position: absolute;
-        top: 0;
-        left: 50%;
-        right: 50%;
-        bottom: 0;
-        opacity: 0;
-        content: '';
-        background-color: $color1;
-        z-index: -2;
-    }
-
-    &:hover {
-        &:before {
-            -webkit-transition: 0.5s all ease;
-            transition: 0.5s all ease;
-            left: 0;
-            right: 0;
-            opacity: 1;
-        }
-    }
-
-    &:focus {
-        &:before {
-            transition: 0.5s all ease;
-            left: 0;
-            right: 0;
-            opacity: 1;
-        }
-    }
-}
-
-.list-buttons {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 
-.list-button-tag-set {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.button-tag-text {
-    font-size: x-large;
-    color: black;
+.select{
+    width: 12vh;
 }
 
 .ctm-address-area {
@@ -331,31 +263,29 @@ a.toListBtn {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    margin: 0.5vh;
+}
+
+.css-6od3lo-MuiChip-label{
+    padding: 0.5vh !important;
 }
 
 .my-address-content{
     margin-left: 1vh;
-    font-size: medium;
+    font-size: small;
 }
 
-.laundry-list-img {
-    width: 43%;
+#cardImg{
+    border-radius: 1vh;
+    width: 15vh;
+    height: 15vh;
 }
 
-.list-buttons-up {
-    display: flex;
-    flex-direction: row;
+#laundryBox{
+    margin: 1vh;
+    margin-left: 3vh;
 }
 
-.list-buttons-down {
-    display: flex;
-    flex-direction: row;
-}
-
-.modify-btn-img {
-    width: 5vh;
-
-}
 
 //CtmMypage.tsx
 .ctm-my-page {
