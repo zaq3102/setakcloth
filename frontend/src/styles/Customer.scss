@@ -15,7 +15,7 @@ $color5: #e0ebf5;
 }
 
 .item-title {
-    font-size: large;
+    margin-right: 1vh;
 }
 
 .item-title-area{
@@ -28,7 +28,7 @@ $color5: #e0ebf5;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    line-height: 30px;
+    align-items: center;
     font-size: small;
 }
 
@@ -36,13 +36,12 @@ $color5: #e0ebf5;
     min-width: 180px;
 }
 
-#cardImg {
-    width: 150px;
-}
-
 #laundryCard {
     display: flex;
-    height: 170px;
+    justify-content:space-around;
+    align-items: center;
+    width: 60vh;
+    height: 15vh;
 }
 
 #laundryCard:hover {
@@ -270,15 +269,26 @@ $color5: #e0ebf5;
     padding: 0.5vh !important;
 }
 
+.my-address-title{
+    margin-left: 1vh;
+}
+
 .my-address-content{
     margin-left: 1vh;
     font-size: small;
 }
 
+.latest-list-area{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
 #cardImg{
     border-radius: 1vh;
-    width: 15vh;
-    height: 15vh;
+    width: 13vh;
+    height: 13vh;
 }
 
 #laundryBox{
@@ -286,6 +296,14 @@ $color5: #e0ebf5;
     margin-left: 3vh;
 }
 
+.laundry-location{
+    margin-top: 1vh;
+    margin-bottom: 2vh;
+}
+
+.delivery-chip{
+    margin-right: 1vh;
+}
 
 //CtmMypage.tsx
 .ctm-mypage {
