@@ -22,14 +22,15 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
+import { Box } from '@mui/system';
 import '../../../styles/Customer.scss';
+
 import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
 import {
   changeAddrRequest,
   getLocationxyRequest,
   InfoRequest
 } from '../../../store/actions/services/userService';
-import { Box } from '@mui/system';
 
 declare global {
   interface Window {
@@ -62,7 +63,7 @@ const CtmHome: React.FC = (props) => {
   };
 
   const onclicklaundry = (value: number) => {
-    navigate(`../${value}`);
+    navigate(`./${value}`);
   };
 
   const getLatestLaundry = async () => {
@@ -126,7 +127,7 @@ const CtmHome: React.FC = (props) => {
       <div className="ctm-home">
         <div className="ctm-address-area">
           <div className="my-address-title">
-            <Chip color="color5" label="우리 집" variant="outlined" />
+            <Chip color="color5" label="우리집" variant="outlined" />
           </div>
           <div className="my-address-content">{myaddress}</div>
           <div className="address-modify-btn">
@@ -180,13 +181,14 @@ const CtmHome: React.FC = (props) => {
       </div>
 
       {/* 최신 세탁소 5개 리스트 */}
-      <div>
+      <div className="latest-list-area">
         {latestLaundry.map((item) => (
           <Card
             key={item.laundryId}
             id="laundryCard"
             sx={{ padding: 1, margin: 1 }}
-            onClick={() => onclicklaundry(item.laundryId)}>
+            onClick={() => onclicklaundry(item.laundryId)}
+            elevation="1">
             <CardMedia
               id="cardImg"
               component="img"
@@ -195,9 +197,9 @@ const CtmHome: React.FC = (props) => {
             {/* image={item.imgUrl} /> */}
             <CardContent id="laundryBox">
               <div className="item-title-area">
-                <Typography variant="h3" className="item-title">
-                  {item.laundryName}
-                </Typography>
+                <div className="item-title">
+                  <Typography variant="h3">{item.laundryName}</Typography>
+                </div>
                 <Rating
                   name="text-feedback"
                   value={item.score}
@@ -212,9 +214,11 @@ const CtmHome: React.FC = (props) => {
               </div>
               <div className="item-content">
                 <div className="item-content-left">
-                  <Typography variant="h6">
-                    {item.addr} {item.addrDetail}
-                  </Typography>
+                  <div className="laundry-location">
+                    <Typography variant="h6">
+                      {item.addr} {item.addrDetail}
+                    </Typography>
+                  </div>
                   <Typography variant="h6">
                     최소 이용금액 : {item.minCost}원
                   </Typography>
@@ -226,9 +230,10 @@ const CtmHome: React.FC = (props) => {
                   <div className="item-chips">
                     {item.deliver ? (
                       <Chip
+                        className="delivery-chip"
                         label="배달"
                         size="small"
-                        color="color2"
+                        color="color1"
                         variant="outlined"
                       />
                     ) : null}
@@ -236,7 +241,7 @@ const CtmHome: React.FC = (props) => {
                       <Chip
                         label="수거"
                         size="small"
-                        color="color3"
+                        color="default"
                         variant="outlined"
                       />
                     ) : null}
