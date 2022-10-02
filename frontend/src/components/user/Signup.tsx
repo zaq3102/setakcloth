@@ -7,11 +7,13 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { debounce } from 'lodash';
 import {
   checkEmailRequest,
+  signupCeoKakao,
   signupCeoRequest,
+  signupCtmKakao,
   signupRequest
 } from '../../store/actions/services/userService';
 import TOS from './TOS';
@@ -33,6 +35,7 @@ const Signup: React.FC = () => {
   const [walletpasswordCheck, setWalletPasswordCheck] = useState('');
   const [tosCheck, setTosCheck] = useState(false);
   const [page, setPage] = useState(1);
+  const { state } = useLocation();
 
   const navigate = useNavigate();
 
@@ -40,7 +43,6 @@ const Signup: React.FC = () => {
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
   const [isPwdValid, setIsPwdValid] = useState(false);
   const [isPwdSame, setIsPwdSame] = useState(false);
-  const [isWalletPwdValid, setIsWalletPwdValid] = useState(false);
   const [isWalletPwdSame, setIsWalletPwdSame] = useState(false);
   const [isWalletCreated, setIsWalletCreated] = useState(false);
 
@@ -49,13 +51,23 @@ const Signup: React.FC = () => {
 
   // 지갑 주소
   const [walletAddr, setWalletAddr] = useState(false);
+  const [walletClicked, setWalletClicked] = useState(false);
 
   useEffect(() => {
-    // console.log('컴포넌트가 화면에 나타남');
-    setEmailChecked(false);
-    return () => {
-      // console.log('컴포넌트가 화면에서 사라짐');
-    };
+    if (state?.url === 'usersignup') {
+      setMode('customer');
+      setEmail(state?.kakaoemail);
+      setPage(2);
+    } else if (state?.url === 'ceosignup') {
+      setMode('ceo');
+      setEmail(state?.kakaoemail);
+      setPage(2);
+    } else {
+      setEmailChecked(false);
+    }
+    // return () => {
+    // console.log('컴포넌트가 화면에서 사라짐');
+    // };
   }, [email]);
 
   const debounceFunc = debounce(async (value, request, setState) => {
@@ -125,18 +137,32 @@ const Signup: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    const userInfo = {
-      email,
-      pwd,
-      walletAddr
-    };
-    console.log(userInfo);
-
+    let userInfo = {};
+    if (pwd) {
+      userInfo = {
+        email,
+        pwd,
+        walletAddr
+      };
+    } else {
+      userInfo = {
+        email,
+        walletAddr
+      };
+    }
     let result = '';
     if (mode === 'customer') {
-      result = await signupRequest(userInfo);
+      if (pwd) {
+        result = await signupRequest(userInfo);
+      } else {
+        result = await signupCtmKakao(userInfo);
+      }
     } else if (mode === 'ceo') {
-      result = await signupCeoRequest(userInfo);
+      if (pwd) {
+        result = await signupCeoRequest(userInfo);
+      } else {
+        result = await signupCeoKakao(userInfo);
+      }
     }
 
     if (result?.data?.message === 'Created') {
@@ -148,6 +174,7 @@ const Signup: React.FC = () => {
   };
 
   const createWallet = async () => {
+    setWalletClicked(true);
     const result = await createWalletWe3(walletpassword);
     setWalletAddr(result);
     setIsWalletCreated(true);
@@ -294,11 +321,6 @@ const Signup: React.FC = () => {
             onChange={walletpasswordChange}
             sx={{ width: 300 }}
           />
-          <FormHelperText error={!!walletpassword && !isWalletPwdValid}>
-            {isWalletPwdValid
-              ? '안전한 비밀번호입니다.'
-              : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'}
-          </FormHelperText>
           <TextField
             margin="normal"
             required
@@ -309,20 +331,22 @@ const Signup: React.FC = () => {
             onChange={walletpasswordCheckChange}
             sx={{ width: 300 }}
           />
-          <FormHelperText error={!!walletpasswordCheck && !isWalletPwdSame}>
+          <FormHelperText error={!isWalletPwdSame}>
             {!walletpasswordCheck || isWalletPwdSame
               ? ' '
               : '비밀번호가 일치하지 않습니다.'}
           </FormHelperText>
           <div>
             <p>
-              ⭐️지갑 비밀번호는 서비스 내에서 저장하지 않습니다. 잊어버리시는
+              ⭐️ 지갑 비밀번호는 서비스 내에서 저장하지 않습니다. 잊어버리시는
               경우 찾을 수 없으니 유의하여 기억해두시길 바랍니다. ⭐️
             </p>
             <Button
               variant="contained"
               onClick={createWallet}
-              disabled={!walletpasswordCheck || !isWalletPwdSame}>
+              disabled={
+                !walletpasswordCheck || !isWalletPwdSame || walletClicked
+              }>
               생성
             </Button>
           </div>

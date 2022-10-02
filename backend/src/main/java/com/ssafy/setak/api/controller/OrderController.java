@@ -246,4 +246,35 @@ public class OrderController {
         }
     }
 
+
+    @GetMapping("/walletaddr/{order_id}")
+    @ApiOperation(value = "주문 지갑조회", notes = "주문 지갑조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "주문 지갑조회"),
+            @ApiResponse(code = 404, message = "주문 지갑조회")
+    })
+    public ResponseEntity<? extends BaseResponseBody> GetOrderAddr(@PathVariable("order_id") String Id) {
+        try {
+            Long OrderId = Long.parseLong(Id);
+            Order order =orderService.selectOrder(OrderId);
+            if (order == null) {
+                return ResponseEntity.status(404).body(
+                        BaseResponseBody.of(404, "세탁소 조회 실패")
+                );
+
+            }
+
+
+            return ResponseEntity.status(200).body(
+                    OrderAddrRes.of(200, "Success", order)
+            );
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseEntity.status(500).body(
+                    BaseResponseBody.of(500, "세탁소 리뷰 조회 실패")
+            );
+        }
+    }
+
 }

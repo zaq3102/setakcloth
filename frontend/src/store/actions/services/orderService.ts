@@ -60,12 +60,35 @@ export const getOrderRequest = async (dataToSubmit) => {
   }
 };
 
+//고객 지갑주소 가져오기
+export const getFromAddrRequest = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.get(`order/walletaddr/${dataToSubmit}`);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
 // 주문 상세 변경
 export const changeState = async (dataToSubmit, orderDetailId) => {
   try {
     const payload = await requestAuth.post(
       `/order/laundry/detail/${orderDetailId}/update`,
       dataToSubmit
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 리뷰 등록
+export const registReview = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(
+      `/order/${data1}/review/create`,
+      data2
     );
     return payload;
   } catch (err) {

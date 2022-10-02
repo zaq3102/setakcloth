@@ -5,8 +5,6 @@ import {
   LOGIN_CEO,
   LOGIN_CTM_KAKAO,
   LOGIN_CEO_KAKAO,
-  SOCIAL_LOGIN_CTM,
-  SOCIAL_LOGIN_CEO,
   LOGOUT
 } from '../types/types';
 
@@ -197,10 +195,7 @@ export const isLike = async (dataToSubmit) => {
 // 고객 카카오 이메일 받아오기
 export const getCtmKakaoEmail = async (dataToSubmit) => {
   try {
-    const payload = await request.get(
-      `/user/kakao/email?code=${dataToSubmit}`,
-      dataToSubmit
-    );
+    const payload = await request.get(`/user/kakao/email?code=${dataToSubmit}`);
     return payload;
   } catch (err) {
     return err;
@@ -211,8 +206,7 @@ export const getCtmKakaoEmail = async (dataToSubmit) => {
 export const getCeoKakaoEmail = async (dataToSubmit) => {
   try {
     const payload = await request.get(
-      `/user/ceo/kakao/email?code=${dataToSubmit}`,
-      dataToSubmit
+      `/user/ceo/kakao/email?code=${dataToSubmit}`
     );
     return payload;
   } catch (err) {
@@ -240,10 +234,39 @@ export const signupCeoKakao = async (dataToSubmit) => {
   }
 };
 
-//클린 잔고 업데이트
+// 클린 잔고 업데이트
 export const balanceUpdate = async (dataToSubmit) => {
   try {
     const payload = await requestAuth.post('/user/balance', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+export const getBalance = async () => {
+  try {
+    const payload = await requestAuth.get('/user/balance');
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 정보 수정 (비밀번호, 닉네임)
+export const changeCtmInfo = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post('/user/update', dataToSubmit);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 고객 탈퇴
+export const deleteUser = async () => {
+  try {
+    const payload = await requestAuth.post('/user/delete');
     return payload;
   } catch (err) {
     return err;
