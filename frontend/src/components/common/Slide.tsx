@@ -7,8 +7,6 @@ import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 
 const images = [
-  '../assets/home.gif',
-  '../assets/Bubble.gif',
   'https://setakcloth.s3.ap-northeast-2.amazonaws.com/1.jpeg',
   'https://setakcloth.s3.ap-northeast-2.amazonaws.com/3.jpeg'
 ];

@@ -8,6 +8,60 @@ $color5: #e0ebf5;
 
 // Home.tsx
 .wrap{
+  
+}
+
+.banner{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  background-color: $color4;
+}
+
+.banner-title{
+  margin: 5vh;
+  align-self: center;
+}
+
+.banner-check{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.banner-img{
+  margin: 3vh;
+  width: 20vh;
+}
+
+.mockup{
+  margin-top: 6vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.mockup-title{
+  margin-right: 5vh;
+  align-self: center;
+}
+
+.mockup-check{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mockup-check-icon{
+  margin-right: 1vh;
+}
+
+.mockup-img{
+  width: 15vh;
 }
 
 .home-gif{
