@@ -6,10 +6,14 @@ import com.ssafy.setak.api.request.ReviewPostReq;
 import com.ssafy.setak.api.response.OrderDetailRes;
 import com.ssafy.setak.db.entity.*;
 import com.ssafy.setak.db.repository.*;
+import io.ipfs.api.IPFS;
+import io.ipfs.api.MerkleNode;
+import io.ipfs.api.NamedStreamable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.admin.methods.response.PersonalUnlockAccount;
@@ -17,7 +21,9 @@ import org.web3j.protocol.core.methods.request.Transaction;
 import org.web3j.protocol.core.methods.response.EthSendTransaction;
 import org.web3j.utils.Numeric;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,6 +47,9 @@ public class OrderService {
 
     @Autowired
     private Admin admin;
+
+    @Autowired
+    private IPFS ipfs;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -166,12 +175,12 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDetail updateOrderDetail(Long orderDetailId, Long userId, OrderDetailUpdateReq orderInfo){
+    public OrderDetail updateOrderDetail(Long orderDetailId, Long userId, List<MultipartFile> multipartFiles){
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if(orderDetail == null){
             return null;
         }
-        List<String> urls = orderInfo.getImgUrl();
+
         User user = userRepository.findById(userId).orElse(null);
         String userWalletAddr = user.getWalletAddr();
 
@@ -181,10 +190,16 @@ public class OrderService {
         try {
             PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
             if (personalUnlockAccount.accountUnlocked()) {
-                for (int i = 0; i < urls.size()-1; i++) {
-                    urlsString += (urls.get(i)  + ",");
+                for (int i = 0; i < multipartFiles.size(); i++) {
+                    InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
+
+                    NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
+                    MerkleNode response = ipfs.add(is).get(0);
+                    String url = response.hash.toBase58();
+                    urlsString += (url  + ",");
                 }
-                urlsString += urls.get(urls.size()-1);
+                urlsString = urlsString.substring(0, urlsString.length() - 1);
+
                 org.web3j.protocol.core.methods.request.Transaction transaction = Transaction.createEthCallTransaction(ADMIN_ADDRESS, userWalletAddr, Numeric.toHexString(urlsString.getBytes(StandardCharsets.UTF_8)));
                 EthSendTransaction ethCall = web3j.ethSendTransaction(transaction).sendAsync().get();
                 value = ethCall.getTransactionHash();
@@ -216,7 +231,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order updateOrderDelivered(Long orderId, Long userId, OrderDetailUpdateReq orderInfo){
+    public Order updateOrderDelivered(Long orderId, Long userId, List<MultipartFile> multipartFiles){
         Order order = orderRepository.findById(orderId).orElse(null);
         if(order == null){
             return null;
@@ -224,7 +239,6 @@ public class OrderService {
 
         List<OrderDetail> orderDetails = order.getOrderDetails();
 
-        List<String> urls = orderInfo.getImgUrl();
         User user = userRepository.findById(userId).orElse(null);
         String userWalletAddr = user.getWalletAddr();
 
@@ -234,10 +248,16 @@ public class OrderService {
         try {
             PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
             if (personalUnlockAccount.accountUnlocked()) {
-                for (int i = 0; i < urls.size()-1; i++) {
-                    urlsString += (urls.get(i)  + ",");
+                for (int i = 0; i < multipartFiles.size(); i++) {
+                    InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
+
+                    NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
+                    MerkleNode response = ipfs.add(is).get(0);
+                    String url = response.hash.toBase58();
+                    urlsString += (url  + ",");
                 }
-                urlsString += urls.get(urls.size()-1);
+                urlsString = urlsString.substring(0, urlsString.length() - 1);
+
                 org.web3j.protocol.core.methods.request.Transaction transaction = Transaction.createEthCallTransaction(ADMIN_ADDRESS, userWalletAddr, Numeric.toHexString(urlsString.getBytes(StandardCharsets.UTF_8)));
                 EthSendTransaction ethCall = web3j.ethSendTransaction(transaction).sendAsync().get();
                 value = ethCall.getTransactionHash();
