@@ -18,6 +18,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -131,9 +132,9 @@ public class OrderController {
             @ApiResponse(code = 500, message = "주문 상세 변경 (세탁전후 사진) 실패"),
             @ApiResponse(code = 404, message = "주문 상세 조회 (세탁전후 사진) 실패"),
     })
-    public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
+    public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestPart List<MultipartFile> multipartFiles) {
         Long userId = jwtService.getUserId();
-        OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, orderDetailInfo);
+        OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, multipartFiles);
         if(orderDetail != null){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else{
@@ -148,9 +149,9 @@ public class OrderController {
             @ApiResponse(code = 500, message = "주문 상세 변경 (배달) 실패"),
             @ApiResponse(code = 404, message = "주문 상세 조회 (배달) 실패"),
     })
-    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId, @RequestBody OrderDetailUpdateReq orderDetailInfo) {
+    public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId, @RequestPart List<MultipartFile> multipartFiles) {
         Long userId = jwtService.getUserId();
-        Order order = orderService.updateOrderDelivered(orderId, userId, orderDetailInfo);
+        Order order = orderService.updateOrderDelivered(orderId, userId, multipartFiles);
         if(order != null){
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         } else{
