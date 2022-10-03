@@ -74,7 +74,7 @@ const CtmLaundryDetail: React.FC = () => {
   };
   const getMybalance = async () => {
     const result = await getBalance();
-    if (result?.data?.balance) {
+    if (result?.data?.statusCode === 200) {
       setBalance(result?.data?.balance);
     } else {
       navigate('/error');
