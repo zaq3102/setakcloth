@@ -1,0 +1,27 @@
+.ceo-order-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ceo-order-detail-info {
+  width: 150vh;
+  height: 20vh;
+  margin: 1vh;
+  background-color: aquamarine;
+}
+
+.ceo-order-detail-state {
+  width: 150vh;
+  height: 15vh;
+  margin: 1vh;
+  background-color: palevioletred;
+}
+
+.ceo-order-detail-upload {
+  display: flex;
+  flex-direction: column;
+  width: 150vh;
+  height: 80vh;
+  background-color: blue;
+}

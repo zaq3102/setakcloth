@@ -35,12 +35,7 @@ const CtmOrderDetail: React.FC = () => {
     if (result?.data) {
       const data = result?.data;
       setOrder(data);
-      setWritable(
-        ((data.orderType === 'DELIVERY' && data.state === 3) ||
-          (data.orderType === 'PICKUP' && data.state === 2)) &&
-          !data.reviewContent &&
-          !data.reviewScore
-      );
+      setWritable(data.state === 3 && !data.reviewContent && !data.reviewScore);
     } else {
       navigate('/error');
     }
