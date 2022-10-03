@@ -1,6 +1,5 @@
 package com.ssafy.setak.api.controller;
 
-import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.api.response.*;
@@ -37,7 +36,7 @@ public class LaundryController {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 500, message = "세탁소 등록 실패")
     })
-    public ResponseEntity<?> createLaundry(@RequestBody LaundryCreateReq laundryInfo) {
+    public ResponseEntity<?> createLaundry(@RequestBody LaundryUpdateReq laundryInfo) {
         Long ceoUserId = jwtService.getUserId();
 
         laundryService.createLaundry(ceoUserId, laundryInfo);
@@ -133,8 +132,22 @@ public class LaundryController {
             @ApiResponse(code = 500, message = "세탁소 수정 실패"),
             @ApiResponse(code = 404, message = "세탁소 없음"),
     })
-    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestPart LaundryUpdateReq laundryInfo, @RequestPart MultipartFile multipartFile) {
-        if (laundryService.updateLaundry(laundryId, laundryInfo, multipartFile) != null)
+    public ResponseEntity<?> updateLaundry(@PathVariable("laundry_id") Long laundryId, @RequestBody LaundryUpdateReq laundryInfo) {
+        if (laundryService.updateLaundry(laundryId, laundryInfo) != null)
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        else
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
+    }
+
+    @PostMapping("/{laundry_id}/update/img")
+    @ApiOperation(value = "세탁소 이미지 수정", notes = "세탁소 이미지 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 이미지 수정 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
+    })
+    public ResponseEntity<?> updateLaundryImg(@PathVariable("laundry_id") Long laundryId, @RequestPart MultipartFile multipartFile) {
+        if (laundryService.updateLaundryImg(laundryId, multipartFile) != null)
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
         else
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
