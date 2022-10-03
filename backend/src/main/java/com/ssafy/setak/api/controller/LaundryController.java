@@ -139,6 +139,20 @@ public class LaundryController {
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
     }
 
+    @PostMapping("/{laundry_id}/update/img")
+    @ApiOperation(value = "세탁소 이미지 수정", notes = "세탁소 이미지 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 500, message = "세탁소 이미지 수정 실패"),
+            @ApiResponse(code = 404, message = "세탁소 없음"),
+    })
+    public ResponseEntity<?> updateLaundryImg(@PathVariable("laundry_id") Long laundryId, @RequestPart MultipartFile multipartFile) {
+        if (laundryService.updateLaundryImg(laundryId, multipartFile) != null)
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        else
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Laundry Not Found"));
+    }
+
     @PostMapping("/{laundry_id}/delete")
     @ApiOperation(value = "세탁소 삭제", notes = "세탁소 삭제")
     @ApiResponses({
