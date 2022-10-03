@@ -7,31 +7,31 @@ const Home: React.FC = () => {
   return (
     <div className="wrap">
       <div className="banner">
-        <div className="banner-title">
-          <Typography variant="h2">
-            Banking <br />
-            Starts here
-          </Typography>
-          <Typography variant="h5">Banking Starts here</Typography>
-          <br />
-          <div className="banner-check">
-            <DoneIcon color="success" />
-            <Typography>dlkfjalk</Typography>
-            <DoneIcon color="success" />
-            <Typography>dlkfjalk</Typography>
+        <div className="banner-wrap">
+          <div className="banner-title">
+            <div className="banner-title-1">블록체인 기반</div>
+            <div className="banner-title-2">세탁소 중개 플랫폼</div>
+            <div className="banner-title-3">지금 바로 회원가입하세요!</div>
+            <br />
+            <div className="banner-check">
+              <DoneIcon color="success" />
+              <div className="banner-check-content">안전한 결제</div>
+              <DoneIcon color="success" />
+              <div className="banner-check-content">편리한 사용</div>
+            </div>
+            <div className="banner-check">
+              <DoneIcon color="success" />
+              <div className="banner-check-content">투명한 유통</div>
+              <DoneIcon color="success" />
+              <div className="banner-check-content">손쉬운 비교</div>
+            </div>
           </div>
-          <div className="banner-check">
-            <DoneIcon color="success" />
-            <Typography>dlkfjalk</Typography>
-            <DoneIcon color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
+          <img
+            className="banner-img"
+            src="../../assets/landing0.png"
+            alt="banner"
+          />
         </div>
-        <img
-          className="banner-img"
-          src="../../assets/landing0.png"
-          alt="banner"
-        />
       </div>
       <div className="mockup">
         <div className="mockup-title">

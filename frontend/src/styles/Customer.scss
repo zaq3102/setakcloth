@@ -15,6 +15,7 @@ $color5: #e0ebf5;
 }
 
 .item-title {
+    font-size: large;
     margin-right: 1vh;
 }
 
@@ -64,179 +65,6 @@ $color5: #e0ebf5;
     margin-top: 15px;
 }
 
-// customer/CtmLaundryDetail.tsx
-.customerlaundrydetail {
-    text-align: center;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    margin-top: 10px;
-}
-
-.rightdiv {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.item-text {
-    font-size: large;
-}
-
-.orderinfo-button {
-    padding: 10px;
-    border: 0;
-    background-color: white;
-    width: 50%;
-}
-
-.reviewlist-button {
-    padding: 10px;
-    border: 0;
-    background-color: white;
-    width: 50%;
-}
-
-.button-selected {
-    padding: 10px;
-    border-bottom: 2px solid $color2;
-}
-
-.rightdiv-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-grow: 1;
-    width: 70vh;
-    padding: 20px;
-}
-
-.laundry-pagination {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.order-isDeliver {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.laundrydetailcard {
-    height: 600px;
-    width: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.itemlist {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-}
-
-#laundrydetailimage {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-}
-
-.laundrynum {
-    width: 50px;
-}
-
-.laundry-my-review-list {
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-}
-
-.laundry-my-review-list-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.laundry-review-detail {
-    background-color: $color5;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    height: 100%;
-}
-
-.laundry-my-review-list-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-}
-
-.laundry-my-review {
-    display: flex;
-    background-color: $color5;
-    border-radius: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 70vh;
-    height: 10vh;
-}
-
-.laundry-my-review-img {
-    align-self: center;
-    width: 50px;
-    height: 50px;
-}
-
-.laundry-my-review-info {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.laundry-my-review-nickname {
-    align-self: center;
-}
-
-.laundry-my-review-content {
-    overflow: auto;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    flex-grow: 1;
-    max-height: 8vh;
-    align-self: center;
-}
-
-.heart-animation {
-    padding-top: 2em;
-    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/66955/web_heart_animation.png');
-    background-repeat: no-repeat;
-    background-size: 2900%;
-    background-position: left;
-    height: 50px;
-    width: 50px;
-    margin: 0 auto;
-    cursor: pointer;
-}
-
-.heart-clicked {
-    animation: heart-burst .8s steps(28) forwards;
-}
-
-@keyframes heart-burst {
-    0% {
-        background-position: left
-    }
-
-    100% {
-        background-position: right
-    }
-}
-
 // customer/CtmHome.tsx
 .ctm-home {
     margin-bottom: 1vh;
@@ -270,12 +98,16 @@ $color5: #e0ebf5;
 }
 
 .my-address-title{
-    margin-left: 1vh;
+    margin-left: 3vh;
 }
 
 .my-address-content{
     margin-left: 1vh;
     font-size: small;
+}
+
+.address-modify-btn{
+    min-width: 5px !important;
 }
 
 .latest-list-area{
@@ -293,12 +125,21 @@ $color5: #e0ebf5;
 
 #laundryBox{
     margin: 1vh;
-    margin-left: 3vh;
+    // padding: 0;
 }
 
 .laundry-location{
+    font-size: smaller;
     margin-top: 1vh;
     margin-bottom: 2vh;
+}
+
+.laundry-cost{
+    font-size: smaller;
+}
+
+.laundry-mincost{
+    margin-bottom: 0.5vh;
 }
 
 .delivery-chip{
@@ -434,4 +275,283 @@ $color5: #e0ebf5;
 
 .orderdetail-status {
     font-size: 20px;
+}
+
+// customerDetail
+.ctm-laundry-detail{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctm-laundry-img{
+    width: 51vh;
+    height: 30vh;
+}
+
+.ctm-laundry-card{
+    margin-top: 1vh;
+    width: 51vh;
+}
+
+.ctm-laundry-chip{
+    width: 5vh;
+    margin-right: 0.5vh;
+}
+
+.ctm-laundry-title{
+    margin-top: 1vh;
+    font-size: large;
+    font-weight: bold;
+}
+
+.heart-animation {
+    padding-top: 2em;
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/66955/web_heart_animation.png');
+    background-repeat: no-repeat;
+    background-size: 2900%;
+    background-position: left;
+    height: 50px;
+    width: 50px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.heart-clicked {
+    animation: heart-burst .8s steps(28) forwards;
+}
+
+@keyframes heart-burst {
+    0% {
+        background-position: left
+    }
+
+    100% {
+        background-position: right
+    }
+}
+
+.ctm-laundry-title-space{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ctm-laundry-addr{
+    margin-top: 0.5vh;
+    font-size:smaller;
+    color: grey;
+}
+
+.ctm-laundry-mincost{
+    font-size:smaller;
+}
+
+.ctm-laundry-deliver{
+    margin-top: 0.5vh;
+    font-size:smaller;
+}
+
+.ctm-laundry-toggle{
+    margin-top: 0.5vh;
+    width: 51vh;
+}
+
+.ctm-laundry-toggle-tab{
+    font-size: large;
+    width: 17vh;
+}
+
+.css-1aquho2-MuiTabs-indicator{
+    background-color: #1e3e5c !important;
+}
+
+.Mui-selected{
+    color: #1e3e5c !important;
+}
+
+.MuiTab-root{
+    font-size:small !important;
+}
+
+.ctm-laundry-toggle-order{
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: space-between;
+}
+
+.ctm-laundry-rather-pickup{
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: space-between;
+}
+
+.ctm-laundry-rather-pickup-title{
+    font-size: small;
+}
+
+.ctm-laundry-rather-pickup-radio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.ctm-laundry-toggle-order-title{
+    margin-top: 2vh;
+    font-size: small;
+}
+
+.ctm-laundry-toggle-order-items{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.itemlist{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.laundrynum{
+    width: 5vh;
+    height: 5vh;
+}
+
+.ctm-laundry-num{
+    margin-top: 0.5vh;
+    font-size:smaller;
+    color: grey;
+}
+
+.ctm-laundry-toggle-box{
+    display: flex;
+    align-items: center;
+    justify-content:space-between;
+    border: 1px solid #1e3e5c;
+    border-radius: 2rem;
+    width: 10vh;
+    margin-left: 10vh;
+    margin-top: 0.3vh;
+    margin-bottom: 0.3vh;
+}
+
+.item-text-name{
+    display: flex;
+    align-items: center;
+    font-size: small;
+    color: #1e3e5c;
+}
+
+.item-text{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    font-size: small;
+}
+
+.ctm-laundry-toggle-order-result{
+    margin-top: 4rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+.ctm-laundry-toggle-info{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.ctm-laundry-description{
+    padding: 3vh;
+}
+
+.kakaomaps{
+    margin-top: 2vh;
+    display: flex;
+    justify-content: center;
+}
+
+.ctm-laundry-toggle-review-rate{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 1vh;
+}
+
+.ctm-laundry-toggle-review-title{
+    font-size: small;
+}
+
+.ctm-laundry-toggle-review-star{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    font-size: small;
+}
+
+.ctm-laundry-toggle-review-cnt{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.ctm-laundry-toggle-review-cnt1 {
+    font-size: small;
+}
+
+.ctm-laundry-toggle-review-cnt2 {
+    margin-left: 1rem;
+    font-size: smaller;
+}
+
+.ctm-laundry-toggle-review-content{
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    justify-content: center;
+    margin-top: 1vh;
+}
+
+.ctm-laundry-toggle-review-page{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.review-wrap{
+    display: flex;
+}
+
+.review-wrap-left{
+    margin-right: 1vh;
+}
+
+
+.laundry-my-review-img {
+    align-self: center;
+    width: 3vh;
+    height: 3vh;
+}
+
+.laundry-my-review {
+    display: flex;
+    flex-direction: column;
+    background-color: #E0EBF5;
+    border-radius: 10px;
+    margin-bottom: 0.5vh;
+    padding: 1.5vh;
+    width: 51vh;
+    height: 10vh;
 }

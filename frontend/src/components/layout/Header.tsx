@@ -33,12 +33,6 @@ const Header: React.FC = () => {
         )}
       </div>
 
-      <div className="Header-menu">
-        <Button color="inherit">이용방법</Button>
-        <Button color="inherit">세탁내역</Button>
-        <Button color="inherit">즐겨찾기</Button>
-      </div>
-
       <div className="Login-Space">
         {token ? (
           <div>

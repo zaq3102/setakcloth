@@ -7,10 +7,6 @@ $color5: #e0ebf5;
 
 
 // Home.tsx
-.wrap{
-  
-}
-
 .banner{
   display: flex;
   flex-direction: row;
@@ -19,20 +15,54 @@ $color5: #e0ebf5;
   background-color: $color4;
 }
 
+.banner-wrap{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 60vh;
+}
+
 .banner-title{
-  margin: 5vh;
+  margin-top: 7vh;
+  margin-bottom: 7vh;
+  padding-left: 5vh;  
   align-self: center;
+  width: 30vh;
 }
 
 .banner-check{
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  margin-bottom: 0.5vh;
+}
+
+.banner-title-1{
+  font-size:medium;
+  font-weight: bold;
+  margin-bottom: 1vh;
+}
+
+.banner-title-2{
+  font-size:large;
+  font-weight: bold;
+  margin-bottom: 0.5vh;
+}
+
+.banner-title-3{
+  font-size: small;
+  margin-top: 2vh;
+}
+
+.banner-check-content{
+  margin-left: 1vh;
+  margin-right: 1vh;
+  font-size: smaller;
 }
 
 .banner-img{
-  margin: 3vh;
+  padding-right: 5vh;
   width: 20vh;
 }
 

@@ -2,31 +2,34 @@ import {
   Box,
   Card,
   CardContent,
-  CardMedia,
+  Chip,
   FormControlLabel,
   IconButton,
   Pagination,
   Radio,
   RadioGroup,
   Rating,
-  TextField,
+  Tab,
+  Tabs,
   Typography
 } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
+import * as React from 'react';
+import { useEffect, useState } from 'react';
 import StarIcon from '@mui/icons-material/Star';
 import HorizontalRuleIcon from '@mui/icons-material/HorizontalRule';
 import AddIcon from '@mui/icons-material/Add';
-import * as React from 'react';
-import { useState, useEffect } from 'react';
 import '../../../styles/Customer.scss';
+import '../../../styles/OrderButton.scss';
 import KakaoMaps from '../../common/KakaoMaps';
 import {
-  LaundryDetailRequest,
   LaundryReviewRequest,
+  orderRequest
+} from '../../../store/actions/services/orderService';
+import {
+  LaundryDetailRequest,
   myLaundryItemsRequest
 } from '../../../store/actions/services/laundryService';
-import { orderRequest } from '../../../store/actions/services/orderService';
-import '../../../styles/OrderButton.scss';
 import {
   addLike,
   delLike,
@@ -35,11 +38,10 @@ import {
   balanceUpdate
 } from '../../../store/actions/services/userService';
 
-const CtmLaundryDetail: React.FC = () => {
+const CtmLaundryDetailTemp = () => {
   const [laundry, setLaundry] = useState([]);
   const [laundryItemList, setLaundryItemList] = useState([]);
   const { laundryId } = useParams();
-  const [mode, setMode] = useState(1);
   const [orderDetails, setOrderDetails] = useState([]);
   const [orderType, setOrderType] = useState<number>(1);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -48,6 +50,24 @@ const CtmLaundryDetail: React.FC = () => {
   const [heartClicked, setHeartClicked] = useState(false);
   const [mybalance, setBalance] = useState(0);
   const navigate = useNavigate();
+
+  const handleHeart = async () => {
+    if (heartClicked) {
+      const result = await delLike({ laundryId });
+      if (result?.data?.message === 'Create') {
+        setHeartClicked(false);
+      } else {
+        navigate('/error');
+      }
+    } else {
+      const result = await addLike({ laundryId });
+      if (result?.data?.message === 'Success') {
+        setHeartClicked(true);
+      } else {
+        navigate('/error');
+      }
+    }
+  };
 
   const getItemList = async () => {
     const result = await myLaundryItemsRequest(laundryId);
@@ -121,10 +141,6 @@ const CtmLaundryDetail: React.FC = () => {
     setOrderDetails(newArr);
   };
 
-  const handleTab = (value) => {
-    setMode(value);
-  };
-
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
     const DeliverType = parseInt(event.target.value, 10);
     if (DeliverType === 0) {
@@ -173,211 +189,298 @@ const CtmLaundryDetail: React.FC = () => {
     await balanceUpdate(balanceInfo);
   };
 
-  let content = '';
-  if (mode === 1) {
-    content = (
-      <>
-        <Typography gutterBottom variant="h4" component="div">
-          세탁 서비스 주문하기
-        </Typography>
-        {laundryItemList.map((item, idx) => (
-          <div className="itemlist" key={item.id}>
-            <div className="item-text">
-              {item.name} {item.price}원
-            </div>
-            <IconButton
-              onClick={() => minusOne(idx)}
-              disabled={orderDetails[idx] === 0}>
-              <HorizontalRuleIcon />
-            </IconButton>
-            <TextField
-              className="laundrynum"
-              id="outlined-basic"
-              variant="outlined"
-              value={orderDetails[idx]}
-            />
-            <IconButton onClick={() => plusOne(idx)}>
-              <AddIcon />
-            </IconButton>
-          </div>
-        ))}
-        <div className="order-isDeliver">
-          <div>수령 방법</div>
-          <RadioGroup row value={orderType} onChange={handleDeliver}>
-            <FormControlLabel value={1} control={<Radio />} label="직접 수거" />
-            <FormControlLabel value={0} control={<Radio />} label="배달" />
-          </RadioGroup>
-        </div>
-        <div className="item-text">
-          총 수량 : {orderDetails.reduce((a, b) => a + b, 0)}
-        </div>
-        <div className="item-text">예상 금액 : {totalPrice}원</div>
-        <button
-          className="order-button-button"
-          type="button"
-          disabled={totalPrice === 0}
-          onClick={handleOrder}>
-          <span>주문하기</span>
-          <div className="order-button-cart">
-            <svg viewBox="0 0 36 26">
-              <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5" />
-              <polyline points="15 13.5 17 15.5 22 10.5" />
-            </svg>
-          </div>
-        </button>
-      </>
-    );
-  } else if (mode === 2) {
-    content = (
-      <>
-        <div className="rightdiv-top">
-          <Rating
-            name="text-feedback"
-            value={laundry.score}
-            readOnly
-            precision={0.5}
-            emptyIcon={
-              <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
-            }
-            size="large"
-          />
-          <Box>{laundry.score === -1 ? null : laundry.score}</Box>
-          <Typography variant="h4" component="div">
-            리뷰 {reviewList.length}개
-          </Typography>
-        </div>
-        <div className="laundry-my-review-list">
-          <div className="laundry-my-review-list-content">
-            {reviewList
-              .slice((pageReview - 1) * 3, pageReview * 3)
-              .map((review) => (
-                <div className="laundry-my-review">
-                  <img
-                    className="laundry-my-review-img"
-                    src="../assets/user.png"
-                    alt="user-img"
-                  />
-                  <div className="laundry-my-review-info">
-                    <div className="laundry-my-review-nickname">
-                      {review.userNickName ? review.userNickName : '익명'}
-                    </div>
-                    <div className="laundry-my-review-rate">
-                      <Rating
-                        value={review.score}
-                        readOnly
-                        precision={0.5}
-                        emptyIcon={<StarIcon />}
-                        size="medium"
-                      />
-                    </div>
-                  </div>
-                  <div className="laundry-my-review-content">
-                    {review.content}
-                  </div>
-                </div>
-              ))}
-          </div>
-          <div className="laundry-pagination">
-            <Pagination
-              count={Math.ceil(reviewList.length / 3)}
-              page={pageReview}
-              // variant="outlined"
-              color="color2"
-              className={`${
-                reviewList.length === 0 ? 'ctm-no-pagination' : 'ctm-pagination'
-              }`}
-              onChange={pageReviewChange}
-            />
-          </div>
-        </div>
-      </>
-    );
+  interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
   }
 
-  document.querySelectorAll('.order-button-button').forEach((button) =>
-    button.addEventListener('click', (e) => {
-      if (!button.classList.contains('loading')) {
-        button.classList.add('loading');
-        setTimeout(() => button.classList.remove('loading'), 3700);
-      }
-      e.preventDefault();
-    })
-  );
+  const TabPanel = (props: TabPanelProps) => {
+    const { children, value, index, ...other } = props;
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}>
+        {value === index && (
+          <Box sx={{ p: 2 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  };
 
-  const handleHeart = async () => {
-    if (heartClicked) {
-      const result = await delLike({ laundryId });
-      if (result?.data?.message === 'Create') {
-        setHeartClicked(false);
-      } else {
-        navigate('/error');
-      }
-    } else {
-      const result = await addLike({ laundryId });
-      if (result?.data?.message === 'Success') {
-        setHeartClicked(true);
-      } else {
-        navigate('/error');
-      }
-    }
+  function a11yProps(index: number) {
+    return {
+      'id': `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`
+    };
+  }
+
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
   };
 
   return (
-    <div className="customerlaundrydetail">
-      <div id="leftdiv">
-        <Card className="laundrydetailcard">
-          <CardMedia
-            component="img"
-            height="200"
-            image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.jpg"
-            // image={`${item.img}`}
-            alt={laundry.laundryName}
-          />
-          <CardContent id="laundryBox">
-            <div className="item-title">{laundry.laundryName}</div>
-            <div
-              className={
-                'heart-animation' +
-                ' ' +
-                `${heartClicked ? 'heart-clicked' : null}`
-              }
-              onClick={handleHeart}
+    <div className="ctm-laundry-detail">
+      <img
+        className="ctm-laundry-img"
+        src="../../assets/ctmhome0.png"
+        alt="laundry-img"
+      />
+      <div className="ctm-laundry-card">
+        <Card>
+          <CardContent
+            sx={{ width: 1, height: 1, paddingRight: 3, paddingLeft: 5 }}>
+            <Chip
+              className="ctm-laundry-chip"
+              size="small"
+              label="배달"
+              variant="outlined"
+              color="color1"
             />
-            <div className="item-content">
+            <Chip
+              className="ctm-laundry-chip"
+              size="small"
+              label="수거"
+              variant="outlined"
+            />
+            <div className="ctm-laundry-title-space">
               <div>
-                {laundry.addr} {laundry.addrDetail}
+                <div className="ctm-laundry-title">
+                  <div>{laundry.laundryName}</div>
+                </div>
+                <div className="ctm-laundry-addr">
+                  {`${laundry.addr} `}
+                  {laundry.addrDetail}
+                </div>
+                <div className="ctm-laundry-num">{laundry.contact}</div>
               </div>
-              <div>최소 이용금액 : {laundry.minCost}원</div>
-              <div>배달비 : {laundry.deliverCost}원</div>
+              <div className="ctm-laundry-heart">
+                <div
+                  className={
+                    'heart-animation' +
+                    ' ' +
+                    `${heartClicked ? 'heart-clicked' : null}`
+                  }
+                  onClick={handleHeart}
+                />
+              </div>
+            </div>
+
+            <br />
+            <br />
+            <div className="ctm-laundry-mincost">
+              최소 주문 금액 : {laundry.minCost} 원
+            </div>
+            <div className="ctm-laundry-deliver">
+              배달비 : {laundry.deliverCost} 원
             </div>
           </CardContent>
-          <KakaoMaps />
         </Card>
       </div>
 
-      {/* toggle */}
-      <div className="rightdiv">
-        <div className="rightdiv-button">
-          <button
-            type="button"
-            className={`orderinfo-button ${
-              mode === 1 ? 'button-selected' : null
-            }`}
-            onClick={() => handleTab(1)}>
-            주문
-          </button>
-          <button
-            type="button"
-            className={`reviewlist-button ${
-              mode === 2 ? 'button-selected' : null
-            }`}
-            onClick={() => handleTab(2)}>
-            리뷰
-          </button>
-        </div>
-        <div className="rightdiv-content">{content}</div>
+      <div className="ctm-laundry-toggle">
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="laundry order tab">
+              <Tab
+                className="ctm-laundry-toggle-tab"
+                label="주문"
+                {...a11yProps(0)}
+              />
+              <Tab
+                className="ctm-laundry-toggle-tab"
+                label="정보"
+                {...a11yProps(1)}
+              />
+              <Tab
+                className="ctm-laundry-toggle-tab"
+                label="리뷰"
+                {...a11yProps(2)}
+              />
+            </Tabs>
+          </Box>
+          <TabPanel value={value} index={0}>
+            <div className="ctm-laundry-toggle-order">
+              <div className="ctm-laundry-rather-pickup">
+                <div className="ctm-laundry-rather-pickup-title">수령 방법</div>
+                <div className="ctm-laundry-rather-pickup-radio">
+                  <RadioGroup row value={orderType} onChange={handleDeliver}>
+                    <FormControlLabel
+                      value={1}
+                      control={<Radio />}
+                      label="직접 수거"
+                    />
+                    <FormControlLabel
+                      value={0}
+                      control={<Radio />}
+                      label="배달"
+                    />
+                  </RadioGroup>
+                </div>
+              </div>
+              <div className="ctm-laundry-toggle-order-title">품목</div>
+              <div className="ctm-laundry-toggle-order-items">
+                {laundryItemList.map((item, idx) => (
+                  <div className="itemlist" key={item.id}>
+                    <div className="item-text-name">
+                      {item.name} {item.price} 원
+                    </div>
+                    <Box className="ctm-laundry-toggle-box">
+                      <IconButton
+                        onClick={() => minusOne(idx)}
+                        disabled={orderDetails[idx] === 0}>
+                        <HorizontalRuleIcon />
+                      </IconButton>
+                      {orderDetails[idx]} 개
+                      <IconButton onClick={() => plusOne(idx)}>
+                        <AddIcon />
+                      </IconButton>
+                    </Box>
+                  </div>
+                ))}
+              </div>
+              <div className="ctm-laundry-toggle-order-result">
+                <div className="ctm-laundry-toggle-order-left">
+                  <div className="item-text">
+                    총 수량 : {orderDetails.reduce((a, b) => a + b, 0)} 개
+                  </div>
+                  <div className="item-text">예상 금액 : {totalPrice} 원</div>
+                </div>
+                <div className="ctm-laundry-toggle-order-right">
+                  <button
+                    className="order-button-button"
+                    type="button"
+                    disabled={totalPrice === 0}
+                    onClick={handleOrder}>
+                    <span>주문하기</span>
+                    <div className="order-button-cart">
+                      <svg viewBox="0 0 36 26">
+                        <polyline points="1 2.5 6 2.5 10 18.5 25.5 18.5 28.5 7.5 7.5 7.5" />
+                        <polyline points="15 13.5 17 15.5 22 10.5" />
+                      </svg>
+                    </div>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={1}>
+            <div className="ctm-laundry-toggle-info">
+              <Box
+                borderRadius={1}
+                sx={{
+                  width: '51vh',
+                  height: '10vh',
+                  backgroundColor: '#E0EBF5'
+                }}>
+                <div className="ctm-laundry-description">
+                  {laundry.description}
+                </div>
+              </Box>
+              <div className="kakaomaps">
+                <KakaoMaps />
+              </div>
+            </div>
+          </TabPanel>
+          <TabPanel value={value} index={2}>
+            <div className="ctm-laundry-toggle-review">
+              <div className="ctm-laundry-toggle-review-rate">
+                <div className="ctm-laundry-toggle-review-title">평점</div>
+                <div className="ctm-laundry-toggle-review-star">
+                  <div>
+                    <Box>{laundry.score === -1 ? null : laundry.score}</Box>
+                  </div>
+                  <div>
+                    <Rating
+                      name="text-feedback"
+                      value={laundry.score}
+                      readOnly
+                      precision={0.5}
+                      emptyIcon={
+                        <StarIcon
+                          style={{ opacity: 0.55 }}
+                          fontSize="inherit"
+                        />
+                      }
+                      size="large"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="ctm-laundry-toggle-review-cnt">
+                <div className="ctm-laundry-toggle-review-cnt1">리뷰</div>
+                <div className="ctm-laundry-toggle-review-cnt2">
+                  {reviewList.length}개
+                </div>
+              </div>
+              <div className="ctm-laundry-toggle-review-content">
+                {reviewList
+                  .slice((pageReview - 1) * 3, pageReview * 3)
+                  .map((review) => (
+                    <div className="laundry-my-review">
+                      <div className="review-wrap">
+                        <div className="review-wrap-left">
+                          <img
+                            className="laundry-my-review-img"
+                            src="../assets/user.png"
+                            alt="user-img"
+                          />
+                        </div>
+                        <div>
+                          <div className="laundry-my-review-info">
+                            <div className="laundry-my-review-nickname">
+                              {review.userNickName
+                                ? review.userNickName
+                                : '익명'}
+                            </div>
+                            <div className="laundry-my-review-rate">
+                              <Rating
+                                value={review.score}
+                                readOnly
+                                precision={0.5}
+                                emptyIcon={<StarIcon />}
+                                size="medium"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="laundry-my-review-content">
+                        {review.content}
+                      </div>
+                    </div>
+                  ))}
+                <div className="ctm-laundry-toggle-review-page">
+                  <Pagination
+                    count={Math.ceil(reviewList.length / 3)}
+                    page={pageReview}
+                    variant="outlined"
+                    color="color2"
+                    className={`${
+                      reviewList.length === 0
+                        ? 'ctm-no-pagination'
+                        : 'ctm-pagination'
+                    }`}
+                    onChange={pageReviewChange}
+                  />
+                </div>
+              </div>
+            </div>
+          </TabPanel>
+        </Box>
       </div>
     </div>
   );
 };
-export default CtmLaundryDetail;
+
+export default CtmLaundryDetailTemp;

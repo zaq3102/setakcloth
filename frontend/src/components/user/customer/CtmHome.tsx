@@ -16,13 +16,14 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
+import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
-import { Box } from '@mui/system';
+
 import '../../../styles/Customer.scss';
 
 import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
@@ -127,14 +128,17 @@ const CtmHome: React.FC = (props) => {
       <div className="ctm-home">
         <div className="ctm-address-area">
           <div className="my-address-title">
-            <Chip color="color5" label="우리집" variant="outlined" />
+            <Chip
+              size="small"
+              color="color5"
+              label="우리집"
+              variant="outlined"
+            />
           </div>
           <div className="my-address-content">{myaddress}</div>
-          <div className="address-modify-btn">
-            <Button onClick={handleClickOpen}>
-              <EditIcon sx={{ fontSize: 20 }} color="color5" />
-            </Button>
-          </div>
+          <Button className="address-modify-btn" onClick={handleClickOpen}>
+            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
+          </Button>
         </div>
 
         {/* 주소 변경 모달 창 */}
@@ -187,8 +191,7 @@ const CtmHome: React.FC = (props) => {
             key={item.laundryId}
             id="laundryCard"
             sx={{ padding: 1, margin: 1 }}
-            onClick={() => onclicklaundry(item.laundryId)}
-            elevation="1">
+            onClick={() => onclicklaundry(item.laundryId)}>
             <CardMedia
               id="cardImg"
               component="img"
@@ -197,9 +200,7 @@ const CtmHome: React.FC = (props) => {
             {/* image={item.imgUrl} /> */}
             <CardContent id="laundryBox">
               <div className="item-title-area">
-                <div className="item-title">
-                  <Typography variant="h3">{item.laundryName}</Typography>
-                </div>
+                <div className="item-title">{item.laundryName}</div>
                 <Rating
                   name="text-feedback"
                   value={item.score}
@@ -215,16 +216,14 @@ const CtmHome: React.FC = (props) => {
               <div className="item-content">
                 <div className="item-content-left">
                   <div className="laundry-location">
-                    <Typography variant="h6">
-                      {item.addr} {item.addrDetail}
-                    </Typography>
+                    {item.addr} {item.addrDetail}
                   </div>
-                  <Typography variant="h6">
-                    최소 이용금액 : {item.minCost}원
-                  </Typography>
-                  <Typography variant="h6">
-                    배달비 : {item.deliveryCost}원
-                  </Typography>
+                  <div className="laundry-cost">
+                    <div className="laundry-mincost">
+                      최소 이용금액 : {item.minCost}원
+                    </div>
+                    <div>배달비 : {item.deliveryCost}원</div>
+                  </div>
                 </div>
                 <div className="item-content-right">
                   <div className="item-chips">
