@@ -33,7 +33,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public User createUser(UserRegisterReq userInfo) throws IOException {
-        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
+        Address address = new Address("서울 강남구 테헤란로 212 멀티캠퍼스", "1402호", 37.5013d, 127.0396d);
         String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
@@ -50,7 +50,7 @@ public class UserService {
     }
 
     public User createKakaoUser(KakaoUserRegisterReq userInfo) throws IOException {
-        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
+        Address address = new Address("서울 강남구 테헤란로 212 멀티캠퍼스", "1402호", 37.5013d, 127.0396d);
         String newName = userUtil.createName();
         User user = new User();
         user.setUserEmail(userInfo.getEmail());
@@ -118,7 +118,7 @@ public class UserService {
     }
 
     public User createCeoUser(UserRegisterReq userInfo) {
-        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
+        Address address = new Address("서울 강남구 테헤란로 212 멀티캠퍼스", "1402호", 37.5013d, 127.0396d);
         User user = new User();
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
@@ -138,7 +138,7 @@ public class UserService {
 
     public User createCeoKakaoUser(KakaoUserRegisterReq userInfo) {
         User user = new User();
-        Address address = new Address("서울시 강남구", "역상동 멀티캠퍼스", (float) 37.5015, (float) 127.0396);
+        Address address = new Address("서울 강남구 테헤란로 212 멀티캠퍼스", "1402호", 37.5013d, 127.0396d);
         user.setCeoEmail(userInfo.getEmail());
         user.setWalletAddr(userInfo.getWalletAddr());
         user.setBalance(0f);
