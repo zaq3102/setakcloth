@@ -3,11 +3,13 @@ package com.ssafy.setak.api.request;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
-@ApiModel("LaundryUpdateRequest")
-public class LaundryUpdateReq {
+import java.time.LocalDate;
+
+@Getter
+@ApiModel("LaundryCreateRequest")
+public class LaundryCreateReq {
     @ApiModelProperty(name = "사업자등록번호")
     String regNum;
 
@@ -33,21 +35,9 @@ public class LaundryUpdateReq {
     @ApiModelProperty(name = "경도")
     double addrLng;
 
-    @ApiModelProperty(name = "상세설명")
-    String description;
-
-    @ApiModelProperty(name = "전화번호")
-    String contact;
-
-    @ApiModelProperty(name = "배달가능")
+    @ApiModelProperty(name = "배달")
     boolean deliver;
 
-    @ApiModelProperty(name = "배달 최소 주문 금액")
-    long minCost;
-
-    @ApiModelProperty(name = "배달료")
-    long deliveryCost;
-
-    @ApiModelProperty(name = "픽업가능")
+    @ApiModelProperty(name = "픽업")
     boolean pickup;
 }

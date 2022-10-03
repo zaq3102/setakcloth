@@ -30,10 +30,10 @@ public class UserRes {
     String addrDetail;
 
     @ApiModelProperty(name = "유저 주소의 위도", example = "37.241541")
-    float addrLat;
+    double addrLat;
 
     @ApiModelProperty(name = "유저 주소의 경도", example = "131.864935")
-    float addrLng;
+    double addrLng;
 
     @ApiModelProperty(name = "소셜 로그인 여부", example = "true")
     boolean isSocial;
