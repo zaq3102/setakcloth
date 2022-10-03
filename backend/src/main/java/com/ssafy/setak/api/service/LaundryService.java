@@ -1,6 +1,5 @@
 package com.ssafy.setak.api.service;
 
-import com.ssafy.setak.api.request.LaundryCreateReq;
 import com.ssafy.setak.api.request.LaundryItemAddReq;
 import com.ssafy.setak.api.request.LaundryUpdateReq;
 import com.ssafy.setak.db.entity.Address;
@@ -25,9 +24,6 @@ import java.util.List;
 public class LaundryService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private LaundryRepository laundryRepository;
 
     @Autowired
@@ -37,9 +33,7 @@ public class LaundryService {
     FileService fileService;
 
     @Transactional
-    public void createLaundry(Long ceoUserId, LaundryCreateReq laundryInfo) {
-//        User ceoUser = userRepository.findById(ceoUserId).orElseThrow(NullPointerException::new);
-
+    public void createLaundry(Long ceoUserId, LaundryUpdateReq laundryInfo) {
         String regDate = laundryInfo.getRegDate();
         LocalDate regDateType = LocalDate.parse(regDate, DateTimeFormatter.ISO_LOCAL_DATE);
 
@@ -51,6 +45,9 @@ public class LaundryService {
                 .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
                 .userId(ceoUserId)
                 .isDeliver(laundryInfo.isDeliver())
+                .minCost(laundryInfo.getMinCost())
+                .deliveryCost(laundryInfo.getDeliveryCost())
+                .contact(laundryInfo.getContact())
                 .isPickup(laundryInfo.isPickup())
                 .joinDate(LocalDateTime.now())
                 .build());
@@ -82,18 +79,12 @@ public class LaundryService {
     }
 
     @Transactional
-    public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo, MultipartFile multipartFile) {
+    public Laundry updateLaundry(Long laundryId, LaundryUpdateReq laundryInfo) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
-        String regDate = laundryInfo.getRegDate();
-        LocalDate regDateType = LocalDate.parse(regDate, DateTimeFormatter.ISO_LOCAL_DATE);
-        String imgUrl = fileService.uploadFile(multipartFile);
-
         if (laundry != null && !laundry.isWithdrawn()) {
-            laundry.setRegNum(laundryInfo.getRegNum());
             laundry.setLaundryName(laundryInfo.getLaundryName());
             laundry.setCeoName(laundryInfo.getCeoName());
-            laundry.setRegDate(regDateType);
             laundry.setAddress(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()));
             laundry.setDescription(laundryInfo.getDescription());
             laundry.setContact(laundryInfo.getContact());
@@ -101,7 +92,6 @@ public class LaundryService {
             laundry.setMinCost(laundryInfo.getMinCost());
             laundry.setDeliveryCost(laundryInfo.getDeliveryCost());
             laundry.setPickup(laundryInfo.isPickup());
-            laundry.setImgUrl(imgUrl);
             return laundry;
         }
 
