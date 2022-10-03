@@ -99,6 +99,19 @@ public class LaundryService {
     }
 
     @Transactional
+    public Laundry updateLaundryImg(Long laundryId, MultipartFile multipartFile) {
+        Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
+        String imgUrl = fileService.uploadFile(multipartFile);
+
+        if (laundry != null && !laundry.isWithdrawn()) {
+            laundry.setImgUrl(imgUrl);
+            return laundry;
+        }
+
+        return null;
+    }
+
+    @Transactional
     public boolean deleteLaundry(Long laundryId) {
         Laundry laundry = laundryRepository.findById(laundryId).orElse(null);
 
