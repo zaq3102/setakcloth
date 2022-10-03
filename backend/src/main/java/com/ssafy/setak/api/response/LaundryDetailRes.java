@@ -28,10 +28,10 @@ public class LaundryDetailRes {
     String addrDetail;
 
     @ApiModelProperty(name = "위도")
-    float addrLat;
+    double addrLat;
 
     @ApiModelProperty(name = "경도")
-    float addrLng;
+    double addrLng;
 
     @ApiModelProperty(name = "전화번호")
     String contact;

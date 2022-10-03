@@ -30,10 +30,10 @@ public class LaundryCreateReq {
     String addrDetail;
 
     @ApiModelProperty(name = "위도")
-    float addrLat;
+    double addrLat;
 
     @ApiModelProperty(name = "경도")
-    float addrLng;
+    double addrLng;
 
     @ApiModelProperty(name = "배달")
     boolean deliver;
