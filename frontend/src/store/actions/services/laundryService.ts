@@ -118,3 +118,16 @@ export const LaundryReviewRequest = async (dataToSubmit) => {
     return err;
   }
 };
+
+// 세탁소 이미지 변경
+export const LaundryImgChange = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(
+      `/laundry/${data1}/update/img`,
+      data2
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};

@@ -37,7 +37,7 @@ const CeoOrderDetail: React.FC = () => {
       navigate('/error');
     }
   };
-  //고객지갑가져오기
+  // 고객 지갑 가져오기
   const getFromAddr = async () => {
     const result = await getFromAddrRequest(orderNum);
     if (result?.data) {
@@ -86,9 +86,9 @@ const CeoOrderDetail: React.FC = () => {
   const handleSave = () => {};
 
   const handleNext = async () => {
-    //처음상태일때.. 결제진행
-    if (currentState == 0) {
-      //비밀번호 검증 여기 해줘야됨
+    // 처음 상태일 때.. 결제진행
+    if (currentState === 0) {
+      // 비밀번호 검증 여기 해줘야됨
       const check = await unlockAccount(userInfo.wallet, 'a12341234');
       if (!check) {
         alert('비밀번호가 틀립니다');
@@ -100,13 +100,13 @@ const CeoOrderDetail: React.FC = () => {
         fromAddr.price
       );
       if (!result) {
-        alert('결제오류발생');
+        alert('결제 오류 발생');
         navigate('/error');
         return;
       }
       const balance = await getBalance(userInfo.wallet);
       if (!balance) {
-        alert('결제오류발생');
+        alert('결제 오류 발생');
         navigate('/error');
         return;
       }
@@ -116,12 +116,14 @@ const CeoOrderDetail: React.FC = () => {
       const DBbalance = await balanceUpdate(balanceInfo);
 
       if (!DBbalance) {
-        alert('결제오류발생');
+        alert('결제 오류 발생');
         navigate('/error');
         return;
       }
     }
-    //order 의 state 바꾸고 사진넣는 부분구현필요
+    // order의 state 바꾸고 사진 넣는 부분 구현 필요
+    // 사진 넣고 보내는 로직
+    // order detail 업데이트 해야 된다.
     setCurrentState(currentState + 1);
   };
 

@@ -31,7 +31,9 @@ import {
   balanceUpdate,
   changeCtmInfo,
   deleteUser,
-  logoutRequest
+  logoutRequest,
+  getLocationxyRequest,
+  changeAddrRequest
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
@@ -59,6 +61,7 @@ const CtmMypage = () => {
   const [openDelete, setOpenDelete] = useState(false);
 
   const [myaddress, setMyaddress] = useState('');
+  const [addrInfo, setAddrInfo] = useState(null);
   const [mynickname, setmynickname] = useState('');
 
   const [walletPassword, setWalletPassword] = useState('');
@@ -327,7 +330,7 @@ const CtmMypage = () => {
   };
 
   // 주소 변경 로직
-  const changeAddress = (value) => {
+  const AddressFunc = (value) => {
     setMyaddress(value);
   };
 
@@ -599,7 +602,11 @@ const CtmMypage = () => {
       </Dialog>
 
       <Dialog open={openAddress} onClose={() => handleClose(3)}>
-        <Address changeAddress={changeAddress} handleClose={handleClose} />
+        <Address
+          AddressFunc={AddressFunc}
+          handleClose={handleClose}
+          type="change"
+        />
       </Dialog>
 
       <Dialog open={openCharge} onClose={() => handleClose(4)}>
