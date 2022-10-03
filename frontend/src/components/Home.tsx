@@ -28,7 +28,7 @@ const Home: React.FC = () => {
           </div>
           <img
             className="banner-img"
-            src="../../assets/landing0.png"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/landing0.png"
             alt="banner"
           />
         </div>
@@ -53,8 +53,8 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/landing1.png"
+          alt="mockup0"
         />
       </div>
       <div className="mockup">
@@ -79,7 +79,7 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/landing2.png"
           alt="mockup1"
         />
       </div>
@@ -107,8 +107,8 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/landing3.png"
+          alt="mockup2"
         />
       </div>
       <div className="mockup">
@@ -135,8 +135,8 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/landing4.png"
+          alt="mockup3"
         />
       </div>
       ㄴ
