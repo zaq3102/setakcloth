@@ -13,7 +13,7 @@ public class UserUpdateAddressReq {
     @ApiModelProperty(name = "유저 상세 주소", example = "추후 수정 필요2")
     private String addrDetail;
     @ApiModelProperty(name = "유저 주소의 위도", example = "37.241541")
-    private float addrLat;
+    private double addrLat;
     @ApiModelProperty(name = "유저 주소의 경도", example = "131.864935")
-    private float addrLng;
+    private double addrLng;
 }

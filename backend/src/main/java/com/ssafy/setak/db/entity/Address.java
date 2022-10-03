@@ -18,8 +18,8 @@ public class Address {
 
     private String addrDetail;
 
-    private Float addrLat;
+    private Double addrLat;
 
-    private Float addrLng;
+    private Double addrLng;
 }
 
