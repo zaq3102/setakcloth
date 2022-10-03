@@ -389,7 +389,9 @@ const CtmLaundryDetailTemp = () => {
                 </div>
               </Box>
               <div className="kakaomaps">
-                <KakaoMaps />
+                <KakaoMaps
+                  props={{ Lng: laundry.addrLng, Lat: laundry.addrLat }}
+                />
               </div>
             </div>
           </TabPanel>
