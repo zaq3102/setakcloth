@@ -28,6 +28,8 @@ import {
 import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
+import UploadPhotoTemp from '../../../components/common/UploadPhotoTemp';
+import Address from '../../../components/common/Address';
 
 const CeoMypage: React.FC = () => {
   const TemplaundryName = '싸피 세탁소';
@@ -35,13 +37,9 @@ const CeoMypage: React.FC = () => {
   const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
   const [openModal3, setOpenModal3] = useState<boolean>(false);
-  const [regNum, setRegNum] = useState('');
-  const [ceoName, setCeoName] = useState<string>('');
-  const [regDate, setRegDate] = useState('');
-  const [laundryName, setLaundryName] = useState<string>('');
+
   const [addr, setAddr] = useState<string>('');
-  const [deliver, setDeliver] = useState<string>('true');
-  const [pickup, setPickup] = useState<string>('true');
+
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
   const [page, setPage] = useState(1);
@@ -50,6 +48,28 @@ const CeoMypage: React.FC = () => {
   const [ceoInfo, setCeoInfo] = useState('');
   const [itemList, setItemList] = useState([]);
   const [pending, setPending] = useState(false);
+  const [laundryId, setLaundryId] = useState(0);
+  const imgCnt = 1;
+  const [addrInfo, setAddrInfo] = useState('');
+
+  // 세탁소 등록 시 필요한 정보
+  const [regNum, setRegNum] = useState('');
+  const [laundryName, setLaundryName] = useState<string>('');
+  const [ceoName, setCeoName] = useState<string>('');
+  const [regDate, setRegDate] = useState('');
+  const [description, setDescription] = useState<string>('');
+  const [contact, setContact] = useState<string>('');
+  const [minCost, setMinCost] = useState(0);
+  const [deliveryCost, setdeliveryCost] = useState(0);
+  const [pickup, setPickup] = useState<string>('true');
+  const [deliver, setDeliver] = useState<string>('true');
+
+  // 모달창
+  const [openAddress, setOpenAddress] = useState(false);
+  const [openImage, setOpenImage] = useState(false);
+
+  // 이미지 변경
+  const [imgSrc, setImgSrc] = useState('');
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,6 +87,7 @@ const CeoMypage: React.FC = () => {
     const result = await myLaundryRequest();
     if (result?.payload?.data?.laundries) {
       setLaundryList(result?.payload?.data?.laundries);
+      setLaundryId(result?.payload?.data?.laundries[0].laundryId);
     } else {
       navigate('/error');
     }
@@ -124,19 +145,31 @@ const CeoMypage: React.FC = () => {
     setPage(value);
   };
 
-  const handleOpenModal = (modalType) => {
-    if (modalType === 1) {
-      setOpenModal1(true);
-    } else if (modalType === 2) {
-      getMyItems();
-      setOpenModal2(true);
-    } else if (modalType === 3) {
-      setOpenModal3(true);
+  const handleOpen = (value) => {
+    switch (value) {
+      case 1:
+        setOpenModal1(true);
+        break;
+      case 2:
+        setOpenModal2(true);
+        break;
+      case 3:
+        setOpenModal3(true);
+        break;
+      case 4:
+        setOpenImage(true);
+        break;
+      case 5:
+        setOpenAddress(true);
+        break;
+      default:
+        break;
     }
   };
 
-  const handleClose = (modalType) => {
-    switch (modalType) {
+  // 1 :  / 2:  / 3 :  / 4 : 이미지 변경
+  const handleClose = (value) => {
+    switch (value) {
       case 1:
         setOpenModal1(false);
         break;
@@ -145,6 +178,12 @@ const CeoMypage: React.FC = () => {
         break;
       case 3:
         setOpenModal3(false);
+        break;
+      case 4:
+        setOpenImage(false);
+        break;
+      case 5:
+        setOpenAddress(false);
         break;
       default:
         break;
@@ -166,12 +205,16 @@ const CeoMypage: React.FC = () => {
       laundryName,
       ceoName,
       regDate,
-      addr,
-      addrDetail: 'ㅎㅇ',
-      addrLat: 1.0,
-      addrLng: 1.3,
+      addr: addrInfo.addr,
+      addrDetail: addrInfo.addrDetail,
+      addrLat: addrInfo.addrLat,
+      addrLng: addrInfo.addrLng,
       deliver,
-      pickup
+      pickup,
+      description,
+      contact,
+      deliveryCost,
+      minCost
     };
 
     const result = await LaundryRegistRequest(LaundryInfo);
@@ -197,13 +240,38 @@ const CeoMypage: React.FC = () => {
     //   console.log('error');
     // }
   };
-
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDeliver(event.target.value);
   };
 
   const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPickup(event.target.value);
+  };
+
+  // 주소 변경 로직
+  const AddressFunc = (value) => {
+    setAddrInfo(value);
+  };
+
+  // 이미지 변경 로직
+  const changeImageSrc = (value) => {
+    setImgSrc(value);
+  };
+
+  const handleMinCost = (event) => {
+    if (event.target.value.trim() < 0) {
+      setMinCost(0);
+    } else {
+      setMinCost(event.target.value.trim());
+    }
+  };
+
+  const handleDeliveryCost = (event) => {
+    if (event.target.value.trim() < 0) {
+      setdeliveryCost(0);
+    } else {
+      setdeliveryCost(event.target.value.trim());
+    }
   };
 
   return (
@@ -260,18 +328,48 @@ const CeoMypage: React.FC = () => {
                       name="laundry-name"
                       fullWidth
                       value={laundryName}
-                      onChange={(event) =>
-                        setLaundryName(event.target.value.trim())
-                      }
+                      onChange={(event) => setLaundryName(event.target.value)}
+                    />
+                    <button type="button" onClick={() => handleOpen(5)}>
+                      주소 등록하기
+                    </button>
+                    <TextField
+                      sx={{ mt: 2, mb: 2 }}
+                      required
+                      label="기본 주소"
+                      name="laundry-addr"
+                      fullWidth
+                      value={addrInfo.addr}
+                      disabled
                     />
                     <TextField
                       sx={{ mt: 2, mb: 2 }}
                       required
-                      label="주소"
+                      label="상세 주소"
                       name="laundry-addr"
                       fullWidth
-                      value={addr}
-                      onChange={(event) => setAddr(event.target.value.trim())}
+                      value={addrInfo.addrDetail}
+                      disabled
+                    />
+                    <TextField
+                      sx={{ mt: 2, mb: 2 }}
+                      required
+                      label="세탁소에 대해서 작성해주세요. 이 정보는 고객들이 세탁소를 선택하는 데에 도움이 될 거예요.^^"
+                      fullWidth
+                      value={description}
+                      onChange={(event) => setDescription(event.target.value)}
+                    />
+                    <TextField
+                      sx={{ mt: 2, mb: 2 }}
+                      required
+                      label="세탁소 전화번호"
+                      fullWidth
+                      value={contact
+                        .replace(/[^0-9]/g, '')
+                        .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
+                      onChange={(event) =>
+                        setContact(event.target.value.trim())
+                      }
                     />
                     <div className="ceo-modal-bottom">
                       <div>
@@ -282,6 +380,30 @@ const CeoMypage: React.FC = () => {
                             control={<Radio />}
                             label="배달 가능"
                           />
+                          {deliver === 'true' ? (
+                            <>
+                              <TextField
+                                sx={{ mt: 2, mb: 2 }}
+                                required
+                                label="최소 주문 금액"
+                                fullWidth
+                                type="number"
+                                value={minCost}
+                                onChange={handleMinCost}
+                              />
+                              <TextField
+                                sx={{ mt: 2, mb: 2 }}
+                                required
+                                label="배달비"
+                                fullWidth
+                                type="number"
+                                value={deliveryCost}
+                                onChange={handleDeliveryCost}
+                              />
+                            </>
+                          ) : (
+                            <></>
+                          )}
                           <FormControlLabel
                             value="false"
                             control={<Radio />}
@@ -385,7 +507,7 @@ const CeoMypage: React.FC = () => {
               <button
                 type="button"
                 className="ceo-my-page-btn"
-                onClick={() => handleOpenModal(1)}>
+                onClick={() => handleOpen(1)}>
                 세탁소 등록하기
               </button>
             ) : (
@@ -400,25 +522,15 @@ const CeoMypage: React.FC = () => {
                     variant="contained"
                     color="color2"
                     className="ctm-my-page-btn"
-                    onClick={() => handleOpenModal(3)}>
+                    onClick={() => handleOpen(4)}>
                     사진 변경하기
                   </Button>
                 </div>
-                <Dialog open={openModal3} onClose={() => handleClose(3)}>
-                  <UploadPhoto />
-                  <DialogActions>
-                    <Button
-                      onClick={() => handleClose(3)}
-                      sx={{ color: 'black' }}>
-                      취소
-                    </Button>
-                  </DialogActions>
-                </Dialog>
                 <Button
                   variant="contained"
                   color="color2"
                   className="ceo-my-page-btn"
-                  onClick={() => handleOpenModal(2)}>
+                  onClick={() => handleOpen(2)}>
                   세탁 품목 변경하기
                 </Button>
               </>
@@ -486,6 +598,23 @@ const CeoMypage: React.FC = () => {
           )}
         </>
       )}
+      {/* 모달 모음집 */}
+      <Dialog open={openImage} onClose={() => handleClose(3)}>
+        <UploadPhotoTemp
+          changeImageSrc={changeImageSrc}
+          handleClose={handleClose}
+          imgCnt={imgCnt}
+          laundryId={laundryId}
+        />
+      </Dialog>
+
+      <Dialog open={openAddress} onClose={() => handleClose(3)}>
+        <Address
+          AddressFunc={AddressFunc}
+          handleClose={handleClose}
+          type="regist"
+        />
+      </Dialog>
     </div>
   );
 };

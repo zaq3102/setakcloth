@@ -15,7 +15,7 @@ declare global {
 }
 const { kakao } = window;
 
-const Address: React.FC = ({ changeAddress, handleClose }) => {
+const Address: React.FC = ({ AddressFunc, handleClose, type }) => {
   const [addr, setAddr] = useState<string>('');
   const [addrDetail, setAddrDetail] = useState<string>('');
   const navigate = useNavigate();
@@ -31,11 +31,27 @@ const Address: React.FC = ({ changeAddress, handleClose }) => {
       };
       const result2 = await changeAddrRequest(addrInfo);
       if (result2?.data?.message === 'Created') {
-        changeAddress(`${addr} ${addrDetail}`);
+        AddressFunc(`${addr} ${addrDetail}`);
         handleClose(3);
       } else {
         navigate('/error');
       }
+    } else {
+      navigate('/error');
+    }
+  };
+
+  const handleRegist = async () => {
+    const result1 = await getLocationxyRequest(`${addr} ${addrDetail}`);
+    if (result1?.data?.documents) {
+      const addrInfo = {
+        addr,
+        addrLat: result1?.data?.documents[0].y,
+        addrLng: result1?.data?.documents[0].x,
+        addrDetail
+      };
+      AddressFunc(addrInfo);
+      handleClose(5);
     } else {
       navigate('/error');
     }
@@ -70,8 +86,21 @@ const Address: React.FC = ({ changeAddress, handleClose }) => {
         onChange={addrDetailChange}
       />
       <DialogActions>
-        <Button onClick={() => handleClose(3)}>취소</Button>
-        <Button onClick={handleChange}>변경</Button>
+        {type === 'change' ? (
+          <>
+            <Button onClick={() => handleClose(3)}>취소</Button>
+            <Button onClick={handleChange} disabled={addr.length === 0}>
+              변경
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button onClick={() => handleClose(5)}>취소</Button>
+            <Button onClick={handleRegist} disabled={addr.length === 0}>
+              등록
+            </Button>
+          </>
+        )}
       </DialogActions>
     </div>
   );

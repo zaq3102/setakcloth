@@ -72,6 +72,7 @@ const CtmLaundryDetail: React.FC = () => {
       navigate('/error');
     }
   };
+
   const getMybalance = async () => {
     const result = await getBalance();
     if (result?.data?.balance) {
@@ -141,7 +142,7 @@ const CtmLaundryDetail: React.FC = () => {
   const handleOrder = async () => {
     const orderCnts = {};
     if (totalPrice > mybalance) {
-      alert('해당금액이 부족합니다.');
+      alert('잔액이 부족하여 주문이 불가합니다.');
       navigate('../mypage');
       return;
     }

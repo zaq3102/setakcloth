@@ -17,7 +17,7 @@ const CeoHome: React.FC = () => {
     ['수락 대기중', state0],
     ['세탁중', state1],
     ['세탁 완료', state2],
-    [' 배달중', state3]
+    ['배달중', state3]
   ];
 
   const [orderList, setOrderList] = useState([]);

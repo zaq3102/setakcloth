@@ -5,12 +5,14 @@ import CeoHome from '../components/user/ceo/CeoHome';
 import CeoMypage from '../components/user/ceo/CeoMypage';
 import NotFound from '../components/error/NotFound';
 import '../styles/Ceo.scss';
+import CeoOrderDetailTemp from '../components/user/ceo/CeoOrderDetailTemp';
 
 const Ceo = () => {
   return (
     <Routes>
       <Route path="/" element={<CeoHome />} />
       <Route path="/:orderNum" element={<CeoOrderDetail />} />
+      <Route path="/temp/:orderNum" element={<CeoOrderDetailTemp />} />
       <Route path="/mypage" element={<CeoMypage />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
