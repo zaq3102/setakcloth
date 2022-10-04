@@ -11,6 +11,7 @@ import {
   Rating,
   Select,
   SelectChangeEvent
+  TextField
 } from '@mui/material';
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -19,15 +20,23 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import '../../../styles/Customer.scss';
-import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
-import { InfoRequest } from '../../../store/actions/services/userService';
 import Address from '../../../components/common/Address';
+import {
+  LaundryLatestRequest,
+  LaundryDistRequest,
+  LaundryScoreRequest
+} from '../../../store/actions/services/laundryService';
+
+import {
+  LaundryLikeRequest,
+  InfoRequest
+} from '../../../store/actions/services/userService';
 
 const CtmHome: React.FC = () => {
   const navigate = useNavigate();
   const [openAddress, setOpenAddress] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
-  const [latestLaundry, setLatestLaundry] = useState([]);
+  const [laundryList, setLaundryList] = useState([]);
   const [align, setAlign] = React.useState('');
 
   const handleSelect = (event: SelectChangeEvent) => {
@@ -48,22 +57,45 @@ const CtmHome: React.FC = () => {
     navigate(`./${value}`);
   };
 
-  const getLatestLaundry = async () => {
-    const result = await LaundryLatestRequest();
+  const getList = async (value) => {
+    let result = '';
+    switch (value) {
+      case 0: // 최신순
+        result = await LaundryLatestRequest();
+        break;
+      case 1: // 거리순
+        result = await LaundryDistRequest();
+        break;
+      case 2: // 별점순
+        result = await LaundryScoreRequest();
+        break;
+      case 3: // 즐겨찾기
+        result = await LaundryLikeRequest();
+        break;
+      default: // 초기 값, 최신순
+        result = await LaundryLatestRequest();
+        break;
+    }
     if (result?.data?.laundries) {
-      setLatestLaundry(result?.data?.laundries);
+      setLaundryList(result?.data?.laundries);
+    } else if (result?.data?.laundrys) {
+      setLaundryList(result?.data?.laundrys);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
   useEffect(() => {
     getMyInfo();
-    getLatestLaundry();
+    getList();
   }, []);
 
-  const handleButton = (mode) => {
-    navigate('./laundrylist', { state: mode });
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleButton = (num) => {
+    getList(num);
   };
 
   // 주소 변경 로직
@@ -92,6 +124,7 @@ const CtmHome: React.FC = () => {
           <Button
             className="address-modify-btn"
             onClick={() => setOpenAddress(true)}>
+            sx={{ minWidth: 5 }}
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
@@ -106,17 +139,24 @@ const CtmHome: React.FC = () => {
         </Dialog>
       </div>
 
+      {/* 정렬 선택 */}
       <div className="select-area">
-        <FormControl className="select">
-          <InputLabel id="select-label">최신 등록 순</InputLabel>
+        <FormControl
+          sx={{
+            m: 0,
+            p: 0,
+            minWidth: 120
+          }}
+          className="select">
+          <InputLabel sx={{ fontSize: 7 }}>
+            <div className="inputlabel-default">정렬</div>
+          </InputLabel>
           <Select
-            labelId="select"
-            id="select"
-            value={align}
-            label="정렬"
-            onChange={handleSelect}>
-            <MenuItem onClick={() => handleButton(1)} value="전체보기">
-              전체보기
+            displayEmpty
+            onChange={handleSelect}
+            inputProps={{ 'aria-label': 'Without label' }}>
+            <MenuItem onClick={() => handleButton(0)} value="최신 등록순">
+              최신등록순
             </MenuItem>
             <MenuItem onClick={() => handleButton(1)} value="거리순">
               거리순
@@ -133,19 +173,26 @@ const CtmHome: React.FC = () => {
 
       {/* 최신 세탁소 5개 리스트 */}
       <div className="latest-list-area">
-        {latestLaundry.map((item) => (
+        {laundryList.map((item) => (
           <Card
             key={item.laundryId}
             id="laundryCard"
-            sx={{ padding: 1, margin: 1 }}
+            sx={{
+              padding: 1,
+              margin: 0.5,
+              boxShadow: 0,
+              backgroundColor: '#e0ebf5'
+            }}
             onClick={() => onclicklaundry(item.laundryId)}>
-            <CardMedia
-              id="cardImg"
-              component="img"
-              image="../assets/ctmhome0.png"
-            />
+            <div className="item-content-left">
+              <CardMedia
+                id="cardImg"
+                component="img"
+                image="../assets/ctmhome0.png"
+              />
+            </div>
             {/* image={item.imgUrl} /> */}
-            <CardContent id="laundryBox">
+            <CardContent sx={{ p: 1 }} id="item-content-right">
               <div className="item-title-area">
                 <div className="item-title">{item.laundryName}</div>
                 <Rating
@@ -154,45 +201,42 @@ const CtmHome: React.FC = () => {
                   readOnly
                   precision={0.5}
                   emptyIcon={
-                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="large" />
                   }
                   size="large"
                 />
                 <Box>{item.score === -1 ? null : item.score}</Box>
               </div>
               <div className="item-content">
+<<<<<<< frontend/src/components/user/customer/CtmHome.tsx
                 <div className="item-content-left">
                   <div className="laundry-location">
                     {item.addr} {item.addrDetail}
                   </div>
-                  <div className="laundry-cost">
-                    <div className="laundry-mincost">
-                      최소 이용금액 : {item.minCost}원
-                    </div>
-                    <div>배달비 : {item.deliverCost}원</div>
-                  </div>
                 </div>
-                <div className="item-content-right">
-                  <div className="item-chips">
-                    {item.deliver ? (
-                      <Chip
-                        className="delivery-chip"
-                        label="배달"
-                        size="small"
-                        color="color1"
-                        variant="outlined"
-                      />
-                    ) : null}
-                    {item.pickup ? (
-                      <Chip
-                        label="수거"
-                        size="small"
-                        color="default"
-                        variant="outlined"
-                      />
-                    ) : null}
-                  </div>
+                <div className="laundry-cost">
+                  최소 이용금액 : {item.minCost}원, 배달비 : {item.deliverCost}
+                  원
                 </div>
+              </div>
+              <div className="item-chips">
+                {item.deliver ? (
+                  <Chip
+                    className="delivery-chip"
+                    label="배달 가능"
+                    size="small"
+                    color="color1"
+                    variant="outlined"
+                  />
+                ) : null}
+                {item.pickup ? (
+                  <Chip
+                    label="수거 가능"
+                    size="small"
+                    color="default"
+                    variant="outlined"
+                  />
+                ) : null}
               </div>
             </CardContent>
           </Card>
