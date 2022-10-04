@@ -16,20 +16,33 @@ $color5: #e0ebf5;
 
 .item-title {
     font-size: large;
-    margin-right: 1vh;
+    margin-right: 3rem;
 }
 
 .item-title-area{
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+}
+
+.item-content-left{
+    width: 30rem;
+}
+
+#item-content-right{
+    margin-top: 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: flex-start;
+    height: 30rem;
+    width: 60rem;
 }
 
 .item-content {
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     font-size: small;
 }
 
@@ -39,30 +52,49 @@ $color5: #e0ebf5;
 
 #laundryCard {
     display: flex;
-    justify-content:space-around;
     align-items: center;
-    width: 60vh;
-    height: 15vh;
-}
-
-#laundryCard:hover {
-    background-color: $color5;
-    cursor: pointer;
-}
-
-#laundryBox {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.MuiCardContent-root {
-    width: 350px;
-    height: 170px;
+    width: 90rem;
+    height: 35rem;
+    border-radius: 3rem;
 }
 
 .laundry-sort {
     margin-top: 15px;
+}
+
+#cardImg{
+    border-radius: 3rem;
+    width: 25rem;
+    height: 25rem;
+}
+
+.laundry-location{
+    font-size: smaller;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    line-height: 4rem;
+    height: 8rem;
+}
+
+.laundry-cost{
+    margin-top: 0.5rem;
+    font-size: smaller;
+    line-height: 5rem;
+}
+
+.item-chips{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.delivery-chip{
+    margin-right: 1rem;
+}
+
+.item-title{
+    font-size: medium;
+    font-weight: bold;
 }
 
 // customer/CtmHome.tsx
@@ -81,8 +113,8 @@ $color5: #e0ebf5;
     justify-content: center;
 }
 
-.select{
-    width: 12vh;
+.inputlabel-default{
+    font-size:xx-small;
 }
 
 .ctm-address-area {
@@ -98,16 +130,12 @@ $color5: #e0ebf5;
 }
 
 .my-address-title{
-    margin-left: 3vh;
+    margin-left: 3rem;
 }
 
 .my-address-content{
-    margin-left: 1vh;
+    margin-left: 3rem;
     font-size: small;
-}
-
-.address-modify-btn{
-    min-width: 5px !important;
 }
 
 .latest-list-area{
@@ -115,35 +143,6 @@ $color5: #e0ebf5;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-}
-
-#cardImg{
-    border-radius: 1vh;
-    width: 13vh;
-    height: 13vh;
-}
-
-#laundryBox{
-    margin: 1vh;
-    // padding: 0;
-}
-
-.laundry-location{
-    font-size: smaller;
-    margin-top: 1vh;
-    margin-bottom: 2vh;
-}
-
-.laundry-cost{
-    font-size: smaller;
-}
-
-.laundry-mincost{
-    margin-bottom: 0.5vh;
-}
-
-.delivery-chip{
-    margin-right: 1vh;
 }
 
 //CtmMypage.tsx
@@ -343,10 +342,6 @@ $color5: #e0ebf5;
     margin-top: 0.5vh;
     font-size:smaller;
     color: grey;
-}
-
-.ctm-laundry-mincost{
-    font-size:smaller;
 }
 
 .ctm-laundry-deliver{
