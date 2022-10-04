@@ -134,9 +134,10 @@ public class OrderController {
     })
     public ResponseEntity<?> updateOrderDetail(@PathVariable("order_detail_id") Long orderDetailId, @RequestPart List<MultipartFile> multipartFiles) {
         Long userId = jwtService.getUserId();
-        OrderDetail orderDetail = orderService.updateOrderDetail(orderDetailId, userId, multipartFiles);
-        if(orderDetail != null){
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        List<String> urls = orderService.updateOrderDetail(orderDetailId, userId, multipartFiles);
+
+        if(urls != null){
+            return ResponseEntity.status(200).body(ImgUrlsGetRes.of(200, "Success", urls));
         } else{
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "OrderDetail Not Found"));
         }
@@ -151,9 +152,10 @@ public class OrderController {
     })
     public ResponseEntity<?> updateOrderDelivered(@PathVariable("order_id") Long orderId, @RequestPart List<MultipartFile> multipartFiles) {
         Long userId = jwtService.getUserId();
-        Order order = orderService.updateOrderDelivered(orderId, userId, multipartFiles);
-        if(order != null){
-            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+        List<String> urls = orderService.updateOrderDelivered(orderId, userId, multipartFiles);
+
+        if(urls != null){
+            return ResponseEntity.status(200).body(ImgUrlsGetRes.of(200, "Success", urls));
         } else{
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "Order Not Found"));
         }

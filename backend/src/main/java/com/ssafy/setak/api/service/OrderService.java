@@ -176,7 +176,8 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDetail updateOrderDetail(Long orderDetailId, Long userId, List<MultipartFile> multipartFiles){
+    public List<String> updateOrderDetail(Long orderDetailId, Long userId, List<MultipartFile> multipartFiles){
+        List<String> imgUrls = new ArrayList<String>();
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if(orderDetail == null){
             return null;
@@ -197,6 +198,7 @@ public class OrderService {
                     NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
                     MerkleNode response = ipfs.add(is).get(0);
                     String url = response.hash.toBase58();
+                    imgUrls.add(url);
                     urlsString += (url  + ",");
                 }
                 urlsString = urlsString.substring(0, urlsString.length() - 1);
@@ -228,11 +230,12 @@ public class OrderService {
             }
         }
 
-        return orderDetail;
+        return imgUrls;
     }
 
     @Transactional
-    public Order updateOrderDelivered(Long orderId, Long userId, List<MultipartFile> multipartFiles){
+    public List<String> updateOrderDelivered(Long orderId, Long userId, List<MultipartFile> multipartFiles){
+        List<String> imgUrls = new ArrayList<String>();
         Order order = orderRepository.findById(orderId).orElse(null);
         if(order == null){
             return null;
@@ -255,6 +258,7 @@ public class OrderService {
                     NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
                     MerkleNode response = ipfs.add(is).get(0);
                     String url = response.hash.toBase58();
+                    imgUrls.add(url);
                     urlsString += (url  + ",");
                 }
                 urlsString = urlsString.substring(0, urlsString.length() - 1);
@@ -279,7 +283,7 @@ public class OrderService {
             }
         }
 
-        return order;
+        return imgUrls;
     }
 
     @Transactional
