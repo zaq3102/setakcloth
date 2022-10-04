@@ -1,5 +1,6 @@
 import {
   Button,
+  Box,
   Checkbox,
   FormControlLabel,
   FormHelperText,
@@ -193,6 +194,12 @@ const Signup: React.FC = () => {
   //   // }
   // };
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const tabClickHandler = (index) => {
+    setActiveIndex(index);
+  };
+
   const kakaoUserSignUpHandler = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/usersignup`;
   };
@@ -363,8 +370,207 @@ const Signup: React.FC = () => {
           </div>
         </div>
       )}
+
+      <div className="signup-page">
+        <div>
+          {tabContArr.map(({ title }, idx) => (
+            <Button
+              variant="contained"
+              key={`tab-` + idx}
+              onClick={() => tabClickHandler(idx)}
+              className={
+                (activeIndex === idx ? 'bg-main ' : 'bg-sub2 hover:bg-main ') +
+                'color-delay cursor-pointer text-font3 font-medium text-base rounded-t-2xl h-[36px] px-3 truncate w-[28%] sm:min-w-max pt-1'
+              }>
+              {title}
+            </Button>
+          ))}
+        </div>
+        {/* Content */}
+        <Box
+          component="span"
+          sx={{
+            width: 510,
+            p: 2,
+            border: '3px solid blue',
+            borderRadius: '7px'
+          }}>
+          {activeIndex === 0 ? (
+            <div>
+              <TextField
+                margin="normal"
+                required
+                id="email"
+                label="이메일"
+                value={email}
+                onChange={emailChange}
+                autoFocus
+                sx={{ width: 300 }}
+              />
+              <FormHelperText
+                error={!!email && (!isEmailValid || emailChecked !== 200)}>
+                {email
+                  ? isEmailValid
+                    ? emailChecked
+                      ? emailChecked === 200
+                        ? '사용 가능한 이메일입니다.'
+                        : '이미 사용중인 이메일입니다.'
+                      : '이메일 중복 여부를 확인중입니다.'
+                    : '유효하지 않은 이메일 형식입니다.'
+                  : ''}
+              </FormHelperText>
+              <TextField
+                margin="normal"
+                required
+                id="password"
+                label="비밀번호"
+                type="password"
+                value={pwd}
+                onChange={passwordChange}
+                sx={{ width: 300 }}
+              />
+              <FormHelperText error={!!pwd && !isPwdValid}>
+                {pwd
+                  ? isPwdValid
+                    ? '안전한 비밀번호입니다.'
+                    : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
+                  : ''}
+              </FormHelperText>
+              <TextField
+                margin="normal"
+                required
+                id="passwordcheck"
+                label="비밀번호 확인"
+                type="password"
+                value={pwdCheck}
+                onChange={passwordCheckChange}
+                sx={{ width: 300 }}
+              />
+              <FormHelperText error={!!pwdCheck && !isPwdSame}>
+                {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
+              </FormHelperText>
+              <FormControlLabel
+                control={<Checkbox onClick={onClickTOS} />}
+                label="세탁클로쓰의 이용약관에 동의합니다. (필수)"
+              />
+              <TOS />
+              <div className="signup-btn">
+                <Link to="/">취소</Link>
+                <button
+                  className="next-btn"
+                  type="button"
+                  onClick={onClickChange}
+                  disabled={
+                    !isEmailValid ||
+                    emailChecked !== 200 ||
+                    !isPwdValid ||
+                    !isPwdSame ||
+                    !tosCheck
+                  }>
+                  다음
+                </button>
+              </div>
+              <div>
+                <button className="w-12" onClick={kakaoUserSignUpHandler}>
+                  <img
+                    alt="카카오 고객 회원 가입"
+                    className="kakao object-fill"
+                  />
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <TextField
+                margin="normal"
+                required
+                id="email"
+                label="이메일"
+                value={email}
+                onChange={emailChange}
+                autoFocus
+                sx={{ width: 300 }}
+              />
+              <FormHelperText
+                error={!!email && (!isEmailValid || emailChecked !== 200)}>
+                {email
+                  ? isEmailValid
+                    ? emailChecked
+                      ? emailChecked === 200
+                        ? '사용 가능한 이메일입니다.'
+                        : '이미 사용중인 이메일입니다.'
+                      : '이메일 중복 여부를 확인중입니다.'
+                    : '유효하지 않은 이메일 형식입니다.'
+                  : ''}
+              </FormHelperText>
+              <TextField
+                margin="normal"
+                required
+                id="password"
+                label="비밀번호"
+                type="password"
+                value={pwd}
+                onChange={passwordChange}
+                sx={{ width: 300 }}
+              />
+              <FormHelperText error={!!pwd && !isPwdValid}>
+                {pwd
+                  ? isPwdValid
+                    ? '안전한 비밀번호입니다.'
+                    : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
+                  : ''}
+              </FormHelperText>
+              <TextField
+                margin="normal"
+                required
+                id="passwordcheck"
+                label="비밀번호 확인"
+                type="password"
+                value={pwdCheck}
+                onChange={passwordCheckChange}
+                sx={{ width: 300 }}
+              />
+              <FormHelperText error={!!pwdCheck && !isPwdSame}>
+                {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
+              </FormHelperText>
+              <FormControlLabel
+                control={<Checkbox onClick={onClickTOS} />}
+                label="세탁클로쓰의 이용약관에 동의합니다. (필수)"
+              />
+              <TOS />
+              <div className="signup-btn">
+                <Link to="/">취소</Link>
+                <button
+                  className="next-btn"
+                  type="button"
+                  onClick={onClickChange}
+                  disabled={
+                    !isEmailValid ||
+                    emailChecked !== 200 ||
+                    !isPwdValid ||
+                    !isPwdSame ||
+                    !tosCheck
+                  }>
+                  다음
+                </button>
+              </div>
+              <div>
+                <button className="w-12" onClick={kakaoCeoSignUpHandler}>
+                  <img
+                    alt="카카오 사장님 회원 가입"
+                    className="kakao object-fill"
+                    url="https://setakcloth.s3.ap-northeast-2.amazonaws.com/start_by_kakao.png"
+                  />
+                </button>
+              </div>
+            </div>
+          )}
+        </Box>
+      </div>
     </div>
   );
 };
+
+const tabContArr = [{ title: '고객 회원 가입' }, { title: '사장님 회원가입' }];
 
 export default Signup;
