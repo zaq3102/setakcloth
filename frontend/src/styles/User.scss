@@ -5,9 +5,8 @@ $color3: #60afff;
 $color4: #bfd7ea;
 $color5: #e0ebf5;
 
-
 // Home.tsx
-.banner{
+.banner {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -15,7 +14,7 @@ $color5: #e0ebf5;
   background-color: $color4;
 }
 
-.banner-wrap{
+.banner-wrap {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -23,50 +22,50 @@ $color5: #e0ebf5;
   width: 60vh;
 }
 
-.banner-title{
+.banner-title {
   margin-top: 7vh;
   margin-bottom: 7vh;
-  padding-left: 5vh;  
+  padding-left: 5vh;
   align-self: center;
   width: 30vh;
 }
 
-.banner-check{
+.banner-check {
   display: flex;
   flex-direction: row;
   align-items: center;
   margin-bottom: 0.5vh;
 }
 
-.banner-title-1{
-  font-size:medium;
+.banner-title-1 {
+  font-size: medium;
   font-weight: bold;
   margin-bottom: 1vh;
 }
 
-.banner-title-2{
-  font-size:large;
+.banner-title-2 {
+  font-size: large;
   font-weight: bold;
   margin-bottom: 0.5vh;
 }
 
-.banner-title-3{
+.banner-title-3 {
   font-size: small;
   margin-top: 2vh;
 }
 
-.banner-check-content{
+.banner-check-content {
   margin-left: 1vh;
   margin-right: 1vh;
   font-size: smaller;
 }
 
-.banner-img{
+.banner-img {
   padding-right: 5vh;
   width: 20vh;
 }
 
-.mockup{
+.mockup {
   margin-top: 6vh;
   display: flex;
   flex-direction: row;
@@ -74,27 +73,27 @@ $color5: #e0ebf5;
   justify-content: center;
 }
 
-.mockup-title{
+.mockup-title {
   margin-right: 5vh;
   align-self: center;
 }
 
-.mockup-check{
+.mockup-check {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
 }
 
-.mockup-check-icon{
+.mockup-check-icon {
   margin-right: 1vh;
 }
 
-.mockup-img{
+.mockup-img {
   width: 15vh;
 }
 
-.home-gif{
+.home-gif {
   width: 100vh;
 }
 
@@ -155,8 +154,8 @@ $color5: #e0ebf5;
   line-height: normal;
   margin-top: 8px;
   padding: 12px;
-  border: 1px solid #dadada;
-  box-sizing: border-box;
+  // border: 1px solid #dadada;
+  // box-sizing: border-box;
 }
 
 .signup-btn {
