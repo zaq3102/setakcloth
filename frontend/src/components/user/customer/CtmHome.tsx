@@ -4,21 +4,26 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  ClickAwayListener,
   Dialog,
   DialogActions,
   DialogTitle,
   FormControl,
+  Grow,
   InputLabel,
   MenuItem,
+  MenuList,
+  Paper,
+  Popper,
   Rating,
   Select,
   SelectChangeEvent,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material';
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -38,7 +43,7 @@ declare global {
 }
 const { kakao } = window;
 
-const CtmHome: React.FC = (props) => {
+const CtmHome: React.FC = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
@@ -134,7 +139,10 @@ const CtmHome: React.FC = (props) => {
             />
           </div>
           <div className="my-address-content">{myaddress}</div>
-          <Button className="address-modify-btn" onClick={handleClickOpen}>
+          <Button
+            sx={{ minWidth: 5 }}
+            className="address-modify-btn"
+            onClick={handleClickOpen}>
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
@@ -156,16 +164,23 @@ const CtmHome: React.FC = (props) => {
           </DialogActions>
         </Dialog>
       </div>
-
+      {/* 정렬 선택 */}
       <div className="select-area">
-        <FormControl className="select">
-          <InputLabel id="select-label">최신 등록 순</InputLabel>
+        <FormControl
+          sx={{
+            m: 0,
+            p: 0,
+            minWidth: 120
+          }}
+          className="select">
+          <InputLabel>
+            <div className="inputlabel-default">최신 등록 순</div>
+          </InputLabel>
           <Select
-            labelId="select"
-            id="select"
+            displayEmpty
             value={align}
-            label="정렬"
-            onChange={handleSelect}>
+            onChange={handleSelect}
+            inputProps={{ 'aria-label': 'Without label' }}>
             <MenuItem onClick={() => handleButton(1)} value="전체보기">
               전체보기
             </MenuItem>
@@ -188,15 +203,22 @@ const CtmHome: React.FC = (props) => {
           <Card
             key={item.laundryId}
             id="laundryCard"
-            sx={{ padding: 1, margin: 1 }}
+            sx={{
+              padding: 1,
+              margin: 0.5,
+              boxShadow: 0,
+              backgroundColor: '#e0ebf5'
+            }}
             onClick={() => onclicklaundry(item.laundryId)}>
-            <CardMedia
-              id="cardImg"
-              component="img"
-              image="../assets/ctmhome0.png"
-            />
+            <div className="item-content-left">
+              <CardMedia
+                id="cardImg"
+                component="img"
+                image="../assets/ctmhome0.png"
+              />
+            </div>
             {/* image={item.imgUrl} /> */}
-            <CardContent id="laundryBox">
+            <CardContent sx={{ p: 1 }} id="item-content-right">
               <div className="item-title-area">
                 <div className="item-title">{item.laundryName}</div>
                 <Rating
@@ -205,45 +227,39 @@ const CtmHome: React.FC = (props) => {
                   readOnly
                   precision={0.5}
                   emptyIcon={
-                    <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                    <StarIcon style={{ opacity: 0.55 }} fontSize="large" />
                   }
                   size="large"
                 />
                 <Box>{item.score === -1 ? null : item.score}</Box>
               </div>
               <div className="item-content">
-                <div className="item-content-left">
-                  <div className="laundry-location">
-                    {item.addr} {item.addrDetail}
-                  </div>
-                  <div className="laundry-cost">
-                    <div className="laundry-mincost">
-                      최소 이용금액 : {item.minCost}원
-                    </div>
-                    <div>배달비 : {item.deliveryCost}원</div>
-                  </div>
+                <div className="laundry-location">
+                  {item.addr} {item.addrDetail}
                 </div>
-                <div className="item-content-right">
-                  <div className="item-chips">
-                    {item.deliver ? (
-                      <Chip
-                        className="delivery-chip"
-                        label="배달"
-                        size="small"
-                        color="color1"
-                        variant="outlined"
-                      />
-                    ) : null}
-                    {item.pickup ? (
-                      <Chip
-                        label="수거"
-                        size="small"
-                        color="default"
-                        variant="outlined"
-                      />
-                    ) : null}
-                  </div>
+                <div className="laundry-cost">
+                  최소 이용금액 : {item.minCost}원, 배달비 : {item.deliverCost}
+                  원
                 </div>
+              </div>
+              <div className="item-chips">
+                {item.deliver ? (
+                  <Chip
+                    className="delivery-chip"
+                    label="배달 가능"
+                    size="small"
+                    color="color1"
+                    variant="outlined"
+                  />
+                ) : null}
+                {item.pickup ? (
+                  <Chip
+                    label="수거 가능"
+                    size="small"
+                    color="default"
+                    variant="outlined"
+                  />
+                ) : null}
               </div>
             </CardContent>
           </Card>
