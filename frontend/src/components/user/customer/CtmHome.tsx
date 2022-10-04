@@ -16,16 +16,14 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
-import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
-
 import '../../../styles/Customer.scss';
-
 import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
 import {
   changeAddrRequest,
