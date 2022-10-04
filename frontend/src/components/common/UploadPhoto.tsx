@@ -1,17 +1,16 @@
-import {
-  Button,
-  DialogActions,
-  DialogContent,
-  DialogTitle
-} from '@mui/material';
+import { Button, DialogActions, DialogTitle } from '@mui/material';
 import * as React from 'react';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
+import { useNavigate } from 'react-router';
+import { changeState } from '../../store/actions/services/orderService';
+import { LaundryImgChange } from '../../store/actions/services/laundryService';
 
-const UploadPhoto: React.FC = () => {
+const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
   const ImageInput = useRef<HTMLInputElement>();
-  const ImageShow = useRef<HTMLImageElement>();
+  const [imageUrlLists, setImageUrlLists] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleSetProfile = () => {};
+  const navigate = useNavigate();
 
   const onImgInputBtnClick = (event) => {
     event.preventDefault();
@@ -19,31 +18,46 @@ const UploadPhoto: React.FC = () => {
   };
 
   const handleImgInput = (event) => {
-    const file = event?.target?.files[0];
-    if (file) {
-      if (file.size > 1400000) {
-        alert('1MB 이하의 파일만 등록할 수 있습니다.');
-        return;
-      }
-      const img = new Image();
-      img.onerror = () => {
-        alert('올바르지 않은 파일 형식입니다.');
-        // ProfileNow();
-      };
-      img.src = URL.createObjectURL(file);
-      ImageShow.current.src = img.src;
-      // setSelectedFile(file);
+    const imageLists = event.target.files;
+    const tempList = [];
+    for (let i = 0; i < imageLists.length; i += 1) {
+      const currentImageUrl = URL.createObjectURL(imageLists[i]);
+      tempList.push(currentImageUrl);
+    }
+    setSelectedFile(imageLists);
+    setImageUrlLists(tempList);
+  };
+
+  const handleChange = async () => {
+    const formData = new FormData();
+    formData.append('multipartFile', selectedFile[0]);
+    const result = await LaundryImgChange(id, formData);
+    if (result?.data?.message === 'Success') {
+      changeImageSrc(imageUrlLists);
+      handleClose(4);
+    } else {
+      navigate('./error');
     }
   };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append('multipartFile', selectedFile);
+    const result = await changeState(id, formData);
+    if (result?.data?.message === 'Success') {
+      // changeImageSrc(imageUrlLists);
+      handleClose();
+    } else {
+      navigate('./error');
+    }
+  };
+
   return (
-    <div>
-      <DialogTitle>세탁소 이미지 업로드</DialogTitle>
-      <DialogContent>
-        1MB 미만의 파일만 등록할 수 있습니다. (jpg, jpeg, gif, png)
-        <br />
-        <br />
-        <p>세탁소 이미지 업로드</p>
-        <div className="ctm-signup-profile">
+    <div style={{ padding: 10, width: 500 }}>
+      <DialogTitle>사진 업로드하기</DialogTitle>
+
+      {imgCnt === 1 ? (
+        <>
           <input
             type="file"
             accept="image/*"
@@ -52,24 +66,38 @@ const UploadPhoto: React.FC = () => {
             id="profileUploadBtn"
             ref={ImageInput}
           />
-          <Button
-            variant="contained"
-            color="color2"
-            onClick={onImgInputBtnClick}>
-            사진 업로드
-          </Button>
-          <br />
-          <img
-            src="https://via.placeholder.com/150/BFD7EA/111111"
-            alt="profile-img"
-            ref={ImageShow}
-            width="100"
+          <DialogActions>
+            <Button onClick={() => handleClose(4)}>취소</Button>
+            <Button onClick={handleChange}>변경</Button>
+          </DialogActions>
+        </>
+      ) : (
+        <>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImgInput(event)}
+            style={{ display: 'none' }}
+            id="profileUploadBtn"
+            ref={ImageInput}
+            multiple
           />
-        </div>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleSetProfile}>등록</Button>
-      </DialogActions>
+          <DialogActions>
+            <Button onClick={handleClose}>취소</Button>
+            <Button onClick={handleUpload}>등록</Button>
+          </DialogActions>
+        </>
+      )}
+
+      <br />
+      {imageUrlLists.length > 0 ? (
+        imageUrlLists.map((url) => <img src={url} alt="uploaded" width="100" />)
+      ) : (
+        <></>
+      )}
+      <Button variant="contained" color="color2" onClick={onImgInputBtnClick}>
+        사진 업로드
+      </Button>
     </div>
   );
 };
