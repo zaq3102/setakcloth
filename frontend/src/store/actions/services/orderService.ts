@@ -70,12 +70,12 @@ export const getFromAddrRequest = async (dataToSubmit) => {
   }
 };
 
-// 주문 상세 변경
-export const changeState = async (dataToSubmit, orderDetailId) => {
+// 주문 상세 변경 - 세탁 전, 세탁 후 사진 등록
+export const changeState = async (data1, data2) => {
   try {
     const payload = await requestAuth.post(
-      `/order/laundry/detail/${orderDetailId}/update`,
-      dataToSubmit
+      `/order/laundry/detail/${data1}/update`,
+      data2
     );
     return payload;
   } catch (err) {
