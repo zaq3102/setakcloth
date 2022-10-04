@@ -9,9 +9,9 @@ import {
   StepLabel,
   Stepper
 } from '@mui/material';
-import UploadPhoto from '../../../components/common/UploadPhoto';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
+import UploadPhoto from '../../../components/common/UploadPhoto';
 import {
   getFromAddrRequest,
   getOrderRequest
@@ -33,6 +33,7 @@ const CeoOrderDetailTemp = () => {
   const [openImage, setOpenImage] = useState(false);
   const imgCnt = 2;
   const [imgSrc, setImgSrc] = useState([]);
+  const [orderDetailId, setOrderDetailId] = useState(0);
 
   const [modes, setModes] = useState([]);
 
@@ -107,6 +108,11 @@ const CeoOrderDetailTemp = () => {
     setOpenImage(false);
   };
 
+  const ImgUploadBtnClick = (value) => {
+    setOpenImage(true);
+    setOrderDetailId(value);
+  };
+
   // 이미지 변경 로직
   const changeImageSrc = (value) => {
     setImgSrc(value);
@@ -139,7 +145,7 @@ const CeoOrderDetailTemp = () => {
               variant="contained"
               color="color2"
               className="ctm-my-page-btn"
-              onClick={() => setOpenImage(true)}>
+              onClick={() => ImgUploadBtnClick(order.orderDetailId)}>
               사진 업로드
             </Button>
             {/* <Button variant="contained" color="color1" onClick={imageUpload}>
@@ -154,7 +160,7 @@ const CeoOrderDetailTemp = () => {
           changeImageSrc={changeImageSrc}
           handleClose={handleClose}
           imgCnt={imgCnt}
-          id={orderNum}
+          id={orderDetailId}
         />
       </Dialog>
     </div>

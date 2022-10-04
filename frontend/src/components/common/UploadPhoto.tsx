@@ -42,7 +42,9 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
 
   const handleUpload = async () => {
     const formData = new FormData();
-    formData.append('multipartFile', selectedFile);
+    for (let i = 0; i < selectedFile.length; i += 1) {
+      formData.append('multipartFiles', selectedFile[i]);
+    }
     const result = await changeState(id, formData);
     if (result?.data?.message === 'Success') {
       // changeImageSrc(imageUrlLists);
