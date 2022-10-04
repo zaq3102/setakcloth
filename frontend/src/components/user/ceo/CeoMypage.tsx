@@ -33,7 +33,6 @@ import { red } from '@mui/material/colors';
 import { bgcolor, fontSize } from '@mui/system';
 
 const CeoMypage: React.FC = () => {
-  const TemplaundryName = '싸피 세탁소';
   const [clean, setClean] = useState<number>(12340000000000);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
   const [openModal3, setOpenModal3] = useState<boolean>(false);
@@ -71,6 +70,7 @@ const CeoMypage: React.FC = () => {
   const [openRegist, setOpenRegist] = useState<boolean>(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openImage, setOpenImage] = useState(false);
+  const [openChange, setOpenChange] = useState(false);
 
   // 이미지 변경
   const [imgSrc, setImgSrc] = useState([]);
@@ -93,6 +93,14 @@ const CeoMypage: React.FC = () => {
       setLaundryList(result?.payload?.data?.laundries);
       setLaundryId(result?.payload?.data?.laundries[0]?.laundryId);
       setImgSrc([result?.payload?.data?.laundries[0].imgUrl]);
+      // 이미 등록된 세탁소일 때
+      setLaundryName(result?.payload?.data?.laundries[0].laundryName);
+      setDescription(result?.payload?.data?.laundries[0].description);
+      setContact(result?.payload?.data?.laundries[0].contact);
+      setMinCost(result?.payload?.data?.laundries[0].minCost);
+      setdeliveryCost(result?.payload?.data?.laundries[0].deliveryCost);
+      setPickup(result?.payload?.data?.laundries[0].pickup);
+      setDeliver(result?.payload?.data?.laundries[0].deliver);
     } else {
       navigate('/error');
     }
@@ -166,6 +174,9 @@ const CeoMypage: React.FC = () => {
       case 5:
         setOpenAddress(true);
         break;
+      case 6:
+        setOpenChange(true);
+        break;
       default:
         break;
     }
@@ -188,6 +199,9 @@ const CeoMypage: React.FC = () => {
         break;
       case 5:
         setOpenAddress(false);
+        break;
+      case 6:
+        setOpenChange(false);
         break;
       default:
         break;
@@ -289,7 +303,7 @@ const CeoMypage: React.FC = () => {
           <div className="ceo-my-info">
             <div className="ceo-my-info-title">사업자 정보</div>
             <div className="ceo-my-info-content">
-              <div>{TemplaundryName}님, 오늘도 화이팅!</div>
+              <div>{laundryList[0]?.laundryName}님, 오늘도 화이팅!</div>
               <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
             </div>
             <Dialog
@@ -608,6 +622,13 @@ const CeoMypage: React.FC = () => {
                   onClick={() => handleOpen(2)}>
                   세탁 품목 변경하기
                 </Button>
+                <Button
+                  variant="contained"
+                  color="color2"
+                  className="ceo-my-page-btn"
+                  onClick={() => handleOpen(6)}>
+                  세탁소 정보 변경하기
+                </Button>
               </>
             )}
           </div>
@@ -689,6 +710,140 @@ const CeoMypage: React.FC = () => {
           handleClose={handleClose}
           type="regist"
         />
+      </Dialog>
+
+      <Dialog open={openChange} onClose={() => handleClose(6)}>
+        <div className="ceo-item-modal">
+          <DialogTitle>세탁소 등록하기</DialogTitle>
+          <DialogContent>
+            <div className="ceo-regist-laundry">
+              <TextField
+                sx={{ mt: 2, mb: 1 }}
+                required
+                label="대표자 성명"
+                name="ceo-name"
+                fullWidth
+                value={ceoName}
+                onChange={(event) => setCeoName(event.target.value.trim())}
+              />
+              <TextField
+                sx={{ mt: 2, mb: 1 }}
+                required
+                label="상호명"
+                name="laundry-name"
+                fullWidth
+                value={laundryName}
+                onChange={(event) => setLaundryName(event.target.value)}
+              />
+              <button type="button" onClick={() => handleOpen(5)}>
+                주소 등록하기
+              </button>
+              <TextField
+                sx={{ mt: 2, mb: 2 }}
+                required
+                label="기본 주소"
+                name="laundry-addr"
+                fullWidth
+                value={addrInfo.addr}
+                disabled
+              />
+              <TextField
+                sx={{ mt: 2, mb: 2 }}
+                required
+                label="상세 주소"
+                name="laundry-addr"
+                fullWidth
+                value={addrInfo.addrDetail}
+                disabled
+              />
+              <TextField
+                sx={{ mt: 2, mb: 2 }}
+                required
+                label="세탁소에 대해서 작성해주세요. 이 정보는 고객들이 세탁소를 선택하는 데에 도움이 될 거예요.^^"
+                fullWidth
+                value={description}
+                onChange={(event) => setDescription(event.target.value)}
+              />
+              <TextField
+                sx={{ mt: 2, mb: 2 }}
+                required
+                label="세탁소 전화번호"
+                fullWidth
+                value={contact
+                  .replace(/[^0-9]/g, '')
+                  .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
+                onChange={(event) => setContact(event.target.value.trim())}
+              />
+              <div className="ceo-modal-bottom">
+                <div>
+                  배달 가능 여부
+                  <RadioGroup value={deliver} onChange={handleDeliver}>
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio />}
+                      label="배달 가능"
+                    />
+                    {deliver === 'true' ? (
+                      <>
+                        <TextField
+                          sx={{ mt: 2, mb: 2 }}
+                          required
+                          label="최소 주문 금액"
+                          fullWidth
+                          type="number"
+                          value={minCost}
+                          onChange={handleMinCost}
+                        />
+                        <TextField
+                          sx={{ mt: 2, mb: 2 }}
+                          required
+                          label="배달비"
+                          fullWidth
+                          type="number"
+                          value={deliveryCost}
+                          onChange={handleDeliveryCost}
+                        />
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label="배달 불가 (손님이 직접 수거)"
+                    />
+                  </RadioGroup>
+                </div>
+                <div>
+                  픽업 가능 여부
+                  <RadioGroup value={pickup} onChange={handlePickup}>
+                    <FormControlLabel
+                      value="true"
+                      control={<Radio />}
+                      label="손님이 수거 가능"
+                    />
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label="손님이 수거 불가능(배달만 가능)"
+                    />
+                  </RadioGroup>
+                </div>
+              </div>
+            </div>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => handleClose(1)} color="color2">
+              취소
+            </Button>
+            <Button
+              onClick={handleRegistLaundry}
+              variant="contained"
+              color="color2">
+              등록하기
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </div>
   );

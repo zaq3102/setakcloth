@@ -1,8 +1,16 @@
-import { Button, DialogActions, DialogTitle } from '@mui/material';
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { changeState } from '../../store/actions/services/orderService';
+import {
+  uploadBlockchainDeliveryImage,
+  uploadBlockchainImage
+} from '../../store/actions/services/orderService';
 import { LaundryImgChange } from '../../store/actions/services/laundryService';
 
 const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
@@ -33,7 +41,7 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
     formData.append('multipartFile', selectedFile[0]);
     const result = await LaundryImgChange(id, formData);
     if (result?.data?.message === 'Success') {
-      changeImageSrc(imageUrlLists);
+      changeImageSrc();
       handleClose(4);
     } else {
       navigate('./error');
@@ -42,10 +50,26 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
 
   const handleUpload = async () => {
     const formData = new FormData();
-    formData.append('multipartFile', selectedFile);
-    const result = await changeState(id, formData);
+    for (let i = 0; i < selectedFile.length; i += 1) {
+      formData.append('multipartFiles', selectedFile[i]);
+    }
+    const result = await uploadBlockchainImage(id, formData);
     if (result?.data?.message === 'Success') {
-      // changeImageSrc(imageUrlLists);
+      changeImageSrc(result?.data?.imgUrls);
+      handleClose();
+    } else {
+      navigate('./error');
+    }
+  };
+
+  const handleDelivered = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < selectedFile.length; i += 1) {
+      formData.append('multipartFiles', selectedFile[i]);
+    }
+    const result = await uploadBlockchainDeliveryImage(id, formData);
+    if (result?.data?.message === 'Success') {
+      changeImageSrc(result?.data?.imgUrls);
       handleClose();
     } else {
       navigate('./error');
@@ -55,7 +79,9 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
   return (
     <div style={{ padding: 10, width: 500 }}>
       <DialogTitle>사진 업로드하기</DialogTitle>
-
+      <DialogContent>
+        한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
+      </DialogContent>
       {imgCnt === 1 ? (
         <>
           <input
@@ -84,7 +110,11 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
           />
           <DialogActions>
             <Button onClick={handleClose}>취소</Button>
-            <Button onClick={handleUpload}>등록</Button>
+            {imgCnt === 2 ? (
+              <Button onClick={handleUpload}>등록</Button>
+            ) : (
+              <Button onClick={handleDelivered}>등록</Button>
+            )}
           </DialogActions>
         </>
       )}
