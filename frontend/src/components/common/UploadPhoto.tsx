@@ -78,9 +78,14 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
 
   return (
     <div style={{ padding: 10, width: 500 }}>
-      <DialogTitle>사진 업로드하기</DialogTitle>
+      <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
+        사진 업로드하기
+      </DialogTitle>
       <DialogContent>
-        한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
+        한번 사진이 등록되면,
+        <br />
+        <br />
+        수정이 불가하니 신중하게 등록해주세요.
       </DialogContent>
       {imgCnt === 1 ? (
         <>
@@ -93,8 +98,12 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
             ref={ImageInput}
           />
           <DialogActions>
-            <Button onClick={() => handleClose(4)}>취소</Button>
-            <Button onClick={handleChange}>변경</Button>
+            <Button color="color2_2" onClick={() => handleClose(4)}>
+              취소
+            </Button>
+            <Button color="color2_2" onClick={handleChange}>
+              변경
+            </Button>
           </DialogActions>
         </>
       ) : (
@@ -109,11 +118,17 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
             multiple
           />
           <DialogActions>
-            <Button onClick={handleClose}>취소</Button>
+            <Button color="color2_2" onClick={handleClose}>
+              취소
+            </Button>
             {imgCnt === 2 ? (
-              <Button onClick={handleUpload}>등록</Button>
+              <Button color="color2_2" onClick={handleUpload}>
+                등록
+              </Button>
             ) : (
-              <Button onClick={handleDelivered}>등록</Button>
+              <Button color="color2_2" onClick={handleDelivered}>
+                등록
+              </Button>
             )}
           </DialogActions>
         </>
@@ -125,7 +140,7 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
       ) : (
         <></>
       )}
-      <Button variant="contained" color="color2" onClick={onImgInputBtnClick}>
+      <Button variant="contained" color="color2_2" onClick={onImgInputBtnClick}>
         사진 업로드
       </Button>
     </div>

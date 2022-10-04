@@ -37,15 +37,26 @@ const Header: React.FC = () => {
         {token ? (
           <div>
             <Link to="/">
-              <Button onClick={onLogoutHandler}>Logout</Button>
+              <Button
+                size="small"
+                color="color1"
+                variant="outlined"
+                onClick={onLogoutHandler}>
+                로그아웃
+              </Button>
             </Link>
+            <span>&nbsp;&nbsp;</span>
             {loginType === 0 ? (
               <Link to="/customer/mypage">
-                <Button>My Page</Button>
+                <Button size="small" color="color1" variant="contained">
+                  마이페이지
+                </Button>
               </Link>
             ) : (
               <Link to="/ceo/mypage">
-                <Button>My Page</Button>
+                <Button size="small" color="color1" variant="contained">
+                  마이페이지
+                </Button>
               </Link>
             )}
           </div>
@@ -53,12 +64,12 @@ const Header: React.FC = () => {
           <div>
             <Link to="/login" className="Login-Button">
               <Button size="small" color="color1" variant="outlined">
-                Log in
+                로그인
               </Button>
             </Link>
             <Link to="/signup">
               <Button size="small" color="color1" variant="contained">
-                Sign Up
+                회원가입
               </Button>
             </Link>
           </div>

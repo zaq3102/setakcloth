@@ -326,7 +326,7 @@ const CeoMypage: React.FC = () => {
                       focused
                     /> */}
                     <TextField
-                      sx={{ mt: 1, bgcolor: '#F8FFFD' }}
+                      sx={{ mt: 1, mb: 1, bgcolor: '#F8FFFD' }}
                       // sx={{ mt: 1, border: '1px solid green', borderRadius: 1 }}
                       // sx={{
                       //   'mt': 1,
@@ -374,7 +374,7 @@ const CeoMypage: React.FC = () => {
                       onChange={(event) => setRegDate(event.target.value)}
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 4, bgcolor: '#F8FFFD' }}
+                      sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
                       variant="filled"
                       focused
                       color="color2_2"
@@ -421,7 +421,7 @@ const CeoMypage: React.FC = () => {
                     </div>
 
                     <TextField
-                      sx={{ mt: 4, mb: 2, bgcolor: '#F8FFFD' }}
+                      sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
                       variant="filled"
                       focused
                       color="color2_2"
@@ -434,7 +434,7 @@ const CeoMypage: React.FC = () => {
                       onChange={(event) => setDescription(event.target.value)}
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                      sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
                       variant="filled"
                       focused
                       color="color2_2"
@@ -468,7 +468,7 @@ const CeoMypage: React.FC = () => {
                                 color="color2_2"
                                 variant="filled"
                                 focused
-                                sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                                sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
                                 required
                                 label="최소 주문 금액"
                                 fullWidth
@@ -534,7 +534,9 @@ const CeoMypage: React.FC = () => {
             </Dialog>
             <Dialog open={openModal2} onClose={() => handleClose(2)}>
               <div className="ceo-item-modal">
-                <DialogTitle>세탁 품목 변경하기</DialogTitle>
+                <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
+                  세탁 품목 변경하기
+                </DialogTitle>
                 <DialogContent>
                   <List sx={{ height: 200, overflow: 'auto' }}>
                     {itemList.map((item) => (
@@ -554,9 +556,14 @@ const CeoMypage: React.FC = () => {
                     ))}
                   </List>
                   <div className="ceo-add-new-item">
-                    <div>새로운 품목 추가하기</div>
+                    <div className="ceo-add-new-item-text">
+                      새로운 품목 추가하기
+                    </div>
                     <TextField
-                      sx={{ mt: 2 }}
+                      sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="품목명"
                       name="item-id"
@@ -567,28 +574,36 @@ const CeoMypage: React.FC = () => {
                       }
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 1 }}
+                      sx={{ mt: 1, mb: 3, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="가격 (단위 : 클린)"
                       name="item-price"
                       type="number"
+                      inputProps={{
+                        step: 1000
+                      }}
                       fullWidth
                       value={itemPrice}
                       onChange={(event) =>
                         setItemPrice(parseInt(event.target.value, 10))
                       }
                     />
-                    <button
-                      type="button"
+                    <Button
                       className="ceo-add-new-item-btn"
-                      onClick={registItem}>
+                      onClick={registItem}
+                      focused
+                      variant="contained"
+                      color="color2_2">
                       추가
-                    </button>
+                    </Button>
                   </div>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={() => handleClose(2)} color="color2_2">
-                    취소
+                    닫기
                   </Button>
                 </DialogActions>
               </div>
@@ -609,26 +624,28 @@ const CeoMypage: React.FC = () => {
                   ))}
                   <Button
                     variant="contained"
-                    color="color2"
+                    color="color2_2"
                     className="ctm-my-page-btn"
                     onClick={() => handleOpen(4)}>
                     사진 변경하기
                   </Button>
                 </div>
-                <Button
-                  variant="contained"
-                  color="color2"
-                  className="ceo-my-page-btn"
-                  onClick={() => handleOpen(2)}>
-                  세탁 품목 변경하기
-                </Button>
-                <Button
-                  variant="contained"
-                  color="color2"
-                  className="ceo-my-page-btn"
-                  onClick={() => handleOpen(6)}>
-                  세탁소 정보 변경하기
-                </Button>
+                <div>
+                  <Button
+                    variant="contained"
+                    color="color2_2"
+                    className="ceo-my-page-btn"
+                    onClick={() => handleOpen(2)}>
+                    세탁 품목 변경하기
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="color2_2"
+                    className="ceo-my-page-btn"
+                    onClick={() => handleOpen(6)}>
+                    세탁소 정보 변경하기
+                  </Button>
+                </div>
               </>
             )}
           </div>
@@ -678,7 +695,7 @@ const CeoMypage: React.FC = () => {
                         count={Math.ceil(reviewList.length / 5)}
                         page={page}
                         // variant="outlined"
-                        color="color2"
+                        color="color2_2"
                         className={`${
                           reviewList.length === 0
                             ? 'ceo-no-pagination'
@@ -714,11 +731,16 @@ const CeoMypage: React.FC = () => {
 
       <Dialog open={openChange} onClose={() => handleClose(6)}>
         <div className="ceo-item-modal">
-          <DialogTitle>세탁소 등록하기</DialogTitle>
+          <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
+            세탁소 변경하기
+          </DialogTitle>
           <DialogContent>
             <div className="ceo-regist-laundry">
               <TextField
-                sx={{ mt: 2, mb: 1 }}
+                sx={{ mt: 1, mb: 1, bgcolor: '#F8FFFD' }}
+                variant="filled"
+                focused
+                color="color2_2"
                 required
                 label="대표자 성명"
                 name="ceo-name"
@@ -727,7 +749,10 @@ const CeoMypage: React.FC = () => {
                 onChange={(event) => setCeoName(event.target.value.trim())}
               />
               <TextField
-                sx={{ mt: 2, mb: 1 }}
+                sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
+                variant="filled"
+                focused
+                color="color2_2"
                 required
                 label="상호명"
                 name="laundry-name"
@@ -735,37 +760,58 @@ const CeoMypage: React.FC = () => {
                 value={laundryName}
                 onChange={(event) => setLaundryName(event.target.value)}
               />
-              <button type="button" onClick={() => handleOpen(5)}>
-                주소 등록하기
-              </button>
+              <div className="address-item">
+                <div className="address-reg-btn">
+                  <Button
+                    onClick={() => handleOpen(5)}
+                    variant="outlined"
+                    color="color2_2">
+                    주소 검색
+                  </Button>
+                </div>
+                <TextField
+                  sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                  variant="filled"
+                  focused
+                  color="color2_2"
+                  required
+                  label="기본 주소"
+                  name="laundry-addr"
+                  fullWidth
+                  value={addr}
+                  disabled
+                />
+                <TextField
+                  sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+                  variant="filled"
+                  focused
+                  color="color2_2"
+                  required
+                  label="상세 주소"
+                  name="laundry-addr"
+                  fullWidth
+                  value={addrDetail}
+                  disabled
+                />
+              </div>
               <TextField
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
+                variant="filled"
+                focused
+                color="color2_2"
                 required
-                label="기본 주소"
-                name="laundry-addr"
+                label="세탁소 설명"
                 fullWidth
-                value={addrInfo.addr}
-                disabled
-              />
-              <TextField
-                sx={{ mt: 2, mb: 2 }}
-                required
-                label="상세 주소"
-                name="laundry-addr"
-                fullWidth
-                value={addrInfo.addrDetail}
-                disabled
-              />
-              <TextField
-                sx={{ mt: 2, mb: 2 }}
-                required
-                label="세탁소에 대해서 작성해주세요. 이 정보는 고객들이 세탁소를 선택하는 데에 도움이 될 거예요.^^"
-                fullWidth
+                multiline
+                rows={5}
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
               />
               <TextField
-                sx={{ mt: 2, mb: 2 }}
+                sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
+                variant="filled"
+                focused
+                color="color2_2"
                 required
                 label="세탁소 전화번호"
                 fullWidth
@@ -775,31 +821,48 @@ const CeoMypage: React.FC = () => {
                 onChange={(event) => setContact(event.target.value.trim())}
               />
               <div className="ceo-modal-bottom">
-                <div>
+                <div className="bool-text">
                   배달 가능 여부
                   <RadioGroup value={deliver} onChange={handleDeliver}>
                     <FormControlLabel
                       value="true"
                       control={<Radio />}
-                      label="배달 가능"
+                      label="가능"
+                    />
+                    <FormControlLabel
+                      value="false"
+                      control={<Radio />}
+                      label="배달 불가 (손님이 직접 수거)"
                     />
                     {deliver === 'true' ? (
                       <>
                         <TextField
-                          sx={{ mt: 2, mb: 2 }}
+                          color="color2_2"
+                          variant="filled"
+                          focused
+                          sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
                           required
                           label="최소 주문 금액"
                           fullWidth
                           type="number"
+                          inputProps={{
+                            step: 1000
+                          }}
                           value={minCost}
                           onChange={handleMinCost}
                         />
                         <TextField
-                          sx={{ mt: 2, mb: 2 }}
+                          color="color2_2"
+                          variant="filled"
+                          focused
+                          sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
                           required
-                          label="배달비"
+                          label="배달료"
                           fullWidth
                           type="number"
+                          inputProps={{
+                            step: 1000
+                          }}
                           value={deliveryCost}
                           onChange={handleDeliveryCost}
                         />
@@ -807,25 +870,20 @@ const CeoMypage: React.FC = () => {
                     ) : (
                       <></>
                     )}
-                    <FormControlLabel
-                      value="false"
-                      control={<Radio />}
-                      label="배달 불가 (손님이 직접 수거)"
-                    />
                   </RadioGroup>
                 </div>
-                <div>
-                  픽업 가능 여부
+                <div className="bool-text">
+                  픽업(손님이 직접 수거) 가능 여부
                   <RadioGroup value={pickup} onChange={handlePickup}>
                     <FormControlLabel
                       value="true"
                       control={<Radio />}
-                      label="손님이 수거 가능"
+                      label="가능"
                     />
                     <FormControlLabel
                       value="false"
                       control={<Radio />}
-                      label="손님이 수거 불가능(배달만 가능)"
+                      label="불가능"
                     />
                   </RadioGroup>
                 </div>
@@ -833,14 +891,15 @@ const CeoMypage: React.FC = () => {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={() => handleClose(1)} color="color2">
-              취소
-            </Button>
             <Button
-              onClick={handleRegistLaundry}
+              onClick={() => handleClose(6)}
+              focused
               variant="contained"
-              color="color2">
+              color="color2_2">
               등록하기
+            </Button>
+            <Button onClick={() => handleClose(6)} color="color2_2">
+              취소
             </Button>
           </DialogActions>
         </div>
