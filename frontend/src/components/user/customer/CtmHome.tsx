@@ -25,7 +25,6 @@ import {
   LaundryDistRequest,
   LaundryScoreRequest
 } from '../../../store/actions/services/laundryService';
-
 import {
   LaundryLikeRequest,
   InfoRequest
@@ -33,10 +32,10 @@ import {
 
 const CtmHome: React.FC = () => {
   const navigate = useNavigate();
-  const [openAddress, setOpenAddress] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
   const [laundryList, setLaundryList] = useState([]);
-  const [align, setAlign] = React.useState('');
+  const [align, setAlign] = useState('');
+  const [openAddress, setOpenAddress] = useState(false);
 
   const handleSelect = (event: SelectChangeEvent) => {
     setAlign(event.target.value as string);
@@ -89,8 +88,8 @@ const CtmHome: React.FC = () => {
     getList();
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const handleClose = () => {
+    setOpenAddress(false);
   };
 
   const handleButton = (num) => {
@@ -100,10 +99,6 @@ const CtmHome: React.FC = () => {
   // 주소 변경 로직
   const AddressFunc = (value) => {
     setMyaddress(value);
-  };
-
-  const handleClose = () => {
-    setOpenAddress(false);
   };
 
   return (
@@ -121,9 +116,9 @@ const CtmHome: React.FC = () => {
           </div>
           <div className="my-address-content">{myaddress}</div>
           <Button
+            sx={{ minWidth: 5 }}
             className="address-modify-btn"
             onClick={() => setOpenAddress(true)}>
-            sx={{ minWidth: 5 }}
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
@@ -207,10 +202,8 @@ const CtmHome: React.FC = () => {
                 <Box>{item.score === -1 ? null : item.score}</Box>
               </div>
               <div className="item-content">
-                <div className="item-content-left">
-                  <div className="laundry-location">
-                    {item.addr} {item.addrDetail}
-                  </div>
+                <div className="laundry-location">
+                  {item.addr} {item.addrDetail}
                 </div>
                 <div className="laundry-cost">
                   최소 이용금액 : {item.minCost}원, 배달비 : {item.deliverCost}
