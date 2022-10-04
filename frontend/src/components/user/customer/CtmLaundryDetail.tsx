@@ -50,6 +50,7 @@ const CtmLaundryDetailTemp = () => {
   const [heartClicked, setHeartClicked] = useState(false);
   const [mybalance, setBalance] = useState(0);
   const navigate = useNavigate();
+  const [value, setValue] = useState(0);
 
   const handleHeart = async () => {
     if (heartClicked) {
@@ -221,11 +222,19 @@ const CtmLaundryDetailTemp = () => {
     };
   }
 
-  const [value, setValue] = React.useState(0);
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  document.querySelectorAll('.order-button-button').forEach((button) =>
+    button.addEventListener('click', (e) => {
+      if (!button.classList.contains('loading')) {
+        button.classList.add('loading');
+        setTimeout(() => button.classList.remove('loading'), 3700);
+      }
+      e.preventDefault();
+    })
+  );
 
   return (
     <div className="ctm-laundry-detail">
