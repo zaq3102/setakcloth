@@ -1,5 +1,5 @@
 .order-button-button {
-  --background: #362A89;
+  --background: #362a89;
   --text: #fff;
   --order-button-cart: #fff;
   --tick: var(--background);
@@ -18,10 +18,10 @@
   color: var(--text);
   background: var(--background);
   transform: scale(var(--scale, 1));
-  transition: transform .4s cubic-bezier(.36, 1.01, .32, 1.27);
+  transition: transform 0.4s cubic-bezier(0.36, 1.01, 0.32, 1.27);
 
   &:active:enabled {
-    --scale: .95;
+    --scale: 0.95;
   }
 
   span {
@@ -33,7 +33,7 @@
     margin-left: -8px;
     line-height: 26px;
     transform: translateY(var(--span-y, 0));
-    transition: transform .7s ease;
+    transition: transform 0.7s ease;
 
     &:before,
     &:after {
@@ -45,8 +45,9 @@
       left: var(--l, 8px);
       top: var(--t, 6px);
       background: currentColor;
-      transform: scale(.75) rotate(var(--icon-r, 0deg)) translateY(var(--icon-y, 0));
-      transition: transform .65s ease .05s;
+      transform: scale(0.75) rotate(var(--icon-r, 0deg))
+        translateY(var(--icon-y, 0));
+      transition: transform 0.65s ease 0.05s;
     }
 
     &:after {
@@ -109,23 +110,23 @@
           stroke: var(--tick);
           stroke-dasharray: 10px;
           stroke-dashoffset: var(--offset, 10px);
-          transition: stroke-dashoffset .4s ease var(--offset-d);
+          transition: stroke-dashoffset 0.4s ease var(--offset-d);
         }
       }
     }
   }
 
   &.loading {
-    --scale: .95;
+    --scale: 0.95;
     --span-y: -32px;
     --icon-r: 180deg;
     --fill: 1;
-    --fill-d: .8s;
+    --fill-d: 0.8s;
     --offset: 0;
     --offset-d: 1.73s;
 
     .order-button-cart {
-      animation: order-button-cart 3.4s linear forwards .2s;
+      animation: order-button-cart 3.4s linear forwards 0.2s;
     }
   }
 }
@@ -143,7 +144,7 @@
   }
 
   50% {
-    transform: scale(.9);
+    transform: scale(0.9);
   }
 
   44%,
