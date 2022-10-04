@@ -188,8 +188,8 @@ public class OrderService {
         String urlsString = "";
 
         try {
-            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
-            if (personalUnlockAccount.accountUnlocked()) {
+//            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+//            if (personalUnlockAccount.accountUnlocked()) {
                 for (int i = 0; i < multipartFiles.size(); i++) {
                     InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
 
@@ -207,7 +207,7 @@ public class OrderService {
                 if(ethCall.getError() != null){
                     //에러 있을 때
                 }
-            }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -246,8 +246,8 @@ public class OrderService {
         String urlsString = "";
 
         try {
-            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
-            if (personalUnlockAccount.accountUnlocked()) {
+            //PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+            //if (personalUnlockAccount.accountUnlocked()) {
                 for (int i = 0; i < multipartFiles.size(); i++) {
                     InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
 
@@ -265,7 +265,7 @@ public class OrderService {
                 if(ethCall.getError() != null){
                     //에러 있을 때
                 }
-            }
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
