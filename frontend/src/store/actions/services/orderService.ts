@@ -60,7 +60,7 @@ export const getOrderRequest = async (dataToSubmit) => {
   }
 };
 
-//고객 지갑주소 가져오기
+// 고객 지갑주소 가져오기
 export const getFromAddrRequest = async (dataToSubmit) => {
   try {
     const payload = await requestAuth.get(`order/walletaddr/${dataToSubmit}`);
@@ -71,11 +71,36 @@ export const getFromAddrRequest = async (dataToSubmit) => {
 };
 
 // 주문 상세 변경 - 세탁 전, 세탁 후 사진 등록
-export const changeState = async (data1, data2) => {
+export const uploadBlockchainImage = async (data1, data2) => {
   try {
     const payload = await requestAuth.post(
       `/order/laundry/detail/${data1}/update`,
       data2
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 주문 상세 변경 - 배달 완료 사진 등록
+export const uploadBlockchainDeliveryImage = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(
+      `/order/laundry/${data1}/update/delivered`,
+      data2
+    );
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
+
+// 주문 상태 변경
+export const changeState = async (dataToSubmit) => {
+  try {
+    const payload = await requestAuth.post(
+      `/order/laundry/${dataToSubmit}/update`
     );
     return payload;
   } catch (err) {

@@ -131,3 +131,13 @@ export const LaundryImgChange = async (data1, data2) => {
     return err;
   }
 };
+
+// 세탁소 수정하기
+export const LaundryInfoChange = async (data1, data2) => {
+  try {
+    const payload = await requestAuth.post(`/laundry/${data1}/update`, data2);
+    return payload;
+  } catch (err) {
+    return err;
+  }
+};
