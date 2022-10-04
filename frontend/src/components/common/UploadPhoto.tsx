@@ -2,29 +2,21 @@ import { Button, DialogActions, DialogTitle } from '@mui/material';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
+import { changeState } from '../../store/actions/services/orderService';
 import { LaundryImgChange } from '../../store/actions/services/laundryService';
 
-const UploadPhoto: React.FC = ({
-  changeImageSrc,
-  handleClose,
-  imgCnt,
-  laundryId
-}) => {
+const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
   const ImageInput = useRef<HTMLInputElement>();
-  const ImageShow = useRef<HTMLImageElement>();
   const [imageUrlLists, setImageUrlLists] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const navigate = useNavigate();
-
-  const handleSetProfile = () => {};
 
   const onImgInputBtnClick = (event) => {
     event.preventDefault();
     ImageInput.current.click();
   };
 
-  let formData = new FormData();
   const handleImgInput = (event) => {
     const imageLists = event.target.files;
     const tempList = [];
@@ -37,12 +29,24 @@ const UploadPhoto: React.FC = ({
   };
 
   const handleChange = async () => {
-    formData = new FormData();
+    const formData = new FormData();
     formData.append('multipartFile', selectedFile[0]);
-    const result = await LaundryImgChange(laundryId, formData);
+    const result = await LaundryImgChange(id, formData);
     if (result?.data?.message === 'Success') {
       changeImageSrc(imageUrlLists);
       handleClose(4);
+    } else {
+      navigate('./error');
+    }
+  };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append('multipartFile', selectedFile);
+    const result = await changeState(id, formData);
+    if (result?.data?.message === 'Success') {
+      // changeImageSrc(imageUrlLists);
+      handleClose();
     } else {
       navigate('./error');
     }
@@ -53,25 +57,36 @@ const UploadPhoto: React.FC = ({
       <DialogTitle>사진 업로드하기</DialogTitle>
 
       {imgCnt === 1 ? (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => handleImgInput(event)}
-          style={{ display: 'none' }}
-          id="profileUploadBtn"
-          ref={ImageInput}
-          multiple
-        />
+        <>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImgInput(event)}
+            style={{ display: 'none' }}
+            id="profileUploadBtn"
+            ref={ImageInput}
+          />
+          <DialogActions>
+            <Button onClick={() => handleClose(4)}>취소</Button>
+            <Button onClick={handleChange}>변경</Button>
+          </DialogActions>
+        </>
       ) : (
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(event) => handleImgInput(event)}
-          style={{ display: 'none' }}
-          id="profileUploadBtn"
-          ref={ImageInput}
-          multiple
-        />
+        <>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(event) => handleImgInput(event)}
+            style={{ display: 'none' }}
+            id="profileUploadBtn"
+            ref={ImageInput}
+            multiple
+          />
+          <DialogActions>
+            <Button onClick={handleClose}>취소</Button>
+            <Button onClick={handleUpload}>등록</Button>
+          </DialogActions>
+        </>
       )}
 
       <br />
@@ -83,10 +98,6 @@ const UploadPhoto: React.FC = ({
       <Button variant="contained" color="color2" onClick={onImgInputBtnClick}>
         사진 업로드
       </Button>
-      <DialogActions>
-        <Button onClick={() => handleClose(4)}>취소</Button>
-        <Button onClick={handleChange}>변경</Button>
-      </DialogActions>
     </div>
   );
 };

@@ -104,7 +104,6 @@ const CeoMypage: React.FC = () => {
   };
 
   const getMyReviews = async () => {
-    console.log(laundryList);
     const result = await LaundryReviewRequest(laundryList[0].laundryId);
     if (result?.data?.review) {
       setReviewList(result?.data?.review);
@@ -597,7 +596,7 @@ const CeoMypage: React.FC = () => {
         </>
       )}
       {/* 모달 모음집 */}
-      <Dialog open={openImage} onClose={() => handleClose(3)}>
+      <Dialog open={openImage} onClose={() => handleClose(4)}>
         <UploadPhoto
           changeImageSrc={changeImageSrc}
           handleClose={handleClose}
