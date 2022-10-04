@@ -25,6 +25,18 @@ const theme = createTheme({
     color5: {
       main: '#E0EBF5',
       contrastText: '#000000'
+    },
+    color2_2: {
+      main: '#1C6654',
+      contrastText: '#FFFFFF'
+    },
+    color3_2: {
+      main: '#82CDA9',
+      contrastText: '#000000'
+    },
+    color4_2: {
+      main: '#E1F0EC',
+      contrastText: '#000000'
     }
   }
 });

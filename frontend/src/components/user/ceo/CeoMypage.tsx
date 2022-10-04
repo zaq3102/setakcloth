@@ -29,6 +29,8 @@ import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../../components/common/Address';
+import { red } from '@mui/material/colors';
+import { bgcolor, fontSize } from '@mui/system';
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(12340000000000);
@@ -36,6 +38,7 @@ const CeoMypage: React.FC = () => {
   const [openModal3, setOpenModal3] = useState<boolean>(false);
 
   const [addr, setAddr] = useState<string>('');
+  const [addrDetail, setAddrDetail] = useState<string>('');
 
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
@@ -53,7 +56,9 @@ const CeoMypage: React.FC = () => {
   const [regNum, setRegNum] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
   const [ceoName, setCeoName] = useState<string>('');
-  const [regDate, setRegDate] = useState('');
+  const [regDate, setRegDate] = useState(
+    new Date().toISOString().substr(0, 10)
+  );
   const [description, setDescription] = useState<string>('');
   const [contact, setContact] = useState<string>('');
   const [minCost, setMinCost] = useState(0);
@@ -264,6 +269,8 @@ const CeoMypage: React.FC = () => {
   // 주소 변경 로직
   const AddressFunc = (value) => {
     setAddrInfo(value);
+    setAddr(value.addr);
+    setAddrDetail(value.addrDetail);
   };
 
   // 이미지 변경 로직
@@ -299,13 +306,39 @@ const CeoMypage: React.FC = () => {
               <div>{laundryList[0]?.laundryName}님, 오늘도 화이팅!</div>
               <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
             </div>
-            <Dialog open={openRegist} onClose={() => handleClose(1)}>
+            <Dialog
+              // sx={{ '& .MuiPaper-root': { bgcolor: '#e1f0ec' } }}
+              open={openRegist}
+              onClose={() => handleClose(1)}
+              className="laundry-reg-dialog">
               <div className="ceo-item-modal">
-                <DialogTitle>세탁소 등록하기</DialogTitle>
+                <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
+                  세탁소 등록하기
+                </DialogTitle>
                 <DialogContent>
                   <div className="ceo-regist-laundry">
+                    {/* <TextField
+                      label="사업자 등록번호"
+                      variant="filled"
+                      color="color2_2"
+                      fullWidth
+                      sx={{ mt: 1, bgcolor: '#F8FFFD' }}
+                      focused
+                    /> */}
                     <TextField
-                      sx={{ mt: 1 }}
+                      sx={{ mt: 1, bgcolor: '#F8FFFD' }}
+                      // sx={{ mt: 1, border: '1px solid green', borderRadius: 1 }}
+                      // sx={{
+                      //   'mt': 1,
+                      //   '& .MuiInputLabel-root': { color: 'green' },
+                      //   '& .MuiOutlinedInput-root': {
+                      //     '& > fieldset': { borderColor: 'orange' }
+                      //   }
+                      // }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
+                      className="ceo-text-field"
                       required
                       label="사업자 등록번호"
                       name="laundry-num"
@@ -314,7 +347,10 @@ const CeoMypage: React.FC = () => {
                       onChange={(event) => setRegNum(event.target.value.trim())}
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 1 }}
+                      sx={{ mt: 2, mb: 1, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="대표자 성명"
                       name="ceo-name"
@@ -325,7 +361,10 @@ const CeoMypage: React.FC = () => {
                       }
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 1 }}
+                      sx={{ mt: 2, mb: 1, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="개업일자"
                       name="reg-date"
@@ -335,7 +374,10 @@ const CeoMypage: React.FC = () => {
                       onChange={(event) => setRegDate(event.target.value)}
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 1 }}
+                      sx={{ mt: 2, mb: 4, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="상호명"
                       name="laundry-name"
@@ -343,37 +385,59 @@ const CeoMypage: React.FC = () => {
                       value={laundryName}
                       onChange={(event) => setLaundryName(event.target.value)}
                     />
-                    <button type="button" onClick={() => handleOpen(5)}>
-                      주소 등록하기
-                    </button>
+                    <div className="address-item">
+                      <div className="address-reg-btn">
+                        <Button
+                          onClick={() => handleOpen(5)}
+                          variant="outlined"
+                          color="color2_2">
+                          주소 검색
+                        </Button>
+                      </div>
+                      <TextField
+                        sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                        variant="filled"
+                        focused
+                        color="color2_2"
+                        required
+                        label="기본 주소"
+                        name="laundry-addr"
+                        fullWidth
+                        value={addr}
+                        disabled
+                      />
+                      <TextField
+                        sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+                        variant="filled"
+                        focused
+                        color="color2_2"
+                        required
+                        label="상세 주소"
+                        name="laundry-addr"
+                        fullWidth
+                        value={addrDetail}
+                        disabled
+                      />
+                    </div>
+
                     <TextField
-                      sx={{ mt: 2, mb: 2 }}
+                      sx={{ mt: 4, mb: 2, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
-                      label="기본 주소"
-                      name="laundry-addr"
+                      label="세탁소 설명"
                       fullWidth
-                      value={addrInfo.addr}
-                      disabled
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 2 }}
-                      required
-                      label="상세 주소"
-                      name="laundry-addr"
-                      fullWidth
-                      value={addrInfo.addrDetail}
-                      disabled
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 2 }}
-                      required
-                      label="세탁소에 대해서 작성해주세요. 이 정보는 고객들이 세탁소를 선택하는 데에 도움이 될 거예요.^^"
-                      fullWidth
+                      multiline
+                      rows={5}
                       value={description}
                       onChange={(event) => setDescription(event.target.value)}
                     />
                     <TextField
-                      sx={{ mt: 2, mb: 2 }}
+                      sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                      variant="filled"
+                      focused
+                      color="color2_2"
                       required
                       label="세탁소 전화번호"
                       fullWidth
@@ -385,31 +449,48 @@ const CeoMypage: React.FC = () => {
                       }
                     />
                     <div className="ceo-modal-bottom">
-                      <div>
+                      <div className="bool-text">
                         배달 가능 여부
                         <RadioGroup value={deliver} onChange={handleDeliver}>
                           <FormControlLabel
                             value="true"
                             control={<Radio />}
-                            label="배달 가능"
+                            label="가능"
+                          />
+                          <FormControlLabel
+                            value="false"
+                            control={<Radio />}
+                            label="불가능(손님이 직접 수거)"
                           />
                           {deliver === 'true' ? (
                             <>
                               <TextField
-                                sx={{ mt: 2, mb: 2 }}
+                                color="color2_2"
+                                variant="filled"
+                                focused
+                                sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
                                 required
                                 label="최소 주문 금액"
                                 fullWidth
                                 type="number"
+                                inputProps={{
+                                  step: 1000
+                                }}
                                 value={minCost}
                                 onChange={handleMinCost}
                               />
                               <TextField
-                                sx={{ mt: 2, mb: 2 }}
+                                color="color2_2"
+                                variant="filled"
+                                focused
+                                sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
                                 required
-                                label="배달비"
+                                label="배달료"
                                 fullWidth
                                 type="number"
+                                inputProps={{
+                                  step: 1000
+                                }}
                                 value={deliveryCost}
                                 onChange={handleDeliveryCost}
                               />
@@ -417,25 +498,20 @@ const CeoMypage: React.FC = () => {
                           ) : (
                             <></>
                           )}
-                          <FormControlLabel
-                            value="false"
-                            control={<Radio />}
-                            label="배달 불가 (손님이 직접 수거)"
-                          />
                         </RadioGroup>
                       </div>
-                      <div>
-                        픽업 가능 여부
+                      <div className="bool-text">
+                        픽업(손님이 직접 수거) 가능 여부
                         <RadioGroup value={pickup} onChange={handlePickup}>
                           <FormControlLabel
                             value="true"
                             control={<Radio />}
-                            label="손님이 수거 가능"
+                            label="가능"
                           />
                           <FormControlLabel
                             value="false"
                             control={<Radio />}
-                            label="손님이 수거 불가능(배달만 가능)"
+                            label="불가능"
                           />
                         </RadioGroup>
                       </div>
@@ -443,14 +519,15 @@ const CeoMypage: React.FC = () => {
                   </div>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => handleClose(1)} color="color2">
-                    취소
-                  </Button>
                   <Button
                     onClick={handleRegistLaundry}
+                    focused
                     variant="contained"
-                    color="color2">
+                    color="color2_2">
                     등록하기
+                  </Button>
+                  <Button onClick={() => handleClose(1)} color="color2_2">
+                    취소
                   </Button>
                 </DialogActions>
               </div>
@@ -510,7 +587,7 @@ const CeoMypage: React.FC = () => {
                   </div>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={() => handleClose(2)} color="color2">
+                  <Button onClick={() => handleClose(2)} color="color2_2">
                     취소
                   </Button>
                 </DialogActions>
@@ -520,6 +597,7 @@ const CeoMypage: React.FC = () => {
               <button
                 type="button"
                 className="ceo-my-page-btn"
+                color="color2_2"
                 onClick={() => handleOpen(1)}>
                 세탁소 등록하기
               </button>
