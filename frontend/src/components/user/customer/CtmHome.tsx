@@ -11,7 +11,6 @@ import {
   Rating,
   Select,
   SelectChangeEvent
-  TextField
 } from '@mui/material';
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -208,7 +207,6 @@ const CtmHome: React.FC = () => {
                 <Box>{item.score === -1 ? null : item.score}</Box>
               </div>
               <div className="item-content">
-<<<<<<< frontend/src/components/user/customer/CtmHome.tsx
                 <div className="item-content-left">
                   <div className="laundry-location">
                     {item.addr} {item.addrDetail}
