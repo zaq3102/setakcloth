@@ -28,13 +28,11 @@ import {
 import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
-import UploadPhotoTemp from '../../../components/common/UploadPhotoTemp';
 import Address from '../../../components/common/Address';
 
 const CeoMypage: React.FC = () => {
   const TemplaundryName = '싸피 세탁소';
   const [clean, setClean] = useState<number>(12340000000000);
-  const [openModal1, setOpenModal1] = useState<boolean>(false);
   const [openModal2, setOpenModal2] = useState<boolean>(false);
   const [openModal3, setOpenModal3] = useState<boolean>(false);
 
@@ -65,11 +63,12 @@ const CeoMypage: React.FC = () => {
   const [deliver, setDeliver] = useState<string>('true');
 
   // 모달창
+  const [openRegist, setOpenRegist] = useState<boolean>(false);
   const [openAddress, setOpenAddress] = useState(false);
   const [openImage, setOpenImage] = useState(false);
 
   // 이미지 변경
-  const [imgSrc, setImgSrc] = useState('');
+  const [imgSrc, setImgSrc] = useState([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -87,7 +86,8 @@ const CeoMypage: React.FC = () => {
     const result = await myLaundryRequest();
     if (result?.payload?.data?.laundries) {
       setLaundryList(result?.payload?.data?.laundries);
-      setLaundryId(result?.payload?.data?.laundries[0].laundryId);
+      setLaundryId(result?.payload?.data?.laundries[0]?.laundryId);
+      setImgSrc([result?.payload?.data?.laundries[0].imgUrl]);
     } else {
       navigate('/error');
     }
@@ -148,7 +148,7 @@ const CeoMypage: React.FC = () => {
   const handleOpen = (value) => {
     switch (value) {
       case 1:
-        setOpenModal1(true);
+        setOpenRegist(true);
         break;
       case 2:
         setOpenModal2(true);
@@ -171,7 +171,7 @@ const CeoMypage: React.FC = () => {
   const handleClose = (value) => {
     switch (value) {
       case 1:
-        setOpenModal1(false);
+        setOpenRegist(false);
         break;
       case 2:
         setOpenModal2(false);
@@ -286,7 +286,7 @@ const CeoMypage: React.FC = () => {
               <div>{TemplaundryName}님, 오늘도 화이팅!</div>
               <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
             </div>
-            <Dialog open={openModal1} onClose={() => handleClose(1)}>
+            <Dialog open={openRegist} onClose={() => handleClose(1)}>
               <div className="ceo-item-modal">
                 <DialogTitle>세탁소 등록하기</DialogTitle>
                 <DialogContent>
@@ -513,11 +513,9 @@ const CeoMypage: React.FC = () => {
             ) : (
               <>
                 <div className="ctm-my-info-content-left">
-                  <img
-                    src="https://via.placeholder.com/150/BFD7EA/111111"
-                    alt="profileImg"
-                    width={100}
-                  />
+                  {imgSrc.map((url) => (
+                    <img src={url} alt="profileImg" width={100} />
+                  ))}
                   <Button
                     variant="contained"
                     color="color2"
@@ -600,7 +598,7 @@ const CeoMypage: React.FC = () => {
       )}
       {/* 모달 모음집 */}
       <Dialog open={openImage} onClose={() => handleClose(3)}>
-        <UploadPhotoTemp
+        <UploadPhoto
           changeImageSrc={changeImageSrc}
           handleClose={handleClose}
           imgCnt={imgCnt}
