@@ -542,12 +542,62 @@ $color4-2: #e1f0ec;
 }
 
 .laundry-my-review {
-  display: flex;
-  flex-direction: column;
-  background-color: #e0ebf5;
-  border-radius: 10px;
-  margin-bottom: 0.5vh;
-  padding: 1.5vh;
-  width: 51vh;
-  height: 10vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #E0EBF5;
+    border-radius: 10px;
+    margin-bottom: 0.5vh;
+    padding: 1.5vh;
+    width: 51vh;
+    height: 10vh;
+}
+
+// CtmOrderList.tsx
+.ctm-orderlist{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.ctm-orderlist-chips{
+    display: flex;
+    flex-direction: row;
+    width: 90rem;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+}
+
+.ctm-orderlist-chip{
+    width: 20rem;
+}
+
+.ctm-orderlist-chip:hover{
+    background-color:$color4 !important;
+}
+
+.ctm-orderlist-card{
+    margin-top: 1rem;
+    border: 0.3rem solid #1e3e5c;
+}
+
+.ctm-orderlist-card-content{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    width: 80rem;
+}
+
+.ctm-orderlist-card-img{
+    margin-left: 5rem;
+    width: 20rem;
+}
+
+.ctm-orderlist-card-info{
+    margin-top: 5rem;
+    margin-left: 5rem;
+    line-height: 5rem;
+    font-size: small;
 }
