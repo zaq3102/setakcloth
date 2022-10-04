@@ -17,10 +17,8 @@ const CeoOrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState([]);
   const [fromAddr, setFromAddr] = useState('');
   const [userInfo, setUserInfo] = useState('');
-  const [imageList, setImageList] = useState([]);
   const [openImage, setOpenImage] = useState(false);
-  const imgCnt = 2;
-  const [imgSrc, setImgSrc] = useState([]);
+  const [imgCnt, setImgCnt] = useState(2);
   const [orderDetailId, setOrderDetailId] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
   const [allUploaded, setAllUploaded] = useState([false]);
@@ -38,27 +36,29 @@ const CeoOrderDetail = () => {
         setModes(['수락 대기중', '세탁중', '세탁 완료', '수거 완료']);
       }
       setOrderDetail(result?.data?.orderDetails);
-      const temp = [];
-      for (let i = 0; i < result?.data?.orderDetails.length; i += 1) {
-        console.log(result?.data?.orderDetails[i]);
-        if (
-          result?.data?.orderDetails[i]?.[
-            `blockAddr${result?.data?.state + 1}ImgUrls`
-          ].length === 0
-        ) {
-          temp.push(false);
-        } else {
-          temp.push(true);
+
+      if (result?.data?.state === 2 && result?.data?.orderType === 'PICKUP') {
+        setAllUploaded([true]);
+      } else {
+        const temp = [];
+        for (let i = 0; i < result?.data?.orderDetails?.length; i += 1) {
+          if (
+            result?.data?.state < 3 &&
+            result?.data?.orderDetails[i]?.[
+              `blockAddr${result?.data?.state + 1}ImgUrls`
+            ]?.length === 0
+          ) {
+            temp.push(false);
+          } else {
+            temp.push(true);
+          }
         }
+        setAllUploaded(temp);
       }
-      setAllUploaded(temp);
     } else {
       navigate('/error');
     }
   };
-
-  console.log(orderInfo);
-  console.log(userInfo);
 
   // 고객 지갑 가져오기
   const getFromAddr = async () => {
@@ -92,28 +92,42 @@ const CeoOrderDetail = () => {
   const ImgUploadBtnClick = (value, index) => {
     setOpenImage(true);
     setOrderDetailId(value);
+    if (index === -1) {
+      setImgCnt(3);
+    }
     setSelectedItem(index);
   };
 
   // 이미지 변경 로직
   const changeImageSrc = (value) => {
-    const newArr1 = [...orderDetail];
-    newArr1[selectedItem][`blockAddr${currentState + 1}ImgUrls`] = value;
-    setOrderDetail(newArr1);
-    const newArr2 = [...allUploaded];
-    newArr2[selectedItem] = true;
-    setAllUploaded(newArr2);
+    if (imgCnt === 3) {
+      const newArr1 = [...orderDetail];
+      newArr1[0][`blockAddr${currentState + 1}ImgUrls`] = value;
+      setOrderDetail(newArr1);
+      setAllUploaded([true]);
+    } else if (imgCnt === 2) {
+      const newArr1 = [...orderDetail];
+      newArr1[selectedItem][`blockAddr${currentState + 1}ImgUrls`] = value;
+      setOrderDetail(newArr1);
+      const newArr2 = [...allUploaded];
+      newArr2[selectedItem] = true;
+      setAllUploaded(newArr2);
+    }
   };
 
   const nextState = async () => {
     const result = await changeState(orderNum);
     if (result?.data?.message === 'Success') {
       setCurrentState(result?.data?.state);
-      const temp = [];
-      for (let i = 0; i < orderDetail.length; i += 1) {
-        temp.push(false);
+      if (currentState === 1 && orderInfo.orderType === 'PICKUP') {
+        setAllUploaded([true]);
+      } else {
+        const temp = [];
+        for (let i = 0; i < orderDetail.length; i += 1) {
+          temp.push(false);
+        }
+        setAllUploaded(temp);
       }
-      setAllUploaded(temp);
     } else {
       navigate('/error');
     }
@@ -139,44 +153,80 @@ const CeoOrderDetail = () => {
             </Step>
           ))}
         </Stepper>
-        <Button
-          variant="contained"
-          color="color2"
-          onClick={nextState}
-          disabled={allUploaded.includes(false)}>
-          저장 후 다음 단계
-        </Button>
+        {currentState < 3 ? (
+          <Button
+            variant="contained"
+            color="color2"
+            onClick={nextState}
+            disabled={allUploaded.includes(false)}>
+            저장 후 다음 단계
+          </Button>
+        ) : (
+          <></>
+        )}
       </div>
       <div className="ceo-order-detail-upload">
-        {orderDetail.map((order, idx1) => (
-          <div key={idx1}>
-            <div className="ceo-order-detail-upload-text">{order.name}</div>
-            <div className="ceo-order-detail-upload-info">
-              <div className="ceo-order-detail-upload-img">
-                {order[`blockAddr${currentState + 1}ImgUrls`].map(
-                  (url, idx2) => (
-                    <img
-                      src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
-                      key={`img-${idx2}`}
-                      alt={`img-${idx2}`}
-                      style={{ height: 100 }}
-                    />
-                  )
-                )}
+        {currentState < 2 ? (
+          <>
+            {orderDetail.map((order, idx1) => (
+              <div key={idx1}>
+                <div className="ceo-order-detail-upload-text">{order.name}</div>
+                <div className="ceo-order-detail-upload-info">
+                  <div className="ceo-order-detail-upload-img">
+                    {order[`blockAddr${currentState + 1}ImgUrls`].map(
+                      (url: any, idx2: any) => (
+                        <img
+                          src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                          key={`img-${idx2}`}
+                          alt={`img-${idx2}`}
+                          style={{ height: 100 }}
+                        />
+                      )
+                    )}
+                  </div>
+                  <Button
+                    variant="contained"
+                    color="color2"
+                    className="ceo-order-detail-upload-button"
+                    onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
+                    disabled={
+                      order[`blockAddr${currentState + 1}ImgUrls`].length !== 0
+                    }>
+                    사진 업로드
+                  </Button>
+                </div>
               </div>
-              <Button
-                variant="contained"
-                color="color2"
-                className="ceo-order-detail-upload-button"
-                onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
-                disabled={
-                  order[`blockAddr${currentState + 1}ImgUrls`].length !== 0
-                }>
-                사진 업로드
-              </Button>
+            ))}
+          </>
+        ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
+          <>
+            <Button
+              variant="contained"
+              color="color2"
+              className="ceo-order-detail-upload-button"
+              onClick={() => ImgUploadBtnClick(orderNum, -1)}
+              disabled={
+                orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].length !==
+                0
+              }>
+              배달 사진 업로드
+            </Button>
+            <div className="ceo-order-detail-upload-img">
+              {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].map(
+                (url: any, idx3: any) => (
+                  <img
+                    src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                    key={`img-${idx3}`}
+                    alt={`img-${idx3}`}
+                    style={{ height: 100 }}
+                  />
+                )
+              )}
             </div>
-          </div>
-        ))}
+          </>
+        ) : (
+          <></>
+        )}
       </div>
       {/* 모달창 모음집 */}
       <Dialog open={openImage} onClose={() => handleClose}>

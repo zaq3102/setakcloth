@@ -5,14 +5,12 @@ import {
   CardMedia,
   Chip,
   Dialog,
-  DialogActions,
-  DialogTitle,
   FormControl,
   InputLabel,
   MenuItem,
   Rating,
   Select,
-  SelectChangeEvent,
+  SelectChangeEvent
   TextField
 } from '@mui/material';
 import { Box } from '@mui/system';
@@ -21,8 +19,8 @@ import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import DaumPostcode from 'react-daum-postcode';
 import '../../../styles/Customer.scss';
+import Address from '../../../components/common/Address';
 import {
   LaundryLatestRequest,
   LaundryDistRequest,
@@ -31,26 +29,13 @@ import {
 
 import {
   LaundryLikeRequest,
-  changeAddrRequest,
-  getLocationxyRequest,
   InfoRequest
 } from '../../../store/actions/services/userService';
 
-// 카카오 주소 입력
-declare global {
-  interface Window {
-    kakao?: any;
-  }
-}
-const { kakao } = window;
-// ---------------
-
 const CtmHome: React.FC = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
-  const [addr, setAddr] = useState<string>('');
-  const [addrDetail, setAddrDetail] = useState<string>('');
   const [laundryList, setLaundryList] = useState([]);
   const [align, setAlign] = React.useState('');
 
@@ -109,41 +94,17 @@ const CtmHome: React.FC = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = async () => {
-    const result1 = await getLocationxyRequest(`${addr} ${addrDetail}`);
-    if (result1?.data?.documents) {
-      const addrInfo = {
-        addr,
-        addrLat: result1?.data?.documents[0].y,
-        addrLng: result1?.data?.documents[0].x,
-        addrDetail
-      };
-      const result2 = await changeAddrRequest(addrInfo);
-      if (result2?.data) {
-        setMyaddress(`${addr} ${addrDetail}`);
-      } else {
-        navigate('/error');
-      }
-    } else {
-      navigate('/error');
-    }
-    setOpen(false);
-  };
-
   const handleButton = (num) => {
     getList(num);
   };
 
-  const handleComplete = async (data) => {
-    setAddr(`${data.address} ${data.buildingName}`);
+  // 주소 변경 로직
+  const AddressFunc = (value) => {
+    setMyaddress(value);
   };
 
-  const addrDetailChange = (event) => {
-    setAddrDetail(event.target.value);
+  const handleClose = () => {
+    setOpenAddress(false);
   };
 
   return (
@@ -161,28 +122,20 @@ const CtmHome: React.FC = () => {
           </div>
           <div className="my-address-content">{myaddress}</div>
           <Button
-            sx={{ minWidth: 5 }}
             className="address-modify-btn"
-            onClick={handleClickOpen}>
+            onClick={() => setOpenAddress(true)}>
+            sx={{ minWidth: 5 }}
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
 
-        {/* 주소 변경 모달 창 */}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>주소 변경하기</DialogTitle>
-          <DaumPostcode autoClose={false} onComplete={handleComplete} />
-          <TextField
-            id="outlined-basic"
-            label="상세 주소 입력"
-            variant="outlined"
-            value={addrDetail}
-            onChange={addrDetailChange}
+        {/* 주소 변경 모달 */}
+        <Dialog open={openAddress} onClose={handleClose}>
+          <Address
+            AddressFunc={AddressFunc}
+            handleClose={handleClose}
+            type="change"
           />
-          <DialogActions>
-            <Button onClick={handleClose}>취소</Button>
-            <Button onClick={handleChange}>변경</Button>
-          </DialogActions>
         </Dialog>
       </div>
 
@@ -255,8 +208,11 @@ const CtmHome: React.FC = () => {
                 <Box>{item.score === -1 ? null : item.score}</Box>
               </div>
               <div className="item-content">
-                <div className="laundry-location">
-                  {item.addr} {item.addrDetail}
+<<<<<<< frontend/src/components/user/customer/CtmHome.tsx
+                <div className="item-content-left">
+                  <div className="laundry-location">
+                    {item.addr} {item.addrDetail}
+                  </div>
                 </div>
                 <div className="laundry-cost">
                   최소 이용금액 : {item.minCost}원, 배달비 : {item.deliverCost}
