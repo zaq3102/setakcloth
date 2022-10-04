@@ -4,17 +4,12 @@ import {
   CardContent,
   CardMedia,
   Chip,
-  ClickAwayListener,
   Dialog,
   DialogActions,
   DialogTitle,
   FormControl,
-  Grow,
   InputLabel,
   MenuItem,
-  MenuList,
-  Paper,
-  Popper,
   Rating,
   Select,
   SelectChangeEvent,
@@ -23,25 +18,32 @@ import {
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
 import StarIcon from '@mui/icons-material/Star';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import DaumPostcode from 'react-daum-postcode';
 import '../../../styles/Customer.scss';
-import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
 import {
+  LaundryLatestRequest,
+  LaundryDistRequest,
+  LaundryScoreRequest
+} from '../../../store/actions/services/laundryService';
+
+import {
+  LaundryLikeRequest,
   changeAddrRequest,
   getLocationxyRequest,
   InfoRequest
 } from '../../../store/actions/services/userService';
 
+// 카카오 주소 입력
 declare global {
   interface Window {
     kakao?: any;
   }
 }
 const { kakao } = window;
+// ---------------
 
 const CtmHome: React.FC = () => {
   const navigate = useNavigate();
@@ -49,7 +51,7 @@ const CtmHome: React.FC = () => {
   const [myaddress, setMyaddress] = useState<string>('');
   const [addr, setAddr] = useState<string>('');
   const [addrDetail, setAddrDetail] = useState<string>('');
-  const [latestLaundry, setLatestLaundry] = useState([]);
+  const [laundryList, setLaundryList] = useState([]);
   const [align, setAlign] = React.useState('');
 
   const handleSelect = (event: SelectChangeEvent) => {
@@ -70,18 +72,37 @@ const CtmHome: React.FC = () => {
     navigate(`./${value}`);
   };
 
-  const getLatestLaundry = async () => {
-    const result = await LaundryLatestRequest();
+  const getList = async (value) => {
+    let result = '';
+    switch (value) {
+      case 0: // 최신순
+        result = await LaundryLatestRequest();
+        break;
+      case 1: // 거리순
+        result = await LaundryDistRequest();
+        break;
+      case 2: // 별점순
+        result = await LaundryScoreRequest();
+        break;
+      case 3: // 즐겨찾기
+        result = await LaundryLikeRequest();
+        break;
+      default: // 초기 값, 최신순
+        result = await LaundryLatestRequest();
+        break;
+    }
     if (result?.data?.laundries) {
-      setLatestLaundry(result?.data?.laundries);
+      setLaundryList(result?.data?.laundries);
+    } else if (result?.data?.laundrys) {
+      setLaundryList(result?.data?.laundrys);
     } else {
-      console.log('error');
+      navigate('/error');
     }
   };
 
   useEffect(() => {
     getMyInfo();
-    getLatestLaundry();
+    getList();
   }, []);
 
   const handleClickOpen = () => {
@@ -113,8 +134,8 @@ const CtmHome: React.FC = () => {
     setOpen(false);
   };
 
-  const handleButton = (mode) => {
-    navigate('./laundrylist', { state: mode });
+  const handleButton = (num) => {
+    getList(num);
   };
 
   const handleComplete = async (data) => {
@@ -164,6 +185,7 @@ const CtmHome: React.FC = () => {
           </DialogActions>
         </Dialog>
       </div>
+
       {/* 정렬 선택 */}
       <div className="select-area">
         <FormControl
@@ -173,16 +195,15 @@ const CtmHome: React.FC = () => {
             minWidth: 120
           }}
           className="select">
-          <InputLabel>
-            <div className="inputlabel-default">최신 등록 순</div>
+          <InputLabel sx={{ fontSize: 7 }}>
+            <div className="inputlabel-default">정렬</div>
           </InputLabel>
           <Select
             displayEmpty
-            value={align}
             onChange={handleSelect}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem onClick={() => handleButton(1)} value="전체보기">
-              전체보기
+            <MenuItem onClick={() => handleButton(0)} value="최신 등록순">
+              최신등록순
             </MenuItem>
             <MenuItem onClick={() => handleButton(1)} value="거리순">
               거리순
@@ -199,7 +220,7 @@ const CtmHome: React.FC = () => {
 
       {/* 최신 세탁소 5개 리스트 */}
       <div className="latest-list-area">
-        {latestLaundry.map((item) => (
+        {laundryList.map((item) => (
           <Card
             key={item.laundryId}
             id="laundryCard"
