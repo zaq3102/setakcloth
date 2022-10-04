@@ -212,6 +212,11 @@ const Signup: React.FC = () => {
 
   const tabClickHandler = (index) => {
     setActiveIndex(index);
+    if (index === 0) {
+      setMode('customer');
+    } else {
+      setMode('ceo');
+    }
   };
 
   const kakaoUserSignUpHandler = () => {
