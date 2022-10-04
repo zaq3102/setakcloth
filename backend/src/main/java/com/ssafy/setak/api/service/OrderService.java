@@ -116,12 +116,13 @@ public class OrderService {
             List<OrderDetail> orderDetails = order.getOrderDetails();
 
             String inputdata = null;
-            List<String> urls1 = null;
-            List<String> urls2 = null;
-            List<String> urls3 = null;
 
             if(orderDetails != null){
                 for(OrderDetail detail : orderDetails){
+                    List<String> urls1 = null;
+                    List<String> urls2 = null;
+                    List<String> urls3 = null;
+
                     String txHash1 = detail.getBlockAddr1();
                     String txHash2 = detail.getBlockAddr2();
                     String txHash3 = detail.getBlockAddr3();
