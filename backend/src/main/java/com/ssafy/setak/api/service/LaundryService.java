@@ -43,6 +43,7 @@ public class LaundryService {
                 .ceoName(laundryInfo.getCeoName())
                 .regDate(regDateType)
                 .address(new Address(laundryInfo.getAddr(), laundryInfo.getAddrDetail(), laundryInfo.getAddrLat(), laundryInfo.getAddrLng()))
+                .description(laundryInfo.getDescription())
                 .userId(ceoUserId)
                 .isDeliver(laundryInfo.isDeliver())
                 .minCost(laundryInfo.getMinCost())
