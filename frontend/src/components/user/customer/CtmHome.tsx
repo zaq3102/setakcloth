@@ -5,16 +5,12 @@ import {
   CardMedia,
   Chip,
   Dialog,
-  DialogActions,
-  DialogTitle,
   FormControl,
   InputLabel,
   MenuItem,
   Rating,
   Select,
-  SelectChangeEvent,
-  TextField,
-  Typography
+  SelectChangeEvent
 } from '@mui/material';
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -22,28 +18,15 @@ import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import DaumPostcode from 'react-daum-postcode';
 import '../../../styles/Customer.scss';
 import { LaundryLatestRequest } from '../../../store/actions/services/laundryService';
-import {
-  changeAddrRequest,
-  getLocationxyRequest,
-  InfoRequest
-} from '../../../store/actions/services/userService';
+import { InfoRequest } from '../../../store/actions/services/userService';
+import Address from '../../../components/common/Address';
 
-declare global {
-  interface Window {
-    kakao?: any;
-  }
-}
-const { kakao } = window;
-
-const CtmHome: React.FC = (props) => {
+const CtmHome: React.FC = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [openAddress, setOpenAddress] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
-  const [addr, setAddr] = useState<string>('');
-  const [addrDetail, setAddrDetail] = useState<string>('');
   const [latestLaundry, setLatestLaundry] = useState([]);
   const [align, setAlign] = React.useState('');
 
@@ -79,45 +62,17 @@ const CtmHome: React.FC = (props) => {
     getLatestLaundry();
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = async () => {
-    const result1 = await getLocationxyRequest(`${addr} ${addrDetail}`);
-    if (result1?.data?.documents) {
-      const addrInfo = {
-        addr,
-        addrLat: result1?.data?.documents[0].y,
-        addrLng: result1?.data?.documents[0].x,
-        addrDetail
-      };
-      const result2 = await changeAddrRequest(addrInfo);
-      if (result2?.data) {
-        setMyaddress(`${addr} ${addrDetail}`);
-      } else {
-        navigate('/error');
-      }
-    } else {
-      navigate('/error');
-    }
-    setOpen(false);
-  };
-
   const handleButton = (mode) => {
     navigate('./laundrylist', { state: mode });
   };
 
-  const handleComplete = async (data) => {
-    setAddr(`${data.address} ${data.buildingName}`);
+  // 주소 변경 로직
+  const AddressFunc = (value) => {
+    setMyaddress(value);
   };
 
-  const addrDetailChange = (event) => {
-    setAddrDetail(event.target.value);
+  const handleClose = () => {
+    setOpenAddress(false);
   };
 
   return (
@@ -134,26 +89,20 @@ const CtmHome: React.FC = (props) => {
             />
           </div>
           <div className="my-address-content">{myaddress}</div>
-          <Button className="address-modify-btn" onClick={handleClickOpen}>
+          <Button
+            className="address-modify-btn"
+            onClick={() => setOpenAddress(true)}>
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
 
-        {/* 주소 변경 모달 창 */}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>주소 변경하기</DialogTitle>
-          <DaumPostcode autoClose={false} onComplete={handleComplete} />
-          <TextField
-            id="outlined-basic"
-            label="상세 주소 입력"
-            variant="outlined"
-            value={addrDetail}
-            onChange={addrDetailChange}
+        {/* 주소 변경 모달 */}
+        <Dialog open={openAddress} onClose={handleClose}>
+          <Address
+            AddressFunc={AddressFunc}
+            handleClose={handleClose}
+            type="change"
           />
-          <DialogActions>
-            <Button onClick={handleClose}>취소</Button>
-            <Button onClick={handleChange}>변경</Button>
-          </DialogActions>
         </Dialog>
       </div>
 
@@ -220,7 +169,7 @@ const CtmHome: React.FC = (props) => {
                     <div className="laundry-mincost">
                       최소 이용금액 : {item.minCost}원
                     </div>
-                    <div>배달비 : {item.deliveryCost}원</div>
+                    <div>배달비 : {item.deliverCost}원</div>
                   </div>
                 </div>
                 <div className="item-content-right">

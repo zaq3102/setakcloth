@@ -55,8 +55,6 @@ const options = [
 ];
 
 const CtmMypage = () => {
-  const [clean, setClean] = useState<number>(0);
-
   // 로컬 저장 값
   const [userInfo, setUserInfo] = useState('');
 
@@ -67,8 +65,8 @@ const CtmMypage = () => {
   const [openCharge, setOpenCharge] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
+  const [clean, setClean] = useState<number>(0);
   const [myaddress, setMyaddress] = useState('');
-  const [addrInfo, setAddrInfo] = useState(null);
   const [mynickname, setmynickname] = useState('');
 
   const [walletPassword, setWalletPassword] = useState('');
@@ -319,7 +317,7 @@ const CtmMypage = () => {
           </Menu>
         </div>
       </div>
-      <div className="ctm-mypage-nickname">{userInfo.nickName}</div>
+      <div className="ctm-mypage-nickname">{mynickname}</div>
       <div className="ctm-mypage-email">{userInfo.userEmail}</div>
       <div className="ctm-mypage-addr">{myaddress}</div>
 
