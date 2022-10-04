@@ -40,7 +40,16 @@ const CeoOrderDetail = () => {
       setOrderDetail(result?.data?.orderDetails);
       const temp = [];
       for (let i = 0; i < result?.data?.orderDetails.length; i += 1) {
-        temp.push(false);
+        console.log(result?.data?.orderDetails[i]);
+        if (
+          result?.data?.orderDetails[i]?.[
+            `blockAddr${result?.data?.state + 1}ImgUrls`
+          ].length === 0
+        ) {
+          temp.push(false);
+        } else {
+          temp.push(true);
+        }
       }
       setAllUploaded(temp);
     } else {
@@ -100,6 +109,11 @@ const CeoOrderDetail = () => {
     const result = await changeState(orderNum);
     if (result?.data?.message === 'Success') {
       setCurrentState(result?.data?.state);
+      const temp = [];
+      for (let i = 0; i < orderDetail.length; i += 1) {
+        temp.push(false);
+      }
+      setAllUploaded(temp);
     } else {
       navigate('/error');
     }
