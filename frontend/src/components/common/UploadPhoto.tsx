@@ -1,4 +1,9 @@
-import { Button, DialogActions, DialogTitle } from '@mui/material';
+import {
+  Button,
+  DialogActions,
+  DialogContent,
+  DialogTitle
+} from '@mui/material';
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
@@ -74,6 +79,9 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
         </>
       ) : (
         <>
+          <DialogContent>
+            한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
+          </DialogContent>
           <input
             type="file"
             accept="image/*"
