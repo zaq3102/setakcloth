@@ -7,7 +7,10 @@ import {
 import * as React from 'react';
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router';
-import { uploadBlockchainImage } from '../../store/actions/services/orderService';
+import {
+  uploadBlockchainDeliveryImage,
+  uploadBlockchainImage
+} from '../../store/actions/services/orderService';
 import { LaundryImgChange } from '../../store/actions/services/laundryService';
 
 const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
@@ -59,9 +62,26 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
     }
   };
 
+  const handleDelivered = async () => {
+    const formData = new FormData();
+    for (let i = 0; i < selectedFile.length; i += 1) {
+      formData.append('multipartFiles', selectedFile[i]);
+    }
+    const result = await uploadBlockchainDeliveryImage(id, formData);
+    if (result?.data?.message === 'Success') {
+      changeImageSrc(result?.data?.imgUrls);
+      handleClose();
+    } else {
+      navigate('./error');
+    }
+  };
+
   return (
     <div style={{ padding: 10, width: 500 }}>
       <DialogTitle>사진 업로드하기</DialogTitle>
+      <DialogContent>
+        한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
+      </DialogContent>
       {imgCnt === 1 ? (
         <>
           <input
@@ -79,9 +99,6 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
         </>
       ) : (
         <>
-          <DialogContent>
-            한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
-          </DialogContent>
           <input
             type="file"
             accept="image/*"
@@ -93,7 +110,11 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
           />
           <DialogActions>
             <Button onClick={handleClose}>취소</Button>
-            <Button onClick={handleUpload}>등록</Button>
+            {imgCnt === 2 ? (
+              <Button onClick={handleUpload}>등록</Button>
+            ) : (
+              <Button onClick={handleDelivered}>등록</Button>
+            )}
           </DialogActions>
         </>
       )}

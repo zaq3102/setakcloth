@@ -5,15 +5,12 @@ import {
   CardMedia,
   Chip,
   Dialog,
-  DialogActions,
-  DialogTitle,
   FormControl,
   InputLabel,
   MenuItem,
   Rating,
   Select,
-  SelectChangeEvent,
-  TextField
+  SelectChangeEvent
 } from '@mui/material';
 import { Box } from '@mui/system';
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
@@ -21,38 +18,24 @@ import StarIcon from '@mui/icons-material/Star';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import DaumPostcode from 'react-daum-postcode';
 import '../../../styles/Customer.scss';
+import Address from '../../../components/common/Address';
 import {
   LaundryLatestRequest,
   LaundryDistRequest,
   LaundryScoreRequest
 } from '../../../store/actions/services/laundryService';
-
 import {
   LaundryLikeRequest,
-  changeAddrRequest,
-  getLocationxyRequest,
   InfoRequest
 } from '../../../store/actions/services/userService';
 
-// 카카오 주소 입력
-declare global {
-  interface Window {
-    kakao?: any;
-  }
-}
-const { kakao } = window;
-// ---------------
-
 const CtmHome: React.FC = () => {
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
   const [myaddress, setMyaddress] = useState<string>('');
-  const [addr, setAddr] = useState<string>('');
-  const [addrDetail, setAddrDetail] = useState<string>('');
   const [laundryList, setLaundryList] = useState([]);
-  const [align, setAlign] = React.useState('');
+  const [align, setAlign] = useState('');
+  const [openAddress, setOpenAddress] = useState(false);
 
   const handleSelect = (event: SelectChangeEvent) => {
     setAlign(event.target.value as string);
@@ -105,45 +88,17 @@ const CtmHome: React.FC = () => {
     getList();
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleChange = async () => {
-    const result1 = await getLocationxyRequest(`${addr} ${addrDetail}`);
-    if (result1?.data?.documents) {
-      const addrInfo = {
-        addr,
-        addrLat: result1?.data?.documents[0].y,
-        addrLng: result1?.data?.documents[0].x,
-        addrDetail
-      };
-      const result2 = await changeAddrRequest(addrInfo);
-      if (result2?.data) {
-        setMyaddress(`${addr} ${addrDetail}`);
-      } else {
-        navigate('/error');
-      }
-    } else {
-      navigate('/error');
-    }
-    setOpen(false);
+    setOpenAddress(false);
   };
 
   const handleButton = (num) => {
     getList(num);
   };
 
-  const handleComplete = async (data) => {
-    setAddr(`${data.address} ${data.buildingName}`);
-  };
-
-  const addrDetailChange = (event) => {
-    setAddrDetail(event.target.value);
+  // 주소 변경 로직
+  const AddressFunc = (value) => {
+    setMyaddress(value);
   };
 
   return (
@@ -163,26 +118,18 @@ const CtmHome: React.FC = () => {
           <Button
             sx={{ minWidth: 5 }}
             className="address-modify-btn"
-            onClick={handleClickOpen}>
+            onClick={() => setOpenAddress(true)}>
             <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
           </Button>
         </div>
 
-        {/* 주소 변경 모달 창 */}
-        <Dialog open={open} onClose={handleClose}>
-          <DialogTitle>주소 변경하기</DialogTitle>
-          <DaumPostcode autoClose={false} onComplete={handleComplete} />
-          <TextField
-            id="outlined-basic"
-            label="상세 주소 입력"
-            variant="outlined"
-            value={addrDetail}
-            onChange={addrDetailChange}
+        {/* 주소 변경 모달 */}
+        <Dialog open={openAddress} onClose={handleClose}>
+          <Address
+            AddressFunc={AddressFunc}
+            handleClose={handleClose}
+            type="change"
           />
-          <DialogActions>
-            <Button onClick={handleClose}>취소</Button>
-            <Button onClick={handleChange}>변경</Button>
-          </DialogActions>
         </Dialog>
       </div>
 
