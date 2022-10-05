@@ -63,20 +63,37 @@ $color4-2: #e1f0ec;
   text-align: center;
   font-size: xx-large;
   line-height: normal;
-  margin-bottom: 5vh;
+  padding-top: 2vh;
+}
+
+.ceo-home-not-regist-img-div {
+  text-align: center;
+  font-size: xx-large;
+  line-height: normal;
 }
 
 .ceo-home-not-regist-img {
-  width: 30%;
-  margin-top: 5vh;
+  width: 70%;
+  height: 70%;
+  margin-top: 1vh;
   margin-bottom: 5vh;
   align-self: center;
+  object-fit:cover;
+}
+
+.ceo-home-not-regist-button {
+  width: 70%;
+  height: 70%;
+  align-items: center;
+  background-color: $color5;
 }
 
 .go-regist-button {
   display: flex;
   flex-direction: column;
   margin: 20px;
+  align-items: center;
+  
 }
 
 .go-regist-button:hover {
