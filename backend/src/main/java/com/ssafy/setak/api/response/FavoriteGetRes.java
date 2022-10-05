@@ -15,7 +15,7 @@ import java.util.List;
 public class FavoriteGetRes extends BaseResponseBody {
 
     @ApiModelProperty(name = "세탁 아이템")
-    List<FavoriteLaundryGetRes> laundrys;
+    List<LaundryGetRes> laundrys;
 
 
     public static FavoriteGetRes of(Integer statusCode, String message, List<Favorite> favorites) {
@@ -27,9 +27,9 @@ public class FavoriteGetRes extends BaseResponseBody {
     }
 
     public void setLaundrys(List<Favorite> favorites) {
-        this.laundrys = new ArrayList<FavoriteLaundryGetRes>();
+        this.laundrys = new ArrayList<>();
         for (Favorite favorite : favorites) {
-            this.laundrys.add(FavoriteLaundryGetRes.of(favorite));
+            this.laundrys.add(LaundryGetRes.of(favorite.getLaundry(), 0));
         }
     }
 
