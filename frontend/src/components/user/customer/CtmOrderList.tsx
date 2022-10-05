@@ -72,25 +72,25 @@ const CtmOrderList = () => {
         <Chip
           className="ctm-orderlist-chip"
           label="전체"
-          color="color5"
+          color="color4"
           onClick={() => handleModeState(-1)}
         />
         <Chip
           className="ctm-orderlist-chip"
           label="수락 대기중"
-          color="color5"
+          color="color4"
           onClick={() => handleModeState(0)}
         />
         <Chip
           className="ctm-orderlist-chip"
           label="세탁중"
-          color="color5"
+          color="color4"
           onClick={() => handleModeState(1)}
         />
         <Chip
           className="ctm-orderlist-chip"
           label="완료"
-          color="color5"
+          color="color4"
           onClick={() => handleModeState(2)}
         />
       </div>

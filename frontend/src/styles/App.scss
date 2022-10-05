@@ -18,7 +18,7 @@ $color4-2: #e1f0ec;
 }
 
 .logo-img {
-  height: 5vh;
+  height: 8rem;
 }
 
 .logo-text {
@@ -30,6 +30,7 @@ $color4-2: #e1f0ec;
   flex-direction: row;
   height: 7vh;
   justify-content: space-between;
+  border: 0.3rem solid $color5;
 }
 
 .Logo-Space {
