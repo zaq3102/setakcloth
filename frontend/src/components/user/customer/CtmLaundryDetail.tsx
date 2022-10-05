@@ -148,6 +148,7 @@ const CtmLaundryDetailTemp = () => {
     if (DeliverType === 0) {
       setTotalPrice(totalPrice + laundry.deliverCost);
     } else if (DeliverType === 1) {
+      setTotalPrice(totalPrice - laundry.deliverCost);
     }
     setOrderType(DeliverType);
   };
