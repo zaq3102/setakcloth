@@ -94,3 +94,16 @@ declare module '@mui/material' {
     color4_2?;
   }
 }
+declare module '@mui/material' {
+  interface BadgePropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
+  }
+}
