@@ -43,7 +43,7 @@ public class OrderOneGetRes extends BaseResponseBody {
     String userAddrDetail;
 
     @ApiModelProperty(name = "리뷰 날짜")
-    LocalDate reviewDate;
+    LocalDateTime reviewDate;
 
     @ApiModelProperty(name = "리뷰 평점")
     Integer reviewScore;
