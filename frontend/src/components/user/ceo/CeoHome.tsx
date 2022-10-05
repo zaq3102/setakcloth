@@ -100,7 +100,7 @@ const CeoHome: React.FC = () => {
           </div>
             <div className="ceo-home-not-regist-img-div">
               <img
-                src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/feeExample.png"
+                src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/prices.png"
                 className="ceo-home-not-regist-img"
                 alt="laundry-img"
                 />

@@ -94,6 +94,7 @@ const CtmLaundryDetailTemp = () => {
     }
   };
 
+  console.log(laundry);
   const getMybalance = async () => {
     const result = await getBalance();
     if (result?.data?.statusCode === 200) {
@@ -106,7 +107,11 @@ const CtmLaundryDetailTemp = () => {
   const getReviewList = async () => {
     const result = await LaundryReviewRequest(laundryId);
     if (result?.data?.message === 'Success') {
-      setReviewList(result?.data?.reviews);
+      const reviewTemp = result?.data?.reviews;
+      reviewTemp.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+      setReviewList(reviewTemp);
     } else {
       navigate('/error');
     }
@@ -148,6 +153,7 @@ const CtmLaundryDetailTemp = () => {
     if (DeliverType === 0) {
       setTotalPrice(totalPrice + laundry.deliverCost);
     } else if (DeliverType === 1) {
+      setTotalPrice(totalPrice - laundry.deliverCost);
     }
     setOrderType(DeliverType);
   };
@@ -281,12 +287,19 @@ const CtmLaundryDetailTemp = () => {
 
             <br />
             <br />
+
+            {laundry.deliver ? (
+              <>
             <div className="ctm-laundry-mincost">
               최소 주문 {laundry.minCost} CLN
             </div>
             <div className="ctm-laundry-deliver">
               배달료 {laundry.deliverCost} CLN
             </div>
+              </>
+            ) : (
+              <></>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -330,6 +343,7 @@ const CtmLaundryDetailTemp = () => {
                         </Box>
                       }
                     />
+                    {laundry.deliver ? (
                     <FormControlLabel
                       sx={{
                         fontWeight: 'bold',
@@ -343,6 +357,9 @@ const CtmLaundryDetailTemp = () => {
                         </Box>
                       }
                     />
+                    ) : (
+                      <></>
+                    )}
                   </RadioGroup>
                 </div>
               </div>
