@@ -40,6 +40,7 @@ import {
 import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
+import Address from '../../common/Address';
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(0);
@@ -55,6 +56,10 @@ const CeoMypage: React.FC = () => {
   const [laundryId, setLaundryId] = useState(0);
   const imgCnt = 1;
 
+  const [addrInfo, setAddrInfo] = useState({});
+  const [addr, setAddr] = useState('');
+  const [addrDetail, setAddrDetail] = useState('');
+
   // 세탁소 등록 시 필요한 정보
   const [regNum, setRegNum] = useState('');
   const [laundryName, setLaundryName] = useState<string>('');
@@ -66,11 +71,10 @@ const CeoMypage: React.FC = () => {
   const [contact, setContact] = useState<string>('');
   const [minCost, setMinCost] = useState(0);
   const [deliveryCost, setdeliveryCost] = useState(0);
-  const [pickup, setPickup] = useState<string>('true');
-  const [deliver, setDeliver] = useState<string>('true');
+  const [pickup, setPickup] = useState<boolean>(true);
+  const [deliver, setDeliver] = useState<boolean>(true);
 
   // 모달창
-  const [openRegist, setOpenRegist] = useState<boolean>(false);
   const [openAddress, setOpenAddress] = useState<boolean>(false);
   const [openImage, setOpenImage] = useState<boolean>(false);
   const [openChange, setOpenChange] = useState<boolean>(false);
@@ -103,6 +107,15 @@ const CeoMypage: React.FC = () => {
       setImgSrc([result?.payload?.data?.laundries[0].imgUrl]);
 
       // 이미 등록된 세탁소일 때
+      const addrTemp = {
+        addr: result?.payload?.data?.laundries[0].addr,
+        addrDetail: result?.payload?.data?.laundries[0].addrDetail,
+        addrLng: result?.payload?.data?.laundries[0].addrLng,
+        addrLat: result?.payload?.data?.laundries[0].addrLat
+      };
+      setAddrInfo(addrTemp);
+      setAddr(result?.payload?.data?.laundries[0].addr);
+      setAddrDetail(result?.payload?.data?.laundries[0].addrDetail);
       setLaundryName(result?.payload?.data?.laundries[0].laundryName);
       setDescription(result?.payload?.data?.laundries[0].description);
       setContact(result?.payload?.data?.laundries[0].contact);
@@ -170,9 +183,6 @@ const CeoMypage: React.FC = () => {
 
   const handleClose = (value) => {
     switch (value) {
-      case 1:
-        setOpenRegist(false);
-        break;
       case 3:
         setOpenItem(false);
         setItemName('');
@@ -223,10 +233,10 @@ const CeoMypage: React.FC = () => {
       laundryName,
       ceoName,
       regDate,
-      addr: laundryList[0]?.addr,
-      addrDetail: laundryList[0]?.addrDetail,
-      addrLat: laundryList[0]?.addrLat,
-      addrLng: laundryList[0]?.addrLng,
+      addr: addrInfo.addr,
+      addrDetail: addrInfo.addrDetail,
+      addrLat: addrInfo.addrLat,
+      addrLng: addrInfo.addrLng,
       deliver,
       pickup,
       description,
@@ -234,10 +244,13 @@ const CeoMypage: React.FC = () => {
       deliveryCost,
       minCost
     };
+    console.log(LaundryInfo);
 
     const result = await LaundryInfoChange(laundryId, LaundryInfo);
     if (result?.data?.message === 'Success') {
       alert('세탁소 수정이 완료되었습니다.');
+      setCeoName('');
+      handleClose(6);
       // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
       getMyLaundry();
       const result2 = await myLaundryRequest();
@@ -254,11 +267,21 @@ const CeoMypage: React.FC = () => {
   };
 
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setDeliver(event.target.value);
+    if (event.target.value === 'true') {
+      setDeliver(true);
+    } else {
+      setDeliver(false);
+      setdeliveryCost(0);
+      setMinCost(0);
+    }
   };
 
   const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPickup(event.target.value);
+    if (event.target.value === 'true') {
+      setPickup(true);
+    } else {
+      setPickup(false);
+    }
   };
 
   // 이미지 변경 로직
@@ -316,6 +339,15 @@ const CeoMypage: React.FC = () => {
       'aria-controls': `simple-tabpanel-${index}`
     };
   }
+
+  // 주소 변경 로직
+  const AddressFunc = (value) => {
+    setAddrInfo(value);
+    setAddr(value.addr);
+    setAddrDetail(value.addrDetail);
+  };
+
+  console.log(laundryList);
 
   return (
     <div className="ceo-mypage">
@@ -600,6 +632,40 @@ const CeoMypage: React.FC = () => {
                 value={laundryName}
                 onChange={(event) => setLaundryName(event.target.value)}
               />
+              <div className="address-item">
+                <div className="address-reg-btn">
+                  <Button
+                    onClick={() => setOpenAddress(true)}
+                    variant="outlined"
+                    color="color2_2">
+                    주소 검색
+                  </Button>
+                </div>
+                <TextField
+                  sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
+                  variant="filled"
+                  focused
+                  color="color2_2"
+                  required
+                  label="기본 주소"
+                  name="laundry-addr"
+                  fullWidth
+                  value={addr}
+                  disabled
+                />
+                <TextField
+                  sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+                  variant="filled"
+                  focused
+                  color="color2_2"
+                  required
+                  label="상세 주소"
+                  name="laundry-addr"
+                  fullWidth
+                  value={addrDetail}
+                  disabled
+                />
+              </div>
               <TextField
                 sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
                 variant="filled"
@@ -612,6 +678,10 @@ const CeoMypage: React.FC = () => {
                 rows={5}
                 value={description}
                 onChange={(event) => setDescription(event.target.value)}
+                placeholder="최대 255자까지 작성할 수 있습니다."
+                inputProps={{
+                  maxLength: 255
+                }}
               />
               <TextField
                 sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
@@ -630,17 +700,13 @@ const CeoMypage: React.FC = () => {
                 <div className="bool-text">
                   배달 가능 여부
                   <RadioGroup value={deliver} onChange={handleDeliver}>
+                    <FormControlLabel value control={<Radio />} label="가능" />
                     <FormControlLabel
-                      value="true"
-                      control={<Radio />}
-                      label="가능"
-                    />
-                    <FormControlLabel
-                      value="false"
+                      value={false}
                       control={<Radio />}
                       label="배달 불가 (손님이 직접 수거)"
                     />
-                    {deliver === 'true' ? (
+                    {deliver === true ? (
                       <>
                         <TextField
                           color="color2_2"
@@ -681,13 +747,9 @@ const CeoMypage: React.FC = () => {
                 <div className="bool-text">
                   픽업(손님이 직접 수거) 가능 여부
                   <RadioGroup value={pickup} onChange={handlePickup}>
+                    <FormControlLabel value control={<Radio />} label="가능" />
                     <FormControlLabel
-                      value="true"
-                      control={<Radio />}
-                      label="가능"
-                    />
-                    <FormControlLabel
-                      value="false"
+                      value={false}
                       control={<Radio />}
                       label="불가능"
                     />
@@ -702,7 +764,13 @@ const CeoMypage: React.FC = () => {
               focused
               variant="contained"
               color="color2_2"
-              disabled={!laundryName || !ceoName || !description || !contact}>
+              disabled={
+                !laundryName ||
+                !ceoName ||
+                !addrInfo ||
+                !description ||
+                !contact
+              }>
               수정하기
             </Button>
             <Button onClick={() => handleClose(6)} color="color2_2">
@@ -710,6 +778,15 @@ const CeoMypage: React.FC = () => {
             </Button>
           </DialogActions>
         </div>
+      </Dialog>
+
+      {/* 주소 변경 모달 */}
+      <Dialog open={openAddress} onClose={() => handleClose(5)}>
+        <Address
+          AddressFunc={AddressFunc}
+          handleClose={handleClose}
+          type="regist"
+        />
       </Dialog>
 
       <Dialog open={openItem} onClose={() => handleClose(3)}>
@@ -725,6 +802,10 @@ const CeoMypage: React.FC = () => {
           fullWidth
           value={itemName}
           onChange={(event) => setItemName(event.target.value.trim())}
+          placeholder="최대 10글자까지 작성할 수 있습니다."
+          inputProps={{
+            maxLength: 10
+          }}
         />
         <TextField
           sx={{ mt: 1, mb: 3, bgcolor: '#F8FFFD' }}
