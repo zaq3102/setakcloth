@@ -91,43 +91,123 @@ $color4-2: #e1f0ec;
   align-items: center;
 }
 
+.ceo-order-detail-header {
+  display: flex;
+  margin-bottom: 1vh;
+  padding: 1vh;
+  width: 100%;
+  align-items: center;
+  background-color: #1e3e5c;
+  color: white;
+}
+
+.ceo-order-detail-header-text {
+  margin-left: 10vh;
+}
+
 .ceo-order-detail-info {
+  display: flex;
   width: 150vh;
-  height: 20vh;
+  height: 23vh;
   margin: 1vh;
-  background-color: aquamarine;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.ceo-order-detail-info-content-middle {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  line-height: 35px;
+  justify-content: center;
+}
+
+.ceo-order-detail-info-content-chip {
+  align-self: flex-end;
+}
+
+.ceo-order-detail-info-content-right {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  line-height: 35px;
+  justify-content: space-between;
+  margin-right: 5vh;
+}
+
+.ceo-order-detail-info-content-total {
+  align-self: flex-end;
+  font-weight: normal;
+  margin-right: 5vh;
 }
 
 .ceo-order-detail-state {
+  display: flex;
+  flex-direction: column;
   width: 150vh;
-  height: 15vh;
-  margin: 1vh;
-  background-color: palevioletred;
+  height: 20vh;
+  margin-bottom: 1vh;
+}
+
+.ceo-order-detail-state-steps {
+  height: 10vh;
+}
+
+.ceo-order-detail-state-steps-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ceo-order-detail-state-steps-warn {
+  text-align: center;
+  font-weight: bold;
+  color: $color0;
+  margin-top: 1vh;
 }
 
 .ceo-order-detail-upload {
   display: flex;
   flex-direction: column;
   width: 150vh;
-  height: 80vh;
-  background-color: blue;
+}
+
+.ceo-order-detail-upload-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  width: 150vh;
+  height: 23vh;
+  margin-bottom: 1vh;
+  padding: 2vh;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
 .ceo-order-detail-upload-text {
-  font-size: xx-large;
+  font-size: x-large;
   font-weight: 500;
+  width: 20vh;
 }
 
 .ceo-order-detail-upload-info {
   display: flex;
+  height: 20vh;
+  width: 110vh;
+  flex-grow: 1;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  overflow: auto;
 }
 
 .ceo-order-detail-upload-img {
-  flex-grow: 1;
+  padding: 1vh;
 }
 
 .ceo-order-detail-upload-button {
-  justify-self: flex-end;
+  width: 20vh;
 }
 
 // CeoMypage.tsx
