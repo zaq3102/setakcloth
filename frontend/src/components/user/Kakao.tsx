@@ -8,6 +8,7 @@ import {
   getCtmKakaoEmail,
   getCeoKakaoEmail
 } from '../../store/actions/services/userService';
+import { myLaundryRequest } from '../../store/actions/services/laundryService';
 
 const Kakao: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,12 @@ const Kakao: React.FC = () => {
     const result = await loginkakaoRequest(code);
     if (result?.payload?.data?.message === 'Success') {
       dispatch(result);
+      const result2 = await myLaundryRequest();
+      if (result2?.payload?.data?.laundries) {
+        dispatch(result2);
+      } else {
+        navigate('/error');
+      }
       navigate('/customer');
     } else {
       const status = result?.response?.data?.statusCode;
@@ -46,6 +53,12 @@ const Kakao: React.FC = () => {
     const result = await loginkakaoCeoRequest(code);
     if (result?.payload?.data?.message === 'Success') {
       dispatch(result);
+      const result2 = await myLaundryRequest();
+      if (result2?.payload?.data?.laundries) {
+        dispatch(result2);
+      } else {
+        navigate('/error');
+      }
       navigate('/ceo');
     } else {
       const status = result?.response?.data?.statusCode;
