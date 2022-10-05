@@ -61,3 +61,10 @@ $color4-2: #e1f0ec;
   display: flex;
   flex-direction: column;
 }
+
+
+@media (min-width:600px) {
+  .logo-img {
+    height: 2rem;
+  }
+}
