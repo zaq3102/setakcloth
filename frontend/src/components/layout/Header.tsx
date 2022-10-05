@@ -41,21 +41,30 @@ const Header: React.FC = () => {
                 size="small"
                 color="color1"
                 variant="outlined"
+                disableElevation
                 onClick={onLogoutHandler}>
-                로그아웃
+                Logout
               </Button>
             </Link>
             <span>&nbsp;&nbsp;</span>
             {loginType === 0 ? (
               <Link to="/customer/mypage">
-                <Button size="small" color="color1" variant="contained">
-                  마이페이지
+                <Button
+                  size="small"
+                  color="color1"
+                  variant="contained"
+                  disableElevation>
+                  My Page
                 </Button>
               </Link>
             ) : (
               <Link to="/ceo/mypage">
-                <Button size="small" color="color1" variant="contained">
-                  마이페이지
+                <Button
+                  size="small"
+                  color="color1"
+                  variant="contained"
+                  disableElevation>
+                  My Page
                 </Button>
               </Link>
             )}
@@ -63,13 +72,21 @@ const Header: React.FC = () => {
         ) : (
           <div>
             <Link to="/login" className="Login-Button">
-              <Button size="small" color="color1" variant="outlined">
-                로그인
+              <Button
+                disableElevation
+                size="small"
+                color="color1"
+                variant="outlined">
+                Log in
               </Button>
             </Link>
             <Link to="/signup">
-              <Button size="small" color="color1" variant="contained">
-                회원가입
+              <Button
+                disableElevation
+                size="small"
+                color="color1"
+                variant="contained">
+                Sign Up
               </Button>
             </Link>
           </div>

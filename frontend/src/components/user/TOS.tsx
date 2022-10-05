@@ -2,7 +2,7 @@ import * as React from 'react';
 
 const TOS: React.FC = () => {
   return (
-    <div className="terms-box">
+    <div>
       여러분을 환영합니다. 세탁클로쓰 서비스 및 제품(이하 ‘서비스’)을 이용해
       주셔서 감사합니다. 본 약관은 다양한 세탁클로쓰 서비스의 이용과 관련하여
       세탁클로쓰 서비스를 제공하는 세탁클로쓰 주식회사(이하 ‘세탁클로쓰’)와 이를
