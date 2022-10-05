@@ -54,7 +54,6 @@ const Login: React.FC = () => {
         navigate('/customer');
       } else if (mode === 'ceo') {
         const result2 = await myLaundryRequest();
-        console.log(result2);
         if (result2?.payload?.data?.laundries) {
           dispatch(result2);
         } else {
