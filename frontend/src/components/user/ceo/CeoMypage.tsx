@@ -244,7 +244,6 @@ const CeoMypage: React.FC = () => {
       deliveryCost,
       minCost
     };
-    console.log(LaundryInfo);
 
     const result = await LaundryInfoChange(laundryId, LaundryInfo);
     if (result?.data?.message === 'Success') {
@@ -346,8 +345,6 @@ const CeoMypage: React.FC = () => {
     setAddr(value.addr);
     setAddrDetail(value.addrDetail);
   };
-
-  console.log(laundryList);
 
   return (
     <div className="ceo-mypage">
