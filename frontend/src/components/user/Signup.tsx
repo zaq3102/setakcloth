@@ -217,6 +217,9 @@ const Signup: React.FC = () => {
     } else {
       setMode('ceo');
     }
+    setEmail('');
+    setPwd('');
+    setPwdCheck('');
   };
 
   const kakaoUserSignUpHandler = () => {
@@ -237,6 +240,7 @@ const Signup: React.FC = () => {
                 variant="contained"
                 key={`tab-` + idx}
                 onClick={() => tabClickHandler(idx)}
+                color={`${activeIndex === idx ? 'color1' : 'color4'}`}
                 disableElevation
                 className={`${
                   activeIndex === idx ? 'mode-selected' : 'mode-not-selected'
@@ -339,11 +343,14 @@ const Signup: React.FC = () => {
 
               {/* <TOS /> */}
               <div className="signup-btn">
-                <Button variant="outlined" sx={{ padding: 0.3 }} color="color3">
+                <Button
+                  variant="outlined"
+                  sx={{ padding: 0.3, margin: 1 }}
+                  color="color3">
                   취소
                 </Button>
                 <Button
-                  sx={{ padding: 0.3, margin: 2 }}
+                  sx={{ padding: 0.3, margin: 1 }}
                   variant="outlined"
                   className="next-btn"
                   onClick={onClickChange}
@@ -360,14 +367,14 @@ const Signup: React.FC = () => {
               </div>
               <div>
                 <Button
-                  sx={{ padding: 0 }}
+                  sx={{ padding: 0, m: 2 }}
                   onClick={
                     activeIndex === 0
                       ? kakaoUserSignUpHandler
                       : kakaoCeoSignUpHandler
                   }>
                   <img
-                    style={{ padding: 0, width: '60%' }}
+                    style={{ padding: 0, width: '75%' }}
                     alt="카카오 회원 가입"
                     // className="kakao object-fill"
                     src={
@@ -380,127 +387,102 @@ const Signup: React.FC = () => {
           </Box>
         </div>
       ) : (
-        <div className="wallet-page">
-          <div>지갑 생성!</div>
-          <TextField
-            margin="normal"
-            required
-            id="walletpassword"
-            label="지갑 비밀번호"
-            type="password"
-            value={walletpassword}
-            onChange={walletpasswordChange}
-            sx={{ width: 300 }}
-          />
-          <TextField
-            margin="normal"
-            required
-            id="walletpasswordCheck"
-            label="지갑 비밀번호 확인"
-            type="password"
-            value={walletpasswordCheck}
-            onChange={walletpasswordCheckChange}
-            sx={{ width: 300 }}
-          />
-          <FormHelperText error={!isWalletPwdSame}>
-            {!walletpasswordCheck || isWalletPwdSame
-              ? ' '
-              : '비밀번호가 일치하지 않습니다.'}
-          </FormHelperText>
-          <div>
-            <p>
-              ⭐️ 지갑 비밀번호는 서비스 내에서 저장하지 않습니다. 잊어버리시는
-              경우 찾을 수 없으니 유의하여 기억해두시길 바랍니다. ⭐️
-            </p>
-            <Button
-              variant="contained"
-              onClick={createWallet}
-              disabled={
-                !walletpasswordCheck || !isWalletPwdSame || walletClicked
-              }>
-              생성
-            </Button>
-          </div>
-          <div className="signup-btn">
-            <Link to="/">취소</Link>
-            <Button
-              variant="contained"
-              color="color2"
-              disabled={!isWalletCreated}
-              onClick={handleSubmit}
-              sx={{ ml: 5 }}>
-              가입하기
-            </Button>
-          </div>
+        <div className="signup-page">
+          <Button variant="contained" color="color1" disableElevation>
+            지갑생성
+          </Button>
+          <Box
+            component="span"
+            sx={{
+              width: '80%',
+              p: 2,
+              border: '1px solid #1e3e5c',
+              borderRadius: '7px'
+            }}>
+            <div className="signup-page">
+              <div className="rowspan">
+                <div>
+                  <img
+                    style={{ width: '20%' }}
+                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/wallet.png"
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <sapn style={{ fontWeight: 'bold' }}>세탁클로쓰</sapn>는
+                  블록체인으로 유통과정을 투명하게 보여주기 위해 <br />
+                  지갑을 생성하고 있습니다.
+                </div>
+              </div>
+              <div className="rowspan">
+                <div>
+                  <sapn style={{ fontWeight: 'bold', color: 'red' }}>
+                    경고!
+                  </sapn>
+                </div>
+                <div>
+                  1. 지갑 비밀번호는 잊어버리면 복구할 수 없습니다.
+                  <br />
+                  2. 비밀번호가 노출되면 자산 유실의 위험이 있습니다.
+                </div>
+              </div>
+              <TextField
+                margin="normal"
+                required
+                id="walletpassword"
+                label="지갑 비밀번호"
+                type="password"
+                value={walletpassword}
+                onChange={walletpasswordChange}
+                sx={{ width: '90%' }}
+              />
+              <TextField
+                margin="normal"
+                required
+                id="walletpasswordCheck"
+                label="지갑 비밀번호 확인"
+                type="password"
+                value={walletpasswordCheck}
+                onChange={walletpasswordCheckChange}
+                sx={{ width: '90%' }}
+              />
+              <FormHelperText error={!isWalletPwdSame}>
+                {!walletpasswordCheck || isWalletPwdSame
+                  ? ' '
+                  : '비밀번호가 일치하지 않습니다.'}
+              </FormHelperText>
+              <div>
+                <Button
+                  variant="outlined"
+                  color="color1"
+                  onClick={createWallet}
+                  disabled={
+                    !walletpasswordCheck || !isWalletPwdSame || walletClicked
+                  }>
+                  생성
+                </Button>
+              </div>
+              <div className="signup-btn">
+                <Button
+                  variant="outlined"
+                  sx={{ padding: 0.3, margin: 1 }}
+                  color="color3">
+                  취소
+                </Button>
+                <Button
+                  sx={{ padding: 0.3, margin: 1 }}
+                  variant="outlined"
+                  className="next-btn"
+                  onClick={handleSubmit}
+                  color="color1"
+                  disabled={!isWalletCreated}>
+                  <b>가입하기</b>
+                </Button>
+              </div>
+            </div>
+          </Box>
         </div>
       )}
-
-      <div className="signup-page">
-        <div>지갑 생성!</div>
-        <Box
-          component="span"
-          sx={{
-            width: '80%',
-            p: 2,
-            border: '1px solid #1e3e5c',
-            borderRadius: '7px'
-          }}>
-          <div className="signup-page">
-            <TextField
-              margin="normal"
-              required
-              id="walletpassword"
-              label="지갑 비밀번호"
-              type="password"
-              value={walletpassword}
-              onChange={walletpasswordChange}
-              sx={{ width: '90%' }}
-            />
-            <TextField
-              margin="normal"
-              required
-              id="walletpasswordCheck"
-              label="지갑 비밀번호 확인"
-              type="password"
-              value={walletpasswordCheck}
-              onChange={walletpasswordCheckChange}
-              sx={{ width: '90%' }}
-            />
-            <FormHelperText error={!isWalletPwdSame}>
-              {!walletpasswordCheck || isWalletPwdSame
-                ? ' '
-                : '비밀번호가 일치하지 않습니다.'}
-            </FormHelperText>
-            <div>
-              <p>
-                ⭐️ 지갑 비밀번호는 서비스 내에서 저장하지 않습니다.
-                <br />
-                잊어버리시는 경우 찾을 수 없으니 유의하여 기억해두시길 바랍니다.
-                ⭐️
-              </p>
-              <Button
-                variant="contained"
-                onClick={createWallet}
-                disabled={
-                  !walletpasswordCheck || !isWalletPwdSame || walletClicked
-                }>
-                생성
-              </Button>
-            </div>
-            <div className="signup-btn">
-              <Link to="/">취소</Link>
-              <Button
-                variant="contained"
-                color="color2"
-                disabled={!isWalletCreated}
-                onClick={handleSubmit}
-                sx={{ ml: 5 }}>
-                가입하기
-              </Button>
-            </div>
-          </div>
-        </Box>
-      </div>
     </div>
   );
 };
