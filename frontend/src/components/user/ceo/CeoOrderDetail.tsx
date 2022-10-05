@@ -4,9 +4,14 @@ import {
   CardMedia,
   Chip,
   Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Step,
   StepLabel,
-  Stepper
+  Stepper,
+  TextField
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
@@ -16,7 +21,15 @@ import {
   getFromAddrRequest,
   getOrderRequest
 } from '../../../store/actions/services/orderService';
-import { InfoRequest } from '../../../store/actions/services/userService';
+import {
+  balanceUpdate,
+  InfoRequest
+} from '../../../store/actions/services/userService';
+import {
+  getBalance,
+  sendClean,
+  unlockAccount
+} from '../../../store/actions/services/walletService';
 
 const CeoOrderDetail = () => {
   const navigate = useNavigate();
@@ -27,12 +40,17 @@ const CeoOrderDetail = () => {
   const [orderDetail, setOrderDetail] = useState([]);
   const [fromAddr, setFromAddr] = useState('');
   const [userInfo, setUserInfo] = useState('');
-  const [openImage, setOpenImage] = useState(false);
   const [imgCnt, setImgCnt] = useState(2);
   const [orderDetailId, setOrderDetailId] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
   const [allUploaded, setAllUploaded] = useState([false]);
   const [itemList, setItemList] = useState([]);
+
+  const [walletPassword, setWalletPassword] = useState('');
+
+  // 모달창
+  const [openImage, setOpenImage] = useState(false);
+  const [openCheckPassword, setOpenCheckPassword] = useState(false);
 
   const [modes, setModes] = useState([]);
 
@@ -101,10 +119,6 @@ const CeoOrderDetail = () => {
     getMypage();
   }, []);
 
-  const handleClose = () => {
-    setOpenImage(false);
-  };
-
   const ImgUploadBtnClick = (value, index) => {
     setOpenImage(true);
     setOrderDetailId(value);
@@ -132,6 +146,43 @@ const CeoOrderDetail = () => {
   };
 
   const nextState = async () => {
+    if (currentState === 0) {
+      const check = await unlockAccount(userInfo.wallet, walletPassword);
+      if (!check) {
+        alert('비밀번호가 틀립니다');
+        setWalletPassword('');
+        setOpenCheckPassword(false);
+        return;
+      }
+      // 비밀번호 검증 여기 해줘야 됨
+      const result = await sendClean(
+        fromAddr.fromAddr1,
+        userInfo.wallet,
+        fromAddr.price
+      );
+      if (!result) {
+        alert('결제 오류 발생');
+        navigate('/error');
+        return;
+      }
+      const balance = await getBalance(userInfo.wallet);
+      if (!balance) {
+        alert('결제 오류 발생');
+        navigate('/error');
+        return;
+      }
+      const balanceInfo = {
+        balance
+      };
+      const DBbalance = await balanceUpdate(balanceInfo);
+
+      if (!DBbalance) {
+        alert('결제 오류 발생');
+        navigate('/error');
+        return;
+      }
+    }
+
     const result = await changeState(orderNum);
     if (result?.data?.message === 'Success') {
       setCurrentState(result?.data?.state);
@@ -154,7 +205,9 @@ const CeoOrderDetail = () => {
     setCurrentState(value);
   };
 
-  console.log(orderInfo);
+  const walletPasswordChange = (event) => {
+    setWalletPassword(event.target.value.trim());
+  };
 
   return (
     <div className="order-detail">
@@ -228,15 +281,27 @@ const CeoOrderDetail = () => {
                 disabled={currentState === 0}>
                 이전 단계
               </Button>
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={nextState}
-                disabled={
-                  realState !== currentState || allUploaded.includes(false)
-                }>
-                저장 후 다음 단계
-              </Button>
+              {realState === 0 ? (
+                <Button
+                  variant="contained"
+                  color="color2"
+                  onClick={() => setOpenCheckPassword(true)}
+                  disabled={
+                    realState !== currentState || allUploaded.includes(false)
+                  }>
+                  저장 후 다음 단계
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="color2"
+                  onClick={nextState}
+                  disabled={
+                    realState !== currentState || allUploaded.includes(false)
+                  }>
+                  저장 후 다음 단계
+                </Button>
+              )}
               <Button
                 variant="contained"
                 color="color2"
@@ -362,13 +427,59 @@ const CeoOrderDetail = () => {
         )}
       </div>
       {/* 모달창 모음집 */}
-      <Dialog open={openImage} onClose={() => handleClose}>
+      <Dialog open={openImage} onClose={() => setOpenImage(false)}>
         <UploadPhoto
           changeImageSrc={changeImageSrc}
-          handleClose={handleClose}
+          handleClose={() => setOpenImage(false)}
           imgCnt={imgCnt}
           id={orderDetailId}
         />
+      </Dialog>
+
+      {/* 비밀번호 확인 모달 */}
+      <Dialog
+        open={openCheckPassword}
+        onClose={() => setOpenCheckPassword(false)}>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          지갑 비밀번호 확인
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ fontSize: 'medium' }}>
+            지갑 비밀번호를 입력해주세요.
+          </DialogContentText>
+          <TextField
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            color="color1"
+            autoFocus
+            label="지갑 비밀번호"
+            value={walletPassword}
+            onChange={walletPasswordChange}
+            type="password"
+            fullWidth
+            variant="standard"
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                nextState();
+              }
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => setOpenCheckPassword(false)}
+            color="color1"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={nextState}
+            color="color1"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            확인
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
