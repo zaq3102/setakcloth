@@ -4,7 +4,9 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { Button } from '@mui/material';
 import { myorderCeoRequest } from '../../../store/actions/services/orderService';
+import { width } from '@mui/system';
 
 const CeoHome: React.FC = () => {
   const [state0, setState0] = useState([]);
@@ -86,17 +88,23 @@ const CeoHome: React.FC = () => {
         </div>
       ) : (
         <div className="ceo-home-not-regist">
-          <div className="ceo-home-not-regist-text">
-            세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
+          <div className="ceo-home-not-regist-button">
+            <div className="ceo-home-not-regist-text">세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.</div>
+            <div className="go-regist-button">
+              <Link to="./mypage">
+                <Button size="small" color="color1" variant="contained">
+                  세탁소 등록
+                </Button>
+              </Link>
+            </div>
           </div>
-          <Link to="./mypage" className="go-regist-button">
-            <img
-              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry1.jpg"
-              className="ceo-home-not-regist-img"
-              alt="laundry-img"
-            />
-            <div className="ceo-home-not-regist-text">세탁소 등록하러 가기</div>
-          </Link>
+            <div className="ceo-home-not-regist-img-div">
+              <img
+                src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/prices.png"
+                className="ceo-home-not-regist-img"
+                alt="laundry-img"
+                />
+            </div>
         </div>
       )}
     </div>

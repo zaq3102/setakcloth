@@ -1,57 +1,59 @@
 import * as React from 'react';
 import {
   Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Chip,
+  ButtonGroup,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
   FormHelperText,
+  IconButton,
+  Menu,
+  MenuItem,
   TextField
 } from '@mui/material';
+import { Box } from '@mui/system';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+
 import {
   getBalance,
   chargeClean,
   unlockAccount
 } from '../../../store/actions/services/walletService';
-import {
-  myorderCtmRequest,
-  myReviewRequest
-} from '../../../store/actions/services/orderService';
+
 import {
   InfoRequest,
-  LaundryLikeRequest,
   balanceUpdate,
   changeCtmInfo,
   deleteUser,
-  logoutRequest,
-  getLocationxyRequest,
-  changeAddrRequest
+  logoutRequest
 } from '../../../store/actions/services/userService';
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
 import { LOGOUT } from '../../../store/actions/types/types';
 
-const CtmMypage = () => {
-  const [clean, setClean] = useState<number>(0);
+const options = [
+  {
+    id: 1,
+    label: '닉네임 변경'
+  },
+  {
+    id: 2,
+    label: '비밀번호 변경'
+  },
+  {
+    id: 3,
+    label: '주소 변경'
+  }
+];
 
+const CtmMypage = () => {
   // 로컬 저장 값
   const [userInfo, setUserInfo] = useState('');
-  const [reviewList, setReviewList] = useState([]);
-  const [orderList, setOrderList] = useState([]);
-  const [likeList, setLikeList] = useState([]);
-
-  // 어떤 메뉴 클릭 했는지
-  const [mode, setMode] = useState(1);
-  const [modeState, setModeState] = useState(-1);
-  const stateText = ['수락 대기중', '세탁중', '배달중', '세탁 완료'];
 
   // 모달창
   const [openNickname, setOpenNickname] = useState(false);
@@ -60,8 +62,8 @@ const CtmMypage = () => {
   const [openCharge, setOpenCharge] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
 
+  const [clean, setClean] = useState<number>(0);
   const [myaddress, setMyaddress] = useState('');
-  const [addrInfo, setAddrInfo] = useState(null);
   const [mynickname, setmynickname] = useState('');
 
   const [walletPassword, setWalletPassword] = useState('');
@@ -77,6 +79,16 @@ const CtmMypage = () => {
   const [nickName, setNickName] = useState('');
 
   const dispatch = useDispatch();
+
+  // 수정 메뉴
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const menuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const menuClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleOpen = (value) => {
     switch (value) {
@@ -151,134 +163,9 @@ const CtmMypage = () => {
     }
   };
 
-  const getMyReviews = async () => {
-    const result = await myReviewRequest();
-    if (result?.data?.reviews) {
-      setReviewList(result?.data?.reviews);
-    } else {
-      navigate('/error');
-    }
-  };
-
-  const getMyOrders = async () => {
-    const result = await myorderCtmRequest();
-    if (result?.data?.orders) {
-      setOrderList(result?.data?.orders);
-    } else {
-      navigate('/error');
-    }
-  };
-
-  const getMyLikes = async () => {
-    const result = await LaundryLikeRequest();
-    if (result?.data?.laundrys) {
-      setLikeList(result?.data?.laundrys);
-    } else {
-      navigate('/error');
-    }
-  };
-
   useEffect(() => {
     getMypage();
-    getMyReviews();
-    getMyOrders();
-    getMyLikes();
   }, []);
-
-  const handleMode = (value) => {
-    setMode(value);
-    if (value === 1) {
-      setModeState(-1);
-    }
-  };
-
-  const handleModeState = (value) => {
-    setModeState(value);
-  };
-
-  let content = '';
-  if (mode === 1) {
-    let orderTempList = orderList;
-    if (modeState === 0) {
-      orderTempList = orderList.filter((order) => order.state === 0);
-    } else if (modeState === 1) {
-      orderTempList = orderList.filter((order) => order.state === 1);
-    } else if (modeState === 2) {
-      orderTempList = orderList.filter((order) => order.state >= 2);
-    }
-
-    content = (
-      <>
-        {orderTempList.map((order) => (
-          <Card
-            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
-            className="ctm-mypage-right-bottom-review">
-            <Link to={`../order/${order.orderId}`} key={order.orderId}>
-              <CardMedia
-                component="img"
-                height="100"
-                image="../assets/laundry1.jpg"
-                alt="green iguana"
-              />
-              <CardContent
-                className="ctm-mypage-right-bottom-review-text"
-                sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
-                <div>[주문 번호 : {order.orderId}]</div>
-                <div>{stateText[order.state]}</div>
-              </CardContent>
-            </Link>
-          </Card>
-        ))}
-      </>
-    );
-  } else if (mode === 2) {
-    content = (
-      <>
-        {reviewList.map((review, idx) => (
-          <Card
-            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
-            key={idx}
-            className="ctm-mypage-right-bottom-review">
-            <CardMedia
-              component="img"
-              height="100"
-              image="../assets/laundry1.jpg"
-              alt="green iguana"
-            />
-            <CardContent
-              className="ctm-mypage-right-bottom-review-text"
-              sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
-              [{review.laundryName}] {review.content}
-            </CardContent>
-          </Card>
-        ))}
-      </>
-    );
-  } else if (mode === 3) {
-    content = (
-      <>
-        {likeList.map((like, idx) => (
-          <Card
-            sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
-            className="ctm-mypage-right-bottom-review">
-            <Link to={`../${like.laundryId}`} key={like.laundryId}>
-              <CardMedia
-                component="img"
-                sx={{ height: 1 / 2 }}
-                image="../assets/laundry1.jpg"
-                alt="green iguana"
-              />
-              <CardContent
-                className="ctm-mypage-right-bottom-review-text"
-                sx={{ maxWidth: 1, maxHeight: 1 / 2 }}>
-                {like.laundryName}
-              </CardContent>
-            </Link>
-          </Card>
-        ))}
-      </>
-    );
-  }
 
   // 닉네임 변경 로직
   const nickNameChange = (event) => {
@@ -354,6 +241,10 @@ const CtmMypage = () => {
       const balanceInfo = {
         balance
       };
+      if (balance > 100000) {
+        alert('양심껏 가져가주세요 선생님');
+        return;
+      }
       const result = await balanceUpdate(balanceInfo);
       if (!result) {
         navigate('/error');
@@ -383,170 +274,124 @@ const CtmMypage = () => {
   };
   return (
     <div className="ctm-mypage">
-      <CardContent className="ctm-mypage-left">
-        <div className="ctm-mypage-left-top">
+      <div className="ctm-mypage-img-box">
+        <div className="ctm-mypage-img-left" />
+        <div className="ctm-mypage-img-center">
           <img
-            className="ctm-mypage-left-top-profile"
-            src="../assets/user.png"
+            className="ctm-mypage-img"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
             alt="user-img"
           />
         </div>
-        <div className="ctm-mypage-left-bottom">
-          <div className="ctm-mypage-left-bottom-content">
-            <div className="ctm-mypage-left-bottom-clean">{clean} 클린</div>
-            <div className="ctm-mypage-left-bottom-id">
-              {userInfo.userEmail}
-            </div>
-            <div className="ctm-mypage-left-bottom-nickname">
-              {mynickname || '닉네임을 바꿔주세요.'}
-            </div>
-            <div className="ctm-mypage-left-bottom-address">{myaddress}</div>
-          </div>
-          <div className="ctm-mypage-left-bottom-chips">
-            <Chip
-              className="ctm-mypage-left-bottom-chip"
-              label="닉네임 변경"
-              style={{
-                height: 40,
-                width: 140,
-                background: 'linear-gradient(#e66465, #FFD6EC)'
-              }}
-              onClick={() => handleOpen(1)}
-            />
-            <Chip
-              className="ctm-mypage-left-bottom-chip"
-              label="비밀번호 변경"
-              style={{
-                height: 40,
-                width: 140,
-                background: 'linear-gradient(#e66465, #FFD6EC)'
-              }}
-              onClick={() => handleOpen(2)}
-            />
-            <Chip
-              className="ctm-mypage-left-bottom-chip"
-              label="주소 변경"
-              style={{
-                height: 40,
-                width: 140,
-                background: 'linear-gradient(#e66465, #FFD6EC)'
-              }}
-              onClick={() => handleOpen(3)}
-            />
-            <Chip
-              className="ctm-mypage-left-bottom-chip"
-              label="충전하기"
-              style={{
-                height: 40,
-                width: 140,
-                background: 'linear-gradient(#e66465, #FFD6EC)'
-              }}
-              onClick={() => handleOpen(4)}
-            />
-            <div onClick={() => handleOpen(5)}>회원 탈퇴</div>
-          </div>
+        <div className="ctm-mypage-img-right">
+          {/* 수정 메뉴 */}
+          <IconButton
+            aria-label="more"
+            id="ctm-mypage-modify"
+            aria-controls={open ? 'long-menu' : undefined}
+            aria-expanded={open ? 'true' : undefined}
+            aria-haspopup="true"
+            onClick={menuClick}>
+            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color2" />
+          </IconButton>
+          <Menu
+            id="long-menu"
+            MenuListProps={{
+              'aria-labelledby': 'long-button'
+            }}
+            anchorEl={anchorEl}
+            open={open}
+            onClose={menuClose}
+            PaperProps={{
+              style: {
+                maxHeight: 48 * 4.5,
+                width: '20ch'
+              }
+            }}>
+            {/* <div>
+
+              </div> */}
+            {options.map((option) => (
+              <MenuItem key={option.id} onClick={menuClose}>
+                <Button
+                  onClick={() => handleOpen(option.id)}
+                  sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
+                  color="color2"
+                  style={{ justifyContent: 'flex-start' }}>
+                  {option.label}
+                </Button>
+              </MenuItem>
+            ))}
+            <MenuItem key={5} onclick={menuClose}>
+              <Button
+                onClick={() => handleOpen(5)}
+                sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
+                color="color0_2"
+                style={{ justifyContent: 'flex-start' }}>
+                회원 탈퇴하기
+              </Button>
+            </MenuItem>
+          </Menu>
         </div>
-      </CardContent>
-      <div className="ctm-mypage-right">
-        <div className="ctm-mypage-right-top">
-          <Chip
-            className={`ctm-mypage-right-top-chip ${
-              mode === 1 ? 'ctm-right-top-chip-selected' : null
-            }`}
-            label="나의 주문"
-            style={{
-              height: 40,
-              width: 140,
-              marginRight: 20,
-              background: 'rgb(250, 209, 226)',
-              fontSize: 'medium'
-            }}
-            onClick={() => handleMode(1)}
-          />
-          <Chip
-            className={`ctm-mypage-right-top-chip ${
-              mode === 2 ? 'ctm-right-top-chip-selected' : null
-            }`}
-            label="나의 리뷰"
-            style={{
-              height: 40,
-              width: 140,
-              marginRight: 20,
-              background: 'rgb(250, 209, 226)',
-              fontSize: 'medium'
-            }}
-            onClick={() => handleMode(2)}
-          />
-          <Chip
-            className={`ctm-mypage-right-top-chip ${
-              mode === 3 ? 'ctm-right-top-chip-selected' : null
-            }`}
-            label="나의 즐겨찾기"
-            style={{
-              height: 40,
-              width: 140,
-              marginRight: 20,
-              background: 'rgb(250, 209, 226)',
-              fontSize: 'medium'
-            }}
-            onClick={() => handleMode(3)}
-          />
+      </div>
+      <div className="ctm-mypage-nickname">{mynickname}</div>
+      <div className="ctm-mypage-email">{userInfo.userEmail}</div>
+      <div className="ctm-mypage-addr">{myaddress}</div>
+
+      <Box boxShadow={0} className="ctm-mypage-card">
+        <div className="ctm-mypage-card-title">
+          <div className="ctm-mypage-card-label">지갑 잔액</div>
+          <Button
+            size="small"
+            color="color1"
+            variant="contained"
+            className="ctm-mypage-charge-btn"
+            onClick={() => handleOpen(4)}>
+            충전
+          </Button>
         </div>
-        {mode === 1 ? (
-          <div className="ctm-mypage-right-medium">
-            <Chip
-              className="ctm-mypage-right-medium-chip"
-              label="전체"
-              style={{
-                height: 20,
-                width: 140
-              }}
-              onClick={() => handleModeState(-1)}
-            />
-            <Chip
-              className="ctm-mypage-right-medium-chip"
-              label="수락 대기중"
-              style={{
-                height: 20,
-                width: 140
-              }}
-              onClick={() => handleModeState(0)}
-            />
-            <Chip
-              className="ctm-mypage-right-medium-chip"
-              label="세탁중"
-              style={{
-                height: 20,
-                width: 140
-              }}
-              onClick={() => handleModeState(1)}
-            />
-            <Chip
-              className="ctm-mypage-right-medium-chip"
-              label="완료"
-              style={{
-                height: 20,
-                width: 140
-              }}
-              onClick={() => handleModeState(2)}
-            />
+        <div className="ctm-mypage-cln">{clean} CLN</div>
+        <Box className="ctm-mypage-box-warn">
+          <div className="ctm-mypage-warn">
+            서비스 이용을 위해 클린을 충전해보세요!
           </div>
-        ) : (
-          <div className="ctm-mypage-right-medium" />
-        )}
-        <div className="ctm-mypage-right-bottom">{content}</div>
+        </Box>
+      </Box>
+
+      <div className="ctm-mypage-buttons">
+        <Link to="/customer/orderlist" className="OrderList">
+          <Button size="small" color="color1" variant="outlined">
+            나의 주문
+          </Button>
+        </Link>
+        <Link to="/customer/reviewlist" className="ReviewList">
+          <Button size="small" color="color1" variant="outlined">
+            나의 리뷰
+          </Button>
+        </Link>
+        {/* <Link to="/customer/" className="FavoriteList">
+          <Button size="small" color="color1" variant="outlined">
+            즐겨찾기
+          </Button>
+        </Link> */}
       </div>
 
-      {/* 모달 모음집 */}
+      {/* 닉네임 변경 모달 */}
       <Dialog open={openNickname} onClose={() => handleClose(1)}>
-        <DialogTitle>닉네임 변경하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          닉네임 변경하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>변경할 닉네임을 입력해주세요.</DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+            변경할 닉네임을 입력해주세요.
+          </DialogContentText>
           <TextField
+            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
             autoFocus
-            margin="dense"
             label="닉네임"
-            type="text"
             value={nickName}
             onChange={nickNameChange}
             fullWidth
@@ -554,18 +399,38 @@ const CtmMypage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(1)}>취소</Button>
-          <Button onClick={handleNickname}>변경하기</Button>
+          <Button
+            onClick={() => handleClose(1)}
+            color="color2"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleNickname}
+            color="color2"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            변경하기
+          </Button>
         </DialogActions>
       </Dialog>
 
+      {/* 비밀번호 변경 모달 */}
       <Dialog open={openPassword} onClose={() => handleClose(2)}>
-        <DialogTitle>비밀번호 변경하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          비밀번호 변경하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>변경할 비밀번호을 입력해주세요.</DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+            변경할 비밀번호을 입력해주세요.
+          </DialogContentText>
           <TextField
+            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
             autoFocus
-            margin="dense"
+            // margin="dense"
             label="비밀번호"
             type="password"
             value={pwd}
@@ -581,7 +446,11 @@ const CtmMypage = () => {
               : ''}
           </FormHelperText>
           <TextField
-            margin="dense"
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
+            autoFocus
             label="비밀번호 확인"
             type="password"
             value={pwdCheck}
@@ -594,13 +463,24 @@ const CtmMypage = () => {
           </FormHelperText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(2)}>취소</Button>
-          <Button onClick={handlePassword} disabled={!isPwdValid || !isPwdSame}>
+          <Button
+            onClick={() => handleClose(2)}
+            color="color2"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handlePassword}
+            disabled={!isPwdValid || !isPwdSame}
+            color="color2"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
             변경하기
           </Button>
         </DialogActions>
       </Dialog>
 
+      {/* 주소 변경 모달 */}
       <Dialog open={openAddress} onClose={() => handleClose(3)}>
         <Address
           AddressFunc={AddressFunc}
@@ -609,15 +489,44 @@ const CtmMypage = () => {
         />
       </Dialog>
 
+      {/* 회원 탈퇴 모달 */}
+      <Dialog open={openDelete} onClose={() => handleClose(5)}>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          회원 탈퇴
+        </DialogTitle>
+        <DialogContent sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+          정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => handleClose(5)}
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleDelete}
+            color="color0"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            탈퇴
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {/* CLN 충전 모달 */}
       <Dialog open={openCharge} onClose={() => handleClose(4)}>
-        <DialogTitle>클린 충전하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          클린 충전하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium' }}>
             지갑 비밀번호와 충전할 금액을 입력해주세요.
           </DialogContentText>
           <TextField
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
             autoFocus
-            margin="dense"
             label="지갑 비밀번호"
             value={walletPassword}
             onChange={walletPasswordChange}
@@ -626,30 +535,32 @@ const CtmMypage = () => {
             variant="standard"
           />
           <TextField
-            margin="dense"
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
+            autoFocus
             label="충전할 금액"
             type="number"
-            value={chargeAmount}
+            value={chargeAmount ? chargeAmount : ''}
             onChange={chargeAmountChange}
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(4)}>취소</Button>
-          <Button onClick={handleCharge}>충전하기</Button>
-        </DialogActions>
-      </Dialog>
-
-      <Dialog open={openDelete} onClose={() => handleClose(5)}>
-        <DialogTitle>회원 탈퇴</DialogTitle>
-        <DialogContent>
-          정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => handleClose(5)}>취소</Button>
-          <Button onClick={handleDelete} color="color0">
-            탈퇴
+          <Button
+            onClick={() => handleClose(4)}
+            color="color1"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleCharge}
+            color="color1"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            충전하기
           </Button>
         </DialogActions>
       </Dialog>

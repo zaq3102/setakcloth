@@ -50,6 +50,7 @@ const CtmLaundryDetailTemp = () => {
   const [heartClicked, setHeartClicked] = useState(false);
   const [mybalance, setBalance] = useState(0);
   const navigate = useNavigate();
+  const [value, setValue] = useState(0);
 
   const handleHeart = async () => {
     if (heartClicked) {
@@ -147,6 +148,7 @@ const CtmLaundryDetailTemp = () => {
     if (DeliverType === 0) {
       setTotalPrice(totalPrice + laundry.deliverCost);
     } else if (DeliverType === 1) {
+      setTotalPrice(totalPrice - laundry.deliverCost);
     }
     setOrderType(DeliverType);
   };
@@ -221,19 +223,23 @@ const CtmLaundryDetailTemp = () => {
     };
   }
 
-  const [value, setValue] = React.useState(0);
-
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
+  document.querySelectorAll('.order-button-button').forEach((button) =>
+    button.addEventListener('click', (e) => {
+      if (!button.classList.contains('loading')) {
+        button.classList.add('loading');
+        setTimeout(() => button.classList.remove('loading'), 3700);
+      }
+      e.preventDefault();
+    })
+  );
+
   return (
     <div className="ctm-laundry-detail">
-      <img
-        className="ctm-laundry-img"
-        src="../../assets/ctmhome0.png"
-        alt="laundry-img"
-      />
+      <img className="ctm-laundry-img" src={laundry.imgUrl} alt="laundry-img" />
       <div className="ctm-laundry-card">
         <Card>
           <CardContent
@@ -361,7 +367,7 @@ const CtmLaundryDetailTemp = () => {
                   <button
                     className="order-button-button"
                     type="button"
-                    disabled={totalPrice === 0}
+                    disabled={totalPrice === 0 || totalPrice < laundry.minCost}
                     onClick={handleOrder}>
                     <span>주문하기</span>
                     <div className="order-button-cart">
@@ -401,7 +407,11 @@ const CtmLaundryDetailTemp = () => {
                 <div className="ctm-laundry-toggle-review-title">평점</div>
                 <div className="ctm-laundry-toggle-review-star">
                   <div>
-                    <Box>{laundry.score === -1 ? null : laundry.score}</Box>
+                    <Box>
+                      {laundry.score === -1
+                        ? null
+                        : Math.round(laundry.score * 10) / 10}
+                    </Box>
                   </div>
                   <div>
                     <Rating

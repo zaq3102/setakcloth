@@ -116,12 +116,13 @@ public class OrderService {
             List<OrderDetail> orderDetails = order.getOrderDetails();
 
             String inputdata = null;
-            List<String> urls1 = null;
-            List<String> urls2 = null;
-            List<String> urls3 = null;
 
             if(orderDetails != null){
                 for(OrderDetail detail : orderDetails){
+                    List<String> urls1 = null;
+                    List<String> urls2 = null;
+                    List<String> urls3 = null;
+
                     String txHash1 = detail.getBlockAddr1();
                     String txHash2 = detail.getBlockAddr2();
                     String txHash3 = detail.getBlockAddr3();
@@ -175,7 +176,8 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDetail updateOrderDetail(Long orderDetailId, Long userId, List<MultipartFile> multipartFiles){
+    public List<String> updateOrderDetail(Long orderDetailId, Long userId, List<MultipartFile> multipartFiles){
+        List<String> imgUrls = new ArrayList<String>();
         OrderDetail orderDetail = orderDetailRepository.findById(orderDetailId).orElse(null);
         if(orderDetail == null){
             return null;
@@ -188,14 +190,15 @@ public class OrderService {
         String urlsString = "";
 
         try {
-            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
-            if (personalUnlockAccount.accountUnlocked()) {
+//            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+//            if (personalUnlockAccount.accountUnlocked()) {
                 for (int i = 0; i < multipartFiles.size(); i++) {
                     InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
 
                     NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
                     MerkleNode response = ipfs.add(is).get(0);
                     String url = response.hash.toBase58();
+                    imgUrls.add(url);
                     urlsString += (url  + ",");
                 }
                 urlsString = urlsString.substring(0, urlsString.length() - 1);
@@ -207,7 +210,7 @@ public class OrderService {
                 if(ethCall.getError() != null){
                     //에러 있을 때
                 }
-            }
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -227,11 +230,12 @@ public class OrderService {
             }
         }
 
-        return orderDetail;
+        return imgUrls;
     }
 
     @Transactional
-    public Order updateOrderDelivered(Long orderId, Long userId, List<MultipartFile> multipartFiles){
+    public List<String> updateOrderDelivered(Long orderId, Long userId, List<MultipartFile> multipartFiles){
+        List<String> imgUrls = new ArrayList<String>();
         Order order = orderRepository.findById(orderId).orElse(null);
         if(order == null){
             return null;
@@ -246,14 +250,15 @@ public class OrderService {
         String urlsString = "";
 
         try {
-            PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
-            if (personalUnlockAccount.accountUnlocked()) {
+            //PersonalUnlockAccount personalUnlockAccount = admin.personalUnlockAccount(ADMIN_ADDRESS, PASSWORD).send();
+            //if (personalUnlockAccount.accountUnlocked()) {
                 for (int i = 0; i < multipartFiles.size(); i++) {
                     InputStream inputStream = new ByteArrayInputStream(multipartFiles.get(i).getBytes());
 
                     NamedStreamable.InputStreamWrapper is = new NamedStreamable.InputStreamWrapper(inputStream);
                     MerkleNode response = ipfs.add(is).get(0);
                     String url = response.hash.toBase58();
+                    imgUrls.add(url);
                     urlsString += (url  + ",");
                 }
                 urlsString = urlsString.substring(0, urlsString.length() - 1);
@@ -265,7 +270,7 @@ public class OrderService {
                 if(ethCall.getError() != null){
                     //에러 있을 때
                 }
-            }
+            //}
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -278,7 +283,7 @@ public class OrderService {
             }
         }
 
-        return order;
+        return imgUrls;
     }
 
     @Transactional
@@ -312,7 +317,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElse(null);
         order.setReviewContent(reviewInfo.getContent());
         order.setReviewScore(reviewInfo.getScore());
-        order.setReviewDate(LocalDate.now());
+        order.setReviewDate(LocalDateTime.now());
         order.setIsImg(reviewInfo.isImg());
         orderRepository.save(order);
     }

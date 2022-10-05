@@ -4,6 +4,9 @@ $color2: #3066be;
 $color3: #60afff;
 $color4: #bfd7ea;
 $color5: #e0ebf5;
+$color2-2: #1c6654;
+$color3-2: #82cda9;
+$color4-2: #e1f0ec;
 
 // Home.tsx
 .banner {
@@ -16,18 +19,28 @@ $color5: #e0ebf5;
 
 .banner-wrap {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 60vh;
+  width: 30vh;
+  height: 25vh;
 }
 
 .banner-title {
   margin-top: 7vh;
   margin-bottom: 7vh;
-  padding-left: 5vh;
   align-self: center;
-  width: 30vh;
+  align-items: center;
+  width: 100%;
+  height: 30%;
+}
+
+.banner-title-top {
+  padding-top: 5%;
+  align-self: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
 }
 
 .banner-check {
@@ -38,19 +51,32 @@ $color5: #e0ebf5;
 }
 
 .banner-title-1 {
-  font-size: medium;
-  font-weight: bold;
-  margin-bottom: 1vh;
+  display: flex;
+  justify-content : center;
+  align-items: center;
+  height: auto;
+  margin-bottom: 20%;
+  width: 100%;
 }
 
 .banner-title-2 {
   font-size: large;
   font-weight: bold;
-  margin-bottom: 0.5vh;
+  display: flex;
+  justify-content : center;
+  align-items: center;
+  height: auto;
+  width: 100%;
+}
+
+.banner-title-text {
+  text-align: justify;
+  justify-content : center;
 }
 
 .banner-title-3 {
   font-size: small;
+  text-align: center;
   margin-top: 2vh;
 }
 
@@ -67,6 +93,19 @@ $color5: #e0ebf5;
 
 .mockup {
   margin-top: 6vh;
+  max-width: 100%;
+  height: 75%;
+}
+
+.banner-img-div {
+  width: 100%;
+  height: 50%;
+  display: flex;
+  justify-content : center;
+  align-items: center;
+}
+
+.mockup {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -75,7 +114,29 @@ $color5: #e0ebf5;
 
 .mockup-title {
   margin-right: 5vh;
+.mockup-end {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10%;
+}
+
+.mockup-title {
   align-self: center;
+  margin: 2vh;
+  width: 35vh;
+}
+
+.mockup-title-head {
+  font-size: large;
+  font-weight: bolder;
+  margin-bottom: 10%;
+}
+
+.mockup-title-body {
+  font-size: small;
+  font-weight: 100;
 }
 
 .mockup-check {
@@ -91,6 +152,7 @@ $color5: #e0ebf5;
 
 .mockup-img {
   width: 15vh;
+  margin: 3vh;
 }
 
 .home-gif {

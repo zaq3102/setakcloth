@@ -4,6 +4,9 @@ $color2: #3066be;
 $color3: #60afff;
 $color4: #bfd7ea;
 $color5: #e0ebf5;
+$color2-2: #1c6654;
+$color3-2: #82cda9;
+$color4-2: #e1f0ec;
 
 .App {
   text-align: center;
@@ -15,7 +18,7 @@ $color5: #e0ebf5;
 }
 
 .logo-img {
-  height: 5vh;
+  height: 8rem;
 }
 
 .logo-text {
@@ -46,7 +49,7 @@ $color5: #e0ebf5;
   margin-bottom: 1vh;
 }
 
-.Login-Button{
+.Login-Button {
   margin-right: 1vh;
 }
 
@@ -57,4 +60,11 @@ $color5: #e0ebf5;
 .homepage-img {
   display: flex;
   flex-direction: column;
+}
+
+
+@media (min-width:600px) {
+  .logo-img {
+    height: 2rem;
+  }
 }

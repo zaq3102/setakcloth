@@ -8,138 +8,104 @@ const Home: React.FC = () => {
     <div className="wrap">
       <div className="banner">
         <div className="banner-wrap">
+          {/* 여기부터 왼쪽 */}
+          <div className="banner-title-top">
+            <div className="banner-title-1">
+              <div>깨끗하게&nbsp;&nbsp;&nbsp;</div>
+              <div>투명하게&nbsp;&nbsp;&nbsp;</div>
+              <div>공정하게</div>
+            </div>
+          </div>
+          {/* 여기까지 왼쪽 */}
+          <div className="banner-img-div">
+            <img
+              className="banner-img"
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/redsanta.png"
+              alt="banner"
+            />
+          </div>
           <div className="banner-title">
-            <div className="banner-title-1">블록체인 기반</div>
-            <div className="banner-title-2">세탁소 중개 플랫폼</div>
-            <div className="banner-title-3">지금 바로 회원가입하세요!</div>
-            <br />
-            <div className="banner-check">
-              <DoneIcon color="success" />
-              <div className="banner-check-content">안전한 결제</div>
-              <DoneIcon color="success" />
-              <div className="banner-check-content">편리한 사용</div>
-            </div>
-            <div className="banner-check">
-              <DoneIcon color="success" />
-              <div className="banner-check-content">투명한 유통</div>
-              <DoneIcon color="success" />
-              <div className="banner-check-content">손쉬운 비교</div>
+            <div className="banner-title-2">
+              <div className="banner-title-text">세탁클로쓰</div>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="mockup">
           <img
-            className="banner-img"
-            src="../../assets/landing0.png"
-            alt="banner"
+            className="mockup-img"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/blockchain.png"
+            alt="mockup0"
           />
-        </div>
-      </div>
-      <div className="mockup">
         <div className="mockup-title">
-          <Typography variant="h4">블록체인 기반 투명한 유통과정</Typography>
-          <Typography variant="h6">안전하게 믿고 사용할 수 있어요.</Typography>
+          <div className="mockup-title-head">
+          블록체인 기반 
           <br />
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
+          투명한 유통과정
           </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-        </div>
-        <img
-          className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
-        />
-      </div>
-      <div className="mockup">
-        <div className="mockup-title">
-          <Typography variant="h4">우리 동네 세탁소를 한눈에</Typography>
-          <Typography variant="h6">
-            간편하게 내 주변의 세탁소를 검색해보세요.
-          </Typography>
+          <div className="mockup-title-body">
+          안전하게 믿고 
           <br />
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
+          사용할 수 있어요.
           </div>
         </div>
-        <img
-          className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
-        />
       </div>
+      
       <div className="mockup">
         <div className="mockup-title">
-          <Typography variant="h4">편리한 수거, 배달</Typography>
-          <Typography variant="h6">
+          <div className="mockup-title-head">
+          편리한 수거, 배달
+          </div>
+          <div className="mockup-title-body">
             문 앞에서 끝내는 세탁소 방문
             <br />
             직접 가지 않아도 돼요.
-          </Typography>
-          <br />
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
           </div>
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/cloth-van.png"
+          alt="mockup2"
         />
       </div>
       <div className="mockup">
+        <img
+          className="mockup-img"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/washing-machine-border.png"
+          alt="mockup1"
+        />
         <div className="mockup-title">
-          <Typography variant="h4">궁금했던 세탁소 정보를 한눈에</Typography>
-          <Typography variant="h6">
+          <div className="mockup-title-head">
+            우리 동네 세탁소를 
+            <br />
+            한눈에
+          </div>
+          <div className="mockup-title-body">
+            간편하게 내 주변의 
+            <br />
+            세탁소를 검색해보세요.
+          </div>
+        </div>
+      </div>
+      <div className="mockup-end">
+        <div className="mockup-title">
+          <div className="mockup-title-head">
+            궁금했던 세탁소 정보 
+            <br />
+            한눈에
+          </div>
+          <div className="mockup-title-body">
             얼마인지, 취급 품목이 무엇인지
             <br />
             물어보지 않아도 알 수 있어요.
-          </Typography>
-          <br />
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
-          </div>
-          <div className="mockup-check">
-            <DoneIcon className="mockup-check-icon" color="success" />
-            <Typography>dlkfjalk</Typography>
           </div>
         </div>
         <img
           className="mockup-img"
-          src="../../assets/landing1.png"
-          alt="mockup1"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry-info-icon.png"
+          alt="mockup3"
         />
       </div>
-      ㄴ
     </div>
   );
 };

@@ -46,6 +46,7 @@ const Header: React.FC = () => {
                 Logout
               </Button>
             </Link>
+            <span>&nbsp;&nbsp;</span>
             {loginType === 0 ? (
               <Link to="/customer/mypage">
                 <Button
