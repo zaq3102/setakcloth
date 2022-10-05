@@ -1,4 +1,13 @@
-import { Button, Dialog, Step, StepLabel, Stepper } from '@mui/material';
+import {
+  Button,
+  CardContent,
+  CardMedia,
+  Chip,
+  Dialog,
+  Step,
+  StepLabel,
+  Stepper
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import UploadPhoto from '../../common/UploadPhoto';
@@ -11,7 +20,8 @@ import { InfoRequest } from '../../../store/actions/services/userService';
 
 const CeoOrderDetail = () => {
   const navigate = useNavigate();
-  const [currentState, setCurrentState] = useState(0);
+  const [currentState, setCurrentState] = useState(4);
+  const [realState, setRealState] = useState(4);
   const { orderNum } = useParams();
   const [orderInfo, setOrderInfo] = useState([]);
   const [orderDetail, setOrderDetail] = useState([]);
@@ -22,6 +32,7 @@ const CeoOrderDetail = () => {
   const [orderDetailId, setOrderDetailId] = useState(0);
   const [selectedItem, setSelectedItem] = useState(0);
   const [allUploaded, setAllUploaded] = useState([false]);
+  const [itemList, setItemList] = useState([]);
 
   const [modes, setModes] = useState([]);
 
@@ -30,13 +41,18 @@ const CeoOrderDetail = () => {
     if (result?.data) {
       setOrderInfo(result?.data);
       setCurrentState(result?.data?.state);
+      setRealState(result?.data?.state);
       if (result?.data?.orderType === 'DELIVERY') {
         setModes(['수락 대기중', '세탁중', '배달중', '배달 완료']);
       } else if (result?.data?.orderType === 'PICKUP') {
         setModes(['수락 대기중', '세탁중', '세탁 완료', '수거 완료']);
       }
       setOrderDetail(result?.data?.orderDetails);
-
+      const items = [];
+      for (let i = 0; i < result?.data?.orderDetails.length; i += 1) {
+        items.push(result?.data?.orderDetails[i].name);
+      }
+      setItemList(items);
       if (result?.data?.state === 2 && result?.data?.orderType === 'PICKUP') {
         setAllUploaded([true]);
       } else {
@@ -128,25 +144,74 @@ const CeoOrderDetail = () => {
         }
         setAllUploaded(temp);
       }
+      setRealState(result?.data?.state);
     } else {
       navigate('/error');
     }
   };
 
+  const handleState = (value) => {
+    setCurrentState(value);
+  };
+
+  console.log(orderInfo);
+
   return (
-    <div className="ceo-order-detail">
-      <div className="ceo-order-detail-info">
-        {orderInfo.orderType === 'DELIVERY' ? (
-          <div>
-            {orderInfo.userAddr} {orderInfo.userAddrDetail}
-          </div>
-        ) : (
-          <></>
-        )}
-        <div>주문 고객 : {orderInfo.userNickName}</div>
+    <div className="order-detail">
+      <div className="order-detail-header">
+        <div className="order-detail-header-text">주문 상세 보기</div>
       </div>
-      <div className="ceo-order-detail-state">
-        <Stepper activeStep={currentState}>
+      <div className="order-detail-info">
+        <CardMedia
+          image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry0.png"
+          className="order-detail-info-img"
+        />
+        <CardContent className="order-detail-info-content-middle">
+          <div className="order-detail-info-content-orderId">
+            [주문 번호 : {orderInfo.orderId}]
+          </div>
+          <div className="order-detail-info-content-userNickName">
+            주문자 : {orderInfo.userNickName}
+          </div>
+          <div className="order-detail-info-content-orderId">
+            주문 시간 : {orderInfo?.date?.slice(0, 19)}
+          </div>
+          {orderInfo.orderType === 'DELIVERY' ? (
+            <div className="order-detail-info-content-addr">
+              배달 주소 : {orderInfo.userAddr} {orderInfo.userAddrDetail}
+            </div>
+          ) : (
+            <></>
+          )}
+          <div className="order-detail-info-items">
+            <div>주문 항목 : {itemList.join(', ')}</div>
+          </div>
+        </CardContent>
+        <CardContent className="order-detail-info-content-right">
+          {orderInfo.orderType === 'DELIVERY' ? (
+            <Chip
+              className="order-detail-info-content-chip"
+              label="배달"
+              size="x-large"
+              color="color1"
+              variant="outlined"
+            />
+          ) : (
+            <Chip
+              className="order-detail-info-content-chip"
+              label="수거"
+              size="x-large"
+              color="color1"
+              variant="outlined"
+            />
+          )}
+          <div className="order-detail-info-content-total">
+            총 주문 금액 : {orderInfo.totalPrice} 클린
+          </div>
+        </CardContent>
+      </div>
+      <div className="order-detail-state">
+        <Stepper activeStep={currentState} className="order-detail-state-steps">
           {modes.map((mode) => (
             <Step key={mode}>
               <StepLabel>{mode}</StepLabel>
@@ -154,43 +219,98 @@ const CeoOrderDetail = () => {
           ))}
         </Stepper>
         {currentState < 3 ? (
-          <Button
-            variant="contained"
-            color="color2"
-            onClick={nextState}
-            disabled={allUploaded.includes(false)}>
-            저장 후 다음 단계
-          </Button>
+          <>
+            <div className="order-detail-state-steps-buttons">
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={() => handleState(currentState - 1)}
+                disabled={currentState === 0}>
+                이전 단계
+              </Button>
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={nextState}
+                disabled={
+                  realState !== currentState || allUploaded.includes(false)
+                }>
+                저장 후 다음 단계
+              </Button>
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={() => handleState(currentState + 1)}
+                disabled={currentState === 3}>
+                다음 단계
+              </Button>
+            </div>
+            {orderInfo?.orderType === 'PICKUP' && currentState === 2 ? (
+              <div className="order-detail-state-steps-warn">
+                고객이 수거 완료 시 버튼을 눌러주세요.
+              </div>
+            ) : (
+              <></>
+            )}
+          </>
         ) : (
-          <></>
+          <>
+            <div className="order-detail-state-steps-buttons">
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={() => handleState(currentState - 1)}
+                disabled={currentState === 0}>
+                이전 단계
+              </Button>
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={() => handleState(currentState + 1)}
+                disabled={currentState === 3}>
+                다음 단계
+              </Button>
+            </div>
+          </>
         )}
       </div>
-      <div className="ceo-order-detail-upload">
+      <div className="order-detail-upload">
         {currentState < 2 ? (
           <>
             {orderDetail.map((order, idx1) => (
-              <div key={idx1}>
-                <div className="ceo-order-detail-upload-text">{order.name}</div>
-                <div className="ceo-order-detail-upload-info">
-                  <div className="ceo-order-detail-upload-img">
-                    {order[`blockAddr${currentState + 1}ImgUrls`].map(
-                      (url: any, idx2: any) => (
-                        <img
-                          src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
-                          key={`img-${idx2}`}
-                          alt={`img-${idx2}`}
-                          style={{ height: 100 }}
-                        />
-                      )
+              <div key={idx1} className="order-detail-upload-item">
+                <div className="order-detail-upload-text">{order.name}</div>
+                <div className="order-detail-upload-info">
+                  <>
+                    {order[`blockAddr${currentState + 1}ImgUrls`].length ===
+                    0 ? (
+                      <div className="order-detail-upload-img">
+                        사진을 업로드 해주세요.
+                      </div>
+                    ) : (
+                      <>
+                        {order[`blockAddr${currentState + 1}ImgUrls`].map(
+                          (url: any, idx2: any) => (
+                            <img
+                              src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                              key={`img-${idx2}`}
+                              alt={`img-${idx2}`}
+                              className="order-detail-upload-img"
+                            />
+                          )
+                        )}
+                      </>
                     )}
-                  </div>
+                  </>
+                </div>
+                <div className="order-detail-upload-button">
                   <Button
                     variant="contained"
                     color="color2"
-                    className="ceo-order-detail-upload-button"
                     onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
                     disabled={
-                      order[`blockAddr${currentState + 1}ImgUrls`].length !== 0
+                      order[`blockAddr${currentState + 1}ImgUrls`].length !==
+                        0 || realState !== currentState
                     }>
                     사진 업로드
                   </Button>
@@ -199,31 +319,44 @@ const CeoOrderDetail = () => {
             ))}
           </>
         ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
-          <>
-            <Button
-              variant="contained"
-              color="color2"
-              className="ceo-order-detail-upload-button"
-              onClick={() => ImgUploadBtnClick(orderNum, -1)}
-              disabled={
-                orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].length !==
-                0
-              }>
-              배달 사진 업로드
-            </Button>
-            <div className="ceo-order-detail-upload-img">
-              {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].map(
-                (url: any, idx3: any) => (
-                  <img
-                    src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
-                    key={`img-${idx3}`}
-                    alt={`img-${idx3}`}
-                    style={{ height: 100 }}
-                  />
-                )
-              )}
+          <div className="order-detail-upload-item">
+            <div className="order-detail-upload-text">배달 완료 사진</div>
+            <div className="order-detail-upload-info">
+              <>
+                {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
+                  .length === 0 ? (
+                  <div className="order-detail-upload-img">
+                    사진을 업로드 해주세요.
+                  </div>
+                ) : (
+                  <>
+                    {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].map(
+                      (url: any, idx3: any) => (
+                        <img
+                          src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                          key={`img-${idx3}`}
+                          alt={`img-${idx3}`}
+                          className="order-detail-upload-img"
+                        />
+                      )
+                    )}
+                  </>
+                )}
+              </>
             </div>
-          </>
+            <div className="order-detail-upload-button">
+              <Button
+                variant="contained"
+                color="color2"
+                onClick={() => ImgUploadBtnClick(orderNum, -1)}
+                disabled={
+                  orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
+                    .length !== 0 || realState !== currentState
+                }>
+                사진 업로드
+              </Button>
+            </div>
+          </div>
         ) : (
           <></>
         )}

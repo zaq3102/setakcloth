@@ -101,6 +101,7 @@ const CtmHome: React.FC = () => {
     setMyaddress(value);
   };
 
+  console.log(laundryList);
   return (
     <div>
       {/* 주소 */}
@@ -149,16 +150,28 @@ const CtmHome: React.FC = () => {
             displayEmpty
             onChange={handleSelect}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem onClick={() => handleButton(0)} value="최신 등록순">
+            <MenuItem
+              onClick={() => handleButton(0)}
+              value="최신 등록순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               최신등록순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(1)} value="거리순">
+            <MenuItem
+              onClick={() => handleButton(1)}
+              value="거리순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               거리순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(2)} value="별점순">
+            <MenuItem
+              onClick={() => handleButton(2)}
+              value="별점순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               별점순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(3)} value="즐겨찾기">
+            <MenuItem
+              onClick={() => handleButton(3)}
+              value="즐겨찾기"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               즐겨찾기
             </MenuItem>
           </Select>
@@ -179,11 +192,7 @@ const CtmHome: React.FC = () => {
             }}
             onClick={() => onclicklaundry(item.laundryId)}>
             <div className="item-content-left">
-              <CardMedia
-                id="cardImg"
-                component="img"
-                image="../assets/ctmhome0.png"
-              />
+              <CardMedia id="cardImg" component="img" image={item.imgUrl} />
             </div>
             {/* image={item.imgUrl} /> */}
             <CardContent sx={{ p: 1 }} id="item-content-right">
@@ -199,7 +208,9 @@ const CtmHome: React.FC = () => {
                   }
                   size="large"
                 />
-                <Box>{item.score === -1 ? null : item.score}</Box>
+                <Box>
+                  {item.score === -1 ? null : Math.round(item.score * 10) / 10}
+                </Box>
               </div>
               <div className="item-content">
                 <div className="laundry-location">

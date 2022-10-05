@@ -239,11 +239,7 @@ const CtmLaundryDetailTemp = () => {
 
   return (
     <div className="ctm-laundry-detail">
-      <img
-        className="ctm-laundry-img"
-        src="../../assets/ctmhome0.png"
-        alt="laundry-img"
-      />
+      <img className="ctm-laundry-img" src={laundry.imgUrl} alt="laundry-img" />
       <div className="ctm-laundry-card">
         <Card>
           <CardContent
@@ -371,7 +367,7 @@ const CtmLaundryDetailTemp = () => {
                   <button
                     className="order-button-button"
                     type="button"
-                    disabled={totalPrice === 0}
+                    disabled={totalPrice === 0 || totalPrice < laundry.minCost}
                     onClick={handleOrder}>
                     <span>주문하기</span>
                     <div className="order-button-cart">
@@ -411,7 +407,11 @@ const CtmLaundryDetailTemp = () => {
                 <div className="ctm-laundry-toggle-review-title">평점</div>
                 <div className="ctm-laundry-toggle-review-star">
                   <div>
-                    <Box>{laundry.score === -1 ? null : laundry.score}</Box>
+                    <Box>
+                      {laundry.score === -1
+                        ? null
+                        : Math.round(laundry.score * 10) / 10}
+                    </Box>
                   </div>
                   <div>
                     <Rating

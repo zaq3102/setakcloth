@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {
   Button,
+  ButtonGroup,
   Dialog,
   DialogActions,
   DialogContent,
@@ -47,10 +48,6 @@ const options = [
   {
     id: 3,
     label: '주소 변경'
-  },
-  {
-    id: 5,
-    label: '회원 탈퇴하기'
   }
 ];
 
@@ -244,6 +241,10 @@ const CtmMypage = () => {
       const balanceInfo = {
         balance
       };
+      if (balance > 100000) {
+        alert('양심껏 가져가주세요 선생님');
+        return;
+      }
       const result = await balanceUpdate(balanceInfo);
       if (!result) {
         navigate('/error');
@@ -291,7 +292,7 @@ const CtmMypage = () => {
             aria-expanded={open ? 'true' : undefined}
             aria-haspopup="true"
             onClick={menuClick}>
-            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color1" />
+            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color2" />
           </IconButton>
           <Menu
             id="long-menu"
@@ -307,13 +308,29 @@ const CtmMypage = () => {
                 width: '20ch'
               }
             }}>
+            {/* <div>
+
+              </div> */}
             {options.map((option) => (
               <MenuItem key={option.id} onClick={menuClose}>
-                <Button onClick={() => handleOpen(option.id)}>
+                <Button
+                  onClick={() => handleOpen(option.id)}
+                  sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
+                  color="color2"
+                  style={{ justifyContent: 'flex-start' }}>
                   {option.label}
                 </Button>
               </MenuItem>
             ))}
+            <MenuItem key={5} onclick={menuClose}>
+              <Button
+                onClick={() => handleOpen(5)}
+                sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
+                color="color0_2"
+                style={{ justifyContent: 'flex-start' }}>
+                회원 탈퇴하기
+              </Button>
+            </MenuItem>
           </Menu>
         </div>
       </div>
@@ -328,8 +345,7 @@ const CtmMypage = () => {
             size="small"
             color="color1"
             variant="contained"
-            className="ctm-mypage-charge-btn
-            "
+            className="ctm-mypage-charge-btn"
             onClick={() => handleOpen(4)}>
             충전
           </Button>
@@ -337,7 +353,7 @@ const CtmMypage = () => {
         <div className="ctm-mypage-cln">{clean} CLN</div>
         <Box className="ctm-mypage-box-warn">
           <div className="ctm-mypage-warn">
-            잔액이 부족하면 세탁서비스를 이용하실 수 없습니다.
+            서비스 이용을 위해 클린을 충전해보세요!
           </div>
         </Box>
       </Box>
@@ -353,23 +369,29 @@ const CtmMypage = () => {
             나의 리뷰
           </Button>
         </Link>
-        <Link to="/customer/" className="FavoriteList">
+        {/* <Link to="/customer/" className="FavoriteList">
           <Button size="small" color="color1" variant="outlined">
             즐겨찾기
           </Button>
-        </Link>
+        </Link> */}
       </div>
 
       {/* 닉네임 변경 모달 */}
       <Dialog open={openNickname} onClose={() => handleClose(1)}>
-        <DialogTitle>닉네임 변경하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          닉네임 변경하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>변경할 닉네임을 입력해주세요.</DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+            변경할 닉네임을 입력해주세요.
+          </DialogContentText>
           <TextField
+            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
             autoFocus
-            margin="dense"
             label="닉네임"
-            type="text"
             value={nickName}
             onChange={nickNameChange}
             fullWidth
@@ -377,19 +399,38 @@ const CtmMypage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(1)}>취소</Button>
-          <Button onClick={handleNickname}>변경하기</Button>
+          <Button
+            onClick={() => handleClose(1)}
+            color="color2"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleNickname}
+            color="color2"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            변경하기
+          </Button>
         </DialogActions>
       </Dialog>
 
       {/* 비밀번호 변경 모달 */}
       <Dialog open={openPassword} onClose={() => handleClose(2)}>
-        <DialogTitle>비밀번호 변경하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          비밀번호 변경하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>변경할 비밀번호을 입력해주세요.</DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+            변경할 비밀번호을 입력해주세요.
+          </DialogContentText>
           <TextField
+            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
             autoFocus
-            margin="dense"
+            // margin="dense"
             label="비밀번호"
             type="password"
             value={pwd}
@@ -405,7 +446,11 @@ const CtmMypage = () => {
               : ''}
           </FormHelperText>
           <TextField
-            margin="dense"
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color2"
+            autoFocus
             label="비밀번호 확인"
             type="password"
             value={pwdCheck}
@@ -418,8 +463,18 @@ const CtmMypage = () => {
           </FormHelperText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(2)}>취소</Button>
-          <Button onClick={handlePassword} disabled={!isPwdValid || !isPwdSame}>
+          <Button
+            onClick={() => handleClose(2)}
+            color="color2"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handlePassword}
+            disabled={!isPwdValid || !isPwdSame}
+            color="color2"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
             변경하기
           </Button>
         </DialogActions>
@@ -436,13 +491,22 @@ const CtmMypage = () => {
 
       {/* 회원 탈퇴 모달 */}
       <Dialog open={openDelete} onClose={() => handleClose(5)}>
-        <DialogTitle>회원 탈퇴</DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          회원 탈퇴
+        </DialogTitle>
+        <DialogContent sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
           정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(5)}>취소</Button>
-          <Button onClick={handleDelete} color="color0">
+          <Button
+            onClick={() => handleClose(5)}
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleDelete}
+            color="color0"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
             탈퇴
           </Button>
         </DialogActions>
@@ -450,14 +514,19 @@ const CtmMypage = () => {
 
       {/* CLN 충전 모달 */}
       <Dialog open={openCharge} onClose={() => handleClose(4)}>
-        <DialogTitle>클린 충전하기</DialogTitle>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          클린 충전하기
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText sx={{ fontSize: 'medium' }}>
             지갑 비밀번호와 충전할 금액을 입력해주세요.
           </DialogContentText>
           <TextField
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
             autoFocus
-            margin="dense"
             label="지갑 비밀번호"
             value={walletPassword}
             onChange={walletPasswordChange}
@@ -466,18 +535,33 @@ const CtmMypage = () => {
             variant="standard"
           />
           <TextField
-            margin="dense"
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
+            autoFocus
             label="충전할 금액"
             type="number"
-            value={chargeAmount}
+            value={chargeAmount ? chargeAmount : ''}
             onChange={chargeAmountChange}
             fullWidth
             variant="standard"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(4)}>취소</Button>
-          <Button onClick={handleCharge}>충전하기</Button>
+          <Button
+            onClick={() => handleClose(4)}
+            color="color1"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleCharge}
+            color="color1"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            충전하기
+          </Button>
         </DialogActions>
       </Dialog>
     </div>
