@@ -619,9 +619,7 @@ const CeoMypage: React.FC = () => {
             ) : (
               <>
                 <div className="ctm-my-info-content-left">
-                  {imgSrc.map((url) => (
-                    <img src={url} alt="profileImg" width={100} />
-                  ))}
+                  <img src={imgSrc[0]} alt="profileImg" width={100} />
                   <Button
                     variant="contained"
                     color="color2_2"
@@ -717,7 +715,7 @@ const CeoMypage: React.FC = () => {
           changeImageSrc={changeImageSrc}
           handleClose={handleClose}
           imgCnt={imgCnt}
-          laundryId={laundryId}
+          id={laundryId}
         />
       </Dialog>
 
