@@ -101,7 +101,6 @@ const CtmHome: React.FC = () => {
     setMyaddress(value);
   };
 
-  console.log(laundryList);
   return (
     <div>
       {/* 주소 */}
