@@ -101,6 +101,7 @@ const CtmHome: React.FC = () => {
     setMyaddress(value);
   };
 
+  console.log(laundryList);
   return (
     <div>
       {/* 주소 */}
@@ -179,11 +180,7 @@ const CtmHome: React.FC = () => {
             }}
             onClick={() => onclicklaundry(item.laundryId)}>
             <div className="item-content-left">
-              <CardMedia
-                id="cardImg"
-                component="img"
-                image="../assets/ctmhome0.png"
-              />
+              <CardMedia id="cardImg" component="img" image={item.imgUrl} />
             </div>
             {/* image={item.imgUrl} /> */}
             <CardContent sx={{ p: 1 }} id="item-content-right">
@@ -199,7 +196,9 @@ const CtmHome: React.FC = () => {
                   }
                   size="large"
                 />
-                <Box>{item.score === -1 ? null : item.score}</Box>
+                <Box>
+                  {item.score === -1 ? null : Math.round(item.score * 10) / 10}
+                </Box>
               </div>
               <div className="item-content">
                 <div className="laundry-location">
