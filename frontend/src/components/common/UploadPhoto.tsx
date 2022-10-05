@@ -41,7 +41,7 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
     formData.append('multipartFile', selectedFile[0]);
     const result = await LaundryImgChange(id, formData);
     if (result?.data?.message === 'Success') {
-      changeImageSrc();
+      changeImageSrc(imageUrlLists);
       handleClose(4);
     } else {
       navigate('./error');
