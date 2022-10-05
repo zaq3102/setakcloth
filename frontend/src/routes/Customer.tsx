@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import CtmMypage from '../components/user/customer/CtmMypage';
 import Home from '../components/user/customer/CtmHome';
 import LaundryDetail from '../components/user/customer/CtmLaundryDetail';
-import OrderDetail from '../components/user/customer/CtmOrderDetail';
+import CtmOrderDetail from '../components/user/customer/CtmOrderDetail';
 import OrderList from '../components/user/customer/CtmOrderList';
 import ReviewList from '../components/user/customer/CtmReviewList';
 import NotFound from '../components/error/NotFound';
@@ -15,7 +15,7 @@ const Customer = () => {
       <Route path="/" element={<Home />} />
       <Route path="/:laundryId" element={<LaundryDetail />} />
       <Route path="/mypage" element={<CtmMypage />} />
-      <Route path="/order/:orderId" element={<OrderDetail />} />
+      <Route path="/order/:orderId" element={<CtmOrderDetail />} />
       <Route path="/orderlist" element={<OrderList />} />
       <Route path="/reviewlist" element={<ReviewList />} />
       <Route path="*" element={<NotFound />} />

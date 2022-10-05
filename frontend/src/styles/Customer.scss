@@ -18,35 +18,35 @@ $color4-2: #e1f0ec;
 }
 
 .item-title {
-    font-size: large;
-    margin-right: 3rem;
+  font-size: large;
+  margin-right: 3rem;
 }
 
-.item-title-area{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+.item-title-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.item-content-left{
-    width: 30rem;
+.item-content-left {
+  width: 30rem;
 }
 
-#item-content-right{
-    margin-top: 5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-content: flex-start;
-    height: 30rem;
-    width: 60rem;
+#item-content-right {
+  margin-top: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: flex-start;
+  height: 30rem;
+  width: 60rem;
 }
 
 .item-content {
-    display: flex;
-    flex-direction: column;
-    font-size: small;
+  display: flex;
+  flex-direction: column;
+  font-size: small;
 }
 
 #select {
@@ -54,50 +54,50 @@ $color4-2: #e1f0ec;
 }
 
 #laundryCard {
-    display: flex;
-    align-items: center;
-    width: 90rem;
-    height: 35rem;
-    border-radius: 3rem;
+  display: flex;
+  align-items: center;
+  width: 90rem;
+  height: 35rem;
+  border-radius: 3rem;
 }
 
 .laundry-sort {
-    margin-top: 15px;
+  margin-top: 15px;
 }
 
-#cardImg{
-    border-radius: 3rem;
-    width: 25rem;
-    height: 25rem;
+#cardImg {
+  border-radius: 3rem;
+  width: 25rem;
+  height: 25rem;
 }
 
-.laundry-location{
-    font-size: smaller;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    line-height: 4rem;
-    height: 8rem;
+.laundry-location {
+  font-size: smaller;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  line-height: 4rem;
+  height: 8rem;
 }
 
-.laundry-cost{
-    margin-top: 0.5rem;
-    font-size: smaller;
-    line-height: 5rem;
+.laundry-cost {
+  margin-top: 0.5rem;
+  font-size: smaller;
+  line-height: 5rem;
 }
 
-.item-chips{
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: row;
+.item-chips {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: row;
 }
 
-.delivery-chip{
-    margin-right: 1rem;
+.delivery-chip {
+  margin-right: 1rem;
 }
 
-.item-title{
-    font-size: medium;
-    font-weight: bold;
+.item-title {
+  font-size: medium;
+  font-weight: bold;
 }
 
 // customer/CtmHome.tsx
@@ -111,14 +111,14 @@ $color4-2: #e1f0ec;
   color: white;
 }
 
-.select-area{
-    display: flex;
-    justify-content: center;
-    margin-top: 3rem;
+.select-area {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
 }
 
-.inputlabel-default{
-    font-size: x-small;
+.inputlabel-default {
+  font-size: x-small;
 }
 
 .ctm-address-area {
@@ -133,20 +133,20 @@ $color4-2: #e1f0ec;
   padding: 0.5vh !important;
 }
 
-.my-address-title{
-    margin-left: 3rem;
+.my-address-title {
+  margin-left: 3rem;
 }
 
-.my-address-content{
-    margin-left: 3rem;
-    font-size: small;
+.my-address-content {
+  margin-left: 3rem;
+  font-size: small;
 }
 
-.latest-list-area{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.latest-list-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 //CtmMypage.tsx
@@ -244,39 +244,8 @@ $color4-2: #e1f0ec;
 }
 
 // CtmOrderDetail.tsx
-.order-detail {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.orderdetailcard {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 90%;
-}
-
-.orderdetailcard-left {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 200px;
-}
-
-.orderdetailcard-right {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-}
-
-.orderdetail-status {
-  font-size: 20px;
+.order-detail-info-content-state {
+  color: $color2;
 }
 
 // customerDetail
@@ -347,9 +316,9 @@ $color4-2: #e1f0ec;
   color: grey;
 }
 
-.ctm-laundry-deliver{
-    margin-top: 0.5vh;
-    font-size:smaller;
+.ctm-laundry-deliver {
+  margin-top: 0.5vh;
+  font-size: smaller;
 }
 
 .ctm-laundry-toggle {
@@ -542,62 +511,62 @@ $color4-2: #e1f0ec;
 }
 
 .laundry-my-review {
-    display: flex;
-    flex-direction: column;
-    background-color: #E0EBF5;
-    border-radius: 10px;
-    margin-bottom: 0.5vh;
-    padding: 1.5vh;
-    width: 51vh;
-    height: 10vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #E0EBF5;
+  border-radius: 10px;
+  margin-bottom: 0.5vh;
+  padding: 1.5vh;
+  width: 51vh;
+  height: 10vh;
 }
 
 // CtmOrderList.tsx
-.ctm-orderlist{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+.ctm-orderlist {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.ctm-orderlist-chips{
-    display: flex;
-    flex-direction: row;
-    width: 90rem;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+.ctm-orderlist-chips {
+  display: flex;
+  flex-direction: row;
+  width: 90rem;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
 }
 
-.ctm-orderlist-chip{
-    width: 20rem;
+.ctm-orderlist-chip {
+  width: 20rem;
 }
 
-.ctm-orderlist-chip:hover{
-    background-color:$color2 !important;
+.ctm-orderlist-chip:hover {
+  background-color: $color2  !important;
 }
 
-.ctm-orderlist-card{
-    margin-top: 1rem;
-    border: 0.3rem solid #1e3e5c;
+.ctm-orderlist-card {
+  margin-top: 1rem;
+  border: 0.3rem solid #1e3e5c;
 }
 
-.ctm-orderlist-card-content{
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    width: 80rem;
+.ctm-orderlist-card-content {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  width: 80rem;
 }
 
-.ctm-orderlist-card-img{
-    margin-left: 5rem;
-    width: 20rem;
+.ctm-orderlist-card-img {
+  margin-left: 5rem;
+  width: 20rem;
 }
 
-.ctm-orderlist-card-info{
-    margin-top: 5rem;
-    margin-left: 5rem;
-    line-height: 5rem;
-    font-size: small;
+.ctm-orderlist-card-info {
+  margin-top: 5rem;
+  margin-left: 5rem;
+  line-height: 5rem;
+  font-size: small;
 }

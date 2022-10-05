@@ -157,42 +157,40 @@ const CeoOrderDetail = () => {
   console.log(orderInfo);
 
   return (
-    <div className="ceo-order-detail">
-      <div className="ceo-order-detail-header">
-        <div className="ceo-order-detail-header-text">주문 상세 보기</div>
+    <div className="order-detail">
+      <div className="order-detail-header">
+        <div className="order-detail-header-text">주문 상세 보기</div>
       </div>
-      <div className="ceo-order-detail-info">
+      <div className="order-detail-info">
         <CardMedia
           image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry0.png"
-          sx={{
-            margin: 5,
-            borderRadius: 5,
-            width: 150,
-            height: 150
-          }}
+          className="order-detail-info-img"
         />
-        <CardContent className="ceo-order-detail-info-content-middle">
-          <div className="ceo-order-detail-info-content-orderId">
+        <CardContent className="order-detail-info-content-middle">
+          <div className="order-detail-info-content-orderId">
             [주문 번호 : {orderInfo.orderId}]
-          </div>{' '}
-          <div className="ceo-order-detail-info-content-userNickName">
+          </div>
+          <div className="order-detail-info-content-userNickName">
             주문자 : {orderInfo.userNickName}
           </div>
+          <div className="order-detail-info-content-orderId">
+            주문 시간 : {orderInfo?.date?.slice(0, 19)}
+          </div>
           {orderInfo.orderType === 'DELIVERY' ? (
-            <div className="ceo-order-detail-info-content-addr">
-              {orderInfo.userAddr} {orderInfo.userAddrDetail}
+            <div className="order-detail-info-content-addr">
+              배달 주소 : {orderInfo.userAddr} {orderInfo.userAddrDetail}
             </div>
           ) : (
             <></>
           )}
-          <div className="ceo-order-detail-info-items">
+          <div className="order-detail-info-items">
             <div>주문 항목 : {itemList.join(', ')}</div>
           </div>
         </CardContent>
-        <CardContent className="ceo-order-detail-info-content-right">
+        <CardContent className="order-detail-info-content-right">
           {orderInfo.orderType === 'DELIVERY' ? (
             <Chip
-              className="ceo-order-detail-info-content-chip"
+              className="order-detail-info-content-chip"
               label="배달"
               size="x-large"
               color="color1"
@@ -200,22 +198,20 @@ const CeoOrderDetail = () => {
             />
           ) : (
             <Chip
-              className="ceo-order-detail-info-content-chip"
+              className="order-detail-info-content-chip"
               label="수거"
               size="x-large"
               color="color1"
               variant="outlined"
             />
           )}
-          <div className="ceo-order-detail-info-content-total">
+          <div className="order-detail-info-content-total">
             총 주문 금액 : {orderInfo.totalPrice} 클린
           </div>
         </CardContent>
       </div>
-      <div className="ceo-order-detail-state">
-        <Stepper
-          activeStep={currentState}
-          className="ceo-order-detail-state-steps">
+      <div className="order-detail-state">
+        <Stepper activeStep={currentState} className="order-detail-state-steps">
           {modes.map((mode) => (
             <Step key={mode}>
               <StepLabel>{mode}</StepLabel>
@@ -224,7 +220,7 @@ const CeoOrderDetail = () => {
         </Stepper>
         {currentState < 3 ? (
           <>
-            <div className="ceo-order-detail-state-steps-buttons">
+            <div className="order-detail-state-steps-buttons">
               <Button
                 variant="contained"
                 color="color2"
@@ -250,7 +246,7 @@ const CeoOrderDetail = () => {
               </Button>
             </div>
             {orderInfo?.orderType === 'PICKUP' && currentState === 2 ? (
-              <div className="ceo-order-detail-state-steps-warn">
+              <div className="order-detail-state-steps-warn">
                 고객이 수거 완료 시 버튼을 눌러주세요.
               </div>
             ) : (
@@ -259,7 +255,7 @@ const CeoOrderDetail = () => {
           </>
         ) : (
           <>
-            <div className="ceo-order-detail-state-steps-buttons">
+            <div className="order-detail-state-steps-buttons">
               <Button
                 variant="contained"
                 color="color2"
@@ -278,17 +274,17 @@ const CeoOrderDetail = () => {
           </>
         )}
       </div>
-      <div className="ceo-order-detail-upload">
+      <div className="order-detail-upload">
         {currentState < 2 ? (
           <>
             {orderDetail.map((order, idx1) => (
-              <div key={idx1} className="ceo-order-detail-upload-item">
-                <div className="ceo-order-detail-upload-text">{order.name}</div>
-                <div className="ceo-order-detail-upload-info">
+              <div key={idx1} className="order-detail-upload-item">
+                <div className="order-detail-upload-text">{order.name}</div>
+                <div className="order-detail-upload-info">
                   <>
                     {order[`blockAddr${currentState + 1}ImgUrls`].length ===
                     0 ? (
-                      <div className="ceo-order-detail-upload-img">
+                      <div className="order-detail-upload-img">
                         사진을 업로드 해주세요.
                       </div>
                     ) : (
@@ -299,7 +295,7 @@ const CeoOrderDetail = () => {
                               src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
                               key={`img-${idx2}`}
                               alt={`img-${idx2}`}
-                              className="ceo-order-detail-upload-img"
+                              className="order-detail-upload-img"
                             />
                           )
                         )}
@@ -307,7 +303,7 @@ const CeoOrderDetail = () => {
                     )}
                   </>
                 </div>
-                <div className="ceo-order-detail-upload-button">
+                <div className="order-detail-upload-button">
                   <Button
                     variant="contained"
                     color="color2"
@@ -323,13 +319,13 @@ const CeoOrderDetail = () => {
             ))}
           </>
         ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
-          <div className="ceo-order-detail-upload-item">
-            <div className="ceo-order-detail-upload-text">배달 완료 사진</div>
-            <div className="ceo-order-detail-upload-info">
+          <div className="order-detail-upload-item">
+            <div className="order-detail-upload-text">배달 완료 사진</div>
+            <div className="order-detail-upload-info">
               <>
                 {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
                   .length === 0 ? (
-                  <div className="ceo-order-detail-upload-img">
+                  <div className="order-detail-upload-img">
                     사진을 업로드 해주세요.
                   </div>
                 ) : (
@@ -340,7 +336,7 @@ const CeoOrderDetail = () => {
                           src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
                           key={`img-${idx3}`}
                           alt={`img-${idx3}`}
-                          className="ceo-order-detail-upload-img"
+                          className="order-detail-upload-img"
                         />
                       )
                     )}
@@ -348,7 +344,7 @@ const CeoOrderDetail = () => {
                 )}
               </>
             </div>
-            <div className="ceo-order-detail-upload-button">
+            <div className="order-detail-upload-button">
               <Button
                 variant="contained"
                 color="color2"

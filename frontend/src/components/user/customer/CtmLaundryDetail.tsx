@@ -370,7 +370,7 @@ const CtmLaundryDetailTemp = () => {
                   <button
                     className="order-button-button"
                     type="button"
-                    disabled={totalPrice === 0}
+                    disabled={totalPrice === 0 || totalPrice < laundry.minCost}
                     onClick={handleOrder}>
                     <span>주문하기</span>
                     <div className="order-button-cart">
