@@ -6,6 +6,10 @@ const theme = createTheme({
       main: '#FF003E',
       contrastText: '#FFFFFF'
     },
+    color0_2: {
+      main: '#9E9E9E',
+      contrastText: '#000000'
+    },
     color1: {
       main: '#1E3E5C',
       contrastText: '#FFFFFF'

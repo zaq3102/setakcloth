@@ -181,7 +181,7 @@ $color4-2: #e1f0ec;
 
 .ctm-mypage-nickname {
   margin-top: 8rem;
-  font-size: medium;
+  font-size: large;
   font-weight: bold;
 }
 
@@ -192,7 +192,7 @@ $color4-2: #e1f0ec;
 
 .ctm-mypage-addr {
   margin-top: 3rem;
-  font-size: smaller;
+  font-size: small;
 }
 
 .ctm-mypage-card {
@@ -204,6 +204,11 @@ $color4-2: #e1f0ec;
   height: 35rem;
   margin-top: 10rem;
   border-radius: 2rem;
+}
+
+.ctm-mypage-card-label {
+  font-weight: bold;
+  font-size: small;
 }
 
 .ctm-mypage-card-title {
@@ -225,7 +230,7 @@ $color4-2: #e1f0ec;
   align-self: center;
   border-radius: 1rem;
   width: 65rem;
-  background-color: $color1;
+  background-color: $color5;
   margin-top: 3rem;
   margin-bottom: 2rem;
 }
@@ -233,14 +238,16 @@ $color4-2: #e1f0ec;
 .ctm-mypage-warn {
   margin: 1rem;
   font-size: smaller;
-  color: white;
+  color: black;
+  text-align: center;
+  font-weight: bold;
 }
 
 .ctm-mypage-buttons {
   margin-top: 5rem;
   width: 70rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
 }
 
 // CtmOrderDetail.tsx
@@ -513,7 +520,7 @@ $color4-2: #e1f0ec;
 .laundry-my-review {
   display: flex;
   flex-direction: column;
-  background-color: #E0EBF5;
+  background-color: #e0ebf5;
   border-radius: 10px;
   margin-bottom: 0.5vh;
   padding: 1.5vh;
@@ -544,7 +551,7 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-orderlist-chip:hover {
-  background-color: $color2  !important;
+  background-color: $color2 !important;
 }
 
 .ctm-orderlist-card {

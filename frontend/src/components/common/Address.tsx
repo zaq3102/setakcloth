@@ -66,37 +66,68 @@ const Address: React.FC = ({ AddressFunc, handleClose, type }) => {
   };
 
   return (
-    <div style={{ padding: 10, width: 500 }}>
-      <DialogTitle>주소 설정하기</DialogTitle>
+    <div style={{ padding: 10, width: 300 }}>
+      <DialogTitle sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+        주소 설정하기
+      </DialogTitle>
       <DaumPostcode autoClose={false} onComplete={handleComplete} />
       <TextField
-        margin="dense"
-        label={addr || '기본 주소'}
+        sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+        variant="filled"
+        focused
+        color="color2"
+        // autoFocus
+        // label={addr || '기본 주소'}
+        label="기본 주소"
         fullWidth
         variant="outlined"
+        value={addr}
         disabled
       />
       <TextField
-        margin="dense"
+        sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+        variant="filled"
+        focused
+        color="color2"
+        // autoFocus
         label="상세 주소 입력"
-        type="text"
         fullWidth
-        variant="outlined"
         value={addrDetail}
         onChange={addrDetailChange}
+        // disabled
       />
       <DialogActions>
         {type === 'change' ? (
           <>
-            <Button onClick={() => handleClose(3)}>취소</Button>
-            <Button onClick={handleChange} disabled={addr.length === 0}>
+            <Button
+              onClick={() => handleClose(3)}
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handleChange}
+              disabled={addr.length === 0}
+              variant="contained"
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               변경
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={() => handleClose(5)}>취소</Button>
-            <Button onClick={handleRegist} disabled={addr.length === 0}>
+            <Button
+              onClick={() => handleClose(5)}
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handleRegist}
+              disabled={addr.length === 0}
+              variant="contained"
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               등록
             </Button>
           </>
