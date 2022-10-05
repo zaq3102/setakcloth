@@ -94,7 +94,6 @@ const CtmLaundryDetailTemp = () => {
     }
   };
 
-  console.log(laundry);
   const getMybalance = async () => {
     const result = await getBalance();
     if (result?.data?.statusCode === 200) {
