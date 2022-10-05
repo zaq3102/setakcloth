@@ -280,7 +280,7 @@ $color4-2: #e1f0ec;
 
 .ctm-laundry-title {
   margin-top: 1vh;
-  font-size: large;
+  font-size: x-large;
   font-weight: bold;
 }
 
@@ -318,6 +318,12 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-addr {
+  margin-top: 1vh;
+  font-size: small;
+  color: grey;
+}
+
+.ctm-laundry-mincost {
   margin-top: 0.5vh;
   font-size: smaller;
   color: grey;
@@ -326,6 +332,7 @@ $color4-2: #e1f0ec;
 .ctm-laundry-deliver {
   margin-top: 0.5vh;
   font-size: smaller;
+  color: grey;
 }
 
 .ctm-laundry-toggle {
@@ -365,7 +372,9 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-rather-pickup-title {
-  font-size: small;
+  margin-top: 1vh;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .ctm-laundry-rather-pickup-radio {
@@ -375,8 +384,9 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-toggle-order-title {
-  margin-top: 2vh;
-  font-size: small;
+  margin-top: 3vh;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .ctm-laundry-toggle-order-items {
@@ -387,8 +397,9 @@ $color4-2: #e1f0ec;
 
 .itemlist {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 1vh;
 }
 
 .laundrynum {
@@ -398,7 +409,7 @@ $color4-2: #e1f0ec;
 
 .ctm-laundry-num {
   margin-top: 0.5vh;
-  font-size: smaller;
+  font-size: small;
   color: grey;
 }
 
@@ -408,17 +419,26 @@ $color4-2: #e1f0ec;
   justify-content: space-between;
   border: 1px solid #1e3e5c;
   border-radius: 2rem;
-  width: 10vh;
+  //   width: 10vh;
   margin-left: 10vh;
   margin-top: 0.3vh;
   margin-bottom: 0.3vh;
 }
 
-.item-text-name {
+.item-texts {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.item-text-name {
   font-size: small;
-  color: #1e3e5c;
+  font-weight: bold;
+  margin-right: 2rem;
+}
+
+.item-text-price {
+  font-size: small;
 }
 
 .item-text {
@@ -429,7 +449,7 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-toggle-order-result {
-  margin-top: 4rem;
+  margin-top: 6rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -445,6 +465,8 @@ $color4-2: #e1f0ec;
 
 .ctm-laundry-description {
   padding: 3vh;
+  font-size: medium;
+  height: 25vh;
 }
 
 .kakaomaps {
@@ -456,12 +478,13 @@ $color4-2: #e1f0ec;
 .ctm-laundry-toggle-review-rate {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: start;
   margin-bottom: 1vh;
 }
 
 .ctm-laundry-toggle-review-title {
-  font-size: small;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .ctm-laundry-toggle-review-star {
@@ -474,6 +497,11 @@ $color4-2: #e1f0ec;
   font-size: small;
 }
 
+.ctm-laundy-toggle-review-num {
+  font-size: medium;
+  font-weight: bold;
+}
+
 .ctm-laundry-toggle-review-cnt {
   display: flex;
   flex-direction: row;
@@ -481,12 +509,14 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-toggle-review-cnt1 {
-  font-size: small;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .ctm-laundry-toggle-review-cnt2 {
   margin-left: 1rem;
-  font-size: smaller;
+  font-size: medium;
+  font-weight: bold;
 }
 
 .ctm-laundry-toggle-review-content {
@@ -528,6 +558,28 @@ $color4-2: #e1f0ec;
   height: 10vh;
 }
 
+.laundry-my-review-nickname {
+  font-size: small;
+  font-weight: bold;
+}
+
+.laundry-my-review-star-img {
+  align-self: center;
+  width: 2vh;
+  height: 2vh;
+}
+
+.laundry-my-review-score-info {
+  display: flex;
+}
+
+.laundry-my-review-score {
+  font-size: small;
+}
+
+.laundry-my-review-content {
+  font-size: small;
+}
 // CtmOrderList.tsx
 .ctm-orderlist {
   display: flex;
@@ -547,7 +599,7 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-orderlist-chip {
-  width: 20rem;
+  width: 30rem;
 }
 
 .ctm-orderlist-chip:hover {
