@@ -184,14 +184,14 @@ const CtmOrderDetail = () => {
                 variant="contained"
                 color="color2"
                 onClick={() => handleState(currentState - 1)}
-                disabled={currentState === 0}>
+                disabled={currentState === 0 || currentState === 4}>
                 이전 단계
               </Button>
               <Button
                 variant="contained"
                 color="color2"
                 onClick={() => handleState(currentState + 1)}
-                disabled={currentState === 3}>
+                disabled={currentState === 3 || currentState === 4}>
                 다음 단계
               </Button>
             </div>
