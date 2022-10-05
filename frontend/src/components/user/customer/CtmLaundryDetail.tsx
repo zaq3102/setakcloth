@@ -251,14 +251,14 @@ const CtmLaundryDetailTemp = () => {
             sx={{ width: 1, height: 1, paddingRight: 3, paddingLeft: 5 }}>
             <Chip
               className="ctm-laundry-chip"
-              size="small"
+              size="medium"
               label="배달"
               variant="outlined"
               color="color1"
             />
             <Chip
               className="ctm-laundry-chip"
-              size="small"
+              size="medium"
               label="수거"
               variant="outlined"
             />
@@ -287,14 +287,15 @@ const CtmLaundryDetailTemp = () => {
 
             <br />
             <br />
+
             {laundry.deliver ? (
               <>
-                <div className="ctm-laundry-mincost">
-                  최소 주문 금액 : {laundry.minCost} 원
-                </div>
-                <div className="ctm-laundry-deliver">
-                  배달비 : {laundry.deliverCost} 원
-                </div>
+            <div className="ctm-laundry-mincost">
+              최소 주문 {laundry.minCost} CLN
+            </div>
+            <div className="ctm-laundry-deliver">
+              배달료 {laundry.deliverCost} CLN
+            </div>
               </>
             ) : (
               <></>
@@ -336,14 +337,26 @@ const CtmLaundryDetailTemp = () => {
                     <FormControlLabel
                       value={1}
                       control={<Radio />}
-                      label="직접 수거"
+                      label={
+                        <Box component="div" fontSize="small">
+                          직접 수거
+                        </Box>
+                      }
                     />
                     {laundry.deliver ? (
-                      <FormControlLabel
-                        value={0}
-                        control={<Radio />}
-                        label="배달"
-                      />
+                    <FormControlLabel
+                      sx={{
+                        fontWeight: 'bold',
+                        fontSize: 'large'
+                      }}
+                      value={0}
+                      control={<Radio />}
+                      label={
+                        <Box component="div" fontSize="small">
+                          배달
+                        </Box>
+                      }
+                    />
                     ) : (
                       <></>
                     )}
@@ -354,10 +367,19 @@ const CtmLaundryDetailTemp = () => {
               <div className="ctm-laundry-toggle-order-items">
                 {laundryItemList.map((item, idx) => (
                   <div className="itemlist" key={item.id}>
-                    <div className="item-text-name">
-                      {item.name} {item.price} 원
+                    <div className="item-texts">
+                      <div className="item-text-name">{item.name}</div>
+                      <div className="item-text-price">{item.price} CLN</div>
                     </div>
-                    <Box className="ctm-laundry-toggle-box">
+                    <Box
+                      className="ctm-laundry-toggle-box"
+                      sx={{
+                        // maxWidth: '80px',
+                        // maxHeight: '40px',
+                        // minWdith: '80px'
+                        width: '80px',
+                        height: '40px'
+                      }}>
                       <IconButton
                         onClick={() => minusOne(idx)}
                         disabled={orderDetails[idx] === 0}>
@@ -376,7 +398,7 @@ const CtmLaundryDetailTemp = () => {
                   <div className="item-text">
                     총 수량 : {orderDetails.reduce((a, b) => a + b, 0)} 개
                   </div>
-                  <div className="item-text">예상 금액 : {totalPrice} 원</div>
+                  <div className="item-text">예상 금액 : {totalPrice} CLN</div>
                 </div>
                 <div className="ctm-laundry-toggle-order-right">
                   <button
@@ -402,7 +424,7 @@ const CtmLaundryDetailTemp = () => {
                 borderRadius={1}
                 sx={{
                   width: '51vh',
-                  height: '10vh',
+                  height: '25vh',
                   backgroundColor: '#E0EBF5'
                 }}>
                 <div className="ctm-laundry-description">
@@ -421,12 +443,10 @@ const CtmLaundryDetailTemp = () => {
               <div className="ctm-laundry-toggle-review-rate">
                 <div className="ctm-laundry-toggle-review-title">평점</div>
                 <div className="ctm-laundry-toggle-review-star">
-                  <div>
-                    <Box>
-                      {laundry.score === -1
-                        ? null
-                        : Math.round(laundry.score * 10) / 10}
-                    </Box>
+                  <div className="ctm-laundy-toggle-review-num">
+                    {laundry.score === -1
+                      ? null
+                      : Math.round(laundry.score * 10) / 10}
                   </div>
                   <div>
                     <Rating
@@ -471,7 +491,7 @@ const CtmLaundryDetailTemp = () => {
                                 ? review.userNickName
                                 : '익명'}
                             </div>
-                            <div className="laundry-my-review-rate">
+                            {/* <div className="laundry-my-review-rate">
                               <Rating
                                 value={review.score}
                                 readOnly
@@ -479,6 +499,17 @@ const CtmLaundryDetailTemp = () => {
                                 emptyIcon={<StarIcon />}
                                 size="medium"
                               />
+                            </div> */}
+                            <div className="laundry-my-review-score-info">
+                              <img
+                                className="laundry-my-review-star-img"
+                                src="https://cdn-icons-png.flaticon.com/512/2107/2107957.png"
+                                alt="star"
+                              />
+                              <span>&nbsp;&nbsp;</span>
+                              <div className="laundry-my-review-score">
+                                {review.score}
+                              </div>
                             </div>
                           </div>
                         </div>
