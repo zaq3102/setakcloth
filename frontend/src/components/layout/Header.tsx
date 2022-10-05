@@ -37,27 +37,54 @@ const Header: React.FC = () => {
         {token ? (
           <div>
             <Link to="/">
-              <Button onClick={onLogoutHandler}>Logout</Button>
+              <Button
+                size="small"
+                color="color1"
+                variant="outlined"
+                disableElevation
+                onClick={onLogoutHandler}>
+                Logout
+              </Button>
             </Link>
             {loginType === 0 ? (
               <Link to="/customer/mypage">
-                <Button>My Page</Button>
+                <Button
+                  size="small"
+                  color="color1"
+                  variant="contained"
+                  disableElevation>
+                  My Page
+                </Button>
               </Link>
             ) : (
               <Link to="/ceo/mypage">
-                <Button>My Page</Button>
+                <Button
+                  size="small"
+                  color="color1"
+                  variant="contained"
+                  disableElevation>
+                  My Page
+                </Button>
               </Link>
             )}
           </div>
         ) : (
           <div>
             <Link to="/login" className="Login-Button">
-              <Button size="small" color="color1" variant="outlined">
+              <Button
+                disableElevation
+                size="small"
+                color="color1"
+                variant="outlined">
                 Log in
               </Button>
             </Link>
             <Link to="/signup">
-              <Button size="small" color="color1" variant="contained">
+              <Button
+                disableElevation
+                size="small"
+                color="color1"
+                variant="contained">
                 Sign Up
               </Button>
             </Link>

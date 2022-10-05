@@ -60,6 +60,12 @@ const Signup: React.FC = () => {
   const [walletAddr, setWalletAddr] = useState(false);
   const [walletClicked, setWalletClicked] = useState(false);
 
+  // 고객 / 사장님 toggle
+  const tabContArr = [
+    { title: '고객 회원 가입' },
+    { title: '사장님 회원가입' }
+  ];
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -238,13 +244,19 @@ const Signup: React.FC = () => {
             {tabContArr.map(({ title }, idx) => (
               <Button
                 variant="contained"
-                key={`tab-` + idx}
+                key={`tab-${idx}`}
                 onClick={() => tabClickHandler(idx)}
                 color={`${activeIndex === idx ? 'color1' : 'color4'}`}
                 disableElevation
                 className={`${
                   activeIndex === idx ? 'mode-selected' : 'mode-not-selected'
-                }`}>
+                }`}
+                sx={{
+                  borderTopLeftRadius: '7px',
+                  borderTopRightRadius: '7px',
+                  borderBottomLeftRadius: '0px',
+                  borderBottomRightRadius: '0px'
+                }}>
                 {title}
               </Button>
             ))}
@@ -253,17 +265,18 @@ const Signup: React.FC = () => {
           <Box
             component="span"
             sx={{
-              width: '80%',
+              width: '300px',
               p: 2,
               border: '1px solid #1e3e5c',
-              borderRadius: '7px'
+              borderBottomLeftRadius: '7px',
+              borderBottomRightRadius: '7px'
             }}>
             <div className="signup-page">
               <TextField
                 margin="normal"
                 required
                 id="email"
-                label="이메일"
+                placeholder="이메일"
                 value={email}
                 onChange={emailChange}
                 autoFocus
@@ -285,7 +298,7 @@ const Signup: React.FC = () => {
                 margin="normal"
                 required
                 id="password"
-                label="비밀번호"
+                placeholder="비밀번호"
                 type="password"
                 value={pwd}
                 onChange={passwordChange}
@@ -302,7 +315,7 @@ const Signup: React.FC = () => {
                 margin="normal"
                 required
                 id="passwordcheck"
-                label="비밀번호 확인"
+                placeholder="비밀번호 확인"
                 type="password"
                 value={pwdCheck}
                 onChange={passwordCheckChange}
@@ -315,31 +328,33 @@ const Signup: React.FC = () => {
                 control={<Checkbox onClick={onClickTOS} />}
                 label="세탁클로쓰의 이용약관에 동의합니다. (필수)"
               />
-              {/* <div> */}
+
               <a href="#" onClick={handleClickOpen}>
-                더보기
+                <div className="more">더보기</div>
               </a>
               <Dialog
+                className="signup-tos-dialog"
+                sx={{
+                  height: '450px'
+                }}
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">
-                  {'세탁클로쓰 이용약관'}
+                <DialogTitle>
+                  <div className="alert-dialog-title">세탁클로쓰 이용약관</div>
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent className="signup-tos-dialog-content">
                   <DialogContentText id="alert-dialog-description">
                     <TOS />
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose}>Disagree</Button>
-                  <Button onClick={handleClose} autoFocus>
-                    Agree
+                  <Button onClick={handleClose} color="color2">
+                    확인
                   </Button>
                 </DialogActions>
               </Dialog>
-              {/* </div> */}
 
               {/* <TOS /> */}
               <div className="signup-btn">
@@ -376,10 +391,7 @@ const Signup: React.FC = () => {
                   <img
                     style={{ padding: 0, width: '75%' }}
                     alt="카카오 회원 가입"
-                    // className="kakao object-fill"
-                    src={
-                      'https://setakcloth.s3.ap-northeast-2.amazonaws.com/start_by_kakao.png'
-                    }
+                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/start_by_kakao.png"
                   />
                 </Button>
               </div>
@@ -388,69 +400,85 @@ const Signup: React.FC = () => {
         </div>
       ) : (
         <div className="signup-page">
-          <Button variant="contained" color="color1" disableElevation>
-            지갑생성
+          <Button
+            sx={{
+              borderTopLeftRadius: '7px',
+              borderTopRightRadius: '7px',
+              borderBottomLeftRadius: '0px',
+              borderBottomRightRadius: '0px'
+            }}
+            className="signup-page-wallet-tag"
+            variant="contained"
+            color="color1"
+            disableElevation>
+            지갑 생성
           </Button>
           <Box
             component="span"
             sx={{
-              width: '80%',
-              p: 2,
+              width: '300px',
+              p: 0,
               border: '1px solid #1e3e5c',
-              borderRadius: '7px'
+              borderBottomLeftRadius: '7px',
+              borderBottomRightRadius: '7px'
             }}>
             <div className="signup-page">
-              <div className="rowspan">
-                <div>
-                  <img
-                    style={{ width: '20%' }}
-                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/wallet.png"
-                    alt=""
-                  />
+              <div>
+                <div className="rowspan">
+                  <div className="rowspan-img-wrap">
+                    <img
+                      style={{ width: '70px' }}
+                      src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/wallet.png"
+                      alt=""
+                    />
+                  </div>
+                  <div className="signup-wallet-title">
+                    <span style={{ fontWeight: 'bold' }}>세탁클로쓰</span>는
+                    블록체인으로 <br />
+                    유통과정을 투명하게 보여주기 위해 <br />
+                    지갑을 생성하고 있습니다.
+                  </div>
                 </div>
-                <div>
-                  <sapn style={{ fontWeight: 'bold' }}>세탁클로쓰</sapn>는
-                  블록체인으로 유통과정을 투명하게 보여주기 위해 <br />
-                  지갑을 생성하고 있습니다.
-                </div>
-              </div>
-              <div className="rowspan">
-                <div>
-                  <sapn style={{ fontWeight: 'bold', color: 'red' }}>
+                <div className="rowspan">
+                  <span
+                    className="rowspan-warn"
+                    style={{ fontWeight: 'bold', color: 'red' }}>
                     경고!
-                  </sapn>
-                </div>
-                <div>
-                  1. 지갑 비밀번호는 잊어버리면 복구할 수 없습니다.
-                  <br />
-                  2. 비밀번호가 노출되면 자산 유실의 위험이 있습니다.
+                  </span>
+                  <div className="rowspan-warn-content">
+                    1. 지갑 비밀번호는 잊어버리면 복구할 수 없습니다.
+                    <br />
+                    2. 비밀번호가 노출되면 자산 유실의 위험이 있습니다.
+                  </div>
                 </div>
               </div>
-              <TextField
-                margin="normal"
-                required
-                id="walletpassword"
-                label="지갑 비밀번호"
-                type="password"
-                value={walletpassword}
-                onChange={walletpasswordChange}
-                sx={{ width: '90%' }}
-              />
-              <TextField
-                margin="normal"
-                required
-                id="walletpasswordCheck"
-                label="지갑 비밀번호 확인"
-                type="password"
-                value={walletpasswordCheck}
-                onChange={walletpasswordCheckChange}
-                sx={{ width: '90%' }}
-              />
-              <FormHelperText error={!isWalletPwdSame}>
-                {!walletpasswordCheck || isWalletPwdSame
-                  ? ' '
-                  : '비밀번호가 일치하지 않습니다.'}
-              </FormHelperText>
+              <div className="wallet-textfields">
+                <TextField
+                  margin="normal"
+                  required
+                  id="walletpassword"
+                  placeholder="지갑 비밀번호"
+                  type="password"
+                  value={walletpassword}
+                  onChange={walletpasswordChange}
+                  sx={{ width: '90%' }}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  id="walletpasswordCheck"
+                  placeholder="지갑 비밀번호 확인"
+                  type="password"
+                  value={walletpasswordCheck}
+                  onChange={walletpasswordCheckChange}
+                  sx={{ width: '90%' }}
+                />
+                <FormHelperText error={!isWalletPwdSame}>
+                  {!walletpasswordCheck || isWalletPwdSame
+                    ? ' '
+                    : '비밀번호가 일치하지 않습니다.'}
+                </FormHelperText>
+              </div>
               <div>
                 <Button
                   variant="outlined"
@@ -486,7 +514,5 @@ const Signup: React.FC = () => {
     </div>
   );
 };
-
-const tabContArr = [{ title: '고객 회원 가입' }, { title: '사장님 회원가입' }];
 
 export default Signup;

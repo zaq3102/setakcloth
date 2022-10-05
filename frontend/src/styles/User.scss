@@ -130,32 +130,42 @@ $color5: #e0ebf5;
 }
 
 .mode-selected {
+  width: 160px;
   padding: 8px;
   margin-left: 2px;
   margin-right: 2px;
-  border: 0;
-  border-radius: 10px;
   background-color: $color3;
 }
 
 .mode-not-selected {
+  width: 140px;
   padding: 8px;
   margin-left: 2px;
   margin-right: 2px;
   border: 1px solid $color4;
-  border-radius: 10px;
   background-color: white;
 }
 
-.terms-box {
-  overflow: auto;
-  height: 100px;
+.signup-page-wallet-tag{
   width: 300px;
-  line-height: normal;
-  margin-top: 8px;
-  padding: 12px;
-  // border: 1px solid #dadada;
-  // box-sizing: border-box;
+  padding: 8px;
+}
+
+.signup-tos-dialog {
+  margin-top: 100px;
+}
+
+.more{
+  font-size: smaller;
+  text-decoration-line: underline;
+}
+
+.alert-dialog-title {
+  font-size: large;
+}
+
+.signup-tos-dialog-content {
+  height: 200px;
 }
 
 .signup-btn {
@@ -184,6 +194,35 @@ $color5: #e0ebf5;
   font-size: xx-large;
 }
 
+.rowspan-img-wrap {
+  width: 70px;
+  margin-right: 10px;
+}
+
+.signup-wallet-title {
+  line-height: 13px;
+}
+
 .rowspan {
   display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rowspan-warn {
+  margin-right: 12px;
+}
+
+.rowspan-warn-content {
+  line-height: 13px;
+}
+
+.wallet-textfields {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 16px;
 }
