@@ -94,6 +94,7 @@ const CtmLaundryDetailTemp = () => {
     }
   };
 
+  console.log(laundry);
   const getMybalance = async () => {
     const result = await getBalance();
     if (result?.data?.statusCode === 200) {
@@ -106,7 +107,11 @@ const CtmLaundryDetailTemp = () => {
   const getReviewList = async () => {
     const result = await LaundryReviewRequest(laundryId);
     if (result?.data?.message === 'Success') {
-      setReviewList(result?.data?.reviews);
+      const reviewTemp = result?.data?.reviews;
+      reviewTemp.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+      setReviewList(reviewTemp);
     } else {
       navigate('/error');
     }
@@ -282,12 +287,18 @@ const CtmLaundryDetailTemp = () => {
 
             <br />
             <br />
-            <div className="ctm-laundry-mincost">
-              최소 주문 금액 : {laundry.minCost} 원
-            </div>
-            <div className="ctm-laundry-deliver">
-              배달비 : {laundry.deliverCost} 원
-            </div>
+            {laundry.deliver ? (
+              <>
+                <div className="ctm-laundry-mincost">
+                  최소 주문 금액 : {laundry.minCost} 원
+                </div>
+                <div className="ctm-laundry-deliver">
+                  배달비 : {laundry.deliverCost} 원
+                </div>
+              </>
+            ) : (
+              <></>
+            )}
           </CardContent>
         </Card>
       </div>
@@ -327,11 +338,15 @@ const CtmLaundryDetailTemp = () => {
                       control={<Radio />}
                       label="직접 수거"
                     />
-                    <FormControlLabel
-                      value={0}
-                      control={<Radio />}
-                      label="배달"
-                    />
+                    {laundry.deliver ? (
+                      <FormControlLabel
+                        value={0}
+                        control={<Radio />}
+                        label="배달"
+                      />
+                    ) : (
+                      <></>
+                    )}
                   </RadioGroup>
                 </div>
               </div>

@@ -511,7 +511,7 @@ const CeoMypage: React.FC = () => {
                           <Box>
                             {laundryList[0]?.score === -1
                               ? null
-                              : laundryList[0]?.score}
+                              : Math.round(laundryList[0]?.score * 10) / 10}
                           </Box>
                         </div>
                         <div>
