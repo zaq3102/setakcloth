@@ -8,8 +8,10 @@ declare module '@mui/material/styles/createPalette' {
     color3?: PaletteColorOptions;
     color4?: PaletteColorOptions;
     color5?: PaletteColorOptions;
+    color2_2?: PaletteColorOptions;
+    color3_2?: PaletteColorOptions;
+    color4_2?: PaletteColorOptions;
   }
-
   interface Palette {
     color0?: PaletteColor;
     color1?: PaletteColor;
@@ -17,6 +19,9 @@ declare module '@mui/material/styles/createPalette' {
     color3?: PaletteColor;
     color4?: PaletteColor;
     color5?: PaletteColor;
+    color2_2?: PaletteColor;
+    color3_2?: PaletteColor;
+    color4_2?: PaletteColor;
   }
 }
 
@@ -28,6 +33,9 @@ declare module '@mui/material' {
     color3;
     color4;
     color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
   }
 }
 
@@ -39,6 +47,9 @@ declare module '@mui/material' {
     color3;
     color4;
     color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
   }
 }
 
@@ -50,6 +61,9 @@ declare module '@mui/material' {
     color3;
     color4;
     color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
   }
 }
 
@@ -61,5 +75,22 @@ declare module '@mui/material' {
     color3;
     color4;
     color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
+  }
+}
+
+declare module '@mui/material' {
+  interface PaginationPropsColorOverrides {
+    color0;
+    color1;
+    color2;
+    color3;
+    color4;
+    color5;
+    color2_2?;
+    color3_2?;
+    color4_2?;
   }
 }
