@@ -27,8 +27,8 @@ $color4-2: #e1f0ec;
 }
 
 .banner-title {
-  margin-top: 1vh;
-  margin-bottom: 1vh;
+  margin-top: 7vh;
+  margin-bottom: 7vh;
   align-self: center;
   align-items: center;
   width: 100%;
@@ -54,16 +54,13 @@ $color4-2: #e1f0ec;
   display: flex;
   justify-content : center;
   align-items: center;
-  font-size: medium;
-  font-weight: bold;
-  text-align: center;
   height: auto;
   margin-bottom: 20%;
   width: 100%;
 }
 
 .banner-title-2 {
-  font-size: xx-large;
+  font-size: large;
   font-weight: bold;
   display: flex;
   justify-content : center;
@@ -90,6 +87,12 @@ $color4-2: #e1f0ec;
 }
 
 .banner-img {
+  padding-right: 5vh;
+  width: 20vh;
+}
+
+.mockup {
+  margin-top: 6vh;
   max-width: 100%;
   height: 75%;
 }
@@ -109,6 +112,8 @@ $color4-2: #e1f0ec;
   justify-content: center;
 }
 
+.mockup-title {
+  margin-right: 5vh;
 .mockup-end {
   display: flex;
   flex-direction: row;
@@ -187,32 +192,42 @@ $color4-2: #e1f0ec;
 }
 
 .mode-selected {
+  width: 160px;
   padding: 8px;
   margin-left: 2px;
   margin-right: 2px;
-  border: 0;
-  border-radius: 10px;
   background-color: $color3;
 }
 
 .mode-not-selected {
+  width: 140px;
   padding: 8px;
   margin-left: 2px;
   margin-right: 2px;
   border: 1px solid $color4;
-  border-radius: 10px;
   background-color: white;
 }
 
-.terms-box {
-  overflow: auto;
-  height: 100px;
+.signup-page-wallet-tag{
   width: 300px;
-  line-height: normal;
-  margin-top: 8px;
-  padding: 12px;
-  border: 1px solid #dadada;
-  box-sizing: border-box;
+  padding: 8px;
+}
+
+.signup-tos-dialog {
+  margin-top: 100px;
+}
+
+.more{
+  font-size: smaller;
+  text-decoration-line: underline;
+}
+
+.alert-dialog-title {
+  font-size: large;
+}
+
+.signup-tos-dialog-content {
+  height: 200px;
 }
 
 .signup-btn {
@@ -239,4 +254,37 @@ $color4-2: #e1f0ec;
 
 .error-content-bold {
   font-size: xx-large;
+}
+
+.rowspan-img-wrap {
+  width: 70px;
+  margin-right: 10px;
+}
+
+.signup-wallet-title {
+  line-height: 13px;
+}
+
+.rowspan {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rowspan-warn {
+  margin-right: 12px;
+}
+
+.rowspan-warn-content {
+  line-height: 13px;
+}
+
+.wallet-textfields {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 16px;
 }
