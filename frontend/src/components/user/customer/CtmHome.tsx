@@ -149,16 +149,28 @@ const CtmHome: React.FC = () => {
             displayEmpty
             onChange={handleSelect}
             inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem onClick={() => handleButton(0)} value="최신 등록순">
+            <MenuItem
+              onClick={() => handleButton(0)}
+              value="최신 등록순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               최신등록순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(1)} value="거리순">
+            <MenuItem
+              onClick={() => handleButton(1)}
+              value="거리순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               거리순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(2)} value="별점순">
+            <MenuItem
+              onClick={() => handleButton(2)}
+              value="별점순"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               별점순
             </MenuItem>
-            <MenuItem onClick={() => handleButton(3)} value="즐겨찾기">
+            <MenuItem
+              onClick={() => handleButton(3)}
+              value="즐겨찾기"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
               즐겨찾기
             </MenuItem>
           </Select>
