@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { myReviewRequest } from '../../../store/actions/services/orderService';
 import { InfoRequest } from '../../../store/actions/services/userService';
+import '../../../styles/Customer.scss';
 
 const CtmReviewList = () => {
   const navigate = useNavigate();
@@ -14,7 +15,6 @@ const CtmReviewList = () => {
     const result = await myReviewRequest();
     if (result?.data?.reviews) {
       setReviewList(result?.data?.reviews);
-      console.log(result);
     } else {
       navigate('/error');
     }
@@ -29,7 +29,7 @@ const CtmReviewList = () => {
   }, []);
 
   return (
-    <div className="ctmorderlist">
+    <div className="ctm-order-list">
       {/* {reviewList.map((review, idx) => (
         <Card
           sx={{ maxWidth: 2 / 7, maxHeight: 1 / 2, borderRadius: 10 }}
@@ -72,19 +72,20 @@ const CtmReviewList = () => {
                                 size="medium"
                               />
                             </div> */}
-                <div className="laundry-my-review-score-info">
+                <div className="laundry-my-review-score-info-edited">
                   <img
                     className="laundry-my-review-star-img"
                     src="https://cdn-icons-png.flaticon.com/512/2107/2107957.png"
                     alt="star"
                   />
-                  <span>&nbsp;&nbsp;</span>
                   <div className="laundry-my-review-score">{review.score}</div>
+                  <div className="laundry-my-review-content">
+                    {review.content}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="laundry-my-review-content">{review.content}</div>
         </div>
       ))}
       <div className="ctm-laundry-toggle-review-page">
