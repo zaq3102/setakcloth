@@ -353,7 +353,7 @@ const CtmMypage = () => {
             나의 리뷰
           </Button>
         </Link>
-        <Link to="/customer/favoritelist" className="FavoriteList">
+        <Link to="/customer/" className="FavoriteList">
           <Button size="small" color="color1" variant="outlined">
             즐겨찾기
           </Button>
