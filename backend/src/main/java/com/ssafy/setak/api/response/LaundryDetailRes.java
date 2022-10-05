@@ -18,8 +18,14 @@ public class LaundryDetailRes {
     @ApiModelProperty(name = "세탁소 ID")
     Long laundryId;
 
+    @ApiModelProperty(name = "사업자등록번호")
+    String regNum;
+
     @ApiModelProperty(name = "상호명")
     String laundryName;
+
+    @ApiModelProperty(name = "대표자성명")
+    String ceoName;
 
     @ApiModelProperty(name = "주소")
     String addr;
@@ -63,7 +69,9 @@ public class LaundryDetailRes {
     public static LaundryDetailRes of(Laundry laundry) {
         LaundryDetailRes res = new LaundryDetailRes();
         res.setLaundryId(laundry.getId());
+        res.setRegNum(laundry.getRegNum());
         res.setLaundryName(laundry.getLaundryName());
+        res.setCeoName(laundry.getCeoName());
         res.setAddr(laundry.getAddress().getAddr());
         res.setAddrDetail(laundry.getAddress().getAddrDetail());
         res.setAddrLat(laundry.getAddress().getAddrLat());
