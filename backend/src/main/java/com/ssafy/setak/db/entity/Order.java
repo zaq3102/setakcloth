@@ -27,7 +27,7 @@ public class Order {
     private int state;
     private String hash;
 
-    private LocalDate reviewDate;
+    private LocalDateTime reviewDate;
     private Integer reviewScore;
     private String reviewContent;
 

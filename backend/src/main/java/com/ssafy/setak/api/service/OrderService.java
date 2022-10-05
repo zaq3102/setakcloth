@@ -317,7 +317,7 @@ public class OrderService {
         Order order = orderRepository.findById(orderId).orElse(null);
         order.setReviewContent(reviewInfo.getContent());
         order.setReviewScore(reviewInfo.getScore());
-        order.setReviewDate(LocalDate.now());
+        order.setReviewDate(LocalDateTime.now());
         order.setIsImg(reviewInfo.isImg());
         orderRepository.save(order);
     }
