@@ -290,12 +290,12 @@ const CtmLaundryDetailTemp = () => {
 
             {laundry.deliver ? (
               <>
-            <div className="ctm-laundry-mincost">
-              최소 주문 {laundry.minCost} CLN
-            </div>
-            <div className="ctm-laundry-deliver">
-              배달료 {laundry.deliverCost} CLN
-            </div>
+                <div className="ctm-laundry-mincost">
+                  최소 주문 {laundry.minCost} CLN
+                </div>
+                <div className="ctm-laundry-deliver">
+                  배달료 {laundry.deliverCost} CLN
+                </div>
               </>
             ) : (
               <></>
@@ -344,19 +344,19 @@ const CtmLaundryDetailTemp = () => {
                       }
                     />
                     {laundry.deliver ? (
-                    <FormControlLabel
-                      sx={{
-                        fontWeight: 'bold',
-                        fontSize: 'large'
-                      }}
-                      value={0}
-                      control={<Radio />}
-                      label={
-                        <Box component="div" fontSize="small">
-                          배달
-                        </Box>
-                      }
-                    />
+                      <FormControlLabel
+                        sx={{
+                          fontWeight: 'bold',
+                          fontSize: 'large'
+                        }}
+                        value={0}
+                        control={<Radio />}
+                        label={
+                          <Box component="div" fontSize="small">
+                            배달
+                          </Box>
+                        }
+                      />
                     ) : (
                       <></>
                     )}
