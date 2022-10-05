@@ -1,4 +1,5 @@
 import {
+  Badge,
   Button,
   CardContent,
   CardMedia,
@@ -177,103 +178,88 @@ const CtmOrderDetail = () => {
             </Step>
           ))}
         </Stepper>
-        {currentState < 3 ? (
-          <>
-            <div className="order-detail-state-steps-buttons">
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState - 1)}
-                disabled={currentState === 0 || currentState === 4}>
-                이전 단계
-              </Button>
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState + 1)}
-                disabled={currentState === 3 || currentState === 4}>
-                다음 단계
-              </Button>
-            </div>
-            {orderInfo?.orderType === 'PICKUP' &&
-            realState === 2 &&
-            realState === currentState ? (
-              <div className="order-detail-state-steps-warn">
-                세탁이 완료 되었습니다. 세탁소를 방문하여 수거를 해주세요.
-              </div>
-            ) : (
-              <></>
-            )}
-          </>
-        ) : (
-          <>
-            <div className="order-detail-state-steps-buttons">
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState - 1)}
-                disabled={currentState === 0}>
-                이전 단계
-              </Button>
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState + 1)}
-                disabled={currentState === 3}>
-                다음 단계
-              </Button>
-            </div>
-          </>
-        )}
       </div>
       <div className="order-detail-upload">
-        {currentState < 2 ? (
-          <>
-            {orderDetail.map((order, idx1) => (
-              <div key={idx1} className="order-detail-upload-item">
-                <div className="order-detail-upload-text">{order.name}</div>
-                <div className="order-detail-upload-info">
-                  <>
-                    {order[`blockAddr${currentState + 1}ImgUrls`].length ===
-                    0 ? (
-                      <div className="order-detail-upload-img">
-                        아직 사진이 업로드 되지 않았습니다.
-                      </div>
-                    ) : (
-                      <>
-                        {order[`blockAddr${currentState + 1}ImgUrls`].map(
-                          (url: any, idx2: any) => (
-                            <img
-                              src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
-                              key={`img-${idx2}`}
-                              alt={`img-${idx2}`}
-                              className="order-detail-upload-img"
-                            />
-                          )
-                        )}
-                      </>
-                    )}
-                  </>
-                </div>
+        {orderDetail.map((order, idx1) => (
+          <div key={idx1} className="order-detail-upload-item">
+            <div className="order-detail-upload-text">{order.name}</div>
+            <Badge
+              badgeContent={'세탁 전'}
+              color="color3_2"
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left'
+              }}>
+              <div className="order-detail-upload-info">
+                <>
+                  {order[`blockAddr1ImgUrls`].length === 0 ? (
+                    <div className="order-detail-upload-img">
+                      세탁 전의 사진이 업로드 되지 않았습니다.
+                    </div>
+                  ) : (
+                    <>
+                      {order[`blockAddr1ImgUrls`].map(
+                        (url1: any, idx21: any) => (
+                          <img
+                            src={`http://j7a706.p.ssafy.io/ipfs/${url1}`}
+                            key={`img-${idx21}`}
+                            alt={`img-${idx21}`}
+                            className="order-detail-upload-img"
+                          />
+                        )
+                      )}
+                    </>
+                  )}
+                </>
               </div>
-            ))}
-          </>
-        ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
+            </Badge>
+            <Badge
+              badgeContent={'세탁 후'}
+              color="color3"
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left'
+              }}>
+              <div className="order-detail-upload-info">
+                <>
+                  {order[`blockAddr2ImgUrls`].length === 0 ? (
+                    <div className="order-detail-upload-img">
+                      세탁 후의 사진이 업로드 되지 않았습니다.
+                    </div>
+                  ) : (
+                    <>
+                      {order[`blockAddr2ImgUrls`].map(
+                        (url2: any, idx22: any) => (
+                          <img
+                            src={`http://j7a706.p.ssafy.io/ipfs/${url2}`}
+                            key={`img-${idx22}`}
+                            alt={`img-${idx22}`}
+                            className="order-detail-upload-img"
+                          />
+                        )
+                      )}
+                    </>
+                  )}
+                </>
+              </div>
+            </Badge>
+          </div>
+        ))}
+        {orderInfo?.orderType === 'DELIVERY' ? (
           <div className="order-detail-upload-item">
             <div className="order-detail-upload-text">배달 완료 사진</div>
             <div className="order-detail-upload-info">
               <>
-                {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
-                  .length === 0 ? (
+                {orderDetail[0][`blockAddr3ImgUrls`].length === 0 ? (
                   <div className="order-detail-upload-img">
                     아직 사진이 업로드 되지 않았습니다.
                   </div>
                 ) : (
                   <>
-                    {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].map(
-                      (url: any, idx3: any) => (
+                    {orderDetail[0][`blockAddr3ImgUrls`].map(
+                      (url3: any, idx3: any) => (
                         <img
-                          src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                          src={`http://j7a706.p.ssafy.io/ipfs/${url3}`}
                           key={`img-${idx3}`}
                           alt={`img-${idx3}`}
                           className="order-detail-upload-img"
