@@ -1,4 +1,4 @@
-import { Button, FormHelperText, TextField } from '@mui/material';
+import { Box, Button, FormHelperText, TextField } from '@mui/material';
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
 
   // 유효성 확인 결과 변수
   const [isEmailValid, setIsEmailValid] = useState<boolean>(false);
+
+  const tabContArr = [{ title: '고객 로그인' }, { title: '사장님 로그인' }];
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -73,85 +75,127 @@ const Login: React.FC = () => {
     window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.REACT_APP_KAKAO_API_REST}&redirect_uri=${process.env.REACT_APP_CLIENT_URL}/kakao/ceologin`;
   };
 
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const tabClickHandler = (index) => {
+    setActiveIndex(index);
+    if (index === 0) {
+      setMode('customer');
+    } else {
+      setMode('ceo');
+    }
+    setEmail('');
+    setPwd('');
+  };
+
   return (
     <div className="login-page">
       <div className="login-type">
-        <button
-          type="button"
-          onClick={() => setMode('customer')}
-          className={`${
-            mode === 'customer' ? 'mode-selected' : 'mode-not-selected'
-          }`}>
-          고객 로그인
-        </button>
-        <button
-          type="button"
-          onClick={() => setMode('ceo')}
-          className={`${
-            mode === 'ceo' ? 'mode-selected' : 'mode-not-selected'
-          }`}>
-          사업자 로그인
-        </button>
+        {tabContArr.map(({ title }, idx) => (
+          <Button
+            variant="contained"
+            key={`tab-${idx}`}
+            onClick={() => tabClickHandler(idx)}
+            color={`${activeIndex === idx ? 'color1' : 'color4'}`}
+            disableElevation
+            className={`${
+              activeIndex === idx ? 'mode-selected' : 'mode-not-selected'
+            }`}
+            sx={{
+              borderTopLeftRadius: '7px',
+              borderTopRightRadius: '7px',
+              borderBottomLeftRadius: '0px',
+              borderBottomRightRadius: '0px'
+            }}>
+            {title}
+          </Button>
+        ))}
       </div>
-      <TextField
-        margin="normal"
-        required
-        id="email"
-        label="이메일을 입력하세요."
-        value={email}
-        onChange={emailChange}
-        autoFocus
-        sx={{ width: 300 }}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            handleSubmit();
-          }
-        }}
-      />
-      <FormHelperText error={!!email && !isEmailValid}>
-        {email ? (isEmailValid ? '' : '유효하지 않은 이메일 형식입니다.') : ''}
-      </FormHelperText>
-      <TextField
-        margin="normal"
-        required
-        id="password"
-        label="비밀번호를 입력하세요."
-        type="password"
-        value={pwd}
-        onChange={passwordChange}
-        sx={{ width: 300 }}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            handleSubmit();
-          }
-        }}
-      />
-      <br />
-      <div className="login-button-area">
-        <Button
-          className="login-button"
-          variant="contained"
-          color="color2"
-          onClick={handleSubmit}>
-          로그인
-        </Button>
-        {/* <img
-          className="kakao-login-button"
-          src="../assets/Img/kakao_login_medium.png"
-          alt="kakao-login-btn"
-        /> */}
-        <button className="w-12" onClick={kakaoUserLoginHandler}>
-          <img alt="카카오 고객 로그인" className="kakao object-fill" />
-        </button>
-        <button className="w-12" onClick={kakaoCeoLoginHandler}>
-          <img alt="카카오 사장님 로그인" className="kakao object-fill" />
-        </button>
-      </div>
-      <br />
-      <Link to="/">비밀번호 찾기</Link>
-      <br />
-      <br />
-      <Link to="../signup">회원가입하기</Link>
+      <Box
+        component="span"
+        sx={{
+          width: '300px',
+          p: 2,
+          border: '1px solid #1e3e5c',
+          borderBottomLeftRadius: '7px',
+          borderBottomRightRadius: '7px'
+        }}>
+        <div className="signup-page">
+          <TextField
+            margin="normal"
+            required
+            id="email"
+            placeholder="이메일을 입력하세요."
+            value={email}
+            onChange={emailChange}
+            autoFocus
+            sx={{ width: '90%' }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                handleSubmit();
+              }
+            }}
+          />
+          <FormHelperText error={!!email && !isEmailValid}>
+            {email
+              ? isEmailValid
+                ? ''
+                : '유효하지 않은 이메일 형식입니다.'
+              : ''}
+          </FormHelperText>
+          <TextField
+            margin="normal"
+            required
+            id="password"
+            placeholder="비밀번호를 입력하세요."
+            type="password"
+            value={pwd}
+            onChange={passwordChange}
+            sx={{ width: '90%' }}
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                handleSubmit();
+              }
+            }}
+          />
+          <br />
+          <div>
+            <div>
+              <Button
+                sx={{ padding: 0.3, mt: 1, md: 1, width: '120px' }}
+                variant="outlined"
+                className="next-btn"
+                onClick={handleSubmit}
+                color="color1">
+                <b>로그인</b>
+              </Button>
+            </div>
+
+            <div>
+              <Button
+                sx={{ padding: 0, m: 1 }}
+                onClick={
+                  activeIndex === 0
+                    ? kakaoUserLoginHandler
+                    : kakaoCeoLoginHandler
+                }>
+                <img
+                  style={{ padding: 0, width: '120px' }}
+                  alt="카카오 회원 가입"
+                  src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/kakao_login.png"
+                />
+              </Button>
+            </div>
+          </div>
+
+          <Box sx={{ m: 2 }}>
+            <div className="rowspan">
+              <Link to="/">비밀번호 찾기</Link> &nbsp; / &nbsp;
+              <Link to="../signup">회원가입하기</Link>
+            </div>
+          </Box>
+        </div>
+      </Box>
     </div>
   );
 };
