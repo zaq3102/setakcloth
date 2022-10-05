@@ -1,22 +1,33 @@
 import {
+  Box,
   Button,
+  Card,
+  CardContent,
+  Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControlLabel,
+  IconButton,
   List,
   ListItem,
   ListItemText,
   Pagination,
   Radio,
   RadioGroup,
-  TextField
+  Rating,
+  Tab,
+  Tabs,
+  TextField,
+  Typography
 } from '@mui/material';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import StarIcon from '@mui/icons-material/Star';
+import KakaoMaps from '../../common/KakaoMaps';
 import {
   LaundryItemAddRequest,
   LaundryItemDelRequest,
@@ -29,8 +40,6 @@ import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../../components/common/Address';
-import { red } from '@mui/material/colors';
-import { bgcolor, fontSize } from '@mui/system';
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(12340000000000);
@@ -74,6 +83,9 @@ const CeoMypage: React.FC = () => {
 
   // 이미지 변경
   const [imgSrc, setImgSrc] = useState([]);
+
+  // 리뷰 가져오기
+  const [value, setValue] = useState(0);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -157,31 +169,6 @@ const CeoMypage: React.FC = () => {
     setPage(value);
   };
 
-  const handleOpen = (value) => {
-    switch (value) {
-      case 1:
-        setOpenRegist(true);
-        break;
-      case 2:
-        setOpenModal2(true);
-        break;
-      case 3:
-        setOpenModal3(true);
-        break;
-      case 4:
-        setOpenImage(true);
-        break;
-      case 5:
-        setOpenAddress(true);
-        break;
-      case 6:
-        setOpenChange(true);
-        break;
-      default:
-        break;
-    }
-  };
-
   // 1 :  / 2:  / 3 :  / 4 : 이미지 변경
   const handleClose = (value) => {
     switch (value) {
@@ -252,14 +239,13 @@ const CeoMypage: React.FC = () => {
     }
 
     handleClose(1);
-    // if (result?.data?.userInfo) {
-    //   setUserInfo(result?.data?.userInfo);
-    // } else {
-    //   console.log('error');
-    // }
   };
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDeliver(event.target.value);
+  };
+
+  const pageReviewChange = (event, value) => {
+    setPageReview(value);
   };
 
   const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -294,420 +280,263 @@ const CeoMypage: React.FC = () => {
     }
   };
 
+  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    setValue(newValue);
+  };
+
+  interface TabPanelProps {
+    children?: React.ReactNode;
+    index: number;
+    value: number;
+  }
+
+  const TabPanel = (props: TabPanelProps) => {
+    const { children, value, index, ...other } = props;
+    return (
+      <div
+        role="tabpanel"
+        hidden={value !== index}
+        id={`simple-tabpanel-${index}`}
+        aria-labelledby={`simple-tab-${index}`}
+        {...other}>
+        {value === index && (
+          <Box sx={{ p: 2 }}>
+            <Typography>{children}</Typography>
+          </Box>
+        )}
+      </div>
+    );
+  };
+
+  function a11yProps(index: number) {
+    return {
+      'id': `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`
+    };
+  }
+
   return (
-    <div className="ceo-my-page">
+    <div className="ceo-mypage">
       {pending ? (
         <Loading />
       ) : (
-        <>
-          <div className="ceo-my-info">
-            <div className="ceo-my-info-title">사업자 정보</div>
-            <div className="ceo-my-info-content">
-              <div>{laundryList[0]?.laundryName}님, 오늘도 화이팅!</div>
-              <div>(클린 아이콘 들어갈 예정) {clean} 클린</div>
-            </div>
-            <Dialog
-              // sx={{ '& .MuiPaper-root': { bgcolor: '#e1f0ec' } }}
-              open={openRegist}
-              onClose={() => handleClose(1)}
-              className="laundry-reg-dialog">
-              <div className="ceo-item-modal">
-                <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
-                  세탁소 등록하기
-                </DialogTitle>
-                <DialogContent>
-                  <div className="ceo-regist-laundry">
-                    {/* <TextField
-                      label="사업자 등록번호"
-                      variant="filled"
-                      color="color2_2"
-                      fullWidth
-                      sx={{ mt: 1, bgcolor: '#F8FFFD' }}
-                      focused
-                    /> */}
-                    <TextField
-                      sx={{ mt: 1, mb: 1, bgcolor: '#F8FFFD' }}
-                      // sx={{ mt: 1, border: '1px solid green', borderRadius: 1 }}
-                      // sx={{
-                      //   'mt': 1,
-                      //   '& .MuiInputLabel-root': { color: 'green' },
-                      //   '& .MuiOutlinedInput-root': {
-                      //     '& > fieldset': { borderColor: 'orange' }
-                      //   }
-                      // }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      className="ceo-text-field"
-                      required
-                      label="사업자 등록번호"
-                      name="laundry-num"
-                      fullWidth
-                      value={regNum}
-                      onChange={(event) => setRegNum(event.target.value.trim())}
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 1, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="대표자 성명"
-                      name="ceo-name"
-                      fullWidth
-                      value={ceoName}
-                      onChange={(event) =>
-                        setCeoName(event.target.value.trim())
-                      }
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 1, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="개업일자"
-                      name="reg-date"
-                      type="date"
-                      fullWidth
-                      value={regDate}
-                      onChange={(event) => setRegDate(event.target.value)}
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="상호명"
-                      name="laundry-name"
-                      fullWidth
-                      value={laundryName}
-                      onChange={(event) => setLaundryName(event.target.value)}
-                    />
-                    <div className="address-item">
-                      <div className="address-reg-btn">
-                        <Button
-                          onClick={() => handleOpen(5)}
-                          variant="outlined"
-                          color="color2_2">
-                          주소 검색
-                        </Button>
-                      </div>
-                      <TextField
-                        sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
-                        variant="filled"
-                        focused
-                        color="color2_2"
-                        required
-                        label="기본 주소"
-                        name="laundry-addr"
-                        fullWidth
-                        value={addr}
-                        disabled
-                      />
-                      <TextField
-                        sx={{ mt: 2, bgcolor: '#F8FFFD' }}
-                        variant="filled"
-                        focused
-                        color="color2_2"
-                        required
-                        label="상세 주소"
-                        name="laundry-addr"
-                        fullWidth
-                        value={addrDetail}
-                        disabled
-                      />
-                    </div>
-
-                    <TextField
-                      sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="세탁소 설명"
-                      fullWidth
-                      multiline
-                      rows={5}
-                      value={description}
-                      onChange={(event) => setDescription(event.target.value)}
-                    />
-                    <TextField
-                      sx={{ mt: 2, mb: 3, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="세탁소 전화번호"
-                      fullWidth
-                      value={contact
-                        .replace(/[^0-9]/g, '')
-                        .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
-                      onChange={(event) =>
-                        setContact(event.target.value.trim())
-                      }
-                    />
-                    <div className="ceo-modal-bottom">
-                      <div className="bool-text">
-                        배달 가능 여부
-                        <RadioGroup value={deliver} onChange={handleDeliver}>
-                          <FormControlLabel
-                            value="true"
-                            control={<Radio />}
-                            label="가능"
-                          />
-                          <FormControlLabel
-                            value="false"
-                            control={<Radio />}
-                            label="불가능(손님이 직접 수거)"
-                          />
-                          {deliver === 'true' ? (
-                            <>
-                              <TextField
-                                color="color2_2"
-                                variant="filled"
-                                focused
-                                sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
-                                required
-                                label="최소 주문 금액"
-                                fullWidth
-                                type="number"
-                                inputProps={{
-                                  step: 1000
-                                }}
-                                value={minCost}
-                                onChange={handleMinCost}
-                              />
-                              <TextField
-                                color="color2_2"
-                                variant="filled"
-                                focused
-                                sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
-                                required
-                                label="배달료"
-                                fullWidth
-                                type="number"
-                                inputProps={{
-                                  step: 1000
-                                }}
-                                value={deliveryCost}
-                                onChange={handleDeliveryCost}
-                              />
-                            </>
-                          ) : (
-                            <></>
-                          )}
-                        </RadioGroup>
-                      </div>
-                      <div className="bool-text">
-                        픽업(손님이 직접 수거) 가능 여부
-                        <RadioGroup value={pickup} onChange={handlePickup}>
-                          <FormControlLabel
-                            value="true"
-                            control={<Radio />}
-                            label="가능"
-                          />
-                          <FormControlLabel
-                            value="false"
-                            control={<Radio />}
-                            label="불가능"
-                          />
-                        </RadioGroup>
-                      </div>
-                    </div>
-                  </div>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={handleRegistLaundry}
-                    focused
-                    variant="contained"
-                    color="color2_2">
-                    등록하기
-                  </Button>
-                  <Button onClick={() => handleClose(1)} color="color2_2">
-                    취소
-                  </Button>
-                </DialogActions>
+        <div className="ceo-mypage-inside">
+          <div className="ceo-mypage-left">
+            <Box boxShadow={0} className="ceo-mypage-card">
+              <div className="ceo-mypage-card-title">
+                <div className="ceo-mypage-card-label">지갑 잔액</div>
+                <Button
+                  size="small"
+                  color="color2_2"
+                  variant="contained"
+                  className="ceo-mypage-charge-btn"
+                  onClick={() => handleOpen(4)}>
+                  충전
+                </Button>
               </div>
-            </Dialog>
-            <Dialog open={openModal2} onClose={() => handleClose(2)}>
-              <div className="ceo-item-modal">
-                <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
-                  세탁 품목 변경하기
-                </DialogTitle>
-                <DialogContent>
-                  <List sx={{ height: 200, overflow: 'auto' }}>
-                    {itemList.map((item) => (
-                      <div className="ceo-item" key={item.id}>
-                        <ListItem>
-                          <button
-                            type="button"
-                            onClick={() => delItem(item.id)}
-                            className="ceo-item-del-btn">
-                            삭제
-                          </button>
-                          <ListItemText
-                            primary={`${item.name} : ${item.price}원`}
-                          />
-                        </ListItem>
-                      </div>
-                    ))}
-                  </List>
-                  <div className="ceo-add-new-item">
-                    <div className="ceo-add-new-item-text">
-                      새로운 품목 추가하기
-                    </div>
-                    <TextField
-                      sx={{ mt: 2, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="품목명"
-                      name="item-id"
-                      fullWidth
-                      value={itemName}
-                      onChange={(event) =>
-                        setItemName(event.target.value.trim())
-                      }
-                    />
-                    <TextField
-                      sx={{ mt: 1, mb: 3, bgcolor: '#F8FFFD' }}
-                      variant="filled"
-                      focused
-                      color="color2_2"
-                      required
-                      label="가격 (단위 : 클린)"
-                      name="item-price"
-                      type="number"
-                      inputProps={{
-                        step: 1000
-                      }}
-                      fullWidth
-                      value={itemPrice}
-                      onChange={(event) =>
-                        setItemPrice(parseInt(event.target.value, 10))
-                      }
-                    />
-                    <Button
-                      className="ceo-add-new-item-btn"
-                      onClick={registItem}
-                      focused
-                      variant="contained"
-                      color="color2_2">
-                      추가
-                    </Button>
-                  </div>
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={() => handleClose(2)} color="color2_2">
-                    닫기
-                  </Button>
-                </DialogActions>
-              </div>
-            </Dialog>
-            {laundryList.length === 0 ? (
-              <button
-                type="button"
-                className="ceo-my-page-btn"
-                color="color2_2"
-                onClick={() => handleOpen(1)}>
-                세탁소 등록하기
-              </button>
-            ) : (
-              <>
-                <div className="ctm-my-info-content-left">
-                  <img src={imgSrc[0]} alt="profileImg" width={100} />
-                  <Button
-                    variant="contained"
-                    color="color2_2"
-                    className="ctm-my-page-btn"
-                    onClick={() => handleOpen(4)}>
-                    사진 변경하기
-                  </Button>
-                </div>
-                <div>
-                  <Button
-                    variant="contained"
-                    color="color2_2"
-                    className="ceo-my-page-btn"
-                    onClick={() => handleOpen(2)}>
-                    세탁 품목 변경하기
-                  </Button>
-                  <Button
-                    variant="contained"
-                    color="color2_2"
-                    className="ceo-my-page-btn"
-                    onClick={() => handleOpen(6)}>
-                    세탁소 정보 변경하기
-                  </Button>
-                </div>
-              </>
-            )}
-          </div>
-          {laundryList.length === 0 ? (
-            <div className="ceo-right">
-              <div className="ceo-right-text">
-                세탁소를 등록해서 세탁클로쓰의 더 많은 서비스를 이용해보세요.
-              </div>
+              <div className="ceo-mypage-cln">{clean} CLN</div>
+              <Box className="ceo-mypage-box-warn">
+                <div className="ceo-mypage-warn">부자되세요~!!</div>
+              </Box>
+            </Box>
+            <div>
               <img
-                src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry2.png"
-                className="ceo-right-img"
+                className="ceo-laundry-img"
+                src="../../assets/ctmhome0.png"
                 alt="laundry-img"
               />
             </div>
-          ) : (
-            <div className="ceo-my-review-list">
-              <div className="ceo-my-review-list-title">
-                우리 세탁소 리뷰 보기
-              </div>
-              {reviewList.length === 0 ? (
-                <div className="ceo-my-review-none">
-                  <div className="ceo-my-review-none-text">
-                    아직 우리 세탁소의 리뷰를 작성한 고객이 없습니다.
-                  </div>
-                  <div className="ceo-my-review-none-text">
-                    열심히 세탁소를 홍보합시다.
-                  </div>
-                  <img
-                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/cry-laundry.jpeg"
-                    className="ceo-right-img"
-                    alt="laundry-img"
+            <div className="ceo-laundry-info-card">
+              <Card>
+                <CardContent
+                  sx={{ width: 1, height: 1, paddingRight: 3, paddingLeft: 5 }}>
+                  <Chip
+                    className="ceo-laundry-chip"
+                    size="small"
+                    label="배달"
+                    variant="outlined"
+                    color="color1"
                   />
-                </div>
-              ) : (
-                <>
-                  <div>총 {reviewList.length}개의 리뷰가 존재합니다.</div>
-                  <div className="ceo-my-review-list-content">
-                    {reviewList
-                      .slice((page - 1) * 5, page * 5)
-                      .map((review) => (
-                        <Link key={review} to="/ceo/mypage">
-                          <div className="ceo-my-review">{review.content}</div>
-                        </Link>
-                      ))}
-                    <div className="ceo-pagination">
-                      <Pagination
-                        count={Math.ceil(reviewList.length / 5)}
-                        page={page}
-                        // variant="outlined"
-                        color="color2_2"
-                        className={`${
-                          reviewList.length === 0
-                            ? 'ceo-no-pagination'
-                            : 'ceo-pagination'
-                        }`}
-                        onChange={pageChange}
+                  <Chip
+                    className="ceo-laundry-chip"
+                    size="small"
+                    label="수거"
+                    variant="outlined"
+                  />
+                  <div className="ceo-laundry-title-space">
+                    <div>
+                      <div className="ceo-laundry-title">
+                        <div>{laundryName}</div>
+                      </div>
+                      <div className="ceo-laundry-addr">{addrInfo}</div>
+                      <div className="ceo-laundry-num">{contact}</div>
+                    </div>
+                  </div>
+
+                  <br />
+                  <br />
+                  <div className="ctm-laundry-mincost">
+                    최소 주문 금액 : {minCost} 원
+                  </div>
+                  <div className="ctm-laundry-deliver">
+                    배달비 : {deliveryCost} 원
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+          <div className="ceo-mypage-right">
+            <div className="ceo-laundry-toggle">
+              <Box sx={{ width: '100%' }}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                  <Tabs
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="laundry order tab">
+                    <Tab
+                      className="ceo-laundry-toggle-tab"
+                      label="품목"
+                      {...a11yProps(0)}
+                    />
+                    <Tab
+                      className="ceo-laundry-toggle-tab"
+                      label="정보"
+                      {...a11yProps(1)}
+                    />
+                    <Tab
+                      className="ceo-laundry-toggle-tab"
+                      label="리뷰"
+                      {...a11yProps(2)}
+                    />
+                  </Tabs>
+                </Box>
+                <TabPanel value={value} index={0}>
+                  <div className="ceo-laundry-toggle-order-items">
+                    {itemList.map((item, idx) => (
+                      <div className="itemlist" key={item.id}>
+                        <div className="item-text-name">
+                          {item.name} {item.price} 원
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                  <div className="ceo-laundry-toggle-info">
+                    <Box
+                      borderRadius={1}
+                      sx={{
+                        width: '20vh',
+                        height: '10vh',
+                        backgroundColor: '#E0EBF5'
+                      }}>
+                      <div className="ceo-laundry-description">
+                        {addrInfo.description}
+                      </div>
+                    </Box>
+                    <div className="kakaomaps">
+                      <KakaoMaps
+                        props={{
+                          Lng: addrInfo.addrLng,
+                          Lat: addrInfo.addrLat
+                        }}
                       />
                     </div>
                   </div>
-                </>
-              )}
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                  <div className="ceo-laundry-toggle-review">
+                    {/* <div className="ceo-laundry-toggle-review-rate">
+                      <div className="ceo-laundry-toggle-review-title">
+                        평점
+                      </div>
+                      <div className="ceo-laundry-toggle-review-star">
+                        <div>
+                          <Box>
+                            {laundry.score === -1 ? null : laundry.score}
+                          </Box>
+                        </div>
+                        <div>
+                          <Rating
+                            name="text-feedback"
+                            value={laundry.score}
+                            readOnly
+                            precision={0.5}
+                            emptyIcon={
+                              <StarIcon
+                                style={{ opacity: 0.55 }}
+                                fontSize="inherit"
+                              />
+                            }
+                            size="large"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <div className="ceo-laundry-toggle-review-cnt">
+                      <div className="ceo-laundry-toggle-review-cnt1">리뷰</div>
+                      <div className="ceo-laundry-toggle-review-cnt2">
+                        {reviewList.length}개
+                      </div>
+                    </div>
+                    <div className="ceo-laundry-toggle-review-content">
+                      {reviewList
+                        .slice((pageReview - 1) * 3, pageReview * 3)
+                        .map((review) => (
+                          <div className="ceo-laundry-my-review">
+                            <div className="ceo-review-wrap">
+                              <div className="ceo-review-wrap-left">
+                                <img
+                                  className="ceo-laundry-my-review-img"
+                                  src="../assets/user.png"
+                                  alt="user-img"
+                                />
+                              </div>
+                              <div>
+                                <div className="ceo-laundry-my-review-info">
+                                  <div className="ceo-laundry-my-review-nickname">
+                                    {review.userNickName
+                                      ? review.userNickName
+                                      : '익명'}
+                                  </div>
+                                  <div className="ceo-laundry-my-review-rate">
+                                    <Rating
+                                      value={review.score}
+                                      readOnly
+                                      precision={0.5}
+                                      emptyIcon={<StarIcon />}
+                                      size="medium"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="ceo-laundry-my-review-content">
+                              {review.content}
+                            </div>
+                          </div>
+                        ))}
+                      <div className="ceo-laundry-toggle-review-page">
+                        <Pagination
+                          count={Math.ceil(reviewList.length / 3)}
+                          page={pageReview}
+                          variant="outlined"
+                          color="color2"
+                          className={`${
+                            reviewList.length === 0
+                              ? 'ceo-no-pagination'
+                              : 'ceo-pagination'
+                          }`}
+                          onChange={pageReviewChange}
+                        />
+                      </div>
+                    </div> */}
+                  </div>
+                </TabPanel>
+              </Box>
             </div>
-          )}
-        </>
+          </div>
+        </div>
       )}
       {/* 모달 모음집 */}
       <Dialog open={openImage} onClose={() => handleClose(4)}>
