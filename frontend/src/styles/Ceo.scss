@@ -141,13 +141,12 @@ $color4-2: #e1f0ec;
   margin-top: 3rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   flex-direction: row;
 }
 
-.ceo-mypage-left{
+.ceo-mypage-left {
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
@@ -203,186 +202,43 @@ $color4-2: #e1f0ec;
   border: 0.3px solid $color2-2;
 }
 
-.ceo-laundry-info-card{
+.ceo-laundry-info-card {
   width: 30rem;
   line-height: 2rem;
 }
 
-.ceo-mypage-right{
+.ceo-mypage-right {
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.ceo-laundry-toggle-info {
   width: 45rem;
 }
 
-.ceo-laundry-toggle-info{
-  width: 45rem;
+.ceo-mypage-item-clean:hover {
+  border-radius: 10px;
+  background-color: $color4-2;
 }
 
+.ceo-mypage-item-add-button {
+  display: flex;
+  justify-content: flex-end;
+}
 
-// .ceo-my-info {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: stretch;
-//   padding: 20px;
-//   margin: 10px;
-//   height: 500px;
-//   width: 650px;
-//   border: 1px solid $color2;
-//   border-radius: 20px;
-// }
+.ceo-laundry-mypage-img {
+  width: 30rem;
+}
 
-// .ceo-my-info-title {
-//   font-size: 30px;
-//   font-weight: 600;
-//   margin-bottom: 10px;
-// }
+.ceo-laundry-my-review-img {
+  height: 40px;
+}
 
-// .ceo-my-info-content {
-//   flex-grow: 1;
-// }
-
-// .ceo-my-page-btn {
-//   justify-self: flex-end;
-//   align-self: center;
-// }
-
-// .ceo-item-modal {
-//   width: 60vh;
-// }
-
-// .ceo-item-list {
-//   display: flex;
-//   flex-direction: column;
-// }
-
-// .ceo-modal-bottom {
-//   display: flex;
-//   justify-content: space-between;
-// }
-
-// .ceo-item {
-//   display: flex;
-//   justify-content: space-between;
-//   margin-bottom: 5px;
-// }
-
-// .ceo-item-del-btn {
-//   margin-right: 10px;
-//   border: 0;
-//   background-color: $color5;
-//   cursor: pointer;
-// }
-
-// .ceo-add-new-item {
-//   display: flex;
-//   flex-direction: column;
-//   margin-top: 30px;
-// }
-
-// .ceo-add-new-item-text {
-//   font-weight: bold;
-// }
-
-// .ceo-add-new-item-btn {
-//   align-self: flex-start;
-// }
-
-// .ceo-my-review-list {
-//   display: flex;
-//   flex-direction: column;
-//   padding: 20px;
-//   margin: 10px;
-//   height: 500px;
-//   width: 600px;
-//   border: 1px solid $color2;
-//   border-radius: 20px;
-// }
-
-// .ceo-my-review-none {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   flex-grow: 1;
-//   justify-content: center;
-// }
-
-// .ceo-my-review-none-text {
-//   text-align: center;
-//   font-size: medium;
-//   margin-bottom: 5px;
-// }
-
-// .ceo-right {
-//   display: flex;
-//   flex-direction: column;
-//   padding: 20px;
-//   margin: 10px;
-//   height: 500px;
-//   width: 600px;
-//   border: 1px solid $color2;
-//   border-radius: 20px;
-//   align-items: center;
-//   justify-content: space-evenly;
-// }
-
-// .ceo-right-text {
-//   text-align: center;
-//   font-size: xx-large;
-//   line-height: normal;
-// }
-
-// .ceo-right-img {
-//   width: 50%;
-// }
-
-// .ceo-my-review-list-title {
-//   font-size: 30px;
-//   font-weight: 600;
-//   margin-bottom: 10px;
-// }
-
-// .ceo-my-review-list-content {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   flex: 1;
-// }
-
-// .ceo-my-review {
-//   // white-space: nowrap;
-//   // overflow: hidden;
-//   // text-overflow: ellipsis;
-//   background-color: $color5;
-//   border-radius: 10px;
-//   margin-top: 10px;
-//   margin-bottom: 10px;
-//   padding: 10px;
-//   height: 100%;
-// }
-
-// .ceo-pagination {
-//   align-self: center;
-// }
-
-// .ceo-no-pagination {
-//   display: none;
-// }
-
-// .address-item {
-//   padding: 2vh;
-//   border: 1px solid $color2-2;
-// }
-
-// .address-reg-btn {
-//   display: flex;
-//   justify-content: flex-end;
-// }
-
-// .laundry-reg-dialog {
-//   color: $color2-2;
-// }
-
-// .bool-text {
-//   font-weight: bold;
-// }
+.ceo-review-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  margin: 10px;
+}

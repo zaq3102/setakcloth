@@ -3,13 +3,13 @@ import {
   Button,
   Card,
   CardContent,
+  CardMedia,
   Chip,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   FormControlLabel,
-  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -24,14 +24,15 @@ import {
 } from '@mui/material';
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import StarIcon from '@mui/icons-material/Star';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import KakaoMaps from '../../common/KakaoMaps';
 import {
+  LaundryInfoChange,
   LaundryItemAddRequest,
   LaundryItemDelRequest,
-  LaundryRegistRequest,
   LaundryReviewRequest,
   myLaundryItemsRequest,
   myLaundryRequest
@@ -39,15 +40,9 @@ import {
 import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
-import Address from '../../../components/common/Address';
 
 const CeoMypage: React.FC = () => {
-  const [clean, setClean] = useState<number>(12340000000000);
-  const [openModal2, setOpenModal2] = useState<boolean>(false);
-  const [openModal3, setOpenModal3] = useState<boolean>(false);
-
-  const [addr, setAddr] = useState<string>('');
-  const [addrDetail, setAddrDetail] = useState<string>('');
+  const [clean, setClean] = useState<number>(0);
 
   const [itemName, setItemName] = useState<string>('');
   const [itemPrice, setItemPrice] = useState<number>(0);
@@ -59,7 +54,6 @@ const CeoMypage: React.FC = () => {
   const [pending, setPending] = useState(false);
   const [laundryId, setLaundryId] = useState(0);
   const imgCnt = 1;
-  const [addrInfo, setAddrInfo] = useState('');
 
   // 세탁소 등록 시 필요한 정보
   const [regNum, setRegNum] = useState('');
@@ -77,9 +71,10 @@ const CeoMypage: React.FC = () => {
 
   // 모달창
   const [openRegist, setOpenRegist] = useState<boolean>(false);
-  const [openAddress, setOpenAddress] = useState(false);
-  const [openImage, setOpenImage] = useState(false);
-  const [openChange, setOpenChange] = useState(false);
+  const [openAddress, setOpenAddress] = useState<boolean>(false);
+  const [openImage, setOpenImage] = useState<boolean>(false);
+  const [openChange, setOpenChange] = useState<boolean>(false);
+  const [openItem, setOpenItem] = useState<boolean>(false);
 
   // 이미지 변경
   const [imgSrc, setImgSrc] = useState([]);
@@ -94,6 +89,7 @@ const CeoMypage: React.FC = () => {
     const result = await InfoRequest();
     if (result?.data?.userInfo) {
       setCeoInfo(result?.data?.userInfo);
+      setClean(result?.data?.userInfo?.balance);
     } else {
       navigate('/error');
     }
@@ -105,21 +101,43 @@ const CeoMypage: React.FC = () => {
       setLaundryList(result?.payload?.data?.laundries);
       setLaundryId(result?.payload?.data?.laundries[0]?.laundryId);
       setImgSrc([result?.payload?.data?.laundries[0].imgUrl]);
+
       // 이미 등록된 세탁소일 때
       setLaundryName(result?.payload?.data?.laundries[0].laundryName);
       setDescription(result?.payload?.data?.laundries[0].description);
       setContact(result?.payload?.data?.laundries[0].contact);
       setMinCost(result?.payload?.data?.laundries[0].minCost);
-      setdeliveryCost(result?.payload?.data?.laundries[0].deliveryCost);
+      setdeliveryCost(result?.payload?.data?.laundries[0].deliverCost);
       setPickup(result?.payload?.data?.laundries[0].pickup);
       setDeliver(result?.payload?.data?.laundries[0].deliver);
+
+      // 세탁 품목 등록하기
+      const result2 = await myLaundryItemsRequest(
+        result?.payload?.data?.laundries[0]?.laundryId
+      );
+      dispatch(result2);
+      if (result2?.payload?.data?.laundryItems) {
+        setItemList(result2?.payload?.data?.laundryItems);
+      } else {
+        navigate('/error');
+      }
+
+      // 리뷰 목록 불러오기
+      const result3 = await LaundryReviewRequest(
+        result?.payload?.data?.laundries[0]?.laundryId
+      );
+      if (result3?.data?.reviews) {
+        setReviewList(result3?.data?.reviews);
+      } else {
+        navigate('/error');
+      }
     } else {
       navigate('/error');
     }
   };
 
   const getMyItems = async () => {
-    const result = await myLaundryItemsRequest(laundryList[0].laundryId);
+    const result = await myLaundryItemsRequest(laundryId);
     dispatch(result);
     if (result?.payload?.data?.laundryItems) {
       setItemList(result?.payload?.data?.laundryItems);
@@ -137,49 +155,28 @@ const CeoMypage: React.FC = () => {
     }
   };
 
-  const registItem = async () => {
-    const item = {
-      name: itemName,
-      price: itemPrice
-    };
-    const result = await LaundryItemAddRequest(laundryList[0].laundryId, item);
-    if (result?.data?.message === 'Success') {
-      getMyItems();
-      setItemName('');
-      setItemPrice(0);
-      setRegDate('');
-    } else {
-      navigate('/error');
-    }
-  };
-
   useEffect(() => {
-    setPending(true);
+    // setPending(true);
     getMyInfo();
     getMyLaundry();
-    if (laundryList.length > 0) {
-      getMyReviews();
-    }
-    setTimeout(() => {
-      setPending(false);
-    }, 3000);
+    // setTimeout(() => {
+    //   setPending(false);
+    // }, 3000);
   }, []);
 
   const pageChange = (event, value) => {
     setPage(value);
   };
 
-  // 1 :  / 2:  / 3 :  / 4 : 이미지 변경
   const handleClose = (value) => {
     switch (value) {
       case 1:
         setOpenRegist(false);
         break;
-      case 2:
-        setOpenModal2(false);
-        break;
       case 3:
-        setOpenModal3(false);
+        setOpenItem(false);
+        setItemName('');
+        setItemPrice(0);
         break;
       case 4:
         setOpenImage(false);
@@ -195,6 +192,22 @@ const CeoMypage: React.FC = () => {
     }
   };
 
+  const registItem = async () => {
+    const item = {
+      name: itemName,
+      price: itemPrice
+    };
+    const result = await LaundryItemAddRequest(laundryId, item);
+    if (result?.data?.message === 'Success') {
+      getMyItems();
+      setItemName('');
+      setItemPrice(0);
+      handleClose(3);
+    } else {
+      navigate('/error');
+    }
+  };
+
   const delItem = async (id) => {
     const result = await LaundryItemDelRequest(laundryList[0].laundryId, id);
     if (result?.data?.message === 'Success') {
@@ -204,16 +217,16 @@ const CeoMypage: React.FC = () => {
     }
   };
 
-  const handleRegistLaundry = async () => {
+  const handleChangeLaundry = async () => {
     const LaundryInfo = {
       regNum,
       laundryName,
       ceoName,
       regDate,
-      addr: addrInfo.addr,
-      addrDetail: addrInfo.addrDetail,
-      addrLat: addrInfo.addrLat,
-      addrLng: addrInfo.addrLng,
+      addr: laundryList[0]?.addr,
+      addrDetail: laundryList[0]?.addrDetail,
+      addrLat: laundryList[0]?.addrLat,
+      addrLng: laundryList[0]?.addrLng,
       deliver,
       pickup,
       description,
@@ -222,9 +235,9 @@ const CeoMypage: React.FC = () => {
       minCost
     };
 
-    const result = await LaundryRegistRequest(LaundryInfo);
+    const result = await LaundryInfoChange(laundryId, LaundryInfo);
     if (result?.data?.message === 'Success') {
-      alert('세탁소 등록이 되었습니다.');
+      alert('세탁소 수정이 완료되었습니다.');
       // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
       getMyLaundry();
       const result2 = await myLaundryRequest();
@@ -237,26 +250,15 @@ const CeoMypage: React.FC = () => {
     } else {
       navigate('/error');
     }
-
     handleClose(1);
   };
+
   const handleDeliver = (event: React.ChangeEvent<HTMLInputElement>) => {
     setDeliver(event.target.value);
   };
 
-  const pageReviewChange = (event, value) => {
-    setPageReview(value);
-  };
-
   const handlePickup = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPickup(event.target.value);
-  };
-
-  // 주소 변경 로직
-  const AddressFunc = (value) => {
-    setAddrInfo(value);
-    setAddr(value.addr);
-    setAddrDetail(value.addrDetail);
   };
 
   // 이미지 변경 로직
@@ -322,32 +324,15 @@ const CeoMypage: React.FC = () => {
       ) : (
         <div className="ceo-mypage-inside">
           <div className="ceo-mypage-left">
-            <Box boxShadow={0} className="ceo-mypage-card">
-              <div className="ceo-mypage-card-title">
-                <div className="ceo-mypage-card-label">지갑 잔액</div>
-                <Button
-                  size="small"
-                  color="color2_2"
-                  variant="contained"
-                  className="ceo-mypage-charge-btn"
-                  onClick={() => handleOpen(4)}>
-                  충전
-                </Button>
-              </div>
-              <div className="ceo-mypage-cln">{clean} CLN</div>
-              <Box className="ceo-mypage-box-warn">
-                <div className="ceo-mypage-warn">부자되세요~!!</div>
-              </Box>
-            </Box>
-            <div>
-              <img
-                className="ceo-laundry-img"
-                src="../../assets/ctmhome0.png"
-                alt="laundry-img"
-              />
-            </div>
             <div className="ceo-laundry-info-card">
               <Card>
+                <CardMedia>
+                  <img
+                    className="ceo-laundry-mypage-img"
+                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry0.png"
+                    alt="laundry-img"
+                  />
+                </CardMedia>
                 <CardContent
                   sx={{ width: 1, height: 1, paddingRight: 3, paddingLeft: 5 }}>
                   <Chip
@@ -368,21 +353,35 @@ const CeoMypage: React.FC = () => {
                       <div className="ceo-laundry-title">
                         <div>{laundryName}</div>
                       </div>
-                      <div className="ceo-laundry-addr">{addrInfo}</div>
+                      <div className="ceo-laundry-addr">
+                        {laundryList[0]?.addr} {laundryList[0]?.addrDetail}
+                      </div>
                       <div className="ceo-laundry-num">{contact}</div>
                     </div>
                   </div>
-
                   <br />
-                  <br />
-                  <div className="ctm-laundry-mincost">
-                    최소 주문 금액 : {minCost} 원
-                  </div>
-                  <div className="ctm-laundry-deliver">
-                    배달비 : {deliveryCost} 원
-                  </div>
+                  <div>최소 주문 금액 : {minCost} 원</div>
+                  <div>배달비 : {deliveryCost} 원</div>
+                  <Button
+                    className="ceo-laundry-change-btn"
+                    onClick={() => setOpenChange(true)}
+                    focused
+                    variant="contained"
+                    color="color2_2"
+                    sx={{ marginTop: 3 }}>
+                    세탁소 정보 수정하기
+                  </Button>
                 </CardContent>
               </Card>
+              <Box boxShadow={0} className="ceo-mypage-card">
+                <div className="ceo-mypage-card-title">
+                  <div className="ceo-mypage-card-label">지갑 잔액</div>
+                </div>
+                <div className="ceo-mypage-cln">{clean} CLN</div>
+                <Box className="ceo-mypage-box-warn">
+                  <div className="ceo-mypage-warn">부자되세요~!!</div>
+                </Box>
+              </Box>
             </div>
           </div>
           <div className="ceo-mypage-right">
@@ -412,54 +411,81 @@ const CeoMypage: React.FC = () => {
                 </Box>
                 <TabPanel value={value} index={0}>
                   <div className="ceo-laundry-toggle-order-items">
-                    {itemList.map((item, idx) => (
-                      <div className="itemlist" key={item.id}>
-                        <div className="item-text-name">
-                          {item.name} {item.price} 원
-                        </div>
-                      </div>
-                    ))}
+                    <List
+                      sx={{
+                        width: '51vh'
+                      }}>
+                      {itemList.map((item, idx) => (
+                        <ListItem
+                          className="ceo-mypage-item-clean"
+                          key={item.id}>
+                          <ListItemText primary={item.name} />
+                          <ListItemText
+                            primary={`${item.price} 클린`}
+                            sx={{ textAlign: 'right', marginLeft: 10 }}
+                          />
+                          <Button
+                            onClick={() => delItem(item.id)}
+                            focused
+                            color="color2_2"
+                            sx={{ paddingLeft: 5 }}>
+                            <DeleteForeverIcon />
+                          </Button>
+                        </ListItem>
+                      ))}
+                    </List>
+                    <div className="ceo-mypage-item-add-button">
+                      <Button
+                        className="ceo-add-new-item-btn"
+                        onClick={() => setOpenItem(true)}
+                        focused
+                        variant="contained"
+                        color="color2_2"
+                        sx={{ marginRight: 3 }}>
+                        추가
+                      </Button>
+                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                  <div className="ceo-laundry-toggle-info">
-                    <Box
-                      borderRadius={1}
-                      sx={{
-                        width: '20vh',
-                        height: '10vh',
-                        backgroundColor: '#E0EBF5'
-                      }}>
-                      <div className="ceo-laundry-description">
-                        {addrInfo.description}
-                      </div>
-                    </Box>
-                    <div className="kakaomaps">
-                      <KakaoMaps
-                        props={{
-                          Lng: addrInfo.addrLng,
-                          Lat: addrInfo.addrLat
-                        }}
-                      />
+                  <Box
+                    borderRadius={1}
+                    sx={{
+                      width: '51vh',
+                      height: '10vh',
+                      backgroundColor: '#E0EBF5'
+                    }}>
+                    <div className="ctm-laundry-description">
+                      {laundryList[0]?.description}
                     </div>
+                  </Box>
+                  <div className="kakaomaps">
+                    <KakaoMaps
+                      props={{
+                        Lng: laundryList[0]?.addrLng,
+                        Lat: laundryList[0]?.addrLat
+                      }}
+                    />
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                   <div className="ceo-laundry-toggle-review">
-                    {/* <div className="ceo-laundry-toggle-review-rate">
+                    <div className="ceo-laundry-toggle-review-rate">
                       <div className="ceo-laundry-toggle-review-title">
                         평점
                       </div>
                       <div className="ceo-laundry-toggle-review-star">
                         <div>
                           <Box>
-                            {laundry.score === -1 ? null : laundry.score}
+                            {laundryList[0]?.score === -1
+                              ? null
+                              : laundryList[0]?.score}
                           </Box>
                         </div>
                         <div>
                           <Rating
                             name="text-feedback"
-                            value={laundry.score}
+                            value={laundryList[0]?.score}
                             readOnly
                             precision={0.5}
                             emptyIcon={
@@ -474,52 +500,47 @@ const CeoMypage: React.FC = () => {
                       </div>
                     </div>
                     <div className="ceo-laundry-toggle-review-cnt">
-                      <div className="ceo-laundry-toggle-review-cnt1">리뷰</div>
-                      <div className="ceo-laundry-toggle-review-cnt2">
-                        {reviewList.length}개
+                      <div className="ceo-laundry-toggle-review-cnt1">
+                        리뷰 {reviewList.length}개
                       </div>
                     </div>
                     <div className="ceo-laundry-toggle-review-content">
                       {reviewList
-                        .slice((pageReview - 1) * 3, pageReview * 3)
+                        .slice((page - 1) * 3, page * 3)
                         .map((review) => (
                           <div className="ceo-laundry-my-review">
                             <div className="ceo-review-wrap">
                               <div className="ceo-review-wrap-left">
                                 <img
                                   className="ceo-laundry-my-review-img"
-                                  src="../assets/user.png"
+                                  src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
                                   alt="user-img"
                                 />
                               </div>
-                              <div>
-                                <div className="ceo-laundry-my-review-info">
-                                  <div className="ceo-laundry-my-review-nickname">
-                                    {review.userNickName
-                                      ? review.userNickName
-                                      : '익명'}
-                                  </div>
-                                  <div className="ceo-laundry-my-review-rate">
-                                    <Rating
-                                      value={review.score}
-                                      readOnly
-                                      precision={0.5}
-                                      emptyIcon={<StarIcon />}
-                                      size="medium"
-                                    />
-                                  </div>
+                              <div className="ceo-review-wrap-right">
+                                <div className="ceo-laundry-my-review-nickname">
+                                  {review.userNickName}
+                                </div>
+                                <div className="ceo-laundry-my-review-rate">
+                                  <Rating
+                                    value={review.score}
+                                    readOnly
+                                    precision={0.5}
+                                    emptyIcon={<StarIcon />}
+                                    size="medium"
+                                  />
+                                </div>
+                                <div className="ceo-laundry-my-review-content">
+                                  {review.content}
                                 </div>
                               </div>
-                            </div>
-                            <div className="ceo-laundry-my-review-content">
-                              {review.content}
                             </div>
                           </div>
                         ))}
                       <div className="ceo-laundry-toggle-review-page">
                         <Pagination
                           count={Math.ceil(reviewList.length / 3)}
-                          page={pageReview}
+                          page={page}
                           variant="outlined"
                           color="color2"
                           className={`${
@@ -527,10 +548,10 @@ const CeoMypage: React.FC = () => {
                               ? 'ceo-no-pagination'
                               : 'ceo-pagination'
                           }`}
-                          onChange={pageReviewChange}
+                          onChange={pageChange}
                         />
                       </div>
-                    </div> */}
+                    </div>
                   </div>
                 </TabPanel>
               </Box>
@@ -545,14 +566,6 @@ const CeoMypage: React.FC = () => {
           handleClose={handleClose}
           imgCnt={imgCnt}
           id={laundryId}
-        />
-      </Dialog>
-
-      <Dialog open={openAddress} onClose={() => handleClose(3)}>
-        <Address
-          AddressFunc={AddressFunc}
-          handleClose={handleClose}
-          type="regist"
         />
       </Dialog>
 
@@ -587,40 +600,6 @@ const CeoMypage: React.FC = () => {
                 value={laundryName}
                 onChange={(event) => setLaundryName(event.target.value)}
               />
-              <div className="address-item">
-                <div className="address-reg-btn">
-                  <Button
-                    onClick={() => handleOpen(5)}
-                    variant="outlined"
-                    color="color2_2">
-                    주소 검색
-                  </Button>
-                </div>
-                <TextField
-                  sx={{ mt: 2, mb: 2, bgcolor: '#F8FFFD' }}
-                  variant="filled"
-                  focused
-                  color="color2_2"
-                  required
-                  label="기본 주소"
-                  name="laundry-addr"
-                  fullWidth
-                  value={addr}
-                  disabled
-                />
-                <TextField
-                  sx={{ mt: 2, bgcolor: '#F8FFFD' }}
-                  variant="filled"
-                  focused
-                  color="color2_2"
-                  required
-                  label="상세 주소"
-                  name="laundry-addr"
-                  fullWidth
-                  value={addrDetail}
-                  disabled
-                />
-              </div>
               <TextField
                 sx={{ mt: 3, mb: 1, bgcolor: '#F8FFFD' }}
                 variant="filled"
@@ -719,17 +698,62 @@ const CeoMypage: React.FC = () => {
           </DialogContent>
           <DialogActions>
             <Button
-              onClick={() => handleClose(6)}
+              onClick={handleChangeLaundry}
               focused
               variant="contained"
-              color="color2_2">
-              등록하기
+              color="color2_2"
+              disabled={!laundryName || !ceoName || !description || !contact}>
+              수정하기
             </Button>
             <Button onClick={() => handleClose(6)} color="color2_2">
               취소
             </Button>
           </DialogActions>
         </div>
+      </Dialog>
+
+      <Dialog open={openItem} onClose={() => handleClose(3)}>
+        <DialogTitle>새로운 품목 추가하기</DialogTitle>
+        <TextField
+          sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+          variant="filled"
+          focused
+          color="color2_2"
+          required
+          label="품목명"
+          name="item-id"
+          fullWidth
+          value={itemName}
+          onChange={(event) => setItemName(event.target.value.trim())}
+        />
+        <TextField
+          sx={{ mt: 1, mb: 3, bgcolor: '#F8FFFD' }}
+          variant="filled"
+          focused
+          color="color2_2"
+          required
+          label="가격 (단위 : 클린)"
+          name="item-price"
+          type="number"
+          inputProps={{
+            step: 1000
+          }}
+          fullWidth
+          value={itemPrice}
+          onChange={(event) => setItemPrice(parseInt(event.target.value, 10))}
+        />
+        <DialogActions>
+          <Button onClick={() => handleClose(3)} color="color2_2">
+            취소
+          </Button>
+          <Button
+            onClick={registItem}
+            focused
+            variant="contained"
+            color="color2_2">
+            추가
+          </Button>
+        </DialogActions>
       </Dialog>
     </div>
   );
