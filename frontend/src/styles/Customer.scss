@@ -552,10 +552,11 @@ $color4-2: #e1f0ec;
   flex-direction: column;
   background-color: #e0ebf5;
   border-radius: 10px;
-  margin-bottom: 0.5vh;
+  margin-bottom: 10px;
   padding: 1.5vh;
-  width: 51vh;
-  height: 10vh;
+  width: 95%;
+  height: 8vh;
+  align-self: center;
 }
 
 .laundry-my-review-nickname {
@@ -571,15 +572,24 @@ $color4-2: #e1f0ec;
 
 .laundry-my-review-score-info {
   display: flex;
+  align-items: center;
+}
+
+.laundry-my-review-score-info-edited {
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
 }
 
 .laundry-my-review-score {
   font-size: small;
+  margin: 3px;
 }
 
 .laundry-my-review-content {
   font-size: small;
 }
+
 // CtmOrderList.tsx
 .ctm-orderlist {
   display: flex;
@@ -630,4 +640,12 @@ $color4-2: #e1f0ec;
   margin-left: 5rem;
   line-height: 5rem;
   font-size: small;
+}
+
+.ctm-order-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2vh;
+  width: 100%;
 }

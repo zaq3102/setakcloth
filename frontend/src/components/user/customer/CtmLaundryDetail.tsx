@@ -505,16 +505,15 @@ const CtmLaundryDetailTemp = () => {
                                 src="https://cdn-icons-png.flaticon.com/512/2107/2107957.png"
                                 alt="star"
                               />
-                              <span>&nbsp;&nbsp;</span>
                               <div className="laundry-my-review-score">
                                 {review.score}
+                              </div>
+                              <div className="laundry-my-review-content">
+                                {review.content}
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="laundry-my-review-content">
-                        {review.content}
                       </div>
                     </div>
                   ))}
