@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   FormControlLabel,
   List,
@@ -28,6 +29,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import StarIcon from '@mui/icons-material/Star';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import Swal from 'sweetalert2';
 import KakaoMaps from '../../common/KakaoMaps';
 import {
   LaundryInfoChange,
@@ -41,7 +43,6 @@ import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../common/Address';
-import Swal from 'sweetalert2';
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(0);
@@ -86,6 +87,25 @@ const CeoMypage: React.FC = () => {
 
   // 리뷰 가져오기
   const [value, setValue] = useState(0);
+
+  // 인출하기
+  const [openWithdraw, setOpenWithdraw] = useState(false);
+
+  // 지갑
+  const [walletPassword, setWalletPassword] = useState('');
+  const [withdrawAmount, SetWithdrawAmount] = useState<number>(0);
+
+  const withdrawAmountChange = (event) => {
+    if (event.target.value.trim() < 0) {
+      SetWithdrawAmount(0);
+    } else {
+      SetWithdrawAmount(event.target.value.trim());
+    }
+  };
+
+  const walletPasswordChange = (event) => {
+    setWalletPassword(event.target.value.trim());
+  };
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -205,6 +225,9 @@ const CeoMypage: React.FC = () => {
         break;
       case 6:
         setOpenChange(false);
+        break;
+      case 7:
+        setOpenWithdraw(false);
         break;
       default:
         break;
@@ -447,7 +470,7 @@ const CeoMypage: React.FC = () => {
                     color="color1"
                     variant="contained"
                     className="ctm-mypage-charge-btn"
-                    onClick={() => console.log('유재열')}>
+                    onClick={() => setOpenWithdraw(true)}>
                     출금
                   </Button>
                 </div>
@@ -652,6 +675,65 @@ const CeoMypage: React.FC = () => {
           id={laundryId}
         />
       </Dialog>
+
+      {/* CLN widthdraw modal */}
+      <Dialog
+        open={openWithdraw}
+        onClose={() => handleClose(7)}
+        sx={{ zIndex: 3 }}>
+        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+          클린 인출하기
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText sx={{ fontSize: 'medium' }}>
+            지갑 비밀번호와 인출할 금액을 입력해주세요.
+          </DialogContentText>
+          <TextField
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
+            autoFocus
+            label="지갑 비밀번호"
+            value={walletPassword}
+            onChange={walletPasswordChange}
+            type="password"
+            fullWidth
+            variant="standard"
+            placeholder="지갑 비밀번호"
+          />
+          <TextField
+            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+            variant="filled"
+            focused
+            color="color1"
+            autoFocus
+            label="인출할 금액"
+            type="number"
+            value={withdrawAmount ? withdrawAmount : ''}
+            onChange={withdrawAmountChange}
+            fullWidth
+            variant="standard"
+            placeholder="지갑 비밀번호 확인"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => handleClose(7)}
+            color="color1"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            취소
+          </Button>
+          <Button
+            onClick={handleWithdraw}
+            color="color1"
+            variant="contained"
+            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+            인출하기
+          </Button>
+        </DialogActions>
+      </Dialog>
+      {/* to here */}
 
       <Dialog open={openChange} onClose={() => handleClose(6)}>
         <div className="ceo-item-modal">
