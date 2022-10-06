@@ -13,6 +13,12 @@ import { PersistGate } from 'redux-persist/integration/react';
 import App from './App';
 import theme from './styles/Palette';
 import rootReducer from './store/reducers';
+import '../public/assets/logo.png';
+import '../public/favicon.ico';
+import '../public/assets/Fonts/NanumGothic.woff';
+import '../public/assets/Fonts/NanumGothicBold.woff';
+import '../public/assets/Fonts/NanumGothicExtraBold.woff';
+import '../public/assets/Fonts/NanumGothicLight.woff';
 
 const persistConfig = {
   key: 'root',

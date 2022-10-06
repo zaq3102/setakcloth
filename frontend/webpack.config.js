@@ -63,12 +63,10 @@ module.exports = {
       //   ]
       // }
       {
-        test: /\.(png|jpg)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]'
-          }
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
+        loader: 'file-loader',
+        options: {
+          name: '[name].[ext]'
         }
       }
     ]
