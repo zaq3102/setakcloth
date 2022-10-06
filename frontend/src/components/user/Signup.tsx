@@ -288,7 +288,8 @@ const Signup: React.FC = () => {
               borderBottomLeftRadius: '7px',
               borderBottomRightRadius: '7px'
             }}>
-            <div className="signup-page">
+            <div className="signup-type">
+              <Box sx={{ width: '90%', textAlign: 'left' }}>이메일</Box>
               <TextField
                 margin="normal"
                 required
@@ -297,7 +298,7 @@ const Signup: React.FC = () => {
                 value={email}
                 onChange={emailChange}
                 autoFocus
-                sx={{ width: '90%' }}
+                sx={{ width: '90%', margin: 1 }}
               />
               <FormHelperText
                 error={!!email && (!isEmailValid || emailChecked !== 200)}>
@@ -311,6 +312,9 @@ const Signup: React.FC = () => {
                     : '유효하지 않은 이메일 형식입니다.'
                   : ''}
               </FormHelperText>
+              <Box sx={{ width: '90%', textAlign: 'left', mt: 2 }}>
+                비밀번호
+              </Box>
               <TextField
                 margin="normal"
                 required
@@ -319,7 +323,7 @@ const Signup: React.FC = () => {
                 type="password"
                 value={pwd}
                 onChange={passwordChange}
-                sx={{ width: '90%' }}
+                sx={{ width: '90%', margin: 1 }}
               />
               <FormHelperText error={!!pwd && !isPwdValid}>
                 {pwd
@@ -328,6 +332,10 @@ const Signup: React.FC = () => {
                     : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
                   : ''}
               </FormHelperText>
+              <Box sx={{ width: '90%', textAlign: 'left', mt: 2 }}>
+                {' '}
+                비밀번호 확인
+              </Box>
               <TextField
                 margin="normal"
                 required
@@ -336,7 +344,7 @@ const Signup: React.FC = () => {
                 type="password"
                 value={pwdCheck}
                 onChange={passwordCheckChange}
-                sx={{ width: '90%' }}
+                sx={{ width: '90%', margin: 1 }}
               />
               <FormHelperText error={!!pwdCheck && !isPwdSame}>
                 {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}

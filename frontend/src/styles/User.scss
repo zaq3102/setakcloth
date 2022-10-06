@@ -163,6 +163,14 @@ $color4-2: #e1f0ec;
   text-align: center;
 }
 
+.login-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  text-align: center;
+}
+
 .login-button-area {
   display: flex;
   align-items: center;
@@ -183,7 +191,9 @@ $color4-2: #e1f0ec;
 
 .signup-type {
   display: flex;
-  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
 }
 
 .mode-selected {
