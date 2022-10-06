@@ -164,6 +164,7 @@ const CeoHome: React.FC = () => {
       setState1(list.filter((order) => order.state === 1));
       setState2(list.filter((order) => order.state === 2));
       setState3(list.filter((order) => order.state === 3));
+      console.log(list);
     } else {
       navigate('/error');
     }
@@ -191,7 +192,9 @@ const CeoHome: React.FC = () => {
                     <span className="ceo-order-item-orderNo-text">
                       [주문 번호: {order.orderId}]{' '}
                     </span>
-                    {order.date.substring(0, 16)}
+                    <div className="ceo-order-item-date">
+                      주문 날짜: {order.date.substring(0, 16)}
+                    </div>
                   </span>
                   <div className="ceo-order-item-text">
                     {order.userAddr} {order.userAddrDetail}
