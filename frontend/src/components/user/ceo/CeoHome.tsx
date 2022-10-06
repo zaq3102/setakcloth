@@ -131,7 +131,6 @@ const CeoHome: React.FC = () => {
       alert('세탁소 등록이 완료되었습니다.');
       handleClose(4);
       const result2 = await myLaundryRequest();
-      console.log(result2);
       if (result2?.payload?.data?.laundries) {
         dispatch(result2);
       } else {
