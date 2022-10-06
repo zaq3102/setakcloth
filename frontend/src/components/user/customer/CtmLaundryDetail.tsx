@@ -240,10 +240,17 @@ const CtmLaundryDetailTemp = () => {
       e.preventDefault();
     })
   );
-
   return (
     <div className="ctm-laundry-detail">
-      <img className="ctm-laundry-img" src={laundry.imgUrl} alt="laundry-img" />
+      <img
+        className="ctm-laundry-img"
+        src={
+          laundry.imgUrl
+            ? laundry.imgUrl
+            : 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/fcf639ab-acd0-4d92-aa2c-562d7e7f1545_lndry.png'
+        }
+        alt="laundry-img"
+      />
       <div className="ctm-laundry-card">
         <Card>
           <CardContent
