@@ -141,7 +141,11 @@ const CeoMypage: React.FC = () => {
         result?.payload?.data?.laundries[0]?.laundryId
       );
       if (result3?.data?.reviews) {
-        setReviewList(result3?.data?.reviews);
+        const reviewTemp = result3?.data?.reviews;
+        reviewTemp.sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        });
+        setReviewList(reviewTemp);
       } else {
         navigate('/error');
       }
@@ -163,7 +167,11 @@ const CeoMypage: React.FC = () => {
   const getMyReviews = async () => {
     const result = await LaundryReviewRequest(laundryList[0].laundryId);
     if (result?.data?.review) {
-      setReviewList(result?.data?.review);
+      const reviewTemp = result?.data?.reviews;
+      reviewTemp.sort(function (a, b) {
+        return new Date(b.date) - new Date(a.date);
+      });
+      setReviewList(reviewTemp);
     } else {
       navigate('/error');
     }
@@ -290,7 +298,7 @@ const CeoMypage: React.FC = () => {
 
   // 이미지 변경 로직
   const changeImageSrc = (value) => {
-    setImgSrc(value);
+    setImgSrc(value[0]);
   };
 
   const handleMinCost = (event) => {
@@ -360,10 +368,10 @@ const CeoMypage: React.FC = () => {
           <div className="ceo-mypage-left">
             <div className="ceo-laundry-info-card">
               <Card>
-                <CardMedia>
+                <CardMedia sx={{ textAlign: 'center' }}>
                   <img
                     className="ceo-laundry-mypage-img"
-                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry0.png"
+                    src={imgSrc}
                     alt="laundry-img"
                   />
                 </CardMedia>
@@ -401,6 +409,15 @@ const CeoMypage: React.FC = () => {
                   <div className="ceo-laundry-deliver">
                     배달료 {deliveryCost} CLN
                   </div>
+                  <Button
+                    className="ceo-laundry-change-btn"
+                    onClick={() => setOpenImage(true)}
+                    focused
+                    variant="contained"
+                    color="color2_2"
+                    sx={{ marginTop: 3, marginRight: 1 }}>
+                    세탁소 이미지 변경하기
+                  </Button>
                   <Button
                     className="ceo-laundry-change-btn"
                     onClick={() => setOpenChange(true)}
@@ -659,7 +676,7 @@ const CeoMypage: React.FC = () => {
                     onClick={() => setOpenAddress(true)}
                     variant="outlined"
                     color="color2_2">
-                    주소 검색
+                    주소 변경
                   </Button>
                 </div>
                 <TextField

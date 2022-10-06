@@ -9,7 +9,7 @@ import {
   DialogContentText,
   DialogTitle,
   Step,
-  StepLabel,
+  StepButton,
   Stepper,
   TextField
 } from '@mui/material';
@@ -35,6 +35,9 @@ import Swal from 'sweetalert2';
 const CeoOrderDetail = () => {
   const navigate = useNavigate();
   const [currentState, setCurrentState] = useState(4);
+  const [completed, setCompleted] = useState<{
+    [k: number]: boolean;
+  }>({});
   const [realState, setRealState] = useState(4);
   const { orderNum } = useParams();
   const [orderInfo, setOrderInfo] = useState([]);
@@ -61,6 +64,11 @@ const CeoOrderDetail = () => {
       setOrderInfo(result?.data);
       setCurrentState(result?.data?.state);
       setRealState(result?.data?.state);
+      const newCompleted = completed;
+      for (let i = 0; i < result?.data?.state; i += 1) {
+        newCompleted[i] = true;
+      }
+      setCompleted(newCompleted);
       if (result?.data?.orderType === 'DELIVERY') {
         setModes(['수락 대기중', '세탁중', '배달중', '배달 완료']);
       } else if (result?.data?.orderType === 'PICKUP') {
@@ -212,6 +220,9 @@ const CeoOrderDetail = () => {
         }
         setAllUploaded(temp);
       }
+      const newCompleted = completed;
+      newCompleted[realState] = true;
+      setCompleted(newCompleted);
       setRealState(result?.data?.state);
     } else {
       navigate('/error');
@@ -295,23 +306,21 @@ const CeoOrderDetail = () => {
         </CardContent>
       </div>
       <div className="order-detail-state">
-        <Stepper activeStep={currentState} className="order-detail-state-steps">
-          {modes.map((mode) => (
-            <Step key={mode}>
-              <StepLabel>{mode}</StepLabel>
+        <Stepper
+          nonLinear
+          activeStep={currentState}
+          className="order-detail-state-steps">
+          {modes.map((mode, index) => (
+            <Step key={mode} completed={completed[index]}>
+              <StepButton color="inherit" onClick={() => handleState(index)}>
+                {mode}
+              </StepButton>
             </Step>
           ))}
         </Stepper>
         {currentState < 3 ? (
           <>
             <div className="order-detail-state-steps-buttons">
-              <Button
-                variant="contained"
-                color="color2_2"
-                onClick={() => handleState(currentState - 1)}
-                disabled={currentState === 0}>
-                이전 단계
-              </Button>
               {realState === 0 ? (
                 <Button
                   variant="contained"
@@ -333,13 +342,6 @@ const CeoOrderDetail = () => {
                   저장 후 다음 단계
                 </Button>
               )}
-              <Button
-                variant="contained"
-                color="color2_2"
-                onClick={() => handleState(currentState + 1)}
-                disabled={currentState === 3}>
-                다음 단계
-              </Button>
             </div>
             {orderInfo?.orderType === 'PICKUP' && currentState === 2 ? (
               <div className="order-detail-state-steps-warn">
@@ -350,24 +352,9 @@ const CeoOrderDetail = () => {
             )}
           </>
         ) : (
-          <>
-            <div className="order-detail-state-steps-buttons">
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState - 1)}
-                disabled={currentState === 0}>
-                이전 단계
-              </Button>
-              <Button
-                variant="contained"
-                color="color2"
-                onClick={() => handleState(currentState + 1)}
-                disabled={currentState === 3}>
-                다음 단계
-              </Button>
-            </div>
-          </>
+          <div className="order-detail-state-steps-warn">
+            모든 과정이 완료되었습니다.
+          </div>
         )}
       </div>
       <div className="order-detail-upload">
