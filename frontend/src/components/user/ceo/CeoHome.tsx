@@ -175,6 +175,15 @@ const CeoHome: React.FC = () => {
     }
   }, []);
 
+  // if (orderList.length === 0) {
+  //   Swal.fire({
+  //     width: 200,
+  //     icon: 'question',
+  //     text: '등록된 주문이 없어 마이페이지로 이동합니다'
+  //   });
+  //   navigate('/ceo/mypage');
+  // }
+
   return (
     <div>
       {laundryId ? (
@@ -191,7 +200,9 @@ const CeoHome: React.FC = () => {
                     <span className="ceo-order-item-orderNo-text">
                       [주문 번호: {order.orderId}]{' '}
                     </span>
-                    {order.date.substring(0, 16)}
+                    <div className="ceo-order-item-date">
+                      주문 날짜: {order.date.substring(0, 16)}
+                    </div>
                   </span>
                   <div className="ceo-order-item-text">
                     {order.userAddr} {order.userAddrDetail}
