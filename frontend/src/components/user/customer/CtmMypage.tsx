@@ -346,7 +346,7 @@ const CtmMypage = () => {
                 </Button>
               </MenuItem>
             ))}
-            <MenuItem key={5} onclick={menuClose}>
+            <MenuItem key={5} onclick={() => menuClose}>
               <Button
                 onClick={() => handleOpen(5)}
                 sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
