@@ -32,30 +32,28 @@ const Home: React.FC = () => {
         </div>
       </div>
       <div className="mockup">
-          <img
-            className="mockup-img"
-            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/blockchain.png"
-            alt="mockup0"
-          />
+        <img
+          className="mockup-img"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/blockchain.png"
+          alt="mockup0"
+        />
         <div className="mockup-title">
           <div className="mockup-title-head">
-          블록체인 기반 
-          <br />
-          투명한 유통과정
+            블록체인 기반
+            <br />
+            투명한 유통과정
           </div>
           <div className="mockup-title-body">
-          안전하게 믿고 
-          <br />
-          사용할 수 있어요.
+            안전하게 믿고
+            <br />
+            사용할 수 있어요.
           </div>
         </div>
       </div>
-      
+
       <div className="mockup">
         <div className="mockup-title">
-          <div className="mockup-title-head">
-          편리한 수거, 배달
-          </div>
+          <div className="mockup-title-head">편리한 수거, 배달</div>
           <div className="mockup-title-body">
             문 앞에서 끝내는 세탁소 방문
             <br />
@@ -76,12 +74,12 @@ const Home: React.FC = () => {
         />
         <div className="mockup-title">
           <div className="mockup-title-head">
-            우리 동네 세탁소를 
+            우리 동네 세탁소를
             <br />
             한눈에
           </div>
           <div className="mockup-title-body">
-            간편하게 내 주변의 
+            간편하게 내 주변의
             <br />
             세탁소를 검색해보세요.
           </div>
@@ -90,7 +88,7 @@ const Home: React.FC = () => {
       <div className="mockup-end">
         <div className="mockup-title">
           <div className="mockup-title-head">
-            궁금했던 세탁소 정보 
+            궁금했던 세탁소 정보
             <br />
             한눈에
           </div>
