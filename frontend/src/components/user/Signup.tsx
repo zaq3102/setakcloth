@@ -383,12 +383,14 @@ const Signup: React.FC = () => {
 
               {/* <TOS /> */}
               <div className="signup-btn">
-                <Button
-                  variant="outlined"
-                  sx={{ padding: 0.3, margin: 1 }}
-                  color="color3">
-                  취소
-                </Button>
+                <Link to="/login">
+                  <Button
+                    variant="outlined"
+                    sx={{ padding: 0.3, margin: 1 }}
+                    color="color3">
+                    취소
+                  </Button>
+                </Link>
                 <Button
                   sx={{ padding: 0.3, margin: 1 }}
                   variant="outlined"
@@ -519,7 +521,8 @@ const Signup: React.FC = () => {
                 <Button
                   variant="outlined"
                   sx={{ padding: 0.3, margin: 1 }}
-                  color="color3">
+                  color="color3"
+                  onClick={() => setPage(1)}>
                   취소
                 </Button>
                 <Button
