@@ -130,9 +130,10 @@ const CeoHome: React.FC = () => {
     const result = await LaundryRegistRequest(LaundryInfo);
     if (result?.data?.message === 'Success') {
       Swal.fire({
-        width: 200,
+        width: 400,
         icon: 'success',
-        text: '세탁소 등록이 완료되었습니다.'
+        text: '세탁소 등록이 완료되었습니다.',
+        confirmButtonColor: '#1e3e5c'
       });
       handleClose(4);
       const result2 = await myLaundryRequest();
@@ -186,6 +187,9 @@ const CeoHome: React.FC = () => {
 
   return (
     <div>
+      <div className="ceo-title-bar">
+        <div className="ceo-title-text">사업자 홈 화면</div>
+      </div>
       {laundryId ? (
         <div className="ceo-laundry-modes">
           {modes.map((mode) => (

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, colors } from '@mui/material';
 import { LOGOUT } from '../../store/actions/types/types';
 import { logoutRequest } from '../../store/actions/services/userService';
 import Logo from './Logo';
@@ -16,15 +16,20 @@ const Header: React.FC = () => {
 
   const onLogoutHandler = () => {
     Swal.fire({
-      width: 200,
+      width: 400,
       icon: 'question',
-      text: '정말 로그아웃 하시겠습니까?'
-    }).then(function () {
-      navigate('/');
-      logoutRequest();
-      dispatch({
-        type: LOGOUT
-      });
+      text: '정말 로그아웃 하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: '#1e3e5c',
+      cancelButtonColor: '#ff5a5a'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate('/');
+        logoutRequest();
+        dispatch({
+          type: LOGOUT
+        });
+      }
     });
   };
 

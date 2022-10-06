@@ -114,34 +114,39 @@ const CtmOrderList = () => {
   );
 
   return (
-    <div className="ctm-orderlist">
-      <div className="ctm-orderlist-chips">
-        <Chip
-          className="ctm-orderlist-chip"
-          label="전체"
-          color="color4"
-          onClick={() => handleModeState(-1)}
-        />
-        <Chip
-          className="ctm-orderlist-chip"
-          label="세탁중"
-          color="color4"
-          onClick={() => handleModeState(1)}
-        />
-        <Chip
-          className="ctm-orderlist-chip"
-          label="세탁완료"
-          color="color4"
-          onClick={() => handleModeState(2)}
-        />
-        <Chip
-          className="ctm-orderlist-chip"
-          label="완료"
-          color="color4"
-          onClick={() => handleModeState(3)}
-        />
+    <div>
+      <div className="ctm-title-bar">
+        <div className="ctm-title-text">나의 주문 목록</div>
       </div>
-      <div>{content}</div>
+      <div className="ctm-orderlist">
+        <div className="ctm-orderlist-chips">
+          <Chip
+            className="ctm-orderlist-chip"
+            label="전체"
+            color="color4"
+            onClick={() => handleModeState(-1)}
+          />
+          <Chip
+            className="ctm-orderlist-chip"
+            label="세탁중"
+            color="color4"
+            onClick={() => handleModeState(1)}
+          />
+          <Chip
+            className="ctm-orderlist-chip"
+            label="세탁완료"
+            color="color4"
+            onClick={() => handleModeState(2)}
+          />
+          <Chip
+            className="ctm-orderlist-chip"
+            label="완료"
+            color="color4"
+            onClick={() => handleModeState(3)}
+          />
+        </div>
+        <div>{content}</div>
+      </div>
     </div>
   );
 };

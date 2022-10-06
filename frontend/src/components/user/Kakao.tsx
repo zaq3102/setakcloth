@@ -34,18 +34,20 @@ const Kakao: React.FC = () => {
       switch (status) {
         case 403:
           Swal.fire({
-            width: 200,
+            width: 400,
             icon: 'error',
-            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!'
+            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/signup');
           break;
 
         case 409:
           Swal.fire({
-            width: 200,
+            width: 400,
             icon: 'error',
-            text: '회원가입을 먼저 해주세요!'
+            text: '회원가입을 먼저 해주세요!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/login');
           break;
@@ -54,7 +56,8 @@ const Kakao: React.FC = () => {
           Swal.fire({
             width: 200,
             icon: 'error',
-            text: '로그인에 실패하였습니다!'
+            text: '로그인에 실패하였습니다!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/login');
           break;
@@ -80,7 +83,8 @@ const Kakao: React.FC = () => {
           Swal.fire({
             width: 200,
             icon: 'error',
-            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!'
+            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/signup');
           break;
@@ -89,7 +93,8 @@ const Kakao: React.FC = () => {
           Swal.fire({
             width: 200,
             icon: 'error',
-            text: '회원가입을 먼저 해주세요!'
+            text: '회원가입을 먼저 해주세요!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/login');
           break;
@@ -98,7 +103,8 @@ const Kakao: React.FC = () => {
           Swal.fire({
             width: 200,
             icon: 'error',
-            text: '로그인에 실패하였습니다!'
+            text: '로그인에 실패하였습니다!',
+            confirmButtonColor: '#1e3e5c'
           });
           navigate('/login');
           break;
@@ -121,7 +127,8 @@ const Kakao: React.FC = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        html: '이미 가입한 회원입니다. <br/>로그인 해주세요!'
+        html: '이미 가입한 회원입니다. <br/>로그인 해주세요!',
+        confirmButtonColor: '#1e3e5c'
       });
       navigate('/login');
     }
