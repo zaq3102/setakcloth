@@ -39,19 +39,18 @@ module.exports = {
       //   test: /\.woff/,
       //   loader: 'url-loader?limit=100000&mimetype=application/font-woff'
       // },
-      {
-        test: /\.woff/,
-        use: [
-          {
-            loader: 'url-loader',
-            options: {
-              nmimetype: 'application/font-woff',
-              limit: 100000
-            }
-          }
-        ]
-      },
-
+      // {
+      //   test: /\.woff/,
+      //   use: [
+      //     {
+      //       loader: 'url-loader',
+      //       options: {
+      //         nmimetype: 'application/font-woff',
+      //         limit: 100000
+      //       }
+      //     }
+      //   ]
+      // },
       {
         test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
         type: 'file-loader',
