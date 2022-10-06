@@ -1,13 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Button, Drawer, IconButton, List, ListItem } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import { Box } from '@mui/system';
+import { Link, useNavigate } from 'react-router-dom';
+import { Divider, Drawer, List, ListItem } from '@mui/material';
 import { LOGOUT } from '../../store/actions/types/types';
 import { logoutRequest } from '../../store/actions/services/userService';
 import Logo from './Logo';
+import { Box } from '@mui/system';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -15,12 +14,14 @@ const Header: React.FC = () => {
   const loginType = useSelector((state) => state.user.loginType);
   const linkTO = ['/customer', '/ceo'];
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const navigate = useNavigate();
 
   const onLogoutHandler = () => {
     logoutRequest();
     dispatch({
       type: LOGOUT
     });
+    navigate('/');
   };
 
   return (
@@ -46,6 +47,14 @@ const Header: React.FC = () => {
         anchor="right"
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}>
+        <Box className="headermenu-topbox">
+          <img
+            className="drawer-back"
+            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/left-arrow.png"
+            alt="menu"
+            onClick={() => setIsDrawerOpen(false)}
+          />
+        </Box>
         <List sx={{ width: 220 }}>
           {token ? (
             <>
@@ -53,38 +62,75 @@ const Header: React.FC = () => {
                 <Link to="/">
                   <div
                     className="Header-drawer-listitem"
-                    onClick={onLogoutHandler}>
+                    onClick={() => onLogoutHandler}>
                     Logout
                   </div>
                 </Link>
               </ListItem>
               {loginType === 0 ? (
-                <ListItem>
-                  <Link to="/customer/mypage">
-                    <div className="Header-drawer-listitem">My Page</div>
-                  </Link>
-                </ListItem>
+                <>
+                  <Divider />
+                  <ListItem>
+                    <Link to="/customer/mypage">
+                      <div
+                        onClick={() => setIsDrawerOpen(false)}
+                        className="Header-drawer-listitem">
+                        My Page
+                      </div>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link to="/customer/orderlist">
+                      <div
+                        onClick={() => setIsDrawerOpen(false)}
+                        className="Header-drawer-listitem">
+                        나의 주문 목록
+                      </div>
+                    </Link>
+                  </ListItem>
+                  <ListItem>
+                    <Link to="/customer/reviewlist">
+                      <div
+                        onClick={() => setIsDrawerOpen(false)}
+                        className="Header-drawer-listitem">
+                        나의 리뷰
+                      </div>
+                    </Link>
+                  </ListItem>
+                </>
               ) : (
                 <ListItem>
                   <Link to="/ceo/mypage">
-                    <div className="Header-drawer-listitem">My Page</div>
+                    <div
+                      onClick={() => setIsDrawerOpen(false)}
+                      className="Header-drawer-listitem">
+                      My Page
+                    </div>
                   </Link>
                 </ListItem>
               )}
-              ):(
             </>
           ) : (
             <>
               <ListItem>
                 <Link to="/login" className="Login-Button">
-                  <div className="Header-drawer-listitem">Log in</div>
+                  <div
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="Header-drawer-listitem">
+                    Log in
+                  </div>
                 </Link>
               </ListItem>
               <ListItem>
                 <Link to="/signup">
-                  <div className="Header-drawer-listitem">Sign Up</div>
+                  <div
+                    onClick={() => setIsDrawerOpen(false)}
+                    className="Header-drawer-listitem">
+                    Sign Up
+                  </div>
                 </Link>
               </ListItem>
+              <Divider />
             </>
           )}
         </List>

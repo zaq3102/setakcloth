@@ -70,14 +70,27 @@ $color4-2: #e1f0ec;
   height: 25px;
 }
 
-.Header-drawer-listitem {
-  font-size: large;
-  font-weight: bold;
-  width: 220px;
-  align-self: center;
-  text-align: center;
+.headermenu-topbox{
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+  height: 35px;
+  border-bottom: 0.5px solid #1e3e5c;
 }
 
+.drawer-back{
+  margin-left: 8px;
+  height: 15px;
+}
+
+.Header-drawer-listitem {
+  font-size: small;
+  font-weight: bold;
+  width: 200px;
+  align-self: center;
+  text-align: center;
+  margin-bottom: 20px;
+}
 
 // Footer.tsx
 
@@ -107,7 +120,6 @@ $color4-2: #e1f0ec;
   margin-left: 2px;
   height: 15px;
 }
-
 
 .footer-right {
   margin-left: 0.5vh;
