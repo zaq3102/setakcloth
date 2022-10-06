@@ -41,6 +41,7 @@ import { InfoRequest } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../common/Address';
+import Swal from 'sweetalert2';
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(0);
@@ -247,7 +248,11 @@ const CeoMypage: React.FC = () => {
 
     const result = await LaundryInfoChange(laundryId, LaundryInfo);
     if (result?.data?.message === 'Success') {
-      alert('세탁소 수정이 완료되었습니다.');
+      Swal.fire({
+        width: 200,
+        icon: 'success',
+        text: '세탁소 수정이 완료되었습니다.'
+      });
       setCeoName('');
       handleClose(6);
       // 나중에 redux를 활용하는 방식으로 바꾸면 좋을 듯
