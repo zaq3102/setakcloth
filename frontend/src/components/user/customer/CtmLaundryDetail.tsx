@@ -37,6 +37,8 @@ import {
   getBalance,
   balanceUpdate
 } from '../../../store/actions/services/userService';
+import Swal from 'sweetalert2';
+import { ClassNames } from '@emotion/react';
 
 const CtmLaundryDetailTemp = () => {
   const [laundry, setLaundry] = useState([]);
@@ -164,8 +166,14 @@ const CtmLaundryDetailTemp = () => {
   const handleOrder = async () => {
     const orderCnts = {};
     if (totalPrice > mybalance) {
-      alert('잔액이 부족하여 주문이 불가합니다.');
-      navigate('../mypage');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '잔액이 부족하여 주문이 불가합니다.'
+      }).then(function () {
+        navigate('../mypage');
+      });
+
       return;
     }
     for (let i = 0; i < laundryItemList.length; i += 1) {
@@ -194,6 +202,13 @@ const CtmLaundryDetailTemp = () => {
       balance
     };
     await balanceUpdate(balanceInfo);
+    Swal.fire({
+      width: 200,
+      icon: 'success',
+      text: '주문 성공!'
+    }).then(function () {
+      navigate('/customer/orderlist');
+    });
   };
 
   interface TabPanelProps {

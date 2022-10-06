@@ -93,7 +93,11 @@ const CtmOrderDetail = () => {
     };
     const result = await registReview(orderId, data);
     if (result?.data?.message === 'Created') {
-      alert('리뷰 등록 완료');
+      Swal.fire({
+        width: 200,
+        icon: 'success',
+        text: '리뷰 등록 완료'
+      });
       handleClose();
       setScore(0);
       setContent('');

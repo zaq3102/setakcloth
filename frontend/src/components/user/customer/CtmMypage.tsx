@@ -35,6 +35,7 @@ import {
 import '../../../styles/Customer.scss';
 import Address from '../../../components/common/Address';
 import { LOGOUT } from '../../../store/actions/types/types';
+import Swal from 'sweetalert2';
 
 const options = [
   {
@@ -179,8 +180,13 @@ const CtmMypage = () => {
       handleClose(1);
       setNickName('');
     } else if (result?.data?.statusCode === 409) {
-      alert('이미 존재하는 닉네임입니다.');
-      setNickName('');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '이미 존재하는 닉네임입니다.'
+      }).then(function () {
+        setNickName('');
+      });
     } else {
       navigate('/error');
     }
@@ -225,7 +231,11 @@ const CtmMypage = () => {
   const handleCharge = async () => {
     const check = await unlockAccount(userInfo.wallet, walletPassword);
     if (!check) {
-      alert('잘못된 비밀번호입니다.');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '잘못된 비밀번호입니다.'
+      });
       setWalletPassword('');
     } else {
       const send = await chargeClean(userInfo.wallet, chargeAmount);
@@ -242,7 +252,11 @@ const CtmMypage = () => {
         balance
       };
       if (balance > 100000) {
-        alert('양심껏 가져가주세요 선생님');
+        Swal.fire({
+          width: 200,
+          icon: 'error',
+          text: '양심껏 가져가주세요 선생님'
+        });
         return;
       }
       const result = await balanceUpdate(balanceInfo);
@@ -251,10 +265,15 @@ const CtmMypage = () => {
         return;
       }
       setClean(balance);
-      alert('충전이 완료되었습니다.');
-      setWalletPassword('');
-      setchargeAmount(0);
-      handleClose(4);
+      Swal.fire({
+        width: 200,
+        icon: 'sucess',
+        text: '충전이 완료되었습니다.'
+      }).then(function () {
+        setWalletPassword('');
+        setchargeAmount(0);
+        handleClose(4);
+      });
     }
   };
 
@@ -262,12 +281,17 @@ const CtmMypage = () => {
   const handleDelete = async () => {
     const result = await deleteUser();
     if (result?.data?.message === 'Created') {
-      alert('그동안 세탁클로쓰를 이용해주셔서 감사합니다.');
-      logoutRequest();
-      dispatch({
-        type: LOGOUT
+      Swal.fire({
+        width: 200,
+        icon: 'info',
+        text: '그동안 세탁클로쓰를 이용해주셔서 감사합니다.'
+      }).then(function () {
+        logoutRequest();
+        dispatch({
+          type: LOGOUT
+        });
+        navigate('/');
       });
-      navigate('/');
     } else {
       navigate('/error');
     }
@@ -525,7 +549,10 @@ const CtmMypage = () => {
       </Dialog>
 
       {/* CLN 충전 모달 */}
-      <Dialog open={openCharge} onClose={() => handleClose(4)}>
+      <Dialog
+        open={openCharge}
+        onClose={() => handleClose(4)}
+        sx={{ zIndex: 3 }}>
         <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
           클린 충전하기
         </DialogTitle>
