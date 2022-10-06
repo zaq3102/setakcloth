@@ -1,7 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   mode: 'development', // 실서비스 : production
@@ -30,44 +29,6 @@ module.exports = {
       {
         test: /\.(s*)css$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
-      },
-      // {
-      //   test: /\.woff$/,
-      //   type: 'asset/resource'
-      // },
-      // {
-      //   test: /\.woff/,
-      //   loader: 'url-loader?limit=100000&mimetype=application/font-woff'
-      // },
-      // {
-      //   test: /\.woff/,
-      //   use: [
-      //     {
-      //       loader: 'url-loader',
-      //       options: {
-      //         nmimetype: 'application/font-woff',
-      //         limit: 100000
-      //       }
-      //     }
-      //   ]
-      // },
-      // {
-      //   test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
-      //   type: 'file-loader',
-      //   use: [
-      //     {
-      //       options: {
-      //         name: '[name].[ext]'
-      //       }
-      //     }
-      //   ]
-      // }
-      {
-        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]'
-        }
       }
     ]
   },
@@ -75,15 +36,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html'
     }),
-    new Dotenv(),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: 'public/assets/Fonts',
-          to: 'public/assets/Fonts'
-        }
-      ]
-    })
+    new Dotenv()
   ],
   devServer: {
     static: {
