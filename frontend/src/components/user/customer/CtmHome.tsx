@@ -107,77 +107,89 @@ const CtmHome: React.FC = () => {
       <div className="ctm-home">
         <div className="ctm-address-area">세탁소 전체조회</div>
       </div>
-      <Box sx={{ fontSize: 'small', alignI: 'center' }}>
-        <Chip
-          sx={{ mr: 1 }}
-          size="small"
-          color="color1"
-          label="우리집"
-          variant="outlined"
-        />
-        {myaddress}
-        <Button
-          sx={{ minWidth: 5 }}
-          className="address-modify-btn"
-          onClick={() => setOpenAddress(true)}>
-          <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color1" />
-        </Button>
-        {/* 주소 변경 모달 */}
-        <Dialog open={openAddress} onClose={handleClose}>
-          <Address
-            AddressFunc={AddressFunc}
-            handleClose={handleClose}
-            type="change"
-          />
-        </Dialog>
-      </Box>
+      {/* <Box sx={{ fontSize: 'small', alignI: 'center' }}>      </Box> */}
+      <div className="ctm-address-box-outer">
+        <div className="ctm-address-box">
+          <div>
+            <Chip
+              sx={{ mr: 1 }}
+              size="small"
+              color="color1"
+              label="우리집"
+              variant="outlined"
+            />
+          </div>
+          <div className="ctm-address-text">{myaddress}</div>
+          <div>
+            <Button
+              sx={{ minWidth: 5 }}
+              className="address-modify-btn"
+              onClick={() => setOpenAddress(true)}>
+              <ModeEditOutlineOutlinedIcon
+                sx={{ fontSize: 20 }}
+                color="color1"
+              />
+            </Button>
+            {/* 주소 변경 모달 */}
+            <Dialog open={openAddress} onClose={handleClose}>
+              <Address
+                AddressFunc={AddressFunc}
+                handleClose={handleClose}
+                type="change"
+              />
+            </Dialog>
+          </div>
+        </div>
+      </div>
 
       {/* 정렬 선택 */}
-      <Box sx={{ textAlign: 'right' }}>
-        <FormControl
-          size="small"
-          sx={{
-            m: 0,
-            mb: 1,
-            mt: 1,
-            p: 0,
-            minWidth: 120
-          }}
-          className="select">
-          <InputLabel sx={{ fontSize: 7 }}>
-            <div className="inputlabel-default">정렬</div>
-          </InputLabel>
-          <Select
-            displayEmpty
-            onChange={handleSelect}
-            inputProps={{ 'aria-label': 'Without label' }}>
-            <MenuItem
-              onClick={() => handleButton(0)}
-              value="최신 등록순"
-              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-              최신등록순
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleButton(1)}
-              value="거리순"
-              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-              거리순
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleButton(2)}
-              value="별점순"
-              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-              별점순
-            </MenuItem>
-            <MenuItem
-              onClick={() => handleButton(3)}
-              value="즐겨찾기"
-              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-              즐겨찾기
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
+      <div className="align-select-box">
+        <Box sx={{ textAlign: 'right' }}>
+          <FormControl
+            size="small"
+            sx={{
+              m: 0,
+              mb: 1,
+              mt: 1,
+              p: 0,
+              minWidth: 120
+            }}
+            className="select">
+            <InputLabel sx={{ fontSize: 7 }}>
+              <div className="inputlabel-default">정렬</div>
+            </InputLabel>
+            <Select
+              displayEmpty
+              onChange={handleSelect}
+              inputProps={{ 'aria-label': 'Without label' }}>
+              <MenuItem
+                onClick={() => handleButton(0)}
+                value="최신 등록순"
+                sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+                최신등록순
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButton(1)}
+                value="거리순"
+                sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+                거리순
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButton(2)}
+                value="별점순"
+                sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+                별점순
+              </MenuItem>
+              <MenuItem
+                onClick={() => handleButton(3)}
+                value="즐겨찾기"
+                sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+                즐겨찾기
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Box>
+      </div>
 
       {/* 최신 세탁소 5개 리스트 */}
       <div className="latest-list-area">

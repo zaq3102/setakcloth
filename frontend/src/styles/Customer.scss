@@ -149,6 +149,26 @@ $color4-2: #e1f0ec;
   justify-content: center;
 }
 
+.align-select-box {
+  width: 95%;
+}
+
+.ctm-address-box {
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ctm-address-box-outer {
+  display: flex;
+  justify-content: center;
+}
+
+.ctm-address-text {
+  font-size: small;
+}
+
 //CtmMypage.tsx
 
 .ctm-mypage {
