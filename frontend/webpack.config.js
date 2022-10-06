@@ -35,10 +35,23 @@ module.exports = {
       //   test: /\.woff$/,
       //   type: 'asset/resource'
       // },
+      // {
+      //   test: /\.woff/,
+      //   loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+      // },
       {
         test: /\.woff/,
-        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              nmimetype: 'application/font-woff',
+              limit: 100000
+            }
+          }
+        ]
       },
+
       {
         test: /\.(jpe?g|svg|png|gif|ico|eot|ttf?)(\?v=\d+\.\d+\.\d+)?$/i,
         type: 'asset/resource',
