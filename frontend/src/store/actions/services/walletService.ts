@@ -355,3 +355,21 @@ export const sendClean = async (addr1, addr2, value) => {
     return false;
   }
 };
+export const withdrawClean = async (addr1, value) => {
+  //계정 LOCK
+  //투표가 끝나면 해당유저의 지갑주소를 LOCK하여 트랜잭션을 날리지 못하게 변경한다.
+
+  try {
+    const payload = await con.methods
+      .approve(MASTER_ADDR, value)
+      .send({ from: addr1 });
+    const payload2 = await con.methods
+      .transferFrom(addr1, MASTER_ADDR, value)
+      .send({ from: MASTER_ADDR });
+
+    return payload2;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+};
