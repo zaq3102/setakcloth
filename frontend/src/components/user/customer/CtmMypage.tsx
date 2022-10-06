@@ -232,6 +232,14 @@ const CtmMypage = () => {
 
   // 충전 로직
   const handleCharge = async () => {
+    if (chargeAmount > 100000) {
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '양심껏 가져가주세요 선생님'
+      });
+      return;
+    }
     const check = await unlockAccount(userInfo.wallet, walletPassword);
     if (!check) {
       Swal.fire({
@@ -254,14 +262,7 @@ const CtmMypage = () => {
       const balanceInfo = {
         balance
       };
-      if (balance > 100000) {
-        Swal.fire({
-          width: 200,
-          icon: 'error',
-          text: '양심껏 가져가주세요 선생님'
-        });
-        return;
-      }
+
       const result = await balanceUpdate(balanceInfo);
       if (!result) {
         navigate('/error');
