@@ -371,6 +371,7 @@ const CeoMypage: React.FC = () => {
                     variant="outlined"
                     color="color1"
                   />
+                  <span>&nbsp;</span>
                   <Chip
                     className="ceo-laundry-chip"
                     size="small"
@@ -389,8 +390,12 @@ const CeoMypage: React.FC = () => {
                     </div>
                   </div>
                   <br />
-                  <div>최소 주문 금액 : {minCost} 원</div>
-                  <div>배달비 : {deliveryCost} 원</div>
+                  <div className="ceo-laundry-mincost">
+                    최소 주문 {minCost} CLN
+                  </div>
+                  <div className="ceo-laundry-deliver">
+                    배달료 {deliveryCost} CLN
+                  </div>
                   <Button
                     className="ceo-laundry-change-btn"
                     onClick={() => setOpenChange(true)}
@@ -415,7 +420,7 @@ const CeoMypage: React.FC = () => {
           </div>
           <div className="ceo-mypage-right">
             <div className="ceo-laundry-toggle">
-              <Box sx={{ width: '100%' }}>
+              <Box sx={{ width: '99%' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                   <Tabs
                     value={value}
@@ -481,8 +486,8 @@ const CeoMypage: React.FC = () => {
                     borderRadius={1}
                     sx={{
                       width: '51vh',
-                      height: '10vh',
-                      backgroundColor: '#E0EBF5'
+                      height: '40vh',
+                      backgroundColor: '#e1f0ec'
                     }}>
                     <div className="ctm-laundry-description">
                       {laundryList[0]?.description}
@@ -504,7 +509,7 @@ const CeoMypage: React.FC = () => {
                         평점
                       </div>
                       <div className="ceo-laundry-toggle-review-star">
-                        <div>
+                        <div className="ceo-laundry-toggle-review-star-detail">
                           <Box>
                             {laundryList[0]?.score === -1
                               ? null
@@ -537,34 +542,42 @@ const CeoMypage: React.FC = () => {
                       {reviewList
                         .slice((page - 1) * 3, page * 3)
                         .map((review) => (
-                          <div className="ceo-laundry-my-review">
-                            <div className="ceo-review-wrap">
-                              <div className="ceo-review-wrap-left">
-                                <img
-                                  className="ceo-laundry-my-review-img"
-                                  src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
-                                  alt="user-img"
-                                />
-                              </div>
-                              <div className="ceo-review-wrap-right">
-                                <div className="ceo-laundry-my-review-nickname">
-                                  {review.userNickName}
-                                </div>
-                                <div className="ceo-laundry-my-review-rate">
-                                  <Rating
-                                    value={review.score}
-                                    readOnly
-                                    precision={0.5}
-                                    emptyIcon={<StarIcon />}
-                                    size="medium"
+                          <Box
+                            borderRadius={1}
+                            sx={{
+                              width: '51vh',
+                              height: '10vh',
+                              backgroundColor: '#e1f0ec'
+                            }}>
+                            <div className="ceo-laundry-my-review">
+                              <div className="ceo-review-wrap">
+                                <div className="ceo-review-wrap-left">
+                                  <img
+                                    className="ceo-laundry-my-review-img"
+                                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
+                                    alt="user-img"
                                   />
                                 </div>
-                                <div className="ceo-laundry-my-review-content">
-                                  {review.content}
+                                <div className="ceo-review-wrap-right">
+                                  <div className="ceo-laundry-my-review-nickname">
+                                    {review.userNickName}
+                                  </div>
+                                  <div className="ceo-laundry-my-review-rate">
+                                    <Rating
+                                      value={review.score}
+                                      readOnly
+                                      precision={0.5}
+                                      emptyIcon={<StarIcon />}
+                                      size="medium"
+                                    />
+                                  </div>
+                                  <div className="ceo-laundry-my-review-content">
+                                    {review.content}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
+                          </Box>
                         ))}
                       <div className="ceo-laundry-toggle-review-page">
                         <Pagination
