@@ -353,9 +353,11 @@ const CeoHome: React.FC = () => {
                 inputProps={{
                   maxLength: 15
                 }}
-                value={contact
-                  .replace(/[^0-9]/g, '')
-                  .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
+                value={
+                  contact
+                  // .replace(/[^0-9]/g, '')
+                  // .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)
+                }
                 onChange={(event) => setContact(event.target.value.trim())}
               />
               <div className="ceo-modal-bottom">
