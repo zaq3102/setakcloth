@@ -87,9 +87,6 @@ const Signup: React.FC = () => {
     } else {
       setEmailChecked(false);
     }
-    // return () => {
-    // console.log('컴포넌트가 화면에서 사라짐');
-    // };
   }, [email]);
 
   const debounceFunc = debounce(async (value, request, setState) => {
@@ -100,7 +97,8 @@ const Signup: React.FC = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '올바르지 않은 접근입니다.'
+        text: '올바르지 않은 접근입니다.',
+        confirmButtonColor: '#1e3e5c'
       });
     }
   }, 500);
@@ -195,14 +193,16 @@ const Signup: React.FC = () => {
       Swal.fire({
         width: 200,
         icon: 'success',
-        text: '회원가입을 축하드립니다!'
+        text: '회원가입을 축하드립니다!',
+        confirmButtonColor: '#1e3e5c'
       });
       navigate('/login');
     } else {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '회원가입에 실패하였습니다!'
+        text: '회원가입에 실패하였습니다!',
+        confirmButtonColor: '#1e3e5c'
       });
     }
   };
@@ -215,21 +215,10 @@ const Signup: React.FC = () => {
     Swal.fire({
       width: 200,
       icon: 'success',
-      text: '지갑이 생성되었습니다!'
+      text: '지갑이 생성되었습니다!',
+      confirmButtonColor: '#1e3e5c'
     });
   };
-
-  // const getMyWallet = async () => {
-  //   const result = await getBalance(
-  //     '0x71D46EEBCD8eD64BDA37e4D5532427c1881f2E34'
-  //   );
-  //   console.log(result);
-  //   // if (result?.data?.userInfo) {
-  //   //   setUserInfo(result?.data?.userInfo);
-  //   // } else {
-  //   //   console.log('error');
-  //   // }
-  // };
 
   const [activeIndex, setActiveIndex] = useState(0);
 

@@ -333,13 +333,13 @@ export const unlockAccount = async (account, password) => {
 };
 export const lockAccount = (account) => {
   //계정 LOCK
-  //투표가 끝나면 해당유저의 지갑주소를 LOCK하여 트랜잭션을 날리지 못하게 변경한다.
+  //지갑주소를 LOCK
   web3.eth.personal.lockAccount(account).then(console.log);
 };
 
 export const sendClean = async (addr1, addr2, value) => {
   //계정 LOCK
-  //투표가 끝나면 해당유저의 지갑주소를 LOCK하여 트랜잭션을 날리지 못하게 변경한다.
+  //지갑주소를 LOCK
 
   try {
     const payload = await con.methods

@@ -5,7 +5,7 @@ const Footer: React.FC = () => {
   return (
     <div>
       <footer>
-        <Box className="footer-box">
+        <Box className="footer-box" sx={{ mt: 3 }}>
           <div className="footer-left">
             <img
               className="footer-title"

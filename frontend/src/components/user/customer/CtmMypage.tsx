@@ -149,7 +149,6 @@ const CtmMypage = () => {
       setmynickname(result?.data?.userInfo?.nickName);
       setClean(result?.data?.userInfo?.balance);
       setWalletAddress(result?.data?.userInfo?.wallet);
-      console.log(result);
     } else {
       navigate('/error');
     }
@@ -186,7 +185,8 @@ const CtmMypage = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '이미 존재하는 닉네임입니다.'
+        text: '이미 존재하는 닉네임입니다.',
+        confirmButtonColor: '#1e3e5c'
       }).then(function () {
         setNickName('');
       });
@@ -236,7 +236,8 @@ const CtmMypage = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '양심껏 가져가주세요 선생님'
+        text: '양심껏 가져가주세요 선생님',
+        confirmButtonColor: '#1e3e5c'
       });
       return;
     }
@@ -245,7 +246,8 @@ const CtmMypage = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '잘못된 비밀번호입니다.'
+        text: '잘못된 비밀번호입니다.',
+        confirmButtonColor: '#1e3e5c'
       });
       setWalletPassword('');
     } else {
@@ -272,7 +274,8 @@ const CtmMypage = () => {
       Swal.fire({
         width: 200,
         icon: 'sucess',
-        text: '충전이 완료되었습니다.'
+        text: '충전이 완료되었습니다.',
+        confirmButtonColor: '#1e3e5c'
       }).then(function () {
         setWalletPassword('');
         setchargeAmount(0);
@@ -288,7 +291,8 @@ const CtmMypage = () => {
       Swal.fire({
         width: 200,
         icon: 'info',
-        text: '그동안 세탁클로쓰를 이용해주셔서 감사합니다.'
+        text: '그동안 세탁클로쓰를 이용해주셔서 감사합니다.',
+        confirmButtonColor: '#1e3e5c'
       }).then(function () {
         logoutRequest();
         dispatch({
@@ -301,312 +305,320 @@ const CtmMypage = () => {
     }
   };
   return (
-    <div className="ctm-mypage">
-      <div className="ctm-mypage-img-box">
-        <div className="ctm-mypage-img-left" />
-        <div className="ctm-mypage-img-center">
-          <img
-            className="ctm-mypage-img"
-            src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
-            alt="user-img"
-          />
-        </div>
-        <div className="ctm-mypage-img-right">
-          {/* 수정 메뉴 */}
-          <IconButton
-            aria-label="more"
-            id="ctm-mypage-modify"
-            aria-controls={open ? 'long-menu' : undefined}
-            aria-expanded={open ? 'true' : undefined}
-            aria-haspopup="true"
-            onClick={menuClick}>
-            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color2" />
-          </IconButton>
-          <Menu
-            id="long-menu"
-            MenuListProps={{
-              'aria-labelledby': 'long-button'
-            }}
-            anchorEl={anchorEl}
-            open={open}
-            onClose={menuClose}
-            PaperProps={{
-              style: {
-                maxHeight: 48 * 4.5,
-                width: '20ch'
-              }
-            }}>
-            {/* <div>
+    <div>
+      <div className="ctm-title-bar">
+        <div className="ctm-title-text">마이페이지</div>
+      </div>
+      <div className="ctm-mypage">
+        <div className="ctm-mypage-img-box">
+          <div className="ctm-mypage-img-left" />
+          <div className="ctm-mypage-img-center">
+            <img
+              className="ctm-mypage-img"
+              src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
+              alt="user-img"
+            />
+          </div>
+          <div className="ctm-mypage-img-right">
+            {/* 수정 메뉴 */}
+            <IconButton
+              aria-label="more"
+              id="ctm-mypage-modify"
+              aria-controls={open ? 'long-menu' : undefined}
+              aria-expanded={open ? 'true' : undefined}
+              aria-haspopup="true"
+              onClick={menuClick}>
+              <ModeEditOutlineOutlinedIcon
+                sx={{ fontSize: 20 }}
+                color="color2"
+              />
+            </IconButton>
+            <Menu
+              id="long-menu"
+              MenuListProps={{
+                'aria-labelledby': 'long-button'
+              }}
+              anchorEl={anchorEl}
+              open={open}
+              onClose={menuClose}
+              PaperProps={{
+                style: {
+                  maxHeight: 48 * 4.5,
+                  width: '20ch'
+                }
+              }}>
+              {/* <div>
 
               </div> */}
-            {options.map((option) => (
-              <MenuItem key={option.id} onClick={menuClose}>
+              {options.map((option) => (
+                <MenuItem key={option.id} onClick={menuClose}>
+                  <Button
+                    onClick={() => handleOpen(option.id)}
+                    sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
+                    color="color2"
+                    style={{ justifyContent: 'flex-start' }}>
+                    {option.label}
+                  </Button>
+                </MenuItem>
+              ))}
+              <MenuItem key={5} onclick={() => menuClose}>
                 <Button
-                  onClick={() => handleOpen(option.id)}
+                  onClick={() => handleOpen(5)}
                   sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
-                  color="color2"
+                  color="color0_2"
                   style={{ justifyContent: 'flex-start' }}>
-                  {option.label}
+                  회원 탈퇴하기
                 </Button>
               </MenuItem>
-            ))}
-            <MenuItem key={5} onclick={() => menuClose}>
-              <Button
-                onClick={() => handleOpen(5)}
-                sx={{ fontSize: 'small', fontWeight: 'bold', p: 0 }}
-                color="color0_2"
-                style={{ justifyContent: 'flex-start' }}>
-                회원 탈퇴하기
-              </Button>
-            </MenuItem>
-          </Menu>
+            </Menu>
+          </div>
         </div>
-      </div>
-      <div className="ctm-mypage-nickname">{mynickname}</div>
-      <div className="ctm-mypage-email">{userInfo.userEmail}</div>
-      <div className="ctm-mypage-addr">{myaddress}</div>
-      {/* <div className="ctm-wallet-addr">지갑 주소 : {walletAddress}</div> */}
-      <Box boxShadow={0} className="ctm-mypage-card">
-        <div className="ctm-mypage-card-title">
-          <div className="ctm-mypage-card-label">지갑 잔액</div>
-          <Button
-            size="small"
-            color="color1"
-            variant="contained"
-            className="ctm-mypage-charge-btn"
-            onClick={() => handleOpen(4)}>
-            충전
-          </Button>
-        </div>
-        <div className="ctm-mypage-cln">{clean} CLN</div>
-        <Box className="ctm-mypage-box-warn">
-          <div className="ctm-mypage-warn">{walletAddress}</div>
+        <div className="ctm-mypage-nickname">{mynickname}</div>
+        <div className="ctm-mypage-email">{userInfo.userEmail}</div>
+        <div className="ctm-mypage-addr">{myaddress}</div>
+        {/* <div className="ctm-wallet-addr">지갑 주소 : {walletAddress}</div> */}
+        <Box boxShadow={0} className="ctm-mypage-card">
+          <div className="ctm-mypage-card-title">
+            <div className="ctm-mypage-card-label">지갑 잔액</div>
+            <Button
+              size="small"
+              color="color1"
+              variant="contained"
+              className="ctm-mypage-charge-btn"
+              onClick={() => handleOpen(4)}>
+              충전
+            </Button>
+          </div>
+          <div className="ctm-mypage-cln">{clean} CLN</div>
+          <Box className="ctm-mypage-box-warn">
+            <div className="ctm-mypage-warn">{walletAddress}</div>
+          </Box>
         </Box>
-      </Box>
 
-      <div className="ctm-mypage-buttons">
-        <Link to="/customer/orderlist" className="OrderList">
-          <Button size="small" color="color1" variant="outlined">
-            나의 주문
-          </Button>
-        </Link>
-        <Link to="/customer/reviewlist" className="ReviewList">
-          <Button size="small" color="color1" variant="outlined">
-            나의 리뷰
-          </Button>
-        </Link>
-        {/* <Link to="/customer/" className="FavoriteList">
+        <div className="ctm-mypage-buttons">
+          <Link to="/customer/orderlist" className="OrderList">
+            <Button size="small" color="color1" variant="outlined">
+              나의 주문
+            </Button>
+          </Link>
+          <Link to="/customer/reviewlist" className="ReviewList">
+            <Button size="small" color="color1" variant="outlined">
+              나의 리뷰
+            </Button>
+          </Link>
+          {/* <Link to="/customer/" className="FavoriteList">
           <Button size="small" color="color1" variant="outlined">
             즐겨찾기
           </Button>
         </Link> */}
+        </div>
+
+        {/* 닉네임 변경 모달 */}
+        <Dialog open={openNickname} onClose={() => handleClose(1)}>
+          <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+            닉네임 변경하기
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+              변경할 닉네임을 입력해주세요.
+            </DialogContentText>
+            <TextField
+              sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              focused
+              color="color2"
+              autoFocus
+              label="닉네임"
+              value={nickName}
+              onChange={nickNameChange}
+              fullWidth
+              variant="standard"
+              placeholder="닉네임을 입력하세요."
+              inputProps={{
+                maxLength: 20
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleClose(1)}
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handleNickname}
+              color="color2"
+              variant="contained"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              변경하기
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* 비밀번호 변경 모달 */}
+        <Dialog open={openPassword} onClose={() => handleClose(2)}>
+          <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+            비밀번호 변경하기
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+              변경할 비밀번호을 입력해주세요.
+            </DialogContentText>
+            <TextField
+              sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              focused
+              color="color2"
+              autoFocus
+              // margin="dense"
+              label="비밀번호"
+              type="password"
+              value={pwd}
+              onChange={pwdChange}
+              fullWidth
+              variant="standard"
+              placeholder="비밀번호"
+              inputProps={{
+                maxLength: 16
+              }}
+            />
+            <FormHelperText error={!!pwd && !isPwdValid}>
+              {pwd
+                ? isPwdValid
+                  ? '안전한 비밀번호입니다.'
+                  : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
+                : ''}
+            </FormHelperText>
+            <TextField
+              sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              focused
+              color="color2"
+              autoFocus
+              label="비밀번호 확인"
+              type="password"
+              value={pwdCheck}
+              onChange={pwdCheckChange}
+              fullWidth
+              variant="standard"
+              placeholder="비밀번호 확인"
+              inputProps={{
+                maxLength: 16
+              }}
+            />
+            <FormHelperText error={!!pwdCheck && !isPwdSame}>
+              {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
+            </FormHelperText>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleClose(2)}
+              color="color2"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handlePassword}
+              disabled={!isPwdValid || !isPwdSame}
+              color="color2"
+              variant="contained"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              변경하기
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* 주소 변경 모달 */}
+        <Dialog open={openAddress} onClose={() => handleClose(3)}>
+          <Address
+            AddressFunc={AddressFunc}
+            handleClose={handleClose}
+            type="change"
+          />
+        </Dialog>
+
+        {/* 회원 탈퇴 모달 */}
+        <Dialog open={openDelete} onClose={() => handleClose(5)}>
+          <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+            회원 탈퇴
+          </DialogTitle>
+          <DialogContent sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
+            정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleClose(5)}
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handleDelete}
+              color="color0"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              탈퇴
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* CLN 충전 모달 */}
+        <Dialog
+          open={openCharge}
+          onClose={() => handleClose(4)}
+          sx={{ zIndex: 3 }}>
+          <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+            클린 충전하기
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ fontSize: 'medium' }}>
+              지갑 비밀번호와 충전할 금액을 입력해주세요.
+            </DialogContentText>
+            <TextField
+              sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              focused
+              color="color1"
+              autoFocus
+              label="지갑 비밀번호"
+              value={walletPassword}
+              onChange={walletPasswordChange}
+              type="password"
+              fullWidth
+              variant="standard"
+              placeholder="지갑 비밀번호"
+            />
+            <TextField
+              sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              focused
+              color="color1"
+              autoFocus
+              label="충전할 금액"
+              type="number"
+              value={chargeAmount ? chargeAmount : ''}
+              onChange={chargeAmountChange}
+              fullWidth
+              variant="standard"
+              placeholder="충전할 금액"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => handleClose(4)}
+              color="color1"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={handleCharge}
+              color="color1"
+              variant="contained"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              충전하기
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
-
-      {/* 닉네임 변경 모달 */}
-      <Dialog open={openNickname} onClose={() => handleClose(1)}>
-        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
-          닉네임 변경하기
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
-            변경할 닉네임을 입력해주세요.
-          </DialogContentText>
-          <TextField
-            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            focused
-            color="color2"
-            autoFocus
-            label="닉네임"
-            value={nickName}
-            onChange={nickNameChange}
-            fullWidth
-            variant="standard"
-            placeholder="닉네임을 입력하세요."
-            inputProps={{
-              maxLength: 20
-            }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleClose(1)}
-            color="color2"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            취소
-          </Button>
-          <Button
-            onClick={handleNickname}
-            color="color2"
-            variant="contained"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            변경하기
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* 비밀번호 변경 모달 */}
-      <Dialog open={openPassword} onClose={() => handleClose(2)}>
-        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
-          비밀번호 변경하기
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
-            변경할 비밀번호을 입력해주세요.
-          </DialogContentText>
-          <TextField
-            sx={{ mt: 3, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            focused
-            color="color2"
-            autoFocus
-            // margin="dense"
-            label="비밀번호"
-            type="password"
-            value={pwd}
-            onChange={pwdChange}
-            fullWidth
-            variant="standard"
-            placeholder="비밀번호"
-            inputProps={{
-              maxLength: 16
-            }}
-          />
-          <FormHelperText error={!!pwd && !isPwdValid}>
-            {pwd
-              ? isPwdValid
-                ? '안전한 비밀번호입니다.'
-                : '영문 + 숫자 조합으로 8~16자로 설정해주세요.'
-              : ''}
-          </FormHelperText>
-          <TextField
-            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            focused
-            color="color2"
-            autoFocus
-            label="비밀번호 확인"
-            type="password"
-            value={pwdCheck}
-            onChange={pwdCheckChange}
-            fullWidth
-            variant="standard"
-            placeholder="비밀번호 확인"
-            inputProps={{
-              maxLength: 16
-            }}
-          />
-          <FormHelperText error={!!pwdCheck && !isPwdSame}>
-            {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
-          </FormHelperText>
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleClose(2)}
-            color="color2"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            취소
-          </Button>
-          <Button
-            onClick={handlePassword}
-            disabled={!isPwdValid || !isPwdSame}
-            color="color2"
-            variant="contained"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            변경하기
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* 주소 변경 모달 */}
-      <Dialog open={openAddress} onClose={() => handleClose(3)}>
-        <Address
-          AddressFunc={AddressFunc}
-          handleClose={handleClose}
-          type="change"
-        />
-      </Dialog>
-
-      {/* 회원 탈퇴 모달 */}
-      <Dialog open={openDelete} onClose={() => handleClose(5)}>
-        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
-          회원 탈퇴
-        </DialogTitle>
-        <DialogContent sx={{ fontSize: 'medium', fontWeight: 'bold' }}>
-          정말로 탈퇴하시겠습니까? 탈퇴 이후 정보는 되돌릴 수 없습니다.
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleClose(5)}
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            취소
-          </Button>
-          <Button
-            onClick={handleDelete}
-            color="color0"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            탈퇴
-          </Button>
-        </DialogActions>
-      </Dialog>
-
-      {/* CLN 충전 모달 */}
-      <Dialog
-        open={openCharge}
-        onClose={() => handleClose(4)}
-        sx={{ zIndex: 3 }}>
-        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
-          클린 충전하기
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ fontSize: 'medium' }}>
-            지갑 비밀번호와 충전할 금액을 입력해주세요.
-          </DialogContentText>
-          <TextField
-            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            focused
-            color="color1"
-            autoFocus
-            label="지갑 비밀번호"
-            value={walletPassword}
-            onChange={walletPasswordChange}
-            type="password"
-            fullWidth
-            variant="standard"
-            placeholder="지갑 비밀번호"
-          />
-          <TextField
-            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            focused
-            color="color1"
-            autoFocus
-            label="충전할 금액"
-            type="number"
-            value={chargeAmount ? chargeAmount : ''}
-            onChange={chargeAmountChange}
-            fullWidth
-            variant="standard"
-            placeholder="충전할 금액"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => handleClose(4)}
-            color="color1"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            취소
-          </Button>
-          <Button
-            onClick={handleCharge}
-            color="color1"
-            variant="contained"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            충전하기
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
