@@ -30,6 +30,7 @@ import {
   sendClean,
   unlockAccount
 } from '../../../store/actions/services/walletService';
+import Swal from 'sweetalert2';
 
 const CeoOrderDetail = () => {
   const navigate = useNavigate();
@@ -149,7 +150,11 @@ const CeoOrderDetail = () => {
     if (currentState === 0) {
       const check = await unlockAccount(userInfo.wallet, walletPassword);
       if (!check) {
-        alert('비밀번호가 틀립니다');
+        Swal.fire({
+          width: 200,
+          icon: 'error',
+          text: '비밀번호가 틀립니다'
+        });
         setWalletPassword('');
         setOpenCheckPassword(false);
         return;
@@ -161,13 +166,21 @@ const CeoOrderDetail = () => {
         fromAddr.price
       );
       if (!result) {
-        alert('결제 오류 발생');
+        Swal.fire({
+          width: 200,
+          icon: 'error',
+          text: '결제 오류 발생'
+        });
         navigate('/error');
         return;
       }
       const balance = await getBalance(userInfo.wallet);
       if (!balance) {
-        alert('결제 오류 발생');
+        Swal.fire({
+          width: 200,
+          icon: 'error',
+          text: '결제 오류 발생'
+        });
         navigate('/error');
         return;
       }
@@ -177,7 +190,11 @@ const CeoOrderDetail = () => {
       const DBbalance = await balanceUpdate(balanceInfo);
 
       if (!DBbalance) {
-        alert('결제 오류 발생');
+        Swal.fire({
+          width: 200,
+          icon: 'error',
+          text: '결제 오류 발생'
+        });
         navigate('/error');
         return;
       }

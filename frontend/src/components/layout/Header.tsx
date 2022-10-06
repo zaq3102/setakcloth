@@ -1,21 +1,30 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { LOGOUT } from '../../store/actions/types/types';
 import { logoutRequest } from '../../store/actions/services/userService';
 import Logo from './Logo';
+import Swal from 'sweetalert2';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch();
   const token = Boolean(useSelector((state) => state.user.token));
   const loginType = useSelector((state) => state.user.loginType);
   const linkTO = ['/customer', '/ceo'];
+  const navigate = useNavigate();
 
   const onLogoutHandler = () => {
-    logoutRequest();
-    dispatch({
-      type: LOGOUT
+    Swal.fire({
+      width: 200,
+      icon: 'question',
+      text: '정말 로그아웃 하시겠습니까?'
+    }).then(function () {
+      navigate('/');
+      logoutRequest();
+      dispatch({
+        type: LOGOUT
+      });
     });
   };
 
@@ -36,16 +45,16 @@ const Header: React.FC = () => {
       <div className="Login-Space">
         {token ? (
           <div>
-            <Link to="/">
-              <Button
-                size="small"
-                color="color1"
-                variant="outlined"
-                disableElevation
-                onClick={onLogoutHandler}>
-                Logout
-              </Button>
-            </Link>
+            {/* <Link to="/"> */}
+            <Button
+              size="small"
+              color="color1"
+              variant="outlined"
+              disableElevation
+              onClick={onLogoutHandler}>
+              Logout
+            </Button>
+            {/* </Link> */}
             <span>&nbsp;&nbsp;</span>
             {loginType === 0 ? (
               <Link to="/customer/mypage">
