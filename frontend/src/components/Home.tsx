@@ -34,7 +34,7 @@ const Home: React.FC = () => {
       <div className="mockup">
         <img
           className="mockup-img"
-          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/blockchain.png"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/f625ab02-f115-43e7-9820-45913c252060_main-blockchain.png"
           alt="mockup0"
         />
         <div className="mockup-title">
@@ -62,14 +62,14 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/cloth-van.png"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/1cff8c0c-753c-4b7e-aa37-d48b530547fc_main-laundry-deliver.png"
           alt="mockup2"
         />
       </div>
       <div className="mockup">
         <img
           className="mockup-img"
-          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/washing-machine-border.png"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/387bb5e0-e583-4cfa-bb55-d1495d0e2b88_shiny-laundry.png"
           alt="mockup1"
         />
         <div className="mockup-title">
@@ -100,7 +100,7 @@ const Home: React.FC = () => {
         </div>
         <img
           className="mockup-img"
-          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry-info-icon.png"
+          src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/a44a3f53-448e-4fac-80ea-ddf9c71e1ad0_main-laundry-info.png"
           alt="mockup3"
         />
       </div>
