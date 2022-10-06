@@ -38,7 +38,6 @@ import {
   balanceUpdate
 } from '../../../store/actions/services/userService';
 import Swal from 'sweetalert2';
-import { ClassNames } from '@emotion/react';
 
 const CtmLaundryDetailTemp = () => {
   const [laundry, setLaundry] = useState([]);
@@ -269,7 +268,7 @@ const CtmLaundryDetailTemp = () => {
       <div className="ctm-laundry-card">
         <Card>
           <CardContent
-            sx={{ width: 1, height: 1, paddingRight: 3, paddingLeft: 5 }}>
+            sx={{ width: 1, height: 1, paddingRight: 1, paddingLeft: 2 }}>
             <Chip
               className="ctm-laundry-chip"
               size="medium"
@@ -444,7 +443,7 @@ const CtmLaundryDetailTemp = () => {
               <Box
                 borderRadius={1}
                 sx={{
-                  width: '51vh',
+                  width: '330px',
                   height: '25vh',
                   backgroundColor: '#E0EBF5'
                 }}>

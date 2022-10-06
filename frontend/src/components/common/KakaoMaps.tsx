@@ -28,7 +28,7 @@ const KakaoMaps = (props) => {
     <div
       id="map"
       style={{
-        width: '51vh',
+        width: '330px',
         height: '20vh'
       }}
     />
