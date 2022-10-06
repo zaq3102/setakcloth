@@ -191,7 +191,15 @@ const CtmHome: React.FC = () => {
             }}
             onClick={() => onclicklaundry(item.laundryId)}>
             <div className="item-content-left">
-              <CardMedia id="cardImg" component="img" image={item.imgUrl} />
+              <CardMedia
+                id="cardImg"
+                component="img"
+                image={
+                  item.imgUrl
+                    ? item.imgUrl
+                    : 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/fcf639ab-acd0-4d92-aa2c-562d7e7f1545_lndry.png'
+                }
+              />
             </div>
             {/* image={item.imgUrl} /> */}
             <CardContent sx={{ p: 1 }} id="item-content-right">
