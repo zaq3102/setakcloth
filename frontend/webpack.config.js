@@ -36,7 +36,11 @@ module.exports = {
       //   type: 'asset/resource'
       // },
       {
-        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
+        test: /\.woff/,
+        loader: 'url-loader?limit=100000&mimetype=application/font-woff'
+      },
+      {
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf?)(\?v=\d+\.\d+\.\d+)?$/i,
         type: 'asset/resource',
         use: [
           {
