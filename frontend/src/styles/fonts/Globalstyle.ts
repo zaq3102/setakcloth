@@ -10,7 +10,7 @@ export default createGlobalStyle`
         font-size: 1vw;
     }
     body{
-        font-family: "Font_Nanum1";
+        font-family: "BMDOHYEON_ttf";
     }
     a{
         color: inherit;
