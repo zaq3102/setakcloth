@@ -290,9 +290,13 @@ $color4-2: #e1f0ec;
   flex-direction: column;
 }
 
+.upload-photo-imgs {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 .upload-photo-img {
   align-self: center;
-  margin-right: 1px;
   margin-bottom: 1vh;
 }
 

@@ -82,18 +82,20 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
         사진 업로드하기
       </DialogTitle>
       <div className="upload-photo">
-        {imageUrlLists.length > 0 ? (
-          imageUrlLists.map((url) => (
-            <img
-              src={url}
-              alt="uploaded"
-              width="100"
-              className="upload-photo-img"
-            />
-          ))
-        ) : (
-          <></>
-        )}
+        <div className="upload-photo-imgs">
+          {imageUrlLists.length > 0 ? (
+            imageUrlLists.map((url) => (
+              <img
+                src={url}
+                alt="uploaded"
+                width="100"
+                className="upload-photo-img"
+              />
+            ))
+          ) : (
+            <></>
+          )}
+        </div>
         <Button
           variant="contained"
           color="color2_2"
@@ -123,11 +125,8 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
         </>
       ) : (
         <>
-          <DialogContent>
-            한번 사진이 등록되면,
-            <br />
-            <br />
-            수정이 불가하니 신중하게 등록해주세요.
+          <DialogContent sx={{ lineHeight: 'normal', color: 'color0' }}>
+            한번 사진이 등록되면, 수정이 불가하니 신중하게 등록해주세요.
           </DialogContent>
           <input
             type="file"
