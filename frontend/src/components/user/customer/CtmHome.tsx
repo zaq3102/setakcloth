@@ -71,7 +71,7 @@ const CtmHome: React.FC = () => {
         result = await LaundryLikeRequest();
         break;
       default: // 초기 값, 최신순
-        result = await LaundryLatestRequest();
+        result = await LaundryDistRequest();
         break;
     }
     if (result?.data?.laundries) {
@@ -105,24 +105,23 @@ const CtmHome: React.FC = () => {
     <div>
       {/* 주소 */}
       <div className="ctm-home">
-        <div className="ctm-address-area">
-          <div className="my-address-title">
-            <Chip
-              size="small"
-              color="color5"
-              label="우리집"
-              variant="outlined"
-            />
-          </div>
-          <div className="my-address-content">{myaddress}</div>
-          <Button
-            sx={{ minWidth: 5 }}
-            className="address-modify-btn"
-            onClick={() => setOpenAddress(true)}>
-            <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color5" />
-          </Button>
-        </div>
-
+        <div className="ctm-address-area">세탁소 전체조회</div>
+      </div>
+      <Box sx={{ fontSize: 'small', alignI: 'center' }}>
+        <Chip
+          sx={{ mr: 1 }}
+          size="small"
+          color="color1"
+          label="우리집"
+          variant="outlined"
+        />
+        {myaddress}
+        <Button
+          sx={{ minWidth: 5 }}
+          className="address-modify-btn"
+          onClick={() => setOpenAddress(true)}>
+          <ModeEditOutlineOutlinedIcon sx={{ fontSize: 20 }} color="color1" />
+        </Button>
         {/* 주소 변경 모달 */}
         <Dialog open={openAddress} onClose={handleClose}>
           <Address
@@ -131,13 +130,16 @@ const CtmHome: React.FC = () => {
             type="change"
           />
         </Dialog>
-      </div>
+      </Box>
 
       {/* 정렬 선택 */}
-      <div className="select-area">
+      <Box sx={{ textAlign: 'right' }}>
         <FormControl
+          size="small"
           sx={{
             m: 0,
+            mb: 1,
+            mt: 1,
             p: 0,
             minWidth: 120
           }}
@@ -175,7 +177,7 @@ const CtmHome: React.FC = () => {
             </MenuItem>
           </Select>
         </FormControl>
-      </div>
+      </Box>
 
       {/* 최신 세탁소 5개 리스트 */}
       <div className="latest-list-area">

@@ -44,57 +44,72 @@ const CtmOrderList = () => {
 
   content = (
     <>
-      {orderTempList.map((order) => (
-        <Card
-          sx={{
-            boxShadow: '0 8px 15px -10px rgba(0,0,0,0.3)',
-            borderRadius: 2
-          }}
-          className="ctm-orderlist-card">
-          <Link to={`../order/${order.orderId}`} key={order.orderId}>
-            <div className="ctm-orderlist-card-content">
-              <div className="ctm-orderlist-card-img">
-                {/* <Chip
+      {orderTempList
+        // .sort((a, b) => a.date - b.date)
+        .sort((a, b) => {
+          return (
+            new Date(a.scheduled_for).getTime() -
+            new Date(b.scheduled_for).getTime()
+          );
+        })
+        .reverse()
+        .map((order) => (
+          <Card
+            sx={{
+              boxShadow: '0 8px 15px -10px rgba(0,0,0,0.3)',
+              borderRadius: 2
+            }}
+            className="ctm-orderlist-card">
+            <Link to={`../order/${order.orderId}`} key={order.orderId}>
+              <div className="ctm-orderlist-card-content">
+                <div className="ctm-orderlist-card-img">
+                  {/* <Chip
                   label={stateText[order.state]}
                   variant="outlined"
                   size="small"
                   color="color1"
                 /> */}
-                <CardMedia
-                  component="img"
-                  image={
-                    order.state == 0
-                      ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/dirty-clothes.png'
-                      : order.state == 1
-                      ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/washing-machine.png'
-                      : order.state == 2
-                      ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry-basket.png'
-                      : 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/receipt.png'
-                  }
-                  alt="img"
-                />
-              </div>
+                  <CardMedia
+                    component="img"
+                    image={
+                      order.state == 0
+                        ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/dirty-clothes.png'
+                        : order.state == 1
+                        ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/washing-machine.png'
+                        : order.state == 2
+                        ? 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry-basket.png'
+                        : 'https://setakcloth.s3.ap-northeast-2.amazonaws.com/receipt.png'
+                    }
+                    alt="img"
+                  />
+                </div>
 
-              <CardContent
-                sx={{ lineHeight: 1.5, fontSize: 'small', p: 0 }}
-                className="ctm-orderlist-card-info">
-                <Box
-                  sx={{
-                    // textAlign: 'center',
-                    fontWeight: 'bold',
-                    mt: 1,
-                    mb: 1
-                  }}>
-                  {stateText[order.state]}
-                </Box>
-                <div>주문 세탁소 : {order.laundryName}</div>
-                <div>총 주문 금액 : {order.totalPrice}</div>
-                <div>수령 방법 : {order.orderType}</div>
-              </CardContent>
-            </div>
-          </Link>
-        </Card>
-      ))}
+                <CardContent
+                  sx={{ lineHeight: 1.5, fontSize: 'small', p: 0 }}
+                  className="ctm-orderlist-card-info">
+                  <Box
+                    sx={{
+                      fontWeight: 'bold',
+                      mt: 1
+                    }}>
+                    {stateText[order.state]}
+                  </Box>
+                  <Box
+                    sx={{
+                      fontSize: 'smaller',
+                      color: '#929292',
+                      mb: 1
+                    }}>
+                    주문날짜: {order.date.substring(0, 16)}
+                  </Box>
+                  <div>주문 세탁소 : {order.laundryName}</div>
+                  <div>총 주문 금액 : {order.totalPrice}</div>
+                  <div>수령 방법 : {order.orderType}</div>
+                </CardContent>
+              </div>
+            </Link>
+          </Card>
+        ))}
     </>
   );
 
