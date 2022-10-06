@@ -68,3 +68,48 @@ $color4-2: #e1f0ec;
     height: 2rem;
   }
 }
+
+// footer.tsx
+
+.footer-box {
+  display: flex;
+  flex-direction: row;
+  // border-top: 0.1px solid $color4;
+  background-color: #f1f3f5;
+  padding-top: 2.5vh;
+  padding-right: 7vh;
+  padding-left: 5vh;
+  padding-bottom: 2.5vh;
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 30%;
+  margin-right: 1vh;
+}
+
+.footer-title {
+  width: 8vh;
+}
+
+
+.footer-right {
+  width: 70%;
+  display: flex;
+  flex-direction: rows;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-bold {
+  font-size: smaller;
+  font-weight: bold;
+}
+
+.footer-content {
+  margin-top: 10px;
+  font-size: xx-small;
+  color: grey;
+}
