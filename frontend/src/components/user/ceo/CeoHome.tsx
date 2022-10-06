@@ -164,7 +164,6 @@ const CeoHome: React.FC = () => {
       setState1(list.filter((order) => order.state === 1));
       setState2(list.filter((order) => order.state === 2));
       setState3(list.filter((order) => order.state === 3));
-      console.log(list);
     } else {
       navigate('/error');
     }
@@ -175,6 +174,15 @@ const CeoHome: React.FC = () => {
       getList();
     }
   }, []);
+
+  // if (orderList.length === 0) {
+  //   Swal.fire({
+  //     width: 200,
+  //     icon: 'question',
+  //     text: '등록된 주문이 없어 마이페이지로 이동합니다'
+  //   });
+  //   navigate('/ceo/mypage');
+  // }
 
   return (
     <div>

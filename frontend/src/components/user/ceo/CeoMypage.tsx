@@ -102,7 +102,6 @@ const CeoMypage: React.FC = () => {
 
   const getMyLaundry = async () => {
     const result = await myLaundryRequest();
-    console.log(result);
     if (result?.payload?.data?.laundries.length === 0) {
       Swal.fire({
         width: 400,
