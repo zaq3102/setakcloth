@@ -32,7 +32,7 @@ module.exports = {
       },
       {
         test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
-        loader: 'file-loader',
+        use: ['file-loader', 'link-loader'],
         options: {
           name: '[name].[ext]'
         }
