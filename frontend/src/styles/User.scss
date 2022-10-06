@@ -283,3 +283,20 @@ $color4-2: #e1f0ec;
   margin-top: 20px;
   padding: 16px;
 }
+
+// UploadPhoto.tsx
+.upload-photo {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-photo-img {
+  align-self: center;
+  margin-right: 1px;
+  margin-bottom: 1vh;
+}
+
+.upload-photo-button {
+  align-self: center;
+  width: 20vh;
+}

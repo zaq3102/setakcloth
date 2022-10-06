@@ -81,12 +81,27 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
       <DialogTitle sx={{ fontSize: 'x-large', fontWeight: 'bold' }}>
         사진 업로드하기
       </DialogTitle>
-      <DialogContent>
-        한번 사진이 등록되면,
-        <br />
-        <br />
-        수정이 불가하니 신중하게 등록해주세요.
-      </DialogContent>
+      <div className="upload-photo">
+        {imageUrlLists.length > 0 ? (
+          imageUrlLists.map((url) => (
+            <img
+              src={url}
+              alt="uploaded"
+              width="100"
+              className="upload-photo-img"
+            />
+          ))
+        ) : (
+          <></>
+        )}
+        <Button
+          variant="contained"
+          color="color2_2"
+          onClick={onImgInputBtnClick}
+          className="upload-photo-button">
+          사진 업로드
+        </Button>
+      </div>
       {imgCnt === 1 ? (
         <>
           <input
@@ -108,6 +123,12 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
         </>
       ) : (
         <>
+          <DialogContent>
+            한번 사진이 등록되면,
+            <br />
+            <br />
+            수정이 불가하니 신중하게 등록해주세요.
+          </DialogContent>
           <input
             type="file"
             accept="image/*"
@@ -133,16 +154,6 @@ const UploadPhoto: React.FC = ({ changeImageSrc, handleClose, imgCnt, id }) => {
           </DialogActions>
         </>
       )}
-
-      <br />
-      {imageUrlLists.length > 0 ? (
-        imageUrlLists.map((url) => <img src={url} alt="uploaded" width="100" />)
-      ) : (
-        <></>
-      )}
-      <Button variant="contained" color="color2_2" onClick={onImgInputBtnClick}>
-        사진 업로드
-      </Button>
     </div>
   );
 };
