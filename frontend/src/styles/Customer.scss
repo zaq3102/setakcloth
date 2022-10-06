@@ -195,12 +195,17 @@ $color4-2: #e1f0ec;
   font-size: small;
 }
 
+.ctm-wallet-addr {
+  margin-top: 3rem;
+  font-size: smaller;
+}
+
 .ctm-mypage-card {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
   background-color: $color4;
-  width: 70rem;
+  width: 80%;
   height: 35rem;
   margin-top: 10rem;
   border-radius: 2rem;
@@ -229,7 +234,7 @@ $color4-2: #e1f0ec;
 .ctm-mypage-box-warn {
   align-self: center;
   border-radius: 1rem;
-  width: 65rem;
+  width: 95%;
   background-color: $color5;
   margin-top: 3rem;
   margin-bottom: 2rem;

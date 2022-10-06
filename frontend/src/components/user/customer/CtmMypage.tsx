@@ -69,6 +69,7 @@ const CtmMypage = () => {
 
   const [walletPassword, setWalletPassword] = useState('');
   const [chargeAmount, setchargeAmount] = useState<number>(0);
+  const [walletAddress, setWalletAddress] = useState('');
 
   // 비밀번호 변경 시 새로운 비밀번호 유효성 검사 및 일치 확인
   const [pwd, setPwd] = useState('');
@@ -147,6 +148,8 @@ const CtmMypage = () => {
       );
       setmynickname(result?.data?.userInfo?.nickName);
       setClean(result?.data?.userInfo?.balance);
+      setWalletAddress(result?.data?.userInfo?.wallet);
+      console.log(result);
     } else {
       navigate('/error');
     }
@@ -361,7 +364,7 @@ const CtmMypage = () => {
       <div className="ctm-mypage-nickname">{mynickname}</div>
       <div className="ctm-mypage-email">{userInfo.userEmail}</div>
       <div className="ctm-mypage-addr">{myaddress}</div>
-
+      {/* <div className="ctm-wallet-addr">지갑 주소 : {walletAddress}</div> */}
       <Box boxShadow={0} className="ctm-mypage-card">
         <div className="ctm-mypage-card-title">
           <div className="ctm-mypage-card-label">지갑 잔액</div>
@@ -376,9 +379,7 @@ const CtmMypage = () => {
         </div>
         <div className="ctm-mypage-cln">{clean} CLN</div>
         <Box className="ctm-mypage-box-warn">
-          <div className="ctm-mypage-warn">
-            서비스 이용을 위해 클린을 충전해보세요!
-          </div>
+          <div className="ctm-mypage-warn">{walletAddress}</div>
         </Box>
       </Box>
 
@@ -586,7 +587,7 @@ const CtmMypage = () => {
             onChange={chargeAmountChange}
             fullWidth
             variant="standard"
-            placeholder="지갑 비밀번호 확인"
+            placeholder="충전할 금액"
           />
         </DialogContent>
         <DialogActions>
