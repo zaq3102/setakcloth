@@ -327,13 +327,14 @@ $color4-2: #e1f0ec;
 }
 
 .ctm-laundry-img {
-  width: 51vh;
-  height: 41vh;
+  margin-top: 15px;
+  width: 250px;
+  height: 250px;
 }
 
 .ctm-laundry-card {
   margin-top: 1vh;
-  width: 51vh;
+  width: 330px;
 }
 
 .ctm-laundry-chip {
@@ -400,12 +401,12 @@ $color4-2: #e1f0ec;
 
 .ctm-laundry-toggle {
   margin-top: 0.5vh;
-  width: 51vh;
+  width: 330px;
 }
 
 .ctm-laundry-toggle-tab {
   font-size: large;
-  width: 17vh;
+  width: 110px;
 }
 
 .css-1aquho2-MuiTabs-indicator {
@@ -423,7 +424,6 @@ $color4-2: #e1f0ec;
 .ctm-laundry-toggle-order {
   display: flex;
   flex-direction: column;
-  // align-items: center;
   justify-content: space-between;
 }
 
@@ -462,7 +462,7 @@ $color4-2: #e1f0ec;
   display: flex;
   justify-content: space-between;
   width: 90%;
-  margin: 1vh;
+  margin: 5px;
 }
 
 .laundrynum {
