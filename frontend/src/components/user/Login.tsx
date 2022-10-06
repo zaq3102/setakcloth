@@ -94,7 +94,7 @@ const Login: React.FC = () => {
 
   return (
     <div className="login-page">
-      <div className="login-type">
+      <div>
         {tabContArr.map(({ title }, idx) => (
           <Button
             variant="contained"
@@ -106,6 +106,7 @@ const Login: React.FC = () => {
               activeIndex === idx ? 'mode-selected' : 'mode-not-selected'
             }`}
             sx={{
+              fontStyle: 'bold',
               borderTopLeftRadius: '7px',
               borderTopRightRadius: '7px',
               borderBottomLeftRadius: '0px',
@@ -124,7 +125,8 @@ const Login: React.FC = () => {
           borderBottomLeftRadius: '7px',
           borderBottomRightRadius: '7px'
         }}>
-        <div className="signup-page">
+        <div className="login-type">
+          <Box sx={{ width: '90%', textAlign: 'left' }}>이메일</Box>
           <TextField
             margin="normal"
             required
@@ -133,7 +135,7 @@ const Login: React.FC = () => {
             value={email}
             onChange={emailChange}
             autoFocus
-            sx={{ width: '90%' }}
+            sx={{ width: '90%', margin: 1 }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 handleSubmit();
@@ -147,6 +149,7 @@ const Login: React.FC = () => {
                 : '유효하지 않은 이메일 형식입니다.'
               : ''}
           </FormHelperText>
+          <Box sx={{ width: '90%', textAlign: 'left', mt: 2 }}>비밀번호</Box>
           <TextField
             margin="normal"
             required
@@ -155,7 +158,7 @@ const Login: React.FC = () => {
             type="password"
             value={pwd}
             onChange={passwordChange}
-            sx={{ width: '90%' }}
+            sx={{ width: '90%', margin: 1 }}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 handleSubmit();
@@ -166,7 +169,12 @@ const Login: React.FC = () => {
           <div>
             <div>
               <Button
-                sx={{ padding: 0.3, mt: 1, md: 1, width: '120px' }}
+                sx={{
+                  padding: 0.3,
+                  mt: 1,
+                  md: 1,
+                  width: '120px'
+                }}
                 variant="outlined"
                 className="next-btn"
                 onClick={handleSubmit}
