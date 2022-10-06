@@ -251,10 +251,73 @@ $color4-2: #e1f0ec;
 }
 
 // CtmOrderDetail.tsx
+
+.order-detail-info-content-middle {
+  width: 100%;
+}
+.order-detail-info-content-state-chip {
+  display: flex;
+  justify-content: space-between;
+}
 .order-detail-info-content-state {
   color: $color2;
+  font-weight: bold;
+  font-size: medium;
 }
 
+.order-detail-info-content-orderId {
+  font-weight: bold;
+  font-size: medium;
+}
+
+.order-detail-info-content-userNickName {
+  font-size: small;
+  color: gray;
+}
+
+.order-detail-info-content-state {
+  font-size: small;
+  font-weight: bold;
+}
+
+.order-detail-info-content-orderTime {
+  font-size: smaller;
+  color: gray;
+}
+
+.order-detail-info-content-orderTime2 {
+  font-size: small;
+  color: gray;
+}
+
+.order-detail-info-content-addr {
+  font-size: smaller;
+  color: gray;
+}
+
+.order-detail-info-content-right {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.order-detail-info-content-total-list {
+  display: flex;
+}
+
+.order-detail-info-content-total-name {
+  font-size: small;
+  font-weight: bold;
+  margin-right: 3px;
+}
+.order-detail-info-content-total {
+  font-size: small;
+  font-weight: bold;
+}
+
+.order-detail-upload-text {
+  font-size: smaller;
+}
 // customerDetail
 .ctm-laundry-detail {
   display: flex;
