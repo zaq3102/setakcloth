@@ -467,6 +467,17 @@ const CeoMypage: React.FC = () => {
                 </Box>
                 <TabPanel value={value} index={0}>
                   <div className="ceo-laundry-toggle-order-items">
+                    <div className="ceo-mypage-item-add-button">
+                      <Button
+                        className="ceo-add-new-item-btn"
+                        onClick={() => setOpenItem(true)}
+                        focused
+                        variant="contained"
+                        color="color2_2"
+                        sx={{ marginRight: 3 }}>
+                        추가
+                      </Button>
+                    </div>
                     <List
                       sx={{
                         width: '51vh'
@@ -490,17 +501,6 @@ const CeoMypage: React.FC = () => {
                         </ListItem>
                       ))}
                     </List>
-                    <div className="ceo-mypage-item-add-button">
-                      <Button
-                        className="ceo-add-new-item-btn"
-                        onClick={() => setOpenItem(true)}
-                        focused
-                        variant="contained"
-                        color="color2_2"
-                        sx={{ marginRight: 3 }}>
-                        추가
-                      </Button>
-                    </div>
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
@@ -832,17 +832,18 @@ const CeoMypage: React.FC = () => {
         />
       </Dialog>
 
-      <Dialog open={openItem} onClose={() => handleClose(3)}>
-        <DialogTitle>새로운 품목 추가하기</DialogTitle>
+      <Dialog open={openItem} onClose={() => handleClose(3)} fullWidth>
+        <DialogTitle sx={{ fontWeight: 'bold' }}>
+          새로운 품목 추가하기
+        </DialogTitle>
         <TextField
-          sx={{ mt: 2, bgcolor: '#F8FFFD' }}
+          sx={{ bgcolor: '#F8FFFD', margin: 2 }}
           variant="filled"
           focused
           color="color2_2"
           required
           label="품목명"
           name="item-id"
-          fullWidth
           value={itemName}
           onChange={(event) => setItemName(event.target.value.trim())}
           placeholder="최대 10글자까지 작성할 수 있습니다."
@@ -851,7 +852,7 @@ const CeoMypage: React.FC = () => {
           }}
         />
         <TextField
-          sx={{ mt: 1, mb: 3, bgcolor: '#F8FFFD' }}
+          sx={{ bgcolor: '#F8FFFD', margin: 2 }}
           variant="filled"
           focused
           color="color2_2"
@@ -862,7 +863,6 @@ const CeoMypage: React.FC = () => {
           inputProps={{
             step: 1000
           }}
-          fullWidth
           value={itemPrice}
           onChange={(event) => setItemPrice(parseInt(event.target.value, 10))}
         />

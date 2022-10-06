@@ -373,6 +373,7 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-mypage-item-add-button {
+  width: 105%;
   display: flex;
   justify-content: flex-end;
 }
@@ -446,9 +447,11 @@ $color4-2: #e1f0ec;
 }
 
 @media (max-width: 700px) {
-  .order-detail {}
+  .order-detail {
+  }
 
-  .order-detail-header {}
+  .order-detail-header {
+  }
 
   .order-detail-header-text {
     margin-left: 5vh;
