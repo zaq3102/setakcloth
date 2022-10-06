@@ -34,6 +34,7 @@
     "redux-thunk": "^2.4.1",
     "styled-components": "^5.3.5",
     "styled-reset": "^4.4.2",
+    "sweetalert2": "^11.4.37",
     "web3": "^1.8.0",
     "web3-utils": "^1.8.0"
   },
