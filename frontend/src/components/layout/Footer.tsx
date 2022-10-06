@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, makeStyles, Typography, Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
 const Footer: React.FC = () => {
   return (
@@ -20,7 +20,7 @@ const Footer: React.FC = () => {
             </div>
             <div className="footer-right-2">
               <div className="footer-bold">Contact</div>
-              <div className="footer-content">재열이 번호</div>
+              <div className="footer-content">010)6613-3957</div>
             </div>
             <div className="footer-right-3">
               <div className="footer-bold">Creators</div>

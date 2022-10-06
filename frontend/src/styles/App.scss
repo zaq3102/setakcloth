@@ -12,6 +12,16 @@ $color4-2: #e1f0ec;
   text-align: center;
 }
 
+.setak-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.setak-content-wrap {
+  flex: 1;
+}
+
 .logo {
   display: flex;
   align-items: center;
@@ -74,7 +84,6 @@ $color4-2: #e1f0ec;
 .footer-box {
   display: flex;
   flex-direction: row;
-  // border-top: 0.1px solid $color4;
   background-color: #f1f3f5;
   padding-top: 2.5vh;
   padding-right: 7vh;
