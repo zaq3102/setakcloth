@@ -259,6 +259,9 @@ const CeoHome: React.FC = () => {
                 name="ceo-name"
                 fullWidth
                 value={ceoName}
+                inputProps={{
+                  maxLength: 10
+                }}
                 onChange={(event) => setCeoName(event.target.value.trim())}
               />
               <TextField
@@ -284,6 +287,9 @@ const CeoHome: React.FC = () => {
                 name="laundry-name"
                 fullWidth
                 value={laundryName}
+                inputProps={{
+                  maxLength: 20
+                }}
                 onChange={(event) => setLaundryName(event.target.value)}
               />
               <div className="address-item">
@@ -345,6 +351,9 @@ const CeoHome: React.FC = () => {
                 required
                 label="세탁소 전화번호"
                 fullWidth
+                inputProps={{
+                  maxLength: 15
+                }}
                 value={contact
                   .replace(/[^0-9]/g, '')
                   .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`)}
