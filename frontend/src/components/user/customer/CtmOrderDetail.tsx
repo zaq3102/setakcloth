@@ -291,6 +291,7 @@ const CtmOrderDetail = () => {
           </Stack>
           <TextField
             autoFocus
+            focused
             margin="dense"
             label="리뷰를 작성해주세요."
             value={content}
@@ -298,6 +299,10 @@ const CtmOrderDetail = () => {
             type="text"
             fullWidth
             variant="standard"
+            placeholder="리뷰를 작성해주세요."
+            inputProps={{
+              maxLength: 100
+            }}
           />
         </DialogContent>
         <DialogActions>

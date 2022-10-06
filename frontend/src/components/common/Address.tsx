@@ -93,6 +93,7 @@ const Address: React.FC = ({ AddressFunc, handleClose, type }) => {
         label="상세 주소 입력"
         fullWidth
         value={addrDetail}
+        placeholder="상세 주소를 입력하세요."
         onChange={addrDetailChange}
         // disabled
       />

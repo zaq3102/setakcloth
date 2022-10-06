@@ -396,6 +396,10 @@ const CtmMypage = () => {
             onChange={nickNameChange}
             fullWidth
             variant="standard"
+            placeholder="닉네임을 입력하세요."
+            inputProps={{
+              maxLength: 20
+            }}
           />
         </DialogContent>
         <DialogActions>
@@ -437,6 +441,10 @@ const CtmMypage = () => {
             onChange={pwdChange}
             fullWidth
             variant="standard"
+            placeholder="비밀번호"
+            inputProps={{
+              maxLength: 16
+            }}
           />
           <FormHelperText error={!!pwd && !isPwdValid}>
             {pwd
@@ -457,6 +465,10 @@ const CtmMypage = () => {
             onChange={pwdCheckChange}
             fullWidth
             variant="standard"
+            placeholder="비밀번호 확인"
+            inputProps={{
+              maxLength: 16
+            }}
           />
           <FormHelperText error={!!pwdCheck && !isPwdSame}>
             {!pwdCheck || isPwdSame ? ' ' : '비밀번호가 일치하지 않습니다.'}
@@ -533,6 +545,7 @@ const CtmMypage = () => {
             type="password"
             fullWidth
             variant="standard"
+            placeholder="지갑 비밀번호"
           />
           <TextField
             sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
@@ -546,6 +559,7 @@ const CtmMypage = () => {
             onChange={chargeAmountChange}
             fullWidth
             variant="standard"
+            placeholder="지갑 비밀번호 확인"
           />
         </DialogContent>
         <DialogActions>
