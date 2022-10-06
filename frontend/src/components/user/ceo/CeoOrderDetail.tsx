@@ -213,6 +213,7 @@ const CeoOrderDetail = () => {
         navigate('/error');
         return;
       }
+      setOpenCheckPassword(false);
     }
 
     const result = await changeState(orderNum);
@@ -234,6 +235,7 @@ const CeoOrderDetail = () => {
     } else {
       navigate('/error');
     }
+    setOpenCheckPassword(false);
   };
 
   const handleState = (value) => {
@@ -373,7 +375,7 @@ const CeoOrderDetail = () => {
                 <div className="order-detail-upload-info">
                   <>
                     {order[`blockAddr${currentState + 1}ImgUrls`].length ===
-                    0 ? (
+                      0 ? (
                       <div className="order-detail-upload-img">
                         사진을 업로드 해주세요.
                       </div>
@@ -400,7 +402,7 @@ const CeoOrderDetail = () => {
                     onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
                     disabled={
                       order[`blockAddr${currentState + 1}ImgUrls`].length !==
-                        0 || realState !== currentState
+                      0 || realState !== currentState
                     }>
                     사진 업로드
                   </Button>
