@@ -103,9 +103,8 @@ const CtmHome: React.FC = () => {
 
   return (
     <div>
-      {/* 주소 */}
-      <div className="ctm-home">
-        <div className="ctm-address-area">세탁소 전체조회</div>
+      <div className="ctm-title-bar">
+        <div className="ctm-title-text">전체 세탁소 목록</div>
       </div>
       {/* <Box sx={{ fontSize: 'small', alignI: 'center' }}>      </Box> */}
       <div className="ctm-address-box-outer">

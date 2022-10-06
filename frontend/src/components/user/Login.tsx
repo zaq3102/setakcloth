@@ -66,7 +66,8 @@ const Login: React.FC = () => {
       Swal.fire({
         width: 200,
         icon: 'error',
-        text: '로그인에 실패하였습니다!'
+        text: '로그인에 실패하였습니다!',
+        confirmButtonColor: '#1e3e5c'
       });
     }
   };

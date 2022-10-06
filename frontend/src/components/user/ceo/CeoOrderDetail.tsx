@@ -166,9 +166,10 @@ const CeoOrderDetail = () => {
       const check = await unlockAccount(userInfo.wallet, walletPassword);
       if (!check) {
         Swal.fire({
-          width: 200,
+          width: 400,
           icon: 'error',
-          text: '비밀번호가 틀립니다'
+          text: '비밀번호가 틀립니다',
+          confirmButtonColor: '#1e3e5c'
         });
         setWalletPassword('');
         setOpenCheckPassword(false);
@@ -182,9 +183,10 @@ const CeoOrderDetail = () => {
       );
       if (!result) {
         Swal.fire({
-          width: 200,
+          width: 400,
           icon: 'error',
-          text: '결제 오류 발생'
+          text: '결제 오류 발생',
+          confirmButtonColor: '#1e3e5c'
         });
         navigate('/error');
         return;
@@ -192,9 +194,10 @@ const CeoOrderDetail = () => {
       const balance = await getBalance(userInfo.wallet);
       if (!balance) {
         Swal.fire({
-          width: 200,
+          width: 400,
           icon: 'error',
-          text: '결제 오류 발생'
+          text: '결제 오류 발생',
+          confirmButtonColor: '#1e3e5c'
         });
         navigate('/error');
         return;
@@ -206,9 +209,10 @@ const CeoOrderDetail = () => {
 
       if (!DBbalance) {
         Swal.fire({
-          width: 200,
+          width: 400,
           icon: 'error',
-          text: '결제 오류 발생'
+          text: '결제 오류 발생',
+          confirmButtonColor: '#1e3e5c'
         });
         navigate('/error');
         return;
@@ -247,267 +251,271 @@ const CeoOrderDetail = () => {
   };
 
   return (
-    <div className="order-detail">
-      <div className="order-detail-header">
-        <div className="order-detail-header-text">주문 상세 보기</div>
+    <div>
+      <div className="ceo-title-bar">
+        <div className="ceo-title-text">주문 상세 보기</div>
       </div>
-      <div className="order-detail-info">
-        <CardMedia
-          image={stateImages[realState]}
-          className="order-detail-info-img"
-        />
-        <CardContent className="order-detail-info-content-middle">
-          <div className="order-detail-info-content-orderId">
-            [주문 번호 : {orderInfo.orderId}]
-          </div>
-          <div className="order-detail-info-content-userNickName">
-            주문자 : {orderInfo.userNickName}
-          </div>
-          <div className="order-detail-info-content-orderTime2">
-            주문 시간 : {orderInfo?.date?.slice(0, 19)}
-          </div>
-          {orderInfo.orderType === 'DELIVERY' ? (
-            <div className="order-detail-info-content-addr">
-              배달 주소 : {orderInfo.userAddr} {orderInfo.userAddrDetail}
+      <div className="order-detail">
+        <div className="order-detail-info">
+          <CardMedia
+            image={stateImages[realState]}
+            className="order-detail-info-img"
+          />
+          <CardContent className="order-detail-info-content-middle">
+            <div className="order-detail-info-content-orderId">
+              [주문 번호 : {orderInfo.orderId}]
             </div>
-          ) : (
-            <></>
-          )}
-          <div className="order-detail-info-content-total-list">
-            <div className="order-detail-info-content-total-name">
-              주문 항목 :
+            <div className="order-detail-info-content-userNickName">
+              주문자 : {orderInfo.userNickName}
             </div>
-            <div className="order-detail-info-items">
-              <div>{itemList.join(', ')}</div>
+            <div className="order-detail-info-content-orderTime2">
+              주문 시간 : {orderInfo?.date?.slice(0, 19)}
             </div>
-          </div>
-        </CardContent>
-        <CardContent className="order-detail-info-content-right">
-          {orderInfo.orderType === 'DELIVERY' ? (
-            <Chip
-              className="order-detail-info-content-chip"
-              label="배달"
-              size="x-large"
-              color="color1"
-              variant="outlined"
-            />
-          ) : (
-            <Chip
-              className="order-detail-info-content-chip"
-              label="수거"
-              size="x-large"
-              color="color1"
-              variant="outlined"
-            />
-          )}
-          {/* <div className="order-detail-info-content-total">
-            총 주문 금액 : {orderInfo.totalPrice} 클린
-          </div> */}
-          <div className="order-detail-info-content-total-list">
-            <div className="order-detail-info-content-total-name">
-              총 주문 금액 :
-            </div>
-            <span>&nbsp;</span>
-            <div className="order-detail-info-content-total">
-              {orderInfo.totalPrice} CLN
-            </div>
-          </div>
-        </CardContent>
-      </div>
-      <div className="order-detail-state">
-        <Stepper
-          nonLinear
-          activeStep={currentState}
-          className="order-detail-state-steps">
-          {modes.map((mode, index) => (
-            <Step key={mode} completed={completed[index]}>
-              <StepButton color="inherit" onClick={() => handleState(index)}>
-                {mode}
-              </StepButton>
-            </Step>
-          ))}
-        </Stepper>
-        {currentState < 3 ? (
-          <>
-            <div className="order-detail-state-steps-buttons">
-              {realState === 0 ? (
-                <Button
-                  variant="contained"
-                  color="color2_2"
-                  onClick={() => setOpenCheckPassword(true)}
-                  disabled={
-                    realState !== currentState || allUploaded.includes(false)
-                  }>
-                  저장 후 다음 단계
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="color2_2"
-                  onClick={nextState}
-                  disabled={
-                    realState !== currentState || allUploaded.includes(false)
-                  }>
-                  저장 후 다음 단계
-                </Button>
-              )}
-            </div>
-            {orderInfo?.orderType === 'PICKUP' && currentState === 2 ? (
-              <div className="order-detail-state-steps-warn">
-                고객이 수거 완료 시 버튼을 눌러주세요.
+            {orderInfo.orderType === 'DELIVERY' ? (
+              <div className="order-detail-info-content-addr">
+                배달 주소 : {orderInfo.userAddr} {orderInfo.userAddrDetail}
               </div>
             ) : (
               <></>
             )}
-          </>
-        ) : (
-          <div className="order-detail-state-steps-warn">
-            모든 과정이 완료되었습니다.
-          </div>
-        )}
-      </div>
-      <div className="order-detail-upload">
-        {currentState < 2 ? (
-          <>
-            {orderDetail.map((order, idx1) => (
-              <div key={idx1} className="order-detail-upload-item">
-                <div className="order-detail-upload-text">{order.name}</div>
-                <div className="order-detail-upload-info">
-                  <>
-                    {order[`blockAddr${currentState + 1}ImgUrls`].length ===
-                      0 ? (
-                      <div className="order-detail-upload-img">
-                        사진을 업로드 해주세요.
-                      </div>
-                    ) : (
-                      <>
-                        {order[`blockAddr${currentState + 1}ImgUrls`].map(
-                          (url: any, idx2: any) => (
-                            <img
-                              src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
-                              key={`img-${idx2}`}
-                              alt={`img-${idx2}`}
-                              className="order-detail-upload-img"
-                            />
-                          )
-                        )}
-                      </>
-                    )}
-                  </>
-                </div>
-                <div className="order-detail-upload-button">
+            <div className="order-detail-info-content-total-list">
+              <div className="order-detail-info-content-total-name">
+                주문 항목 :
+              </div>
+              <div className="order-detail-info-items">
+                <div>{itemList.join(', ')}</div>
+              </div>
+            </div>
+          </CardContent>
+          <CardContent className="order-detail-info-content-right">
+            {orderInfo.orderType === 'DELIVERY' ? (
+              <Chip
+                className="order-detail-info-content-chip"
+                label="배달"
+                size="x-large"
+                color="color1"
+                variant="outlined"
+              />
+            ) : (
+              <Chip
+                className="order-detail-info-content-chip"
+                label="수거"
+                size="x-large"
+                color="color1"
+                variant="outlined"
+              />
+            )}
+            {/* <div className="order-detail-info-content-total">
+            총 주문 금액 : {orderInfo.totalPrice} 클린
+          </div> */}
+            <div className="order-detail-info-content-total-list">
+              <div className="order-detail-info-content-total-name">
+                총 주문 금액 :
+              </div>
+              <span>&nbsp;</span>
+              <div className="order-detail-info-content-total">
+                {orderInfo.totalPrice} CLN
+              </div>
+            </div>
+          </CardContent>
+        </div>
+        <div className="order-detail-state">
+          <Stepper
+            nonLinear
+            activeStep={currentState}
+            className="order-detail-state-steps">
+            {modes.map((mode, index) => (
+              <Step key={mode} completed={completed[index]}>
+                <StepButton color="inherit" onClick={() => handleState(index)}>
+                  {mode}
+                </StepButton>
+              </Step>
+            ))}
+          </Stepper>
+          {currentState < 3 ? (
+            <>
+              <div className="order-detail-state-steps-buttons">
+                {realState === 0 ? (
                   <Button
                     variant="contained"
                     color="color2_2"
-                    onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
+                    onClick={() => setOpenCheckPassword(true)}
                     disabled={
-                      order[`blockAddr${currentState + 1}ImgUrls`].length !==
-                      0 || realState !== currentState
+                      realState !== currentState || allUploaded.includes(false)
                     }>
-                    사진 업로드
+                    저장 후 다음 단계
                   </Button>
-                </div>
-              </div>
-            ))}
-          </>
-        ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
-          <div className="order-detail-upload-item">
-            <div className="order-detail-upload-text">배달 완료 사진</div>
-            <div className="order-detail-upload-info">
-              <>
-                {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
-                  .length === 0 ? (
-                  <div className="order-detail-upload-img">
-                    사진을 업로드 해주세요.
-                  </div>
                 ) : (
-                  <>
-                    {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`].map(
-                      (url: any, idx3: any) => (
+                  <Button
+                    variant="contained"
+                    color="color2_2"
+                    onClick={nextState}
+                    disabled={
+                      realState !== currentState || allUploaded.includes(false)
+                    }>
+                    저장 후 다음 단계
+                  </Button>
+                )}
+              </div>
+              {orderInfo?.orderType === 'PICKUP' && currentState === 2 ? (
+                <div className="order-detail-state-steps-warn">
+                  고객이 수거 완료 시 버튼을 눌러주세요.
+                </div>
+              ) : (
+                <></>
+              )}
+            </>
+          ) : (
+            <div className="order-detail-state-steps-warn">
+              모든 과정이 완료되었습니다.
+            </div>
+          )}
+        </div>
+        <div className="order-detail-upload">
+          {currentState < 2 ? (
+            <>
+              {orderDetail.map((order, idx1) => (
+                <div key={idx1} className="order-detail-upload-item">
+                  <div className="order-detail-upload-text">{order.name}</div>
+                  <div className="order-detail-upload-info">
+                    <>
+                      {order[`blockAddr${currentState + 1}ImgUrls`].length ===
+                      0 ? (
+                        <div className="order-detail-upload-img">
+                          사진을 업로드 해주세요.
+                        </div>
+                      ) : (
+                        <>
+                          {order[`blockAddr${currentState + 1}ImgUrls`].map(
+                            (url: any, idx2: any) => (
+                              <img
+                                src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
+                                key={`img-${idx2}`}
+                                alt={`img-${idx2}`}
+                                className="order-detail-upload-img"
+                              />
+                            )
+                          )}
+                        </>
+                      )}
+                    </>
+                  </div>
+                  <div className="order-detail-upload-button">
+                    <Button
+                      variant="contained"
+                      color="color2_2"
+                      onClick={() =>
+                        ImgUploadBtnClick(order.orderDetailId, idx1)
+                      }
+                      disabled={
+                        order[`blockAddr${currentState + 1}ImgUrls`].length !==
+                          0 || realState !== currentState
+                      }>
+                      사진 업로드
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </>
+          ) : currentState === 2 && orderInfo?.orderType === 'DELIVERY' ? (
+            <div className="order-detail-upload-item">
+              <div className="order-detail-upload-text">배달 완료 사진</div>
+              <div className="order-detail-upload-info">
+                <>
+                  {orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
+                    .length === 0 ? (
+                    <div className="order-detail-upload-img">
+                      사진을 업로드 해주세요.
+                    </div>
+                  ) : (
+                    <>
+                      {orderDetail[0][
+                        `blockAddr${currentState + 1}ImgUrls`
+                      ].map((url: any, idx3: any) => (
                         <img
                           src={`http://j7a706.p.ssafy.io/ipfs/${url}`}
                           key={`img-${idx3}`}
                           alt={`img-${idx3}`}
                           className="order-detail-upload-img"
                         />
-                      )
-                    )}
-                  </>
-                )}
-              </>
+                      ))}
+                    </>
+                  )}
+                </>
+              </div>
+              <div className="order-detail-upload-button">
+                <Button
+                  variant="contained"
+                  color="color2_2"
+                  onClick={() => ImgUploadBtnClick(orderNum, -1)}
+                  disabled={
+                    orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
+                      .length !== 0 || realState !== currentState
+                  }>
+                  사진 업로드
+                </Button>
+              </div>
             </div>
-            <div className="order-detail-upload-button">
-              <Button
-                variant="contained"
-                color="color2_2"
-                onClick={() => ImgUploadBtnClick(orderNum, -1)}
-                disabled={
-                  orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
-                    .length !== 0 || realState !== currentState
-                }>
-                사진 업로드
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <></>
-        )}
-      </div>
-      {/* 모달창 모음집 */}
-      <Dialog open={openImage} onClose={() => setOpenImage(false)}>
-        <UploadPhoto
-          changeImageSrc={changeImageSrc}
-          handleClose={() => setOpenImage(false)}
-          imgCnt={imgCnt}
-          id={orderDetailId}
-        />
-      </Dialog>
-
-      {/* 비밀번호 확인 모달 */}
-      <Dialog
-        open={openCheckPassword}
-        onClose={() => setOpenCheckPassword(false)}>
-        <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
-          지갑 비밀번호 확인
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText sx={{ fontSize: 'medium' }}>
-            지갑 비밀번호를 입력해주세요.
-          </DialogContentText>
-          <TextField
-            sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
-            variant="filled"
-            color="color1"
-            autoFocus
-            label="지갑 비밀번호"
-            value={walletPassword}
-            onChange={walletPasswordChange}
-            type="password"
-            fullWidth
-            variant="standard"
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                nextState();
-              }
-            }}
+          ) : (
+            <></>
+          )}
+        </div>
+        {/* 모달창 모음집 */}
+        <Dialog open={openImage} onClose={() => setOpenImage(false)}>
+          <UploadPhoto
+            changeImageSrc={changeImageSrc}
+            handleClose={() => setOpenImage(false)}
+            imgCnt={imgCnt}
+            id={orderDetailId}
           />
-        </DialogContent>
-        <DialogActions>
-          <Button
-            onClick={() => setOpenCheckPassword(false)}
-            color="color1"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            취소
-          </Button>
-          <Button
-            onClick={nextState}
-            color="color1"
-            variant="contained"
-            sx={{ fontSize: 'small', fontWeight: 'bold' }}>
-            확인
-          </Button>
-        </DialogActions>
-      </Dialog>
+        </Dialog>
+
+        {/* 비밀번호 확인 모달 */}
+        <Dialog
+          open={openCheckPassword}
+          onClose={() => setOpenCheckPassword(false)}>
+          <DialogTitle sx={{ fontSize: 'large', fontWeight: 'bold' }}>
+            지갑 비밀번호 확인
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText sx={{ fontSize: 'medium' }}>
+              지갑 비밀번호를 입력해주세요.
+            </DialogContentText>
+            <TextField
+              sx={{ mt: 2, mb: 1, bgcolor: '#F4FCFD' }}
+              variant="filled"
+              color="color1"
+              autoFocus
+              label="지갑 비밀번호"
+              value={walletPassword}
+              onChange={walletPasswordChange}
+              type="password"
+              fullWidth
+              variant="standard"
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  nextState();
+                }
+              }}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={() => setOpenCheckPassword(false)}
+              color="color1"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              취소
+            </Button>
+            <Button
+              onClick={nextState}
+              color="color1"
+              variant="contained"
+              sx={{ fontSize: 'small', fontWeight: 'bold' }}>
+              확인
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
     </div>
   );
 };

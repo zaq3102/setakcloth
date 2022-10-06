@@ -101,14 +101,21 @@ $color4-2: #e1f0ec;
 }
 
 // customer/CtmHome.tsx
-.ctm-home {
-  margin-bottom: 1vh;
+.ctm-title-bar {
+  margin-bottom: 2vh;
   width: 100%;
+  height: 4vh;
   display: flex;
   align-items: center;
   justify-content: start;
   background-color: #1e3e5c;
   color: white;
+}
+
+.ctm-title-text {
+  padding-left: 5%;
+  font-size: small;
+  font-weight: bold;
 }
 
 .select-area {
