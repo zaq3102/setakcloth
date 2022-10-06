@@ -93,7 +93,6 @@ $color4-2: #e1f0ec;
   flex-direction: column;
   margin: 20px;
   align-items: center;
-
 }
 
 .go-regist-button:hover {
@@ -135,7 +134,7 @@ $color4-2: #e1f0ec;
   margin: 25px;
   border-radius: 10px;
   width: 150px;
-  height: 150px
+  height: 150px;
 }
 
 .order-detail-info-content-middle {
@@ -282,12 +281,18 @@ $color4-2: #e1f0ec;
   font-weight: bold;
 }
 
+.ceo-mypage-card-label {
+  font-size: large;
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
 .ceo-mypage-box-warn {
   align-self: center;
   border-radius: 1rem;
-  width: 28rem;
+  width: 26rem;
   background-color: $color2-2;
-  margin-bottom: 0.1rem;
+  margin-bottom: 1rem;
 }
 
 .ceo-mypage-warn {
@@ -306,6 +311,43 @@ $color4-2: #e1f0ec;
   border: 0.3px solid $color2-2;
 }
 
+.ceo-laundry-title-space {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ceo-laundry-title {
+  margin-top: 1vh;
+  font-size: x-large;
+  font-weight: bold;
+}
+
+.ceo-laundry-addr {
+  margin-top: 1vh;
+  font-size: small;
+  color: grey;
+}
+
+.ceo-laundry-num {
+  margin-top: 0.5vh;
+  font-size: small;
+  color: grey;
+}
+
+.ceo-laundry-mincost {
+  margin-top: 0.5vh;
+  font-size: smaller;
+  color: grey;
+}
+
+.ceo-laundry-deliver {
+  margin-top: 0.5vh;
+  font-size: smaller;
+  color: grey;
+}
+
 .ceo-laundry-info-card {
   width: 30rem;
   line-height: 2rem;
@@ -321,6 +363,10 @@ $color4-2: #e1f0ec;
   width: 45rem;
 }
 
+.ceo-laundry-toggle-tab {
+  width: 33%;
+}
+
 .ceo-mypage-item-clean:hover {
   border-radius: 10px;
   background-color: $color4-2;
@@ -331,12 +377,61 @@ $color4-2: #e1f0ec;
   justify-content: flex-end;
 }
 
+.ceo-laundry-toggle-review-title {
+  font-size: medium;
+  font-weight: bold;
+}
+
+.ceo-laundry-toggle-review-star {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: small;
+  font-weight: bold;
+}
+
+.ceo-laundry-toggle-review-star-detail {
+  margin-right: 5px;
+}
+
+.ceo-laundry-toggle-review-cnt1 {
+  font-weight: bold;
+  font-size: medium;
+}
+
 .ceo-laundry-mypage-img {
   width: 30rem;
 }
 
 .ceo-laundry-my-review-img {
-  height: 40px;
+  align-self: center;
+  width: 6vh;
+  height: 6vh;
+  margin-right: 10px;
+}
+
+.ceo-laundry-my-review {
+  display: flex;
+  margin: 10px;
+}
+
+.ceo-laundry-my-review-nickname {
+  font-weight: bold;
+  font-size: small;
+}
+
+.ceo-laundry-my-review-rate {
+  font-size: smaller;
+  text-align: start;
+}
+
+.ceo-laundry-my-review-content {
+  font-size: smaller;
+  text-align: start;
+}
+
+.ceo-laundry-toggle-review-page {
+  margin: 10px;
 }
 
 .ceo-review-wrap {
@@ -347,10 +442,12 @@ $color4-2: #e1f0ec;
   margin: 10px;
 }
 
-@media (max-width:700px) {
-  .order-detail {}
+@media (max-width: 700px) {
+  .order-detail {
+  }
 
-  .order-detail-header {}
+  .order-detail-header {
+  }
 
   .order-detail-header-text {
     margin-left: 5vh;
@@ -367,7 +464,7 @@ $color4-2: #e1f0ec;
     margin: 20px;
     border-radius: 10px;
     width: 150px;
-    height: 150px
+    height: 150px;
   }
 
   .order-detail-info-content-middle {
