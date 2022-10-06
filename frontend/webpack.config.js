@@ -53,15 +53,12 @@ module.exports = {
       },
 
       {
-        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf?)(\?v=\d+\.\d+\.\d+)?$/i,
-        type: 'asset/resource',
+        test: /\.(jpe?g|svg|png|gif|ico|eot|ttf|woff?)(\?v=\d+\.\d+\.\d+)?$/i,
+        type: 'file-loader',
         use: [
           {
-            loader: 'file-loader',
             options: {
-              name: '[name].[ext]',
-              outputPath: 'Fonts/',
-              publicPath: '/public/assets'
+              name: '[name].[ext]'
             }
           }
         ]
