@@ -20,6 +20,7 @@ import {
   LaundryRegistRequest,
   myLaundryRequest
 } from '../../../store/actions/services/laundryService';
+import Swal from 'sweetalert2';
 
 const CeoHome: React.FC = () => {
   const navigate = useNavigate();
@@ -128,7 +129,11 @@ const CeoHome: React.FC = () => {
 
     const result = await LaundryRegistRequest(LaundryInfo);
     if (result?.data?.message === 'Success') {
-      alert('세탁소 등록이 완료되었습니다.');
+      Swal.fire({
+        width: 200,
+        icon: 'success',
+        text: '세탁소 등록이 완료되었습니다.'
+      });
       handleClose(4);
       const result2 = await myLaundryRequest();
       if (result2?.payload?.data?.laundries) {
