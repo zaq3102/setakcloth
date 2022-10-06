@@ -216,8 +216,10 @@ const CtmHome: React.FC = () => {
                   {item.addr} {item.addrDetail}
                 </div>
                 <div className="laundry-cost">
-                  최소 이용금액 : {item.minCost}원, 배달비 : {item.deliverCost}
-                  원
+                  최소 이용 금액 : {item.minCost} CLN
+                </div>
+                <div className="laundry-cost">
+                  배달비 : {item.deliverCost} CLN
                 </div>
               </div>
               <div className="item-chips">
