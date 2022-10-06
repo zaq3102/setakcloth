@@ -121,10 +121,32 @@ const CtmOrderDetail = () => {
           <div className="order-detail-info-content-orderId">
             [주문 번호 : {orderInfo.orderId}]
           </div>
-          <div className="order-detail-info-content-state">
-            현재 주문 상태 : {modes[realState]}
+          <div className="order-detail-info-content-state-chip">
+            <div className="order-detail-info-content-state">
+              {modes[realState]}
+            </div>
+            <div>
+              {orderInfo.orderType === 'DELIVERY' ? (
+                <Chip
+                  className="order-detail-info-content-chip"
+                  label="배달"
+                  size="x-large"
+                  color="color1"
+                  variant="outlined"
+                />
+              ) : (
+                <Chip
+                  className="order-detail-info-content-chip"
+                  label="수거"
+                  size="x-large"
+                  color="color1"
+                  variant="outlined"
+                />
+              )}
+            </div>
           </div>
-          <div className="order-detail-info-content-orderId">
+
+          <div className="order-detail-info-content-orderTime">
             주문 시간 : {orderInfo?.date?.slice(0, 19)}
           </div>
           {orderInfo.orderType === 'DELIVERY' ? (
@@ -137,42 +159,31 @@ const CtmOrderDetail = () => {
           <div className="order-detail-info-items">
             <div>주문 항목 : {itemList.join(', ')}</div>
           </div>
-          {writable ? (
-            <div>
-              <Button
-                type="button"
-                onClick={handleOpen}
-                color="color2"
-                variant="outlined">
-                리뷰 쓰기
-              </Button>
+        </CardContent>
+        <CardContent>
+          <div className="order-detail-info-content-right">
+            <div className="order-detail-info-content-total-name">
+              총 주문 금액 :
             </div>
+            <span>&nbsp;</span>
+            <div className="order-detail-info-content-total">
+              {orderInfo.totalPrice} CLN
+            </div>
+          </div>
+        </CardContent>
+        <div className="order-detail-review-write">
+          {writable ? (
+            <Button
+              type="button"
+              onClick={handleOpen}
+              color="color2"
+              variant="outlined">
+              리뷰 쓰기
+            </Button>
           ) : (
             <></>
           )}
-        </CardContent>
-        <CardContent className="order-detail-info-content-right">
-          {orderInfo.orderType === 'DELIVERY' ? (
-            <Chip
-              className="order-detail-info-content-chip"
-              label="배달"
-              size="x-large"
-              color="color1"
-              variant="outlined"
-            />
-          ) : (
-            <Chip
-              className="order-detail-info-content-chip"
-              label="수거"
-              size="x-large"
-              color="color1"
-              variant="outlined"
-            />
-          )}
-          <div className="order-detail-info-content-total">
-            총 주문 금액 : {orderInfo.totalPrice} 클린
-          </div>
-        </CardContent>
+        </div>
       </div>
       <div className="order-detail-state">
         <Stepper activeStep={currentState} className="order-detail-state-steps">

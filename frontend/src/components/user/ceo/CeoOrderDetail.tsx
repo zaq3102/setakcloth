@@ -243,7 +243,7 @@ const CeoOrderDetail = () => {
           <div className="order-detail-info-content-userNickName">
             주문자 : {orderInfo.userNickName}
           </div>
-          <div className="order-detail-info-content-orderId">
+          <div className="order-detail-info-content-orderTime2">
             주문 시간 : {orderInfo?.date?.slice(0, 19)}
           </div>
           {orderInfo.orderType === 'DELIVERY' ? (
@@ -253,8 +253,13 @@ const CeoOrderDetail = () => {
           ) : (
             <></>
           )}
-          <div className="order-detail-info-items">
-            <div>주문 항목 : {itemList.join(', ')}</div>
+          <div className="order-detail-info-content-total-list">
+            <div className="order-detail-info-content-total-name">
+              주문 항목 :
+            </div>
+            <div className="order-detail-info-items">
+              <div>{itemList.join(', ')}</div>
+            </div>
           </div>
         </CardContent>
         <CardContent className="order-detail-info-content-right">
@@ -275,8 +280,17 @@ const CeoOrderDetail = () => {
               variant="outlined"
             />
           )}
-          <div className="order-detail-info-content-total">
+          {/* <div className="order-detail-info-content-total">
             총 주문 금액 : {orderInfo.totalPrice} 클린
+          </div> */}
+          <div className="order-detail-info-content-total-list">
+            <div className="order-detail-info-content-total-name">
+              총 주문 금액 :
+            </div>
+            <span>&nbsp;</span>
+            <div className="order-detail-info-content-total">
+              {orderInfo.totalPrice} CLN
+            </div>
           </div>
         </CardContent>
       </div>
@@ -293,7 +307,7 @@ const CeoOrderDetail = () => {
             <div className="order-detail-state-steps-buttons">
               <Button
                 variant="contained"
-                color="color2"
+                color="color2_2"
                 onClick={() => handleState(currentState - 1)}
                 disabled={currentState === 0}>
                 이전 단계
@@ -301,7 +315,7 @@ const CeoOrderDetail = () => {
               {realState === 0 ? (
                 <Button
                   variant="contained"
-                  color="color2"
+                  color="color2_2"
                   onClick={() => setOpenCheckPassword(true)}
                   disabled={
                     realState !== currentState || allUploaded.includes(false)
@@ -311,7 +325,7 @@ const CeoOrderDetail = () => {
               ) : (
                 <Button
                   variant="contained"
-                  color="color2"
+                  color="color2_2"
                   onClick={nextState}
                   disabled={
                     realState !== currentState || allUploaded.includes(false)
@@ -321,7 +335,7 @@ const CeoOrderDetail = () => {
               )}
               <Button
                 variant="contained"
-                color="color2"
+                color="color2_2"
                 onClick={() => handleState(currentState + 1)}
                 disabled={currentState === 3}>
                 다음 단계
@@ -388,7 +402,7 @@ const CeoOrderDetail = () => {
                 <div className="order-detail-upload-button">
                   <Button
                     variant="contained"
-                    color="color2"
+                    color="color2_2"
                     onClick={() => ImgUploadBtnClick(order.orderDetailId, idx1)}
                     disabled={
                       order[`blockAddr${currentState + 1}ImgUrls`].length !==
@@ -429,7 +443,7 @@ const CeoOrderDetail = () => {
             <div className="order-detail-upload-button">
               <Button
                 variant="contained"
-                color="color2"
+                color="color2_2"
                 onClick={() => ImgUploadBtnClick(orderNum, -1)}
                 disabled={
                   orderDetail[0][`blockAddr${currentState + 1}ImgUrls`]
