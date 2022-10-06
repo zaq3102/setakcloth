@@ -1,2 +1,2 @@
 declare module '*.woff';
-declare module '*.font-woff';
+// declare module '*.font-woff';
