@@ -367,7 +367,13 @@ const CeoMypage: React.FC = () => {
         <div className="ceo-mypage-inside">
           <div className="ceo-mypage-left">
             <div className="ceo-laundry-info-card">
-              <Card>
+              <Card
+                sx={{
+                  width: '120%',
+                  boxShadow: '0 8px 20px -10px rgba(0,0,0,0.5)',
+                  borderRadius: 2,
+                  pt: 4
+                }}>
                 <CardMedia sx={{ textAlign: 'center' }}>
                   <img
                     className="ceo-laundry-mypage-img"
@@ -400,42 +406,56 @@ const CeoMypage: React.FC = () => {
                         {laundryList[0]?.addr} {laundryList[0]?.addrDetail}
                       </div>
                       <div className="ceo-laundry-num">{contact}</div>
+                      <div className="ceo-laundry-mincost">
+                        최소 주문 {minCost} CLN
+                      </div>
+                      <div className="ceo-laundry-deliver">
+                        배달료 {deliveryCost} CLN
+                      </div>
                     </div>
                   </div>
-                  <br />
-                  <div className="ceo-laundry-mincost">
-                    최소 주문 {minCost} CLN
+                  <div className="ceo-laundry-update-button">
+                    <Button
+                      className="ceo-laundry-change-btn"
+                      onClick={() => setOpenImage(true)}
+                      focused
+                      variant="contained"
+                      color="color2_2"
+                      sx={{ marginTop: 3, marginRight: 1 }}>
+                      세탁소 이미지 변경하기
+                    </Button>
+                    <Button
+                      className="ceo-laundry-change-btn"
+                      onClick={() => setOpenChange(true)}
+                      focused
+                      variant="contained"
+                      color="color2_2"
+                      sx={{ marginTop: 3 }}>
+                      세탁소 정보 수정하기
+                    </Button>
                   </div>
-                  <div className="ceo-laundry-deliver">
-                    배달료 {deliveryCost} CLN
-                  </div>
-                  <Button
-                    className="ceo-laundry-change-btn"
-                    onClick={() => setOpenImage(true)}
-                    focused
-                    variant="contained"
-                    color="color2_2"
-                    sx={{ marginTop: 3, marginRight: 1 }}>
-                    세탁소 이미지 변경하기
-                  </Button>
-                  <Button
-                    className="ceo-laundry-change-btn"
-                    onClick={() => setOpenChange(true)}
-                    focused
-                    variant="contained"
-                    color="color2_2"
-                    sx={{ marginTop: 3 }}>
-                    세탁소 정보 수정하기
-                  </Button>
                 </CardContent>
               </Card>
-              <Box boxShadow={0} className="ceo-mypage-card">
+              <Box
+                boxShadow={0}
+                className="ceo-mypage-card"
+                sx={{ width: '120%' }}>
                 <div className="ceo-mypage-card-title">
                   <div className="ceo-mypage-card-label">지갑 잔액</div>
+                  <Button
+                    size="small"
+                    color="color1"
+                    variant="contained"
+                    className="ctm-mypage-charge-btn"
+                    onClick={() => console.log('유재열')}>
+                    출금
+                  </Button>
                 </div>
                 <div className="ceo-mypage-cln">{clean} CLN</div>
                 <Box className="ceo-mypage-box-warn">
-                  <div className="ceo-mypage-warn">부자되세요~!!</div>
+                  <div className="ceo-mypage-warn">
+                    지갑의 클린을 현금으로 바꿔보세요!
+                  </div>
                 </Box>
               </Box>
             </div>

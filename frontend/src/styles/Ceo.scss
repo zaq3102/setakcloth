@@ -249,8 +249,9 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-mypage-left {
+  width: 50%;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 .ceo-mypage-card {
@@ -265,9 +266,10 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-mypage-card-title {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  margin-top: 0.5rem;
+  // margin-left: 1.5rem;
+  // margin-right: 1.5rem;
+  // margin-top: 0.5rem;
+  margin: 1.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -288,19 +290,20 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-mypage-box-warn {
+  display: flex;
+  justify-content: center;
   align-self: center;
   border-radius: 1rem;
-  width: 26rem;
-  background-color: $color2-2;
-  margin-bottom: 1rem;
+  width: 92%;
+  background-color: #f8fffd;
+  margin-bottom: 2rem;
+  font-weight: bold;
 }
 
 .ceo-mypage-warn {
-  width: 25rem;
   text-align: center;
-  margin: 1rem;
-  font-size: smaller;
-  color: white;
+  margin: 0.5rem;
+  font-size: small;
 }
 
 .ceo-laundry-img {
@@ -319,7 +322,7 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-laundry-title {
-  margin-top: 1vh;
+  margin-top: 2vh;
   font-size: x-large;
   font-weight: bold;
 }
@@ -331,21 +334,25 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-laundry-num {
-  margin-top: 0.5vh;
+  margin-top: 0.1vh;
   font-size: small;
   color: grey;
 }
 
 .ceo-laundry-mincost {
-  margin-top: 0.5vh;
+  margin-top: 0.1vh;
   font-size: smaller;
   color: grey;
 }
 
 .ceo-laundry-deliver {
-  margin-top: 0.5vh;
   font-size: smaller;
   color: grey;
+}
+
+.ceo-laundry-update-button {
+  display: flex;
+  justify-content: space-around;
 }
 
 .ceo-laundry-info-card {
@@ -353,10 +360,21 @@ $color4-2: #e1f0ec;
   line-height: 2rem;
 }
 
-.ceo-mypage-right {
+.ceo-laundry-info-card2 {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  width: 120%;
+  margin: 1vh;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.ceo-mypage-right {
+  width: 50%;
+  display: flex;
+  // flex-direction: column;
+  justify-content: center;
+  // align-items: center;
 }
 
 .ceo-laundry-toggle-info {
@@ -379,6 +397,7 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-laundry-toggle-review-title {
+  width: 51vh;
   font-size: medium;
   font-weight: bold;
 }
