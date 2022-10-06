@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { myLaundryRequest } from '../../store/actions/services/laundryService';
 import {
   loginCeoRequest,
@@ -62,7 +63,11 @@ const Login: React.FC = () => {
         navigate('/ceo');
       }
     } else {
-      alert('로그인에 실패하였습니다!');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '로그인에 실패하였습니다!'
+      });
     }
   };
 
