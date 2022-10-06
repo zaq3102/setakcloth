@@ -333,7 +333,6 @@ const Signup: React.FC = () => {
                   : ''}
               </FormHelperText>
               <Box sx={{ width: '90%', textAlign: 'left', mt: 2 }}>
-                {' '}
                 비밀번호 확인
               </Box>
               <TextField
@@ -393,7 +392,8 @@ const Signup: React.FC = () => {
                 </Link>
                 <Button
                   sx={{ padding: 0.3, margin: 1 }}
-                  variant="outlined"
+                  variant="contained"
+                  disableElevation
                   className="next-btn"
                   onClick={onClickChange}
                   color="color1"
@@ -449,7 +449,7 @@ const Signup: React.FC = () => {
               borderBottomLeftRadius: '7px',
               borderBottomRightRadius: '7px'
             }}>
-            <div className="signup-page">
+            <div className="signup-type">
               <div>
                 <div className="rowspan">
                   <div className="rowspan-img-wrap">
@@ -480,6 +480,9 @@ const Signup: React.FC = () => {
                 </div>
               </div>
               <div className="wallet-textfields">
+                <Box sx={{ width: '90%', textAlign: 'left' }}>
+                  지갑 비밀번호
+                </Box>
                 <TextField
                   margin="normal"
                   required
@@ -488,8 +491,11 @@ const Signup: React.FC = () => {
                   type="password"
                   value={walletpassword}
                   onChange={walletpasswordChange}
-                  sx={{ width: '90%' }}
+                  sx={{ width: '90%', mt: 1 }}
                 />
+                <Box sx={{ width: '90%', textAlign: 'left', mt: 2 }}>
+                  지갑 비밀번호 확인
+                </Box>
                 <TextField
                   margin="normal"
                   required
@@ -498,7 +504,7 @@ const Signup: React.FC = () => {
                   type="password"
                   value={walletpasswordCheck}
                   onChange={walletpasswordCheckChange}
-                  sx={{ width: '90%' }}
+                  sx={{ width: '90%', mt: 1 }}
                 />
                 <FormHelperText error={!isWalletPwdSame}>
                   {!walletpasswordCheck || isWalletPwdSame
@@ -508,7 +514,9 @@ const Signup: React.FC = () => {
               </div>
               <div>
                 <Button
-                  variant="outlined"
+                  variant="contained"
+                  disableElevation
+                  sx={{ padding: 0.3, margin: 1 }}
                   color="color1"
                   onClick={createWallet}
                   disabled={
@@ -527,7 +535,8 @@ const Signup: React.FC = () => {
                 </Button>
                 <Button
                   sx={{ padding: 0.3, margin: 1 }}
-                  variant="outlined"
+                  variant="contained"
+                  disableElevation
                   className="next-btn"
                   onClick={handleSubmit}
                   color="color1"
