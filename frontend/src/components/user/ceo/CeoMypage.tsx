@@ -39,10 +39,16 @@ import {
   myLaundryItemsRequest,
   myLaundryRequest
 } from '../../../store/actions/services/laundryService';
-import { InfoRequest } from '../../../store/actions/services/userService';
+import { InfoRequest, balanceUpdate } from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../common/Address';
+import {
+  getBalance,
+  withdrawClean,
+  unlockAccount,
+} from '../../../store/actions/services/walletService';
+
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(0);
@@ -343,6 +349,51 @@ const CeoMypage: React.FC = () => {
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+  const handleWithdraw = async () => {
+
+    const check = await unlockAccount(ceoInfo.wallet, walletPassword);
+    if (!check) {
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '잘못된 비밀번호입니다.'
+      });
+      setWalletPassword('');
+    } else {
+      let balance = await getBalance(ceoInfo.wallet);
+      if (balance < withdrawAmount) {
+        navigate('/error');
+        return;
+      }
+      const send = await withdrawClean(ceoInfo.wallet, withdrawAmount);
+      if (!send) {
+        navigate('/error');
+        return;
+      }
+      balance = await getBalance(ceoInfo.wallet);
+
+      const balanceInfo = {
+        balance
+      };
+
+      const result = await balanceUpdate(balanceInfo);
+      if (!result) {
+        navigate('/error');
+        return;
+      }
+      setClean(balance);
+      Swal.fire({
+        width: 200,
+        icon: 'sucess',
+        text: '출금이 완료되었습니다.'
+      }).then(function () {
+        setWalletPassword('');
+
+        handleClose(7);
+      });
+    }
+
+  }
 
   interface TabPanelProps {
     children?: React.ReactNode;
@@ -650,11 +701,10 @@ const CeoMypage: React.FC = () => {
                           page={page}
                           variant="outlined"
                           color="color2"
-                          className={`${
-                            reviewList.length === 0
-                              ? 'ceo-no-pagination'
-                              : 'ceo-pagination'
-                          }`}
+                          className={`${reviewList.length === 0
+                            ? 'ceo-no-pagination'
+                            : 'ceo-pagination'
+                            }`}
                           onChange={pageChange}
                         />
                       </div>
@@ -714,7 +764,7 @@ const CeoMypage: React.FC = () => {
             onChange={withdrawAmountChange}
             fullWidth
             variant="standard"
-            placeholder="지갑 비밀번호 확인"
+            placeholder="인출할 금액 확인"
           />
         </DialogContent>
         <DialogActions>
