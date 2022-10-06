@@ -58,6 +58,13 @@ const CeoOrderDetail = () => {
 
   const [modes, setModes] = useState([]);
 
+  const stateImages = [
+    'https://setakcloth.s3.ap-northeast-2.amazonaws.com/dirty-clothes.png',
+    'https://setakcloth.s3.ap-northeast-2.amazonaws.com/washing-machine.png',
+    'https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry-basket.png',
+    'https://setakcloth.s3.ap-northeast-2.amazonaws.com/receipt.png'
+  ];
+
   const getList = async () => {
     const result = await getOrderRequest(orderNum);
     if (result?.data) {
@@ -244,7 +251,7 @@ const CeoOrderDetail = () => {
       </div>
       <div className="order-detail-info">
         <CardMedia
-          image="https://setakcloth.s3.ap-northeast-2.amazonaws.com/laundry0.png"
+          image={stateImages[realState]}
           className="order-detail-info-img"
         />
         <CardContent className="order-detail-info-content-middle">
