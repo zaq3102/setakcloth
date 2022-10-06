@@ -266,19 +266,19 @@ $color4-2: #e1f0ec;
 .ceo-mypage-card {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   background-color: $color4-2;
-  width: 30rem;
-  height: 15rem;
+  height: 18rem;
   margin-top: 2rem;
   border-radius: 2rem;
+  margin-bottom: 2rem;
 }
 
 .ceo-mypage-card-title {
   // margin-left: 1.5rem;
   // margin-right: 1.5rem;
   // margin-top: 0.5rem;
-  margin: 1.5rem;
+  margin: 1rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -286,7 +286,7 @@ $color4-2: #e1f0ec;
 }
 
 .ceo-mypage-cln {
-  margin: 2rem;
+  margin: 1rem;
   align-self: flex-end;
   font-size: large;
   font-weight: bold;
@@ -295,7 +295,15 @@ $color4-2: #e1f0ec;
 .ceo-mypage-card-label {
   font-size: large;
   font-weight: bold;
-  margin-top: 1rem;
+  text-align: center;
+  margin-left: 1rem;
+  // margin-top: 1rem;
+  // line-height: 100%;
+}
+
+.ceo-mypage-card-label2 {
+  // margin-top: 1rem;
+  margin-right: 1rem;
 }
 
 .ceo-mypage-box-warn {
@@ -305,7 +313,7 @@ $color4-2: #e1f0ec;
   border-radius: 1rem;
   width: 92%;
   background-color: #f8fffd;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-weight: bold;
 }
 

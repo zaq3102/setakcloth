@@ -39,16 +39,18 @@ import {
   myLaundryItemsRequest,
   myLaundryRequest
 } from '../../../store/actions/services/laundryService';
-import { InfoRequest, balanceUpdate } from '../../../store/actions/services/userService';
+import {
+  InfoRequest,
+  balanceUpdate
+} from '../../../store/actions/services/userService';
 import UploadPhoto from '../../common/UploadPhoto';
 import Loading from '../../common/Loading';
 import Address from '../../common/Address';
 import {
   getBalance,
   withdrawClean,
-  unlockAccount,
+  unlockAccount
 } from '../../../store/actions/services/walletService';
-
 
 const CeoMypage: React.FC = () => {
   const [clean, setClean] = useState<number>(0);
@@ -100,6 +102,7 @@ const CeoMypage: React.FC = () => {
   // 지갑
   const [walletPassword, setWalletPassword] = useState('');
   const [withdrawAmount, SetWithdrawAmount] = useState<number>(0);
+  const [walletAddress, setWalletAddr] = useState('');
 
   const withdrawAmountChange = (event) => {
     if (event.target.value.trim() < 0) {
@@ -121,6 +124,7 @@ const CeoMypage: React.FC = () => {
     if (result?.data?.userInfo) {
       setCeoInfo(result?.data?.userInfo);
       setClean(result?.data?.userInfo?.balance);
+      setWalletAddr(result?.data?.userInfo?.wallet);
     } else {
       navigate('/error');
     }
@@ -360,7 +364,6 @@ const CeoMypage: React.FC = () => {
     setValue(newValue);
   };
   const handleWithdraw = async () => {
-
     const check = await unlockAccount(ceoInfo.wallet, walletPassword);
     if (!check) {
       Swal.fire({
@@ -402,8 +405,7 @@ const CeoMypage: React.FC = () => {
         handleClose(7);
       });
     }
-
-  }
+  };
 
   interface TabPanelProps {
     children?: React.ReactNode;
@@ -526,20 +528,20 @@ const CeoMypage: React.FC = () => {
                 sx={{ width: '120%' }}>
                 <div className="ceo-mypage-card-title">
                   <div className="ceo-mypage-card-label">지갑 잔액</div>
-                  <Button
-                    size="small"
-                    color="color1"
-                    variant="contained"
-                    className="ctm-mypage-charge-btn"
-                    onClick={() => setOpenWithdraw(true)}>
-                    출금
-                  </Button>
+                  <div className="ceo-mypage-card-label2">
+                    <Button
+                      size="small"
+                      color="color1"
+                      variant="contained"
+                      className="ctm-mypage-charge-btn"
+                      onClick={() => setOpenWithdraw(true)}>
+                      출금
+                    </Button>
+                  </div>
                 </div>
                 <div className="ceo-mypage-cln">{clean} CLN</div>
                 <Box className="ceo-mypage-box-warn">
-                  <div className="ceo-mypage-warn">
-                    지갑의 클린을 현금으로 바꿔보세요!
-                  </div>
+                  <div className="ceo-mypage-warn">{walletAddress}</div>
                 </Box>
               </Box>
             </div>
@@ -711,10 +713,11 @@ const CeoMypage: React.FC = () => {
                           page={page}
                           variant="outlined"
                           color="color2"
-                          className={`${reviewList.length === 0
-                            ? 'ceo-no-pagination'
-                            : 'ceo-pagination'
-                            }`}
+                          className={`${
+                            reviewList.length === 0
+                              ? 'ceo-no-pagination'
+                              : 'ceo-pagination'
+                          }`}
                           onChange={pageChange}
                         />
                       </div>
