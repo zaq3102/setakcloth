@@ -15,6 +15,7 @@ import { debounce } from 'lodash';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import {
   checkEmailRequest,
   signupCeoKakao,
@@ -96,7 +97,11 @@ const Signup: React.FC = () => {
     if (result?.data?.statusCode) {
       setState(result?.data?.statusCode);
     } else {
-      alert('올바르지 않은 접근입니다.');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '올바르지 않은 접근입니다.'
+      });
     }
   }, 500);
 
@@ -187,10 +192,18 @@ const Signup: React.FC = () => {
     }
 
     if (result?.data?.message === 'Created') {
-      alert('회원가입을 축하드립니다!');
+      Swal.fire({
+        width: 200,
+        icon: 'success',
+        text: '회원가입을 축하드립니다!'
+      });
       navigate('/login');
     } else {
-      alert('회원가입에 실패하였습니다!');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        text: '회원가입에 실패하였습니다!'
+      });
     }
   };
 
@@ -199,7 +212,11 @@ const Signup: React.FC = () => {
     const result = await createWalletWe3(walletpassword);
     setWalletAddr(result);
     setIsWalletCreated(true);
-    alert('지갑이 생성되었습니다!');
+    Swal.fire({
+      width: 200,
+      icon: 'success',
+      text: '지갑이 생성되었습니다!'
+    });
   };
 
   // const getMyWallet = async () => {

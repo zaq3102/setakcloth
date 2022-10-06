@@ -9,6 +9,7 @@ import {
   getCeoKakaoEmail
 } from '../../store/actions/services/userService';
 import { myLaundryRequest } from '../../store/actions/services/laundryService';
+import Swal from 'sweetalert2';
 
 const Kakao: React.FC = () => {
   const navigate = useNavigate();
@@ -32,17 +33,29 @@ const Kakao: React.FC = () => {
       const status = result?.response?.data?.statusCode;
       switch (status) {
         case 403:
-          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!'
+          });
           navigate('/signup');
           break;
 
         case 409:
-          alert('회원가입을 먼저 해주세요!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            text: '회원가입을 먼저 해주세요!'
+          });
           navigate('/login');
           break;
 
         default:
-          alert('로그인에 실패하였습니다!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            text: '로그인에 실패하였습니다!'
+          });
           navigate('/login');
           break;
       }
@@ -64,17 +77,29 @@ const Kakao: React.FC = () => {
       const status = result?.response?.data?.statusCode;
       switch (status) {
         case 403:
-          alert('탈퇴한 회원입니다. 다시 가입해주세요!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            html: '탈퇴한 회원입니다. <br/>다시 가입해주세요!'
+          });
           navigate('/signup');
           break;
 
         case 409:
-          alert('회원가입을 먼저 해주세요!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            text: '회원가입을 먼저 해주세요!'
+          });
           navigate('/login');
           break;
 
         default:
-          alert('로그인에 실패하였습니다!');
+          Swal.fire({
+            width: 200,
+            icon: 'error',
+            text: '로그인에 실패하였습니다!'
+          });
           navigate('/login');
           break;
       }
@@ -93,7 +118,11 @@ const Kakao: React.FC = () => {
         state: { url: data, kakaoemail: result?.data?.kakaoEmail }
       });
     } else if (result?.response?.status === 409) {
-      alert('이미 가입한 회원입니다. 로그인을 해주세요!');
+      Swal.fire({
+        width: 200,
+        icon: 'error',
+        html: '이미 가입한 회원입니다. <br/>로그인 해주세요!'
+      });
       navigate('/login');
     }
   };
