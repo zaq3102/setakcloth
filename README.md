@@ -44,10 +44,7 @@
 <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white">
 <img src="https://img.shields.io/badge/gradle-003333?style=for-the-badge&logo=gradle&logoColor=white">
 
-
 <br/>
-
-
 
 ##### BlockChain Network
 
@@ -73,8 +70,6 @@
 <img src="https://img.shields.io/badge/mysql_workbench-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 <img src="https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
 
-
-<br/>
 <br/>
 
 [※ 상세 버전](https://magnetic-amusement-a77.notion.site/c2d22b38cff04888ac7bddff5976d81c)
@@ -106,7 +101,9 @@
     - 집 주변 세탁소를 한눈에 비교하면서 원하는 세탁소를 고를 수 있다
   - 사업자 기대 효과
     - 진상 고객과의 분쟁을 최소화할 수 있는 서비스입니다.
-    - 다른 세탁소들의 제공 서비스를 확인하며 경쟁력을 높일 수 있어요  
+    - 다른 세탁소들의 제공 서비스를 확인하며 경쟁력을 높일 수 있어요
+
+<br/>
 
 
 ##  산출물
@@ -130,13 +127,13 @@
 
 * [포팅 매뉴얼](./exec/A706_배포_문서/배포_문서.md)
 
-  
+<br/>
 
 ##  기능 설명
 
 - [기능설명](https://magnetic-amusement-a77.notion.site/e9a4ef749d36430bb22e1d63f6963682)
 
-
+<br/>
 
 ## 🖥 역할 분담
 
