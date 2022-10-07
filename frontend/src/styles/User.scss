@@ -9,149 +9,104 @@ $color3-2: #82cda9;
 $color4-2: #e1f0ec;
 
 // Home.tsx
+.wrap{
+  display: flex;
+  flex-direction: column;
+}
+
 .banner {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: $color4;
 }
 
-.banner-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 30vh;
-  height: 25vh;
-}
-
-.banner-title {
-  margin-top: 1vh;
-  margin-bottom: 1vh;
-  align-self: center;
-  align-items: center;
-  width: 100%;
-  height: 30%;
-}
-
-.banner-title-top {
-  padding-top: 5%;
-  align-self: center;
-  align-items: center;
-  width: 100%;
-  height: 20%;
-}
-
-.banner-check {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-bottom: 0.5vh;
-}
-
 .banner-title-1 {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-size: medium;
+  font-size: large;
   font-weight: bold;
   text-align: center;
-  height: auto;
-  margin-bottom: 20%;
-  width: 100%;
-}
-
-.banner-title-2 {
-  font-size: xx-large;
-  font-weight: bold;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: auto;
-  width: 100%;
-}
-
-.banner-title-text {
-  text-align: justify;
-  justify-content: center;
-}
-
-.banner-title-3 {
-  font-size: small;
-  text-align: center;
-  margin-top: 2vh;
-}
-
-.banner-check-content {
-  margin-left: 1vh;
-  margin-right: 1vh;
-  font-size: smaller;
+  width: 50%;
+  margin-bottom: 20px;
 }
 
 .banner-img {
-  max-width: 100%;
-  height: 75%;
+  margin: 20px;
+  max-width: 350px;
 }
 
-.banner-img-div {
-  width: 100%;
-  height: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.catchprize{
+
 }
 
-.mockup {
+.catchprize-main
+{
+  font-size: x-large;
+  margin-top: 10px;
+}
+.mockups{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .mockup-end {
   display: flex;
+  width: 600px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10%;
+  margin: 30px;
 }
 
 .mockup-title {
+  display: flex;
+  flex-direction: column;
   align-self: center;
-  margin: 2vh;
-  width: 35vh;
+  justify-content: center;
+  width: 400px;
+  margin-top: 20px;
 }
 
 .mockup-title-head {
-  font-size: large;
+  align-self: flex-end;
+  font-size: x-large;
   font-weight: bolder;
   margin-bottom: 10%;
+  line-height: 30px;
 }
 
 .mockup-title-body {
-  font-size: small;
+  align-self: flex-end;
+  font-size: large;
   font-weight: 100;
+  line-height: 25px;
 }
 
-.mockup-check {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
+.mockup-title-head1 {
+  align-self: flex-start;
+  font-size: x-large;
+  font-weight: bolder;
+  margin-bottom: 10%;
+  line-height: 30px;
 }
 
-.mockup-check-icon {
-  margin-right: 1vh;
+.mockup-title-body1 {
+  align-self: flex-start;
+  font-size: large;
+  font-weight: 100;
+  line-height: 25px;
 }
+
 
 .mockup-img {
-  width: 15vh;
-  margin: 3vh;
-}
-
-.home-gif {
-  width: 100vh;
+  width: 150px;
 }
 
 // Login.tsx
