@@ -15,12 +15,12 @@ const Footer: React.FC = () => {
           </div>
           <div className="footer-right">
             <div className="footer-right-1">
-              <div className="footer-bold">About</div>
-              <div className="footer-content">Github 주소</div>
+              <div className="footer-bold">대표이사</div>
+              <div className="footer-content">한상우</div>
             </div>
             <div className="footer-right-2">
               <div className="footer-bold">Contact</div>
-              <div className="footer-content">010)6613-3957</div>
+              <div className="footer-content">010-6613-3957</div>
             </div>
             <div className="footer-right-3">
               <div className="footer-bold">Creators</div>
