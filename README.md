@@ -1,8 +1,8 @@
-##세탁클로쓰
+# 세탁클로쓰
 
-### 투명한 유통과정을 제공하는 블록체인기반 세탁 중개서비스
+> 투명한 유통과정을 제공하는 블록체인기반 세탁 중개서비스
 
-세탁클로쓰, 고민말고 맡기세요! 수거부터 배달까지 블록체인을 통해 투명하고 세탁은 깨끗하게
+### 세탁클로쓰, 고민말고 맡기세요! 수거부터 배달까지 블록체인을 통해 투명하고 세탁은 깨끗하게
 
 <br/>
 
@@ -54,6 +54,8 @@
 <img src="https://img.shields.io/badge/ipfs-FC6D26?style=for-the-badge&logo=ipfs&logoColor=white">
 <img src="https://img.shields.io/badge/ganache-0052CC?style=for-the-badge&logo=&logoColor=white">
 <img src="https://img.shields.io/badge/web3-003333?style=for-the-badge&logo=web3&logoColor=white">
+
+<br/>
 
 ##### Communitcation Tool
 
@@ -122,13 +124,11 @@
 
 * [목업](https://a604-parsley.notion.site/eccbc66413734cf99c264947e7ec7904)
 
-
-
 <br/>
 
 ##  서비스
 
-* [포팅 매뉴얼](https://a604-parsley.notion.site/812f688f107241cfbdb23477b7230e75?v=b360c39e96de47b299f263b29effe916)
+* [포팅 매뉴얼](./exec/A706_배포_문서/배포_문서.md)
 
   
 
