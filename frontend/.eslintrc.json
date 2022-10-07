@@ -1,0 +1,37 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "extends": [
+    "airbnb",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "rules": {
+    // 운영체제마다 개행 차이로 생기는 오류 무시
+    "linebreak-style": 0,
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "@typescript-eslint/no-var-requires": 0,
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    // react 함수형 컴포넌트 정의 방식 선언
+    "react/function-component-definition": [
+      2,
+      {
+        "namedComponents": "arrow-function"
+      }
+    ],
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    ]
+  }
+}

@@ -1,0 +1,273 @@
+$color0: #ff003e;
+$color1: #1e3e5c;
+$color2: #3066be;
+$color3: #60afff;
+$color4: #bfd7ea;
+$color5: #e0ebf5;
+$color2-2: #1c6654;
+$color3-2: #82cda9;
+$color4-2: #e1f0ec;
+
+// Home.tsx
+.wrap{
+  display: flex;
+  flex-direction: column;
+}
+
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $color4;
+}
+
+.banner-title-1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: large;
+  font-weight: bold;
+  text-align: center;
+  width: 350px;
+  margin-bottom: 20px;
+}
+
+.banner-img {
+  margin: 20px;
+  max-width: 350px;
+}
+
+.catchprize{
+
+}
+
+.catchprize-main
+{
+  font-size: x-large;
+  margin-top: 10px;
+}
+.mockups{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.mockup-end {
+  display: flex;
+  width: 340px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 30px;
+}
+
+.mockup-title {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  justify-content: center;
+  width: 400px;
+  margin-top: 20px;
+}
+
+.mockup-title-head {
+  align-self: flex-end;
+  font-size: x-large;
+  font-weight: bolder;
+  margin-bottom: 10%;
+  line-height: 30px;
+}
+
+.mockup-title-body {
+  align-self: flex-end;
+  font-size: large;
+  font-weight: 100;
+  line-height: 25px;
+}
+
+.mockup-title-head1 {
+  align-self: flex-start;
+  font-size: x-large;
+  font-weight: bolder;
+  margin-bottom: 10%;
+  line-height: 30px;
+}
+
+.mockup-title-body1 {
+  align-self: flex-start;
+  font-size: large;
+  font-weight: 100;
+  line-height: 25px;
+}
+
+
+.mockup-img {
+  width: 100px;
+}
+
+// Login.tsx
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+  text-align: center;
+}
+
+.login-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.login-button-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.kakao-login-button {
+  width: 75px;
+}
+
+// Signup.tsx
+.signup-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 60px;
+}
+
+.signup-type {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.mode-selected {
+  width: 160px;
+  padding: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color: $color3;
+}
+
+.mode-not-selected {
+  width: 140px;
+  padding: 8px;
+  margin-left: 2px;
+  margin-right: 2px;
+  border: 1px solid $color4;
+  background-color: white;
+}
+
+.signup-page-wallet-tag {
+  width: 300px;
+  padding: 8px;
+}
+
+.signup-tos-dialog {
+  margin-top: 100px;
+}
+
+.more {
+  font-size: smaller;
+  text-decoration-line: underline;
+}
+
+.alert-dialog-title {
+  font-size: large;
+}
+
+.signup-tos-dialog-content {
+  height: 200px;
+}
+
+.signup-btn {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.next-btn {
+  margin-left: 15px;
+}
+
+.wallet-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.error-content {
+  text-align: center;
+  line-height: 30px;
+}
+
+.error-content-bold {
+  font-size: xx-large;
+}
+
+.rowspan-img-wrap {
+  width: 70px;
+  margin-right: 10px;
+}
+
+.signup-wallet-title {
+  line-height: 13px;
+}
+
+.rowspan {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.rowspan-warn {
+  margin-right: 12px;
+}
+
+.rowspan-warn-content {
+  line-height: 13px;
+}
+
+.wallet-textfields {
+  display: flex;
+  width: 300px;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 16px;
+}
+
+// UploadPhoto.tsx
+.upload-photo {
+  display: flex;
+  flex-direction: column;
+}
+
+.upload-photo-imgs {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.upload-photo-img {
+  align-self: center;
+  margin-bottom: 1vh;
+}
+
+.upload-photo-button {
+  align-self: center;
+  width: 20vh;
+}

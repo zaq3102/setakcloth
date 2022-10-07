@@ -1,7 +1,6 @@
 package com.ssafy.setak.config;
 
-//import com.ssafy.common.interceptor.JwtInterceptor;
-//import com.ssafy.common.util.JwtTokenUtil;
+import com.ssafy.setak.common.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -12,7 +11,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import javax.servlet.Filter;
@@ -20,44 +18,33 @@ import javax.servlet.Filter;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-//    private static final String[] EXCLUDE_PATHS = {
-//            "/auth/login",
-//            "/auth/logout",
-//            "/auth/refresh",
-//            "/room/**",
-//            "/rank/**",
-//            "/error",
-//            "/swagger-ui",
-//    };
-//
-//    @Autowired
-//    private JwtInterceptor jwtInterceptor;
-//
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(jwtInterceptor)
-//                .addPathPatterns("/**")
-//                .excludePathPatterns(EXCLUDE_PATHS)
-//                .addPathPatterns("/room/create")
-//                .addPathPatterns("/room/*/update")
-//                .addPathPatterns("/room/*/delete")
-//                .addPathPatterns("/room/*/check")
-//                .addPathPatterns("/room/*/log");
-//    }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        // configuration.addAllowedOrigin("*");
-//        configuration.addAllowedOriginPattern("*");
-//        configuration.addAllowedMethod("*");
-//        configuration.addAllowedHeader("*");
+        private static final String[] EXCLUDE_PATHS = {
+            "/**"
+    };
+
+    @Autowired
+    private JwtInterceptor jwtInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(jwtInterceptor)
+                .addPathPatterns("/**")
+                .excludePathPatterns(EXCLUDE_PATHS);
+    }
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        // configuration.addAllowedOrigin("*");
+        configuration.addAllowedOriginPattern("*");
+        configuration.addAllowedMethod("*");
+        configuration.addAllowedHeader("*");
 //        configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
-//        configuration.setAllowCredentials(true);
-//        configuration.setMaxAge(3600L);
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);
-//        return source;
-//    }
+        configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -87,4 +74,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.addUrlPatterns("/*");
         return registration;
     }
+
 }
