@@ -30,7 +30,7 @@ $color4-2: #e1f0ec;
   font-size: large;
   font-weight: bold;
   text-align: center;
-  width: 50%;
+  width: 350px;
   margin-bottom: 20px;
 }
 
@@ -54,11 +54,13 @@ $color4-2: #e1f0ec;
   align-items: center;
   margin-top: 20px;
   margin-bottom: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .mockup-end {
   display: flex;
-  width: 600px;
+  width: 340px;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -106,7 +108,7 @@ $color4-2: #e1f0ec;
 
 
 .mockup-img {
-  width: 150px;
+  width: 100px;
 }
 
 // Login.tsx
