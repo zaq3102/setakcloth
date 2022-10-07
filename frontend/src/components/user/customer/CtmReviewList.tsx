@@ -67,7 +67,7 @@ const CtmReviewList = () => {
                 <div className="review-wrap-left">
                   <img
                     className="laundry-my-review-img"
-                    src="../assets/user.png"
+                    src="https://setakcloth.s3.ap-northeast-2.amazonaws.com/user.png"
                     alt="user-img"
                   />
                 </div>
