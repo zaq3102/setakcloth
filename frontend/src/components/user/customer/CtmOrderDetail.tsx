@@ -21,6 +21,7 @@ import {
   getOrderRequest,
   registReview
 } from '../../../store/actions/services/orderService';
+import Swal from 'sweetalert2';
 
 const CtmOrderDetail = () => {
   const navigate = useNavigate();
@@ -99,7 +100,7 @@ const CtmOrderDetail = () => {
         text: '리뷰 등록 완료',
         confirmButtonColor: '#1e3e5c'
       });
-      handleClose();
+      setOpenReview(false);
       setScore(0);
       setContent('');
       setWritable(false);
@@ -296,8 +297,8 @@ const CtmOrderDetail = () => {
           )}
         </div>
         {/* 모달창 모음집 */}
-        <Dialog open={openReview} onClose={handleClose}>
-          <DialogTitle>리뷰 작성하기</DialogTitle>
+        <Dialog open={openReview} sx={{ zIndex: 3 }} onClose={handleClose}>
+          <DialogTitle sx={{ fontWeight: 'bold' }}>리뷰 작성하기</DialogTitle>
           <DialogContent>
             <Stack spacing={1}>
               <Rating
